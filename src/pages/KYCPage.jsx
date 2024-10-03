@@ -145,7 +145,7 @@ const KYCPage = () => {
               {kycStatus === "Rejected" && (
                 <div className="flex items-center bg-red-100 text-red-800 p-2 rounded">
                   <FaUpload className="mr-2" />
-                  <span>Your KYC was rejected. Please re-submit.</span>
+                  <span>Your KYC was rejected.</span>
                 </div>
               )}
             </div>
