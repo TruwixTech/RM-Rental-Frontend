@@ -1,9 +1,9 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
-import React, { useState, useEffect } from "react";
+
+import { useState, useEffect } from "react";
 import "../assets/csss/Products.css";
-import RangeSlider from "../components/RangeSlider";
+// import RangeSlider from "../components/RangeSlider";
 import { getAllProductsAPI } from "../service/products.service";
-import { addToCartAPI } from "../service/cart.service";
+// import { addToCartAPI } from "../service/cart.service";
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [productFilter, setProductFilter] = useState({
@@ -22,29 +22,29 @@ const Products = () => {
   useEffect(() => {
     getProducts();
   }, []);
-  const addToCart = async (productData) => {
-    if (productData) {
-      const data = addToCartAPI({
-        items: {
-          product: productData?._id,
-          quantity: 1,
-        },
-      });
-      if (data) {
-        alert("Product added to cart");
-      }
-    }
-  };
-  const addToWishlistHandler = (
-    id,
-    title,
-    subTitle,
-    price,
-    image,
-    quantity = 1
-  ) => {
-    //todo
-  };
+  // const addToCart = async (productData) => {
+  //   if (productData) {
+  //     const data = addToCartAPI({
+  //       items: {
+  //         product: productData?._id,
+  //         quantity: 1,
+  //       },
+  //     });
+  //     if (data) {
+  //       alert("Product added to cart");
+  //     }
+  //   }
+  // };
+  // const addToWishlistHandler = (
+  //   id,
+  //   title,
+  //   subTitle,
+  //   price,
+  //   image,
+  //   quantity = 1
+  // ) => {
+  //   //todo
+  // };
 
   const getLowestRentPrice = (rentalOptions) => {
     if (!rentalOptions) return "No rent options";

@@ -27,6 +27,7 @@ import AdminPage from "./Admin/AdminPage";
 import AllProducts from "./Admin/AllProducts";
 import AddProduct from "./Admin/AddProduct";
 import Orders from "./Admin/Orders";
+import KYCPage from "./pages/KYCPage";
 
 const App = () => {
   const navigate = useNavigate();
@@ -119,6 +120,7 @@ const App = () => {
           <Route path="/userdashboard" element={<UserDashboard />} />
           <Route path="/orderconfirm" element={<OrderConfirm />} />
           <Route path="/address" element={<AddressPage />} />
+          <Route path="/kyc" element={<KYCPage />}></Route>
           {/* <Route path="/admindashboard" element={<AdminDashboard />} /> */}
 
           <Route path="/admindashboard" element={<AdminDashboard />}>

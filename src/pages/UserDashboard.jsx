@@ -1,15 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { SiWindows } from "react-icons/si";
+// import { SiWindows } from "react-icons/si";
 import { RiMoneyRupeeCircleFill } from "react-icons/ri";
 import { IoSettings } from "react-icons/io5";
 import { IoCall } from "react-icons/io5";
 import { IoMail } from "react-icons/io5";
 import { FaAddressBook, FaLocationDot } from "react-icons/fa6";
-import { IoMdAddCircle } from "react-icons/io";
-import { MdDeleteForever } from "react-icons/md";
 import { FaHistory } from "react-icons/fa";
-import { FaShoppingBag } from "react-icons/fa";
+import { FaShoppingBag, FaIdCard } from "react-icons/fa";
 
 import storageService from "../service/storage.service";
 const UserDashboard = () => {
@@ -24,14 +22,19 @@ const UserDashboard = () => {
       <div className="user-profile-left flex flex-col py-8 px-10 w-[20%] shadow-md shadow-[#dadada] bg-white rounded-lg">
         <div className="w-full">
           <h1 className="text-xl font-semibold">Welcome, {user?.name}</h1>
-          <p className="text-xs overflow-hidden">Tue, 07 June 2022</p>
+          <p className="text-xs overflow-hidden">{user?.createdAt}</p>
         </div>
         <div className="w-full flex flex-col justify-between">
           <h1 className="my-8 font-medium text-gray-400">Menu</h1>
           <div className="flex flex-col gap-4 links w-full">
             {[
-              { icon: <SiWindows />, name: "Wishlist", url: "/wishlist" },
+              // { icon: <SiWindows />, name: "Wishlist", url: "/wishlist" },
               { icon: <FaShoppingBag />, name: "My Orders", url: "/myorders" },
+              {
+                icon: <FaIdCard />,
+                name: "KYC",
+                url: "/kyc",
+              },
               {
                 icon: <FaAddressBook />,
                 name: "Address",
@@ -82,7 +85,7 @@ const UserDashboard = () => {
               </Link>
               <Link className="w-full flex items-center gap-3 py-1 my-1">
                 <IoCall className="text-xl" />
-                {user?.phone}
+                {user?.mobileNumber}
               </Link>
               <Link className="w-full flex items-center gap-3 py-1">
                 <FaLocationDot className="text-xl" />
