@@ -1,0 +1,67 @@
+/* Add this to your CSS file */
+
+.edit-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%; /* Adjust width if needed */
+    max-width: 500px; /* Adjust max-width if needed */
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px; /* Reduced padding for a more compact box */
+    z-index: 1000;
+    height: auto; /* Allow height to adjust based on content */
+    max-height: 80vh; /* Limit height to prevent overflow */
+    overflow-y: auto; /* Add scroll if content exceeds max-height */
+  }
+  
+  .edit-form form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .edit-form label {
+    font-weight: bold;
+    margin: 5px 0; /* Reduced margin for a more compact form */
+  }
+  
+  .edit-form input[type="text"],
+  .edit-form input[type="file"],
+  .edit-form textarea {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 6px; /* Reduced padding for a more compact input field */
+    font-size: 14px; /* Adjust font size if needed */
+    margin-bottom: 10px; /* Reduced margin for a more compact form */
+  }
+  
+  .edit-form textarea {
+    resize: vertical;
+    min-height: 80px; /* Adjust min-height if needed */
+  }
+  
+  .edit-form button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px; /* Reduced padding for a more compact button */
+    font-size: 14px; /* Adjust font size if needed */
+    cursor: pointer;
+    margin-right: 8px; /* Reduced margin for a more compact button layout */
+  }
+  
+  .edit-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  .edit-form button:last-of-type {
+    background-color: #6c757d;
+  }
+  
+  .edit-form button:last-of-type:hover {
+    background-color: #5a6268;
+  }
+  

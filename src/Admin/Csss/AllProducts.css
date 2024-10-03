@@ -1,0 +1,221 @@
+/* Container for the header */
+.header-container {
+  padding: 20px;
+  text-align: center;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* Title styling */
+.products-title {
+  margin: 0;
+  color: #333;
+  font-size: 2.5rem; 
+  font-weight: 700; 
+  letter-spacing: 1px;
+  text-transform: uppercase; 
+  border-bottom: 2px solid #343a40;
+  padding-bottom: 10px;
+}
+
+/* Container for the table */
+.table-container {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.products-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.products-table thead {
+  background-color: #343a40;
+  color: #fff;
+}
+
+.products-table th, .products-table td {
+  padding: 12px 15px;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.products-table th {
+  font-weight: 600;
+}
+
+.products-table tbody tr {
+  border-bottom: 1px solid #ddd;
+  transition: background-color 0.2s ease;
+}
+
+.products-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.product-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+/* Edit form styling */
+#editForm {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+#editForm input[type="text"],
+#editForm input[type="number"] {
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#editForm .form-header {
+  font-size: 18px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#editForm button {
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#editForm button:hover {
+  background-color: #45a049;
+}
+
+#editForm .close-btn {
+  background-color: #f44336;
+  margin-top: 10px;
+}
+
+#editForm .close-btn:hover {
+  background-color: #e53935;
+}
+
+/* Delete confirmation modal styling */
+#deleteModal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+#deleteModal .modal-header {
+  font-size: 18px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#deleteModal button {
+  width: 48%;
+  padding: 10px;
+  margin: 0 1%;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#deleteModal .confirm-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+#deleteModal .confirm-btn:hover {
+  background-color: #e53935;
+}
+
+#deleteModal .cancel-btn {
+  background-color: #ccc;
+}
+
+#deleteModal .cancel-btn:hover {
+  background-color: #bdbdbd;
+}
+
+/* Overlay background for modals */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+.edit-button
+{
+  cursor: pointer;
+}
+.delete-button
+{
+  cursor: pointer;
+}
+
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination-controls button {
+  background-color: #2196f3; /* Blue background color */
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  margin: 0 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.pagination-controls button:hover {
+  background-color: #1e88e5; /* Darker blue on hover */
+  transform: scale(1.05);
+}
+
+.pagination-controls button.active {
+  background-color: #1976d2; /* Darker blue for the active page */
+  font-weight: bold;
+}
+
+.pagination-controls button:disabled {
+  background-color: #bdbdbd; /* Gray color for disabled state */
+  cursor: not-allowed;
+}

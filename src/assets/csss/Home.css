@@ -1,0 +1,17 @@
+.home1{
+    background-color: #f1f1f1;
+    padding-top: 1rem;
+    padding-bottom: 0.5rem;
+}
+
+.fullrent, .fullcarao{
+    background-color: #fafafa;
+    padding: 3.5rem 0rem;
+}
+
+
+@media (max-width: 576px) {
+    .fullcarao{
+        padding: 0rem;
+    }
+  }

@@ -1,0 +1,164 @@
+.event-page {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  flex-wrap: wrap;
+  width: 100%;
+
+}
+
+.event-details, .event-side-info {
+  max-width: 48%;
+  width: 100%;
+
+}
+
+.event-details h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.event-details p, .event-side-info p {
+  margin: 5px 0;
+}
+
+.icon-group {
+  display: flex;
+  gap: 10px;
+}
+
+.event-icon {
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: orangered;
+  border: 1px solid orangered;
+  padding: 3px;
+}
+
+.host-details {
+  margin-top: 20px;
+  color: black;
+
+}
+.host-details p {
+  color: black !important;
+}
+
+
+.interested {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-bottom: 20px;
+  width: 93%;
+
+}
+.attender
+{
+  display: flex;
+  justify-content: flex-end;
+  width: 90%;
+}
+.like-button
+{
+  border: 1px solid orangered;
+}
+.like-icon
+{
+  color: orangered;
+  border: 1px solid orangered;
+}
+
+.like-button {
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+
+}
+
+.like-icon {
+  margin-right: 5px;
+}
+
+.event-location h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  color: orangered;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .event-page {
+    flex-direction: column;
+  }
+
+  .event-details, .event-side-info {
+    max-width: 100%;
+  }
+}
+
+
+.like-button {
+  margin: 0; /* Remove default margin */
+}
+
+.like-container {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid orangered; /* Customize the border as needed */
+  padding: 2px 5px; /* Optional: Adjust padding for better appearance */
+  border-radius: 4px; /* Optional: Round the corners */
+}
+
+.like-icon {
+  margin-right: 5px; /* Space between icon and text */
+}
+
+.like-text {
+  font-size: 16px; /* Customize the text size */
+  color: orangered;
+}
+.attendend
+{
+  color: orangered;
+}
+.like-icon
+{
+  font-size: 24px;
+
+}
+.event-map {
+  width: 90%; /* Adjust width as needed */
+  height: 300px; /* Adjust height as needed */
+  border: 0;
+}
+.map-icon
+{
+  color: orangered;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .event-map
+  {
+    width: 100%;
+  }
+}
+
+.event-details p {
+  font-size: 17px !important; /* Use !important to override any higher specificity rules */
+}
+
+.host-details p {
+  font-size: 17px !important; /* Use !important to override any higher specificity rules */
+}
