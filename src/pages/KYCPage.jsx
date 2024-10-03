@@ -94,8 +94,8 @@ const KYCPage = () => {
             {[
               { icon: <FaShoppingBag />, name: "My Orders", url: "/myorders" },
               { icon: <FaIdCard />, name: "KYC", url: "/kyc" },
-              { icon: <FaAddressBook />, name: "Address", url: "/address" },
-              { icon: <FaHistory />, name: "Order History", url: "/myorders" },
+              // { icon: <FaAddressBook />, name: "Address", url: "/address" },
+              // { icon: <FaHistory />, name: "Order History", url: "/myorders" },
               {
                 icon: <RiMoneyRupeeCircleFill />,
                 name: "Payment",

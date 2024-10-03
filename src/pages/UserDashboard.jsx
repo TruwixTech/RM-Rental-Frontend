@@ -6,7 +6,7 @@ import { IoSettings } from "react-icons/io5";
 import { IoCall } from "react-icons/io5";
 import { IoMail } from "react-icons/io5";
 import { FaAddressBook, FaLocationDot } from "react-icons/fa6";
-import { FaHistory } from "react-icons/fa";
+// import { FaHistory } from "react-icons/fa";
 import { FaShoppingBag, FaIdCard } from "react-icons/fa";
 
 import storageService from "../service/storage.service";
@@ -40,11 +40,11 @@ const UserDashboard = () => {
                 name: "Address",
                 url: "/address",
               },
-              {
-                icon: <FaHistory />,
-                name: "Order History",
-                url: "/myorders",
-              },
+              // {
+              //   icon: <FaHistory />,
+              //   name: "Order History",
+              //   url: "/myorders",
+              // },
               {
                 icon: <RiMoneyRupeeCircleFill />,
                 name: "Payment",

@@ -1,5 +1,29 @@
 import { AXIOS_INSTANCE } from ".";
 
+export const getAllKYCAPI = {
+  getAllKYC: async () => {
+    try {
+      const data = await AXIOS_INSTANCE.get(`/kyc`);
+      return data.data;
+    } catch (error) {
+      console.error("Error fetching KYCs", error);
+      throw error; // Throw the error for handling in the component
+    }
+  },
+};
+
+export const updateKYCAPI = {
+  updateKYC: async (kycId, newStatus) => {
+    try {
+      const data = await AXIOS_INSTANCE.put(`/kyc`, {kycId, newStatus});
+      return data.data;
+    } catch (error) {
+      console.error("Error fetching KYCs", error);
+      throw error; // Throw the error for handling in the component
+    }
+  },
+};
+
 export const getKYCStatusAPI = {
   getKYCStatus: async (userId) => {
     try {
@@ -16,7 +40,7 @@ export const uploadKYCAPI = async (files, userId) => {
   try {
     const formData = new FormData();
     files.forEach((file) => {
-      formData.append('files', file); // Use the same name as specified in multer
+      formData.append("files", file); // Use the same name as specified in multer
     });
 
     const { data } = await AXIOS_INSTANCE.post(

@@ -28,6 +28,7 @@ import AllProducts from "./Admin/AllProducts";
 import AddProduct from "./Admin/AddProduct";
 import Orders from "./Admin/Orders";
 import KYCPage from "./pages/KYCPage";
+import KYCRecords from "./Admin/KYCRecords";
 
 const App = () => {
   const navigate = useNavigate();
@@ -128,7 +129,7 @@ const App = () => {
             <Route path="allproduct" element={<AllProducts />} />
             <Route path="addproduct" element={<AddProduct />} />
             <Route path="orders" element={<Orders />} />
-
+            <Route path="/admindashboard/kyc-records" element={<KYCRecords />} />
             {/*  <Route path="coupon" element={<Coupon />} />
             <Route path="categorie" element={<Categories />} />
             <Route path="brands" element={<Brands />} />

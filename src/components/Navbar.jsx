@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
 import logo from "../assets/img/Logo.png";
 import { FaSearch } from "react-icons/fa";
-import { FaRegHeart } from "react-icons/fa";
 import { MdShoppingBag } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { FaCheck } from "react-icons/fa";
-import { IoTimeSharp } from "react-icons/io5";
+// import { FaCheck } from "react-icons/fa";
+// import { IoTimeSharp } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
 import User from "../assets/img/user.png";
 import storageService from "../service/storage.service";
@@ -18,7 +17,7 @@ const Navbar = ({ active, userClickHandler }) => {
   const user = storageService.get("user");
   const [cartItems, setCartItems] = useState([]);
 
-  const [wishlistItems, setWishlistItems] = useState([]);
+  // const [wishlistItems, setWishlistItems] = useState([]);
   const handleLinkClick = (link) => {
     setActiveLink(link);
   };
@@ -54,7 +53,7 @@ const Navbar = ({ active, userClickHandler }) => {
         </div>
 
         <div className="rightnav">
-          <div className="buygroup">
+          {/* <div className="buygroup">
             <div className="buy">Buy</div>
             <div className="buy-right">
               <FaCheck />
@@ -65,7 +64,7 @@ const Navbar = ({ active, userClickHandler }) => {
             <div className="buy-right buy-right-to">
               <IoTimeSharp />
             </div>
-          </div>
+          </div> */}
 
           {/* <div className="rightnav-heart" onClick={() => navigate("/wishlist")}>
             <FaRegHeart className="heart-icon" /> {wishlistItems.length}
@@ -79,8 +78,19 @@ const Navbar = ({ active, userClickHandler }) => {
             </>
           ) : (
             <>
-              <div className="cartgroup" onClick={() => navigate("/mycart")}>
-                <div className="rightnav-cart">
+              <div className="cartgroup">
+                {user?.role === "Admin" && (
+                  <Link
+                    to="/admindashboard"
+                    className="border rounded-full px-3 py-2 border-gray-500"
+                  >
+                    Dashboard
+                  </Link>
+                )}
+                <div
+                  className="rightnav-cart"
+                  onClick={() => navigate("/mycart")}
+                >
                   <MdShoppingBag className="shoping-bag" /> {cartItems?.length}
                 </div>
                 <div className="rightnav-cartcount"></div>
