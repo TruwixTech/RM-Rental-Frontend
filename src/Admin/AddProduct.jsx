@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./Csss/AddProduct.css";
 import toast from "react-hot-toast";
 import { AXIOS_INSTANCE } from "../service";
@@ -46,6 +46,8 @@ const AddProduct = () => {
 
   const [newColorOption, setNewColorOption] = useState(null);
   const [colorOptions, setColorOptions] = useState([]);
+
+  const fileInputRef = useRef(null);
 
   const handleSeatingCapacityChange = (e) => {
     const value = e.target.value;
@@ -151,6 +153,7 @@ const AddProduct = () => {
 
   const addMonthAndRent = () => {
     const month = parseInt(newMonth, 10);
+
     if (!formData.month.includes(month) && newRentPrice) {
       setFormData((prevData) => ({
         ...prevData,
@@ -175,12 +178,13 @@ const AddProduct = () => {
       } else if (month === 12) {
         setFormData((prevData) => ({
           ...prevData,
-          rent12Months:newRentPrice,
+          rent12Months: newRentPrice,
         }));
       }
 
-      setNewMonth(null);
-      setNewRentPrice(null);
+      // Reset the input fields to empty strings
+      setNewMonth("");
+      setNewRentPrice("");
     }
   };
 
@@ -243,11 +247,6 @@ const AddProduct = () => {
     });
 
     try {
-      console.log(
-        "Form data before submission:",
-        JSON.stringify(formData, null, 2)
-      ); // Pretty-print the object
-
       const response = await AXIOS_INSTANCE.post("/products", data, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -262,12 +261,13 @@ const AddProduct = () => {
         title: "",
         sub_title: "",
         category: "",
-        img: [],
+        img: [], // Clear file input
         description: "",
         fabricCare: {
           material: "",
           color: [],
         },
+        size: "", // Reset size
         woodType: {
           material: "",
           color: [],
@@ -275,32 +275,24 @@ const AddProduct = () => {
         seatingCapacity: [],
         configType: [],
         colorOptions: [],
-        month: [],
-        size: "",
-        rent3Months: null,
-        rent6Months: null,
-        rent9Months: null,
-        rent12Months: null,
+        month: [], // Reset month and rent
       });
-      setNewFabricColor(null);
-      setFabricColors([]);
-      setWoodColors([]);
-      setColorOptions([]);
-      setNewMonth(null);
-      setNewRentPrice(null);
-      setNewColorOption(null);
-      setNewSeatingCapacity(null);
-      setNewConfigType(null);
-      // Resetting additional states
-      setNewMonth(null); // Ensure newMonth is reset
-      setNewRentPrice(null); // Ensure newRentPrice is reset
-      setNewSeatingCapacity(null); // Resetting newSeatingCapacity if needed
-      setNewConfigType(null); // Resetting newConfigType if needed
+
+      setNewFabricColor(""); // Reset new color inputs
+      setNewWoodColor("");
+      setNewMonth(""); // Reset month input field
+      setNewRentPrice(""); // Reset rent input field
+
+      // Clear the file input field manually using the ref
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     } catch (err) {
       toast.error("Something went wrong! Try again later!");
       setSubmitError(err.response?.data?.error || "An error occurred");
     }
   };
+
 
   return (
     <div className="add-product">
@@ -357,6 +349,7 @@ const AddProduct = () => {
                 onChange={handleChange}
                 multiple
                 className="form-input"
+                ref={fileInputRef} //
               />
             </div>
             <div className="form-group">
