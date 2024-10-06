@@ -5,6 +5,8 @@ import "../assets/csss/MyCart.css";
 import { deleteProductFromCartAPI, getCartAPI } from "../service/cart.service";
 import storageService from "../service/storage.service";
 import axios from "axios";
+import { AXIOS_INSTANCE } from "../service";
+import toast from "react-hot-toast";
 
 const placeholderImageURL =
   "https://cdn.dribbble.com/users/887568/screenshots/3172047/media/725fca9f20d010f19b3cd5411c50a652.gif";
@@ -12,8 +14,9 @@ const placeholderImageURL =
 const MyCart = () => {
   const user = storageService.get("user");
   const [userCartData, setUserCartData] = useState({ items: [] });
-  const [origins, setOrigins] = useState(""); // State to store user's location
-  const [distanceToShop, setDistanceToShop] = useState(null); // State to store calculated distance
+  const [origins, setOrigins] = useState("");
+  const [distanceToShop, setDistanceToShop] = useState(null);
+  const [address, setAddress] = useState("");
   const GST_RATE = 0.18;
   const currentDate = new Date();
   const deliveryDate = new Date(currentDate.getTime() + 96 * 60 * 60 * 1000);
@@ -31,6 +34,7 @@ const MyCart = () => {
       destinations,
     });
     setDistanceToShop(distance.data.distance);
+    setAddress(distance.data.address);
   };
 
   // Trigger getDistance only after origins is set
@@ -137,6 +141,82 @@ const MyCart = () => {
     return (subtotal || 0) + (gst || 0) + (deposit || 0) + (shippingFee || 0);
   };
 
+  const handlePayment = async () => {
+    if (!user) {
+      alert("Please login to continue");
+      return;
+    }
+
+    if (userCartData.items.length === 0) {
+      toast.error("Cart is empty!");
+    }
+
+    const cartTotal = calculateTotalPrice();
+    const shippingCost = calculateShippingFee();
+    const cartItems = userCartData.items;
+
+    // Step 1: Create an order from the backend
+    const orderResponse = await AXIOS_INSTANCE.post("/create/order", {
+      pincodeTo: "123123",
+      cartTotal,
+      shippingCost,
+      cartItems,
+      address
+    });
+    console.log("Order Response:", orderResponse);
+
+    const orderData = orderResponse?.data;
+    if (!orderData.success) {
+      alert("Order creation failed Reason: " + orderData.error);
+      return;
+    }
+
+    const amountToRazorpay = cartTotal * 100;
+
+    // Step 2: Trigger Razorpay Payment Gateway
+    const options = {
+      key: "rzp_test_Lx1DFKJyuWRRZG", // Replace with your Razorpay Key ID
+      amount: amountToRazorpay,
+      currency: orderData.currency || "INR",
+      name: "RM RENTAL",
+      description: "Rm Rental Payment",
+      image: "https://your-logo-url.com/logo.png", // Optional: Add your logo
+      order_id: orderData.id,
+      handler: async (response) => {
+        const paymentData = {
+          order_id: orderData._id,
+          payment_id: response.razorpay_payment_id,
+          signature: response.razorpay_signature,
+        };
+
+        const verifyResponse = await AXIOS_INSTANCE.post(
+          "/order/verifyPayment",
+          paymentData
+        );
+        if (verifyResponse?.data?.success) {
+          alert("Payment successful");
+          navigate("/orderconfirm", {
+            state: { orderId: orderData._id },
+          });
+        } else {
+          alert("Payment verification failed");
+          navigate("/orderfailed");
+        }
+      },
+      prefill: {
+        name: user?.name, // Optional: Prefill with customer data
+        email: user?.email,
+        contact: "9999999999",
+      },
+      theme: {
+        color: "#F37254",
+      },
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  };
+
   return (
     <div className="amazon-cart">
       <div className="cart-content">
@@ -197,9 +277,9 @@ const MyCart = () => {
           <div className="cart-header"></div>
           <div className="proceed-container">
             <div className="cart-details">
-              <h4>Cart Total | ₹{calculateTotalPrice() || "0.00"}</h4>
+              <h4>Cart Total | ₹{calculateTotalPrice().toFixed(2) || "0.00"}</h4>
             </div>
-            <button
+            {/* <button
               className={`proceed-btn ${
                 userCartData.items.length === 0
                   ? "cursor-not-allowed opacity-50"
@@ -219,6 +299,17 @@ const MyCart = () => {
               disabled={userCartData.items.length === 0}
             >
               Proceed <span className="arrow-icon">→</span>
+            </button> */}
+            <button
+              className={`proceed-btn ${
+                userCartData.items.length === 0
+                  ? "cursor-not-allowed opacity-50"
+                  : ""
+              }`}
+              onClick={handlePayment}
+              disabled={userCartData.items.length === 0}
+            >
+              Pay Now <span className="arrow-icon">→</span>
             </button>
           </div>
 
