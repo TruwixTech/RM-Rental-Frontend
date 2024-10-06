@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 // import { SiWindows } from "react-icons/si";
 import { RiMoneyRupeeCircleFill } from "react-icons/ri";
-import { IoSettings } from "react-icons/io5";
+// import { IoSettings } from "react-icons/io5";
 import { IoCall } from "react-icons/io5";
 import { IoMail } from "react-icons/io5";
-import { FaAddressBook, FaLocationDot } from "react-icons/fa6";
+// import { FaAddressBook, FaLocationDot } from "react-icons/fa6";
 // import { FaHistory } from "react-icons/fa";
 import { FaShoppingBag, FaIdCard } from "react-icons/fa";
 
@@ -35,11 +35,11 @@ const UserDashboard = () => {
                 name: "KYC",
                 url: "/kyc",
               },
-              {
-                icon: <FaAddressBook />,
-                name: "Address",
-                url: "/address",
-              },
+              // {
+              //   icon: <FaAddressBook />,
+              //   name: "Address",
+              //   url: "/address",
+              // },
               // {
               //   icon: <FaHistory />,
               //   name: "Order History",
@@ -50,7 +50,7 @@ const UserDashboard = () => {
                 name: "Payment",
                 url: "/payment",
               },
-              { icon: <IoSettings />, name: "Setting", url: "/setting" },
+              // { icon: <IoSettings />, name: "Setting", url: "/setting" },
             ].map((item, index) => (
               <Link
                 to={item.url}
@@ -87,10 +87,10 @@ const UserDashboard = () => {
                 <IoCall className="text-xl" />
                 {user?.mobileNumber}
               </Link>
-              <Link className="w-full flex items-center gap-3 py-1">
+              {/* <Link className="w-full flex items-center gap-3 py-1">
                 <FaLocationDot className="text-xl" />
                 {user?.address[0]?.addressLineOne}
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>
