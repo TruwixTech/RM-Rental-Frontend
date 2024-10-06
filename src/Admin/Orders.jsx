@@ -113,7 +113,7 @@ const Orders = () => {
               <tr key={order._id}>
                 <td>{order._id}</td>
                 <td>{new Date(order.orderDate).toLocaleDateString()}</td>
-                <td>${order.totalPrice.toFixed(2)}</td>
+                <td>₹{" "}{order.totalPrice.toFixed(2)}</td>
                 <td>
                   <button
                     className={`status-button ${order.status.toLowerCase()}`}
