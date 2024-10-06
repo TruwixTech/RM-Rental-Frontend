@@ -23,13 +23,16 @@ const Navbar = ({ active, userClickHandler }) => {
   };
   const getMyCart = async () => {
     const data = await getCartAPI();
-    if (data) setCartItems(data?.items);
+    if (data) {
+      setCartItems(data?.items);
+    }
+    
   };
   useEffect(() => {
     if (user) {
       let interval = setInterval(() => {
         getMyCart();
-      }, 2000);
+      }, 6000);
       return () => clearInterval(interval);
     }
   }, []);
@@ -91,7 +94,8 @@ const Navbar = ({ active, userClickHandler }) => {
                   className="rightnav-cart"
                   onClick={() => navigate("/mycart")}
                 >
-                  <MdShoppingBag className="shoping-bag" /> {cartItems?.length}
+                  <MdShoppingBag className="shoping-bag" /> 
+                  <span className="cart-count"></span>
                 </div>
                 <div className="rightnav-cartcount"></div>
               </div>

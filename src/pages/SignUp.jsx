@@ -1,7 +1,4 @@
-import { useEffect } from "react";
-
-/* eslint-disable no-unused-vars */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../assets/csss/SignUp.css";
 import userService from "../service/user.service";
@@ -34,50 +31,48 @@ const SignUp = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
+    setError(null); // Clear any previous errors
 
-    const verifyOTP = await userService.verifyOTP(mobileNumber, inputOTP);
-    console.log(verifyOTP);
+    try {
+      const verifyOTP = await userService.verifyOTP(mobileNumber, inputOTP);
+      console.log(verifyOTP);
 
-    if (verifyOTP.success) {
-      const data = await userService.registerAPI(
-        formData.name,
-        formData.email,
-        formData.password,
-        mobileNumber
-      );
-      if (data) {
-        storageService.save("token", data.token);
-        storageService.save("user", data.user);
-        toast.success("Registration successful");
-        setFormData({
-          name: "",
-          email: "",
-          password: "",
-          confirmPassword: "",
-        });
-        setInputOTP(null);
-        setMobileNumber(null);
-        setLoading(false);
+      if (verifyOTP.success) {
+        const data = await userService.registerAPI(
+          formData.name,
+          formData.email,
+          formData.password,
+          mobileNumber
+        );
+
+        if (data) {
+          storageService.save("token", data.token);
+          storageService.save("user", data.user);
+          toast.success("Registration successful");
+
+          // Clear all form fields on successful registration
+          setFormData({
+            name: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+          });
+          setInputOTP("");
+          setMobileNumber("");
+
+          navigate("/login"); // Redirect after success
+        } else {
+          toast.error(data?.message);
+        }
       } else {
-        toast.error(data?.message);
-        setLoading(false);
+        toast.error("OTP Verification Failed");
       }
-    } else {
-      toast.error("OTP Verification Failed");
-      setLoading(false);
-
-      return;
+    } catch (error) {
+      console.error(error);
+      setError("An error occurred. Please try again."); // Set error message
     }
-    setFormData({
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
-    setInputOTP(null);
-    setMobileNumber(null);
-    setLoading(false);
-    setLoading(false);
+
+    setLoading(false); // Set loading to false regardless of success or failure
   };
 
   const handleGetOTP = async () => {
@@ -125,6 +120,7 @@ const SignUp = () => {
               type="text"
               id="name"
               name="name"
+              value={formData.name} // Added value to bind input field
               onChange={handleChange}
               required
             />
@@ -135,6 +131,7 @@ const SignUp = () => {
               type="email"
               id="email"
               name="email"
+              value={formData.email} // Added value to bind input field
               onChange={handleChange}
               required
             />
@@ -145,6 +142,7 @@ const SignUp = () => {
               type="password"
               id="password"
               name="password"
+              value={formData.password} // Added value to bind input field
               onChange={handleChange}
               required
             />
@@ -155,6 +153,7 @@ const SignUp = () => {
               type="password"
               id="confirmPassword"
               name="confirmPassword"
+              value={formData.confirmPassword} // Added value to bind input field
               onChange={handleChange}
               required
             />
@@ -165,6 +164,7 @@ const SignUp = () => {
               type="text"
               id="mobileNumber"
               name="mobileNumber"
+              value={mobileNumber} // Added value to bind input field
               onChange={(e) => setMobileNumber(e.target.value)}
               required
               maxLength={10}
@@ -184,6 +184,7 @@ const SignUp = () => {
                   type="text"
                   id="otp"
                   name="otp"
+                  value={inputOTP} // Added value to bind input field
                   maxLength={6}
                   minLength={6}
                   pattern="\d{6}" // Ensures it only accepts 6 digits

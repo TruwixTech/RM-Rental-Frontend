@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { AXIOS_INSTANCE } from "../service";
-import Razorpay from "razorpay"; // Correct import for Razorpay
 import { useNavigate } from "react-router-dom";
 import storageService from "../service/storage.service";
 import '../assets/csss/AddressPage.css';
 
-export default function AddressPage({ finalPayment }) {
+export default function AddressPage({ finalPayment }) { 
   const [address, setAddress] = useState([]);
   const [modifyAddress, setModifyAddress] = useState({});
   const user = storageService.get("user");
@@ -124,12 +123,25 @@ export default function AddressPage({ finalPayment }) {
       },
     };
 
-    const rzp = new Razorpay(options);
+    const rzp = new window.Razorpay(options);
     rzp.open();
   };
 
   useEffect(() => {
     getAllAddress();
+
+    // Load Razorpay script
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    script.onload = () => {
+      console.log("Razorpay script loaded successfully.");
+    };
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
   }, []);
 
   return (

@@ -185,6 +185,7 @@ const MyCart = () => {
                         ) * item?.rentOptions?.quantity
                       } / ${item?.rentOptions.rentMonthsCount} months on rent`}
                     </p>
+                    <p>Quantity: <span className="border rounded-full px-2 m-2 bg-blue-500 text-white">{item?.rentOptions?.quantity}</span></p>
                     <p className="delivery">{formattedDeliveryDate}</p>
                     {/* <div className="quantity-controls-wrapper">
                       <button
@@ -224,7 +225,10 @@ const MyCart = () => {
           <div className="proceed-container">
             <div className="cart-details">
               <h4>
-                Cart Total | ₹{calculateTotalPrice().toFixed(2)}
+                Cart Total | ₹
+                {(calculateTotalPrice() + calculateSecurityDeposit()).toFixed(
+                  2
+                ) || "0.00"}
                 {/* {userCartData.items.reduce(
                   (acc, curr) => acc + curr.rentOptions.quantity,
                   0
