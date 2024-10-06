@@ -151,8 +151,8 @@ const MyCart = () => {
       toast.error("Cart is empty!");
     }
 
-    const cartTotal = calculateTotalPrice();
-    const shippingCost = calculateShippingFee();
+    const cartTotal = calculateTotalPrice().toFixed(2);
+    const shippingCost = calculateShippingFee().toFixed(2);
     const cartItems = userCartData.items;
 
     // Step 1: Create an order from the backend
