@@ -2,84 +2,57 @@ import { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "../assets/csss/MyCart.css";
-import {
-  deleteProductFromCartAPI,
-  getCartAPI,
-  // updateCartAPI,
-} from "../service/cart.service";
+import { deleteProductFromCartAPI, getCartAPI } from "../service/cart.service";
 import storageService from "../service/storage.service";
+import axios from "axios";
 
 const placeholderImageURL =
   "https://cdn.dribbble.com/users/887568/screenshots/3172047/media/725fca9f20d010f19b3cd5411c50a652.gif";
 
 const MyCart = () => {
   const user = storageService.get("user");
-  const [userCartData, setUserCartData] = useState({ items: [] }); // Initialize as an object with an items array
-  const GST_RATE = 0.18; // GST
-  const DELIVERY_FEE = 100;
+  const [userCartData, setUserCartData] = useState({ items: [] });
+  const [origins, setOrigins] = useState(""); // State to store user's location
+  const [distanceToShop, setDistanceToShop] = useState(null); // State to store calculated distance
+  const GST_RATE = 0.18;
   const currentDate = new Date();
-  const deliveryDate = new Date(currentDate.getTime() + 96 * 60 * 60 * 1000); // 96 hours in milliseconds
-
-  // Format the delivery date
-  const day = deliveryDate.getDate();
-  const month = deliveryDate.toLocaleString("default", { month: "short" }); // Short month name
-  const formattedDeliveryDate = `Delivery by ${day} ${month}`;
+  const deliveryDate = new Date(currentDate.getTime() + 96 * 60 * 60 * 1000);
   const navigate = useNavigate();
 
-  // const handleQtyIncrease = async (id) => {
-  //   const itemIndex = userCartData?.items?.findIndex(
-  //     (item) => item?.product?._id === id
-  //   );
-  //   if (itemIndex >= 0) {
-  //     const updatedItem = { ...userCartData.items[itemIndex] };
-  //     updatedItem.rentOptions.quantity += 1; // Increase quantity for the found item
+  const day = deliveryDate.getDate();
+  const month = deliveryDate.toLocaleString("default", { month: "short" });
+  const formattedDeliveryDate = `Delivery by ${day} ${month}`;
 
-  //     const data = await updateCartAPI({
-  //       user: user?._id,
-  //       quantity: updatedItem.rentOptions.quantity,
-  //       productId: id,
-  //       rentMonthsCount: updatedItem.rentOptions.rentMonthsCount, // Pass rentMonthsCount
-  //       rentMonths: updatedItem.rentOptions.rentMonths, // Pass rentMonths
-  //     });
-  //     if (data) {
-  //       getMyCart(); // Refresh cart data after update
-  //     }
-  //   }
-  // };
+  const destinations = "18.532881931761416, 73.85157119570161";
 
-  // const handleQtyDecrease = async (id) => {
-  //   const itemIndex = userCartData?.items?.findIndex(
-  //     (item) => item?.product?._id === id
-  //   );
+  const getDistance = async () => {
+    const distance = await axios.post("http://localhost:4000/api/shipping", {
+      origins,
+      destinations,
+    });
+    setDistanceToShop(distance.data.distance);
+  };
 
-  //   if (itemIndex >= 0) {
-  //     const updatedItem = { ...userCartData.items[itemIndex] };
-  //     if (updatedItem.rentOptions.quantity > 1) {
-  //       updatedItem.rentOptions.quantity -= 1; // Decrease quantity for the found item
+  // Trigger getDistance only after origins is set
+  useEffect(() => {
+    if (origins) {
+      getDistance();
+    }
+  }, [origins]);
 
-  //       const data = await updateCartAPI({
-  //         user: user?._id,
-  //         quantity: updatedItem.rentOptions.quantity,
-  //         productId: id,
-  //         rentMonthsCount: updatedItem.rentOptions.rentMonthsCount, // Pass rentMonthsCount
-  //         rentMonths: updatedItem.rentOptions.rentMonths, // Pass rentMonths
-  //       });
-  //       if (data) {
-  //         getMyCart(); // Refresh cart data after update
-  //       }
-  //     } else {
-  //       // If quantity is 1, you might want to remove the item from the cart
-  //       const data = await updateCartAPI({
-  //         user: user?._id,
-  //         quantity: 0, // This will remove the item
-  //         productId: id,
-  //       });
-  //       if (data) {
-  //         getMyCart(); // Refresh cart data after update
-  //       }
-  //     }
-  //   }
-  // };
+  // Function to get user's current location
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        const locationString = `${latitude}, ${longitude}`;
+        setOrigins(locationString);
+      },
+      (error) => {
+        console.error("Error getting location", error);
+      }
+    );
+  }, []);
 
   const handleProductRemove = async (id) => {
     const data = await deleteProductFromCartAPI(user?._id, id);
@@ -93,6 +66,35 @@ const MyCart = () => {
     if (data && data.items) {
       setUserCartData(data);
     }
+  };
+
+  useEffect(() => {
+    getMyCart();
+  }, []);
+
+  // Calculate the total quantity of items in the cart
+  const calculateTotalQuantity = () => {
+    return userCartData?.items?.reduce((acc, curr) => {
+      return acc + curr.rentOptions.quantity;
+    }, 0);
+  };
+
+  // Calculate the shipping fee based on the distance and total quantity
+  const calculateShippingFee = () => {
+    const totalQuantity = calculateTotalQuantity();
+    return distanceToShop ? totalQuantity * distanceToShop * 100 : 0;
+  };
+
+  const calculateSecurityDeposit = () => {
+    return (
+      userCartData?.items?.reduce((acc, curr) => {
+        const rentPrice = getRentMonthsPrice(
+          curr.rentOptions.rentMonthsCount,
+          curr.product.rentalOptions
+        );
+        return acc + (rentPrice || 0) * 2 * curr.rentOptions.quantity; // 2x rent price for security deposit
+      }, 0) || 0
+    );
   };
 
   const getRentMonthsPrice = (rentMonthsCount, rentalOptions) => {
@@ -110,22 +112,6 @@ const MyCart = () => {
     }
   };
 
-  useEffect(() => {
-    getMyCart();
-  }, []);
-
-  const calculateSecurityDeposit = () => {
-    return (
-      userCartData?.items?.reduce((acc, curr) => {
-        const rentPrice = getRentMonthsPrice(
-          curr.rentOptions.rentMonthsCount,
-          curr.product.rentalOptions
-        );
-        return acc + (rentPrice || 0) * 2 * curr.rentOptions.quantity; // 2x rent price for security deposit
-      }, 0) || 0
-    );
-  };
-
   const calculateSubtotal = () => {
     return (
       userCartData?.items?.reduce((acc, curr) => {
@@ -133,20 +119,22 @@ const MyCart = () => {
           curr.rentOptions.rentMonthsCount,
           curr.product.rentalOptions
         );
-        return acc + (rentPrice || 0) * curr.rentOptions.quantity; // Ensure rentPrice is valid
+        return acc + (rentPrice || 0) * curr.rentOptions.quantity;
       }, 0) || 0
-    ); // Return 0 if subtotal is NaN
+    );
   };
 
   const calculateGST = () => {
     const subtotal = calculateSubtotal();
-    return subtotal ? subtotal * GST_RATE : 0; // Return 0 if subtotal is NaN
+    return subtotal ? subtotal * GST_RATE : 0;
   };
 
   const calculateTotalPrice = () => {
     const subtotal = calculateSubtotal();
     const gst = calculateGST();
-    return (subtotal || 0) + (gst || 0) + DELIVERY_FEE; // Ensure valid numbers are added
+    const deposit = calculateSecurityDeposit();
+    const shippingFee = calculateShippingFee();
+    return (subtotal || 0) + (gst || 0) + (deposit || 0) + (shippingFee || 0);
   };
 
   return (
@@ -167,10 +155,7 @@ const MyCart = () => {
                 <div className="cart-item">
                   <div className="image-to-left">
                     <img
-                      src={
-                        item?.product?.img[0] ||
-                        "https://odoo-community.org/web/image/product.template/3936/image_1024?unique=f578478"
-                      }
+                      src={item?.product?.img[0] || placeholderImageURL}
                       alt="Product"
                     />
                   </div>
@@ -185,23 +170,13 @@ const MyCart = () => {
                         ) * item?.rentOptions?.quantity
                       } / ${item?.rentOptions.rentMonthsCount} months on rent`}
                     </p>
-                    <p>Quantity: <span className="border rounded-full px-2 m-2 bg-blue-500 text-white">{item?.rentOptions?.quantity}</span></p>
+                    <p>
+                      Quantity:{" "}
+                      <span className="border rounded-full px-2 m-2 bg-blue-500 text-white">
+                        {item?.rentOptions?.quantity}
+                      </span>
+                    </p>
                     <p className="delivery">{formattedDeliveryDate}</p>
-                    {/* <div className="quantity-controls-wrapper">
-                      <button
-                        className="qty-btn"
-                        onClick={() => handleQtyDecrease(item?.product?._id)}
-                      >
-                        -
-                      </button>
-                      <span>{item?.rentOptions.quantity}</span>
-                      <button
-                        className="qty-btn"
-                        onClick={() => handleQtyIncrease(item?.product?._id)}
-                      >
-                        +
-                      </button>
-                    </div> */}
                   </div>
 
                   <div className="delete-btn-container">
@@ -220,20 +195,9 @@ const MyCart = () => {
 
         <div className="cart-overview">
           <div className="cart-header"></div>
-
-          {/* Proceed Button Above the Summary */}
           <div className="proceed-container">
             <div className="cart-details">
-              <h4>
-                Cart Total | ₹
-                {(calculateTotalPrice() + calculateSecurityDeposit()).toFixed(
-                  2
-                ) || "0.00"}
-                {/* {userCartData.items.reduce(
-                  (acc, curr) => acc + curr.rentOptions.quantity,
-                  0
-                )} */}
-              </h4>
+              <h4>Cart Total | ₹{calculateTotalPrice() || "0.00"}</h4>
             </div>
             <button
               className={`proceed-btn ${
@@ -243,10 +207,16 @@ const MyCart = () => {
               }`}
               onClick={() => {
                 if (userCartData.items.length !== 0) {
-                  navigate("/address/finalPayment");
+                  navigate("/address/finalPayment", {
+                    state: {
+                      cartTotal: calculateTotalPrice(), // Sending total price
+                      shippingCost: calculateShippingFee(), // Sending shipping fee
+                      cartItems: userCartData.items, // Sending cart items
+                    },
+                  });
                 }
               }}
-              disabled={userCartData.items.length === 0} // Disable if the cart is empty
+              disabled={userCartData.items.length === 0}
             >
               Proceed <span className="arrow-icon">→</span>
             </button>
@@ -261,36 +231,23 @@ const MyCart = () => {
                 </h4>
               </div>
             ))}
-
             <hr />
-
             <p>
-              <strong>
-                Subtotal (
-                {userCartData.items.reduce(
-                  (acc, curr) => acc + curr.rentOptions.quantity,
-                  0
-                )}
-                items):{" "}
-              </strong>
-              ₹ {calculateSubtotal().toFixed(2) || "0.00"}
+              <strong>Subtotal:</strong> ₹ {calculateSubtotal().toFixed(2)}
             </p>
             <p>
-              <strong>GST (18%):</strong> ₹{" "}
-              {calculateGST().toFixed(2) || "0.00"}
+              <strong>GST (18%):</strong> ₹ {calculateGST().toFixed(2)}
             </p>
             <p>
-              <strong>Shipping:</strong> ₹ {DELIVERY_FEE}
+              <strong>Shipping:</strong> ₹ {calculateShippingFee().toFixed(2)}
             </p>
             <p>
-              <strong>Security Deposit:</strong> ₹
-              {calculateSecurityDeposit().toFixed(2) || "0.00"}
+              <strong>Security Deposit:</strong> ₹{" "}
+              {calculateSecurityDeposit().toFixed(2)}
             </p>
-            <p className="total-amount">
-              <strong>Total:</strong> ₹{" "}
-              {(calculateTotalPrice() + calculateSecurityDeposit()).toFixed(
-                2
-              ) || "0.00"}
+            <hr />
+            <p>
+              <strong>Total:</strong> ₹ {calculateTotalPrice().toFixed(2)}
             </p>
           </div>
         </div>

@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { AXIOS_INSTANCE } from "../service";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import storageService from "../service/storage.service";
-import '../assets/csss/AddressPage.css';
+import "../assets/csss/AddressPage.css";
 
-export default function AddressPage({ finalPayment }) { 
+export default function AddressPage({ finalPayment }) {
   const [address, setAddress] = useState([]);
   const [modifyAddress, setModifyAddress] = useState({});
   const user = storageService.get("user");
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const { cartTotal, shippingCost, cartItems } = location.state;
 
   const getAllAddress = async () => {
     try {
@@ -72,6 +75,9 @@ export default function AddressPage({ finalPayment }) {
     // Step 1: Create an order from the backend
     const orderResponse = await AXIOS_INSTANCE.post("/create/order", {
       pincodeTo: modifyAddress.pincode,
+      cartTotal,
+      shippingCost,
+      cartItems,
     });
     console.log("Order Response:", orderResponse);
 

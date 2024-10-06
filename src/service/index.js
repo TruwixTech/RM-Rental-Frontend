@@ -1,9 +1,15 @@
 import axios from "axios";
 import storageService from "./storage.service";
 
+// export const AXIOS_INSTANCE_WITHOUT_INTERCEPTOR = axios.create({
+//   baseURL: "https://rm-rental-backend.vercel.app/api",
+//   // baseURL: "http://localhost:4000/api",
+// });
 export const AXIOS_INSTANCE_WITHOUT_INTERCEPTOR = axios.create({
-  // baseURL: "https://rm-rental-backend.onrender.com/api",
-  baseURL: "http://localhost:4000/api",
+  baseURL: process.env.NODE_ENV === "production"
+    ? "https://rm-rental-backend.vercel.app/api"
+    : "http://localhost:4000/api",
+  withCredentials: true, // for handling cookies or authentication tokens
 });
 
 AXIOS_INSTANCE_WITHOUT_INTERCEPTOR.interceptors.request.use(async (config) => {
