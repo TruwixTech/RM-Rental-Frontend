@@ -27,6 +27,8 @@ const OrderConfirm = () => {
     }
   }, [orderId]);
 
+
+ 
   return (
     <div className="order-confirm w-full flex">
       <div className="order-confirm-left flex flex-col items-center gap-12 py-20  w-full px-8 h-full bg-[#31c07e]">
@@ -57,21 +59,21 @@ const OrderConfirm = () => {
             <div className="flex flex-col items-center justify-center gap-2">
               <IoIosCheckmarkCircle className="order-status-icon text-5xl text-[#dadada]" />
               <h1 className="text-md text-center font-semibold">
-                START <br /> PRODUCTION
+                KYC <br /> VERIFIED
               </h1>
             </div>
             <div className="flex flex-col items-center justify-center gap-2">
               <IoIosCheckmarkCircle className="order-status-icon text-5xl text-[#dadada]" />
               <h1 className="text-md text-center font-semibold">
-                QUALITY <br /> CHECK
+                ORDER <br /> SHIPPED
               </h1>
             </div>
-            <div className="flex flex-col items-center justify-center gap-2">
+            {/* <div className="flex flex-col items-center justify-center gap-2">
               <IoIosCheckmarkCircle className="order-status-icon text-5xl text-[#dadada]" />
               <h1 className="text-md text-center font-semibold">
-                DISPATCHED <br /> ITEM
+                <br /> DELIVERED
               </h1>
-            </div>
+            </div> */}
             <div className="flex flex-col items-center justify-center gap-2">
               <IoIosCheckmarkCircle className="order-status-icon text-5xl text-[#dadada]" />
               <h1 className="text-md text-center font-semibold">

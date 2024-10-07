@@ -56,7 +56,7 @@ const Chairs = () => {
 
       <div className="card-grid">
         {products.map((product) => (
-          <div className="card" key={product?._id}>
+          <div className="card" key={product?._id} >
             <div className="card-img">
               <img src={product.img[0]} alt={product.title} />
             </div>
