@@ -126,82 +126,37 @@ const Products = () => {
               </div>
             </div> */}
 
-            <div className="productpage-left-sidebar-filters">
-              <div className="filter-title">Filter by Categories</div>
-              <div className="checkboxes">
-                <div className="checkbox">
-                  <div className="checkbox-grp">
-                    <input
-                      type="checkbox"
-                      id="category-appliance"
-                      name="category"
-                      value="appliance"
-                    />
-                    <label htmlFor="price-low">appliance</label>
+            <div className="productpage-left-sidebar-filters bg-white rounded-md shadow-md p-4 ">
+              <div className="filter-title text-lg font-semibold mb-4 border-b pb-2">
+                Filter by Categories
+              </div>
+              <div className="checkboxes space-y-4">
+                {[
+                  { id: "category-appliance", value: "appliance" },
+                  { id: "category-sofa", value: "sofa" },
+                  { id: "category-kitchen", value: "kitchen" },
+                  { id: "category-storage", value: "storage" },
+                  { id: "category-bed", value: "bed" },
+                  { id: "category-bath", value: "bath" },
+                ].map((category) => (
+                  <div className="checkbox flex items-center" key={category.id}>
+                    <div className="checkbox-grp flex items-center">
+                      <input
+                        type="checkbox"
+                        id={category.id}
+                        name="category"
+                        value={category.value}
+                        className="mr-2 w-5 h-5 accent-blue-500 transition duration-200 ease-in-out transform hover:scale-110"
+                      />
+                      <label
+                        htmlFor={category.id}
+                        className="text-md font-medium text-gray-800 "
+                      >
+                        {category.value.toLocaleUpperCase()}
+                      </label>
+                    </div>
                   </div>
-                  <span>20</span>
-                </div>
-                <div className="checkbox">
-                  <div className="checkbox-grp">
-                    <input
-                      type="checkbox"
-                      id="category-sofa"
-                      name="category"
-                      value="sofa"
-                    />
-                    <label htmlFor="price-low">sofa</label>
-                  </div>
-                  <span>20</span>
-                </div>
-                <div className="checkbox">
-                  <div className="checkbox-grp">
-                    <input
-                      type="checkbox"
-                      id="category-kitchen"
-                      name="category"
-                      value="kitchen"
-                    />
-                    <label htmlFor="price-low">kitchen</label>
-                  </div>
-                  <span>20</span>
-                </div>
-                <div className="checkbox">
-                  <div className="checkbox-grp">
-                    <input
-                      type="checkbox"
-                      id="category-storage"
-                      name="category"
-                      value="storage"
-                    />
-
-                    <label htmlFor="price-low">storage</label>
-                  </div>
-                  <span>20</span>
-                </div>
-                <div className="checkbox">
-                  <div className="checkbox-grp">
-                    <input
-                      type="checkbox"
-                      id="category-bed"
-                      name="category"
-                      value="bed"
-                    />
-                    <label htmlFor="price-low">bed</label>
-                  </div>
-                  <span>20</span>
-                </div>
-                <div className="checkbox">
-                  <div className="checkbox-grp">
-                    <input
-                      type="checkbox"
-                      id="category-bath"
-                      name="category"
-                      value="bath"
-                    />
-                    <label htmlFor="price-low">bath</label>
-                  </div>
-                  <span>20</span>
-                </div>
+                ))}
               </div>
             </div>
 

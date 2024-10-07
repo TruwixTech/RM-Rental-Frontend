@@ -1,3 +1,52 @@
+.productpage-left-sidebar-filters {
+  background-color: #ffffff; /* White background for clarity */
+  border: 1px solid #e2e8f0; /* Light gray border for definition */
+  border-radius: 0.375rem; /* Rounded corners (rounded-md) */
+  padding: 1rem; /* Padding for inner spacing */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.filter-title {
+  color: #2d3748; /* Darker color for title */
+  font-size: 1.25rem; /* Larger font size */
+}
+
+.checkboxes {
+  display: flex;
+  flex-direction: column; /* Stack checkboxes vertically */
+}
+
+.checkbox {
+  padding: 0.5rem 0; /* Padding for each checkbox */
+  transition: background-color 0.2s ease; /* Smooth background color transition */
+}
+
+.checkbox:hover {
+  background-color: #ebf8ff; /* Light blue on hover for better visibility */
+  border-radius: 0.375rem; /* Maintain rounded corners on hover */
+}
+
+.checkbox input[type="checkbox"] {
+  appearance: none; /* Remove default checkbox styling */
+  border: 2px solid #4299e1; /* Custom border color */
+  border-radius: 0.25rem; /* Rounded corners for checkboxes */
+  outline: none; /* Remove outline */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.2s ease, transform 0.2s ease; /* Smooth transition */
+}
+
+.checkbox input[type="checkbox"]:checked {
+  background-color: #4299e1; /* Background for checked state */
+  border-color: #4299e1; /* Border color for checked state */
+}
+
+.checkbox label {
+  margin-left: 0.5rem; /* Spacing between checkbox and label */
+  cursor: pointer; /* Pointer cursor for label */
+  color: #4a5568; /* Text color for labels */
+}
+
+
 .productpage{
     width: 100%;
     height: 100%;
@@ -24,7 +73,7 @@
   /* max-height: fit-content; */
     background-color: #FEC500;
     /* max-width: fit-content; */
-    border-radius: 50px;
+    border-radius: 5px;
     padding: 0.4rem 0.6rem;
     /* display: flex; */
     /* justify-content: center; */

@@ -175,7 +175,7 @@ const ProductDetails = () => {
                       <img
                         src={imgSrc}
                         alt={`Thumbnail ${index + 1}`}
-                        className="image"
+                        className="image sm:w-4"
                       />
                     </div>
                   ))}
