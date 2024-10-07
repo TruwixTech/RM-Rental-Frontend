@@ -1,78 +1,95 @@
 // Footer.jsx
-import React from 'react'
-import '../assets/csss/Footer.css'
-import logo1 from '../assets/img/logo1.png'
-import { Link } from 'react-router-dom'
+import "../assets/csss/Footer.css";
+import logo1 from "../assets/img/logo1.png";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
+  const handleOpenPdf1 = () => {
+    // Replace the URL below with the path to your PDF file
+    window.open('/src/components/home_components/terms.pdf', '_blank');
+  };
   return (
     <div>
-    <footer className='footer'>
+      <footer className="w-full flex flex-col">
+        <div className="w-full flex flex-col items-center md:mt-20 md:items-start md:gap-20 md:flex-row md:justify-between md:px-20 mt-10">
+          <div className="w-[90%] md:w-[30%] flex flex-col items-center ">
+            <img src={logo1} alt="Logo" className="footer-logo" />
 
-        <div className="footer-top">
-      <div className="footer-section-left">
-        <img src={logo1} alt="Logo" className="footer-logo" />
-       
-        <p style={{marginTop: "15px", color: "grey"}}>
-          Reach Out To Our Team Of Experienced Design Professionals For
-          Personalized Consultation, Detailed Planning, And Seamless Execution
-          Of Your Interior Design Project.
-        </p>
-      </div>
-      <div className='footer-section-group'>
+            <p className="mt-4 md:mt-8 text-gray-500 text-center md:text-start" >
+              RM Rental offers stylish, affordable furniture for rent with
+              flexible plans. Upgrade your space hassle-free with our seamless
+              delivery and setup services.
+            </p>
+          </div>
+          <div className="w-full md:w-[70%] flex flex-col gap-6 mt-10 md:mt-0 items-center md:items-start md:flex-row text-center md:justify-around ">
+            <div className="w-full md:w-1/3 flex flex-col items-center md:items-start ">
+              <div className="text-black font-bold">SHOPPING SERVICES</div>
+              <Link className="text-gray-500 my-1 text-decoration-none md:items-start">Catalog</Link>
+              <Link className="text-gray-500 my-1 text-decoration-none md:items-start">
+                Schedule Consultation
+              </Link>
+              <Link className="text-gray-500 my-1 text-decoration-none">Stores</Link>
+              {/* <Link className="text-gray-500 my-1 text-decoration-none">
+                Trade program
+              </Link> */}
+            </div>
+            <div className="w-full md:w-1/3 flex flex-col items-center md:items-start ">
+              <div className="text-black font-bold">ABOUT</div>
+              <Link className="text-gray-500 my-1 text-decoration-none">Reviews</Link>
+              <Link className="text-gray-500 my-1 text-decoration-none" href to={"/contact"}>Careers</Link>
+              <Link className="text-gray-500 my-1 text-decoration-none">
+                Financing
+              </Link>
+              <Link className="text-gray-500 my-1 text-decoration-none">Patents</Link>
+              <Link className="text-gray-500 my-1 text-decoration-none">Our Blog</Link>
+            </div>
+            {/* <div className="footer-section">
+              <h4>RESOURCES</h4>
+              <Link className="footer-link text-decoration-none">
+                Look Up Order Status
+              </Link>
+              <Link className="footer-link text-decoration-none">
+                Assembly Instructions
+              </Link>
+              <Link className="footer-link text-decoration-none">Returns</Link>
+              <Link className="footer-link text-decoration-none">
+                Shipping & Delivery
+              </Link>
+              <Link className="footer-link text-decoration-none">FAQ</Link>
+              <Link className="footer-link text-decoration-none">
+                Refer a Friend
+              </Link>
+            </div> */}
+            <div className="w-full md:w-1/3 flex flex-col items-center md:items-start ">
+              <div className="text-black font-bold">CONTACT</div>
+              <div className="flex flex-col items-center md:items-start">
+              <span className="text-gray-500 my-1">Email: rmfurniture2020@gmail.com</span>
+              <span className="text-gray-500 my-1">Customer care contact : 9306839435</span>
+              <span className="text-gray-500 my-1">Complaint number : 9416965679</span>
+              <span className="text-gray-500 my-1">Hours:</span>
+              <span className="text-gray-500 my-1">Monday to Friday — 10am to 8pm</span>
+              <span className="text-gray-500 my-1">Saturday to Sunday — 10am to 2pm</span>
+              <span className="text-gray-500 my-1 md:text-start">
+                Old barat Ghar, Makanpur, Nyay Khand 2, Indirapuram, Ghaziabad,
+                Uttar Pradesh 201014
+              </span>
+              </div>
+            </div>
+          </div>
+        </div>
 
-      
-      <div className="footer-section">
-        
-        <h4>SHOPPING SERVICES</h4>
-          <Link className='footer-link text-decoration-none'>Catalog</Link>
-          <Link className='footer-link text-decoration-none'>Schedule Consultation</Link>
-          <Link className='footer-link text-decoration-none'>Stores</Link>
-          <Link className='footer-link text-decoration-none'>Trade program</Link>
-        
-      </div>
-      <div className="footer-section">
-        
-          <h4>ABOUT</h4>
-          <Link className='footer-link text-decoration-none'>Reviews</Link>
-          <Link className='footer-link text-decoration-none'>Careers</Link>
-          <Link className='footer-link text-decoration-none'>Financing</Link>
-          <Link className='footer-link text-decoration-none'>Patents</Link>
-          <Link className='footer-link text-decoration-none'>Our Blog</Link>
-        
-      </div>
-      <div className="footer-section">
-        
-          <h4>RESOURCES</h4>
-          <Link className='footer-link text-decoration-none'>Look Up Order Status</Link>
-          <Link className='footer-link text-decoration-none'>Assembly Instructions</Link>
-          <Link className='footer-link text-decoration-none'>Returns</Link>
-          <Link className='footer-link text-decoration-none'>Shipping & Delivery</Link>
-          <Link className='footer-link text-decoration-none'>FAQ</Link>
-          <Link className='footer-link text-decoration-none'>Refer a Friend</Link>
-        
-      </div>
-      <div className="footer-section">
-        
-        <h4>CONTACT</h4>
-          <span>Email: support@RMrentals.com</span>
-          <span>Hours:</span>
-          <span>Monday to Friday — 10am to 8pm</span>
-          <span>Saturday to Sunday — 10am to 2pm</span>
-          <span>15 W 27th Street, 9th Floor NY, 10001</span>
-        
-      </div>
-      </div>
+        <div className="flex flex-col md:flex-row mx-4 text-center md:text-start md:mx-20 justify-between items-center py-6 border-t-2 border-gray-400 mt-10">
+          <p className="text-sm md:text-base ">
+            ©2024 RM Rental , made with 💖 by Campaigning Source, all rights
+            reserved
+          </p>
+          <p className="mt-2 md:mt-0" onClick={handleOpenPdf1}>
+            <a href="#" >Terms of Service</a> | <a href="#">Privacy Policy</a>
+          </p>
+        </div>
+      </footer>
     </div>
-      <div className="footer-bottom">
-        <p>&copy; Copyright 2024, RM Furnitures RENTALS All Rights Reserved</p>
-        <p>
-          <a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a>
-        </p>
-      </div>
-    </footer>
-    </div>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

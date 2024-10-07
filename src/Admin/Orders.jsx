@@ -138,7 +138,7 @@ const Orders = () => {
           <button className="status-form-close" onClick={closeModal}>
             &times;
           </button>
-          <h2>Update Order Status</h2>
+          <div>Update Order Status</div>
           <form onSubmit={handleFormSubmit}>
             <div>
               {editingOrder ? <p>{editingOrder._id}</p> : <p>Loading...</p>}

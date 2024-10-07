@@ -1,4 +1,3 @@
-import React from "react";
 import ImageMask from "../components/home_components/ImageMask";
 import Textslider from "../components/home_components/Textslider";
 import Category from "../components/home_components/Category";

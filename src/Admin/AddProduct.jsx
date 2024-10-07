@@ -296,7 +296,7 @@ const AddProduct = () => {
 
   return (
     <div className="add-product">
-      <h2 className="mb-10 text-center overflow-hidden font-semibold text-2xl">
+       <h2 className="mb-10 text-center overflow-hidden font-semibold text-2xl">
         Add Product
       </h2>
       <form onSubmit={handleSubmit} className="add-product-form">

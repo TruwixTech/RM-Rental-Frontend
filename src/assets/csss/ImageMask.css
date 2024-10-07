@@ -3,6 +3,7 @@
 .fullcontain{
 
     background-color: #F1F1F1;
+    
 }
 .container1 {
     display: flex;
@@ -14,10 +15,10 @@
    
     position: relative; 
 }
-.banner-img{
-   
+/* .banner-img{
+   overflow-x: hidden;
     
-}
+} */
 .container1 img {
     width: 100%;
     position: absolute;

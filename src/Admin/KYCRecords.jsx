@@ -45,7 +45,7 @@ const KYCRecords = () => {
           <p>Loading KYC Records...</p>
         ) : (
           <div className="flex flex-col items-start w-full">
-            <h2 className="text-2xl font-semibold mb-4">KYC Records</h2>
+             <h2 className="text-2xl font-semibold mb-4">KYC Records</h2>
             {kycs.length > 0 ? (
               <div className="kyc-list w-full">
                 {kycs.map((kyc) => (

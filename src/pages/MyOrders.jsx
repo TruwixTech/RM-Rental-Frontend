@@ -76,7 +76,7 @@ const MyOrders = () => {
           <p>Loading Orders...</p>
         ) : (
           <div className="flex flex-col items-start w-full">
-            <h2 className="text-2xl font-semibold mb-4">My Orders</h2>
+            <div className="text-2xl font-semibold mb-4">My Orders</div>
             {orders.length > 0 ? (
               <div className="order-list w-full">
                 <div className="overflow-x-auto">

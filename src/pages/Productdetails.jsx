@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { addToCartAPI } from "../service/cart.service";
 import { getProductByIdAPI } from "../service/products.service";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const ProductDetails = () => {
   const [productData, setProductData] = useState(null);
@@ -13,6 +14,8 @@ const ProductDetails = () => {
   // const [buyQuantity, setBuyQuantity] = useState(1); // Separate state for buy quantity
   const [rentQuantity, setRentQuantity] = useState(1); // Separate state for rent quantity
   const { id } = useParams();
+
+  const navigate = useNavigate();
 
   const getProductData = async () => {
     try {
@@ -99,6 +102,7 @@ const ProductDetails = () => {
             toast.success(
               `Product added to cart for ${selectedMonth} months rent`
             );
+            navigate("/mycart")
           } else {
             toast.error("Product already in cart");
           }
@@ -301,6 +305,7 @@ const ProductDetails = () => {
             <button
               className="cart-button"
               onClick={() => myproductAdd("rent")}
+              
             >
               <i className="ri-shopping-bag-line"></i>
               <div className="Add-to-Cart-Button"> Rent</div>

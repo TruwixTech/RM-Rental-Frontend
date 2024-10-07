@@ -112,7 +112,7 @@ const SignUp = () => {
   return (
     <div className="wrapper">
       <div className="sign-up-container">
-        <h2>Sign Up</h2>
+      <h2>Sign Up</h2>
         <div className="sign-up-form">
           <div className="form-group">
             <label htmlFor="name">Name</label>

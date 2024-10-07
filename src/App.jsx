@@ -29,6 +29,7 @@ import AddProduct from "./Admin/AddProduct";
 import Orders from "./Admin/Orders";
 import KYCPage from "./pages/KYCPage";
 import KYCRecords from "./Admin/KYCRecords";
+import Contact from "./components/Contact";
 
 const App = () => {
   const navigate = useNavigate();
@@ -72,19 +73,19 @@ const App = () => {
                 Edit Profile
               </Link>
             </li>
-            <li className="w-full flex items-center mt-2 py-2 px-2 rounded-lg  hover:bg-gray-100">
+            {/* <li className="w-full flex items-center mt-2 py-2 px-2 rounded-lg  hover:bg-gray-100">
               <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#FEC500] text-black text-2xl">
                 <IoSettings />
               </div>
               <Link href="#" className="block px-4 py-2">
                 Setting & Privacy
               </Link>
-            </li>
+            </li> */}
             <li className="w-full flex items-center mt-2 py-2 px-2 rounded-lg  hover:bg-gray-100">
               <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#FEC500] text-black text-2xl">
                 <IoIosHelpCircle />
               </div>
-              <Link href="#" className="block px-4 py-2">
+              <Link href="/contact" className="block px-4 py-2">
                 Help & Support
               </Link>
             </li>
@@ -110,6 +111,7 @@ const App = () => {
         <Routes>
           <Route path="/home" element={<Home />} />
           <Route path="/" element={<Home />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/products" element={<Products />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/mycart" element={<MyCart />} />
@@ -147,6 +149,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/products" element={<Products />} />
+         
         </Routes>
       )}
       <Routes>

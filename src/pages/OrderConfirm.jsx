@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import  { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { IoIosCheckmarkCircle } from "react-icons/io";
-import { FaDownload } from "react-icons/fa";
-import { FaTruck } from "react-icons/fa";
-import { FaAddressBook } from "react-icons/fa";
-import { MdContacts } from "react-icons/md";
-import { MdArrowForwardIos } from "react-icons/md";
+// import { FaDownload } from "react-icons/fa";
+// import { FaTruck } from "react-icons/fa";
+// import { FaAddressBook } from "react-icons/fa";
+// import { MdContacts } from "react-icons/md";
+// import { MdArrowForwardIos } from "react-icons/md";
 import { AXIOS_INSTANCE } from "../service";
 
 const OrderConfirm = () => {
-  const params = useParams();
+  // const params = useParams();
   const location = useLocation();
   const [orderId, setOrderId] = useState(location.state?.orderId);
   const [orderData, setOrderData] = useState(location.state?.orderData);
@@ -29,7 +29,7 @@ const OrderConfirm = () => {
 
   return (
     <div className="order-confirm w-full flex">
-      <div className="order-confirm-left flex flex-col items-center gap-12 py-20  w-[70%] px-8 h-full bg-[#31c07e]">
+      <div className="order-confirm-left flex flex-col items-center gap-12 py-20  w-full px-8 h-full bg-[#31c07e]">
         <IoIosCheckmarkCircle className="success-icon text-[10vw] text-white" />
         <div className="order-confirm-left-top text-center text-white">
           <p className="text-lg">THANK YOU</p>
@@ -90,7 +90,7 @@ const OrderConfirm = () => {
           </div>
         </div>
       </div>
-      <div className="order-confirm-right flex flex-col gap-1 w-[30%]">
+      {/* <div className="order-confirm-right flex flex-col gap-1 w-[30%]">
         <div className="invoice w-full flex items-center justify-between p-3">
           <div>
             <p className="text-sm">ORDER DETAIL</p>
@@ -175,7 +175,7 @@ const OrderConfirm = () => {
             }</span>
           </h1>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

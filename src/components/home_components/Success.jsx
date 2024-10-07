@@ -43,7 +43,7 @@
 //       <p>Your order is being processed and you will receive a confirmation email soon.</p>
 
 //       <div className="orders-list">
-//         <h2>Your Orders:</h2>
+//         <div>Your Orders:</h2>
 //         {orders.length === 0 ? (
 //           <p>No orders found.</p>
 //         ) : (
@@ -108,7 +108,7 @@ const Success = () => {
       <p>Your order is being processed and you will receive a confirmation email soon.</p>
 
       <div className="order-details">
-        <h2 className='overflow-hidden'>Your Order Details:</h2>
+        <div className='overflow-hidden'>Your Order Details:</h2>
         {order ? (
           <div>
             <p>Order ID: {order._id}</p>

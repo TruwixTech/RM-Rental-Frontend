@@ -222,7 +222,7 @@ const MyCart = () => {
       <div className="cart-content flex flex-col md:flex-row">
       <div className="cart-items">
   <div className="shop-heading">
-    <h2 className="cart-heading">Shopping Cart</h2>
+  <h2 className="cart-heading">Shopping Cart</h2>
   </div>
   {userCartData.items.length === 0 ? (
     <div className="empty-cart">
@@ -247,7 +247,7 @@ const MyCart = () => {
             </p>
             <p>
               Quantity:{" "}
-              <span className="border rounded-full px-2 m-2 bg-blue-500 text-white">
+              <span className="border rounded-full px-2 m-2 text-black">
                 {item?.rentOptions?.quantity}
               </span>
             </p>
@@ -272,7 +272,7 @@ const MyCart = () => {
           <div className="cart-header"></div>
           <div className="proceed-container">
             <div className="cart-details">
-              <h4>Cart Total | ₹{calculateTotalPrice().toFixed(2) || "0.00"}</h4>
+              <div className="my-2">Cart Total | ₹{calculateTotalPrice().toFixed(2) || "0.00"}</div>
             </div>
             {/* <button
               className={`proceed-btn ${

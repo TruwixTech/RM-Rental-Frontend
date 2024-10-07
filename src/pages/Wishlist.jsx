@@ -37,7 +37,7 @@ const Wishlist = () => {
                 </div>
                 <div className="wishlist-details">
                   <div className="wishlist-text">
-                    <h2>{item.productName}</h2>
+                    <div>{item.productName}</h2>
                     <h3>{item.productTitle}</h3>
                     <p>Price: ₹{item.productPrice}</p>
                   </div>

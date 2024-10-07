@@ -152,7 +152,7 @@ const KYCPage = () => {
 
             {kycStatus === null && (
               <div className="w-full flex flex-col items-start">
-                <h2 className="text-2xl font-semibold mb-4">
+                 <h2 className="text-2xl font-semibold mb-4">
                   Upload KYC Documents
                 </h2>
                 <form

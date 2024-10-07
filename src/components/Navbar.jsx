@@ -155,7 +155,7 @@ const Navbar = ({ active, userClickHandler }) => {
             <div className="product">Products</div>
           </Link>
 
-          <Link
+          {/* <Link
             style={{ overflow: "hidden" }}
             className={activeLink === "rent" ? "active" : ""}
             onClick={() => handleLinkClick("rent")}
@@ -171,10 +171,10 @@ const Navbar = ({ active, userClickHandler }) => {
             onClick={() => handleLinkClick("orders")}
           >
             Orders
-          </Link>
+          </Link> */}
         </div>
 
-        <div className="bottomnav-right">
+        {/* <div className="bottomnav-right">
           <div
             style={{ overflow: "hidden" }}
             className={activeLink === "shipping" ? "active" : ""}
@@ -196,7 +196,7 @@ const Navbar = ({ active, userClickHandler }) => {
           >
             <span className="renttt">FAQs</span>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
