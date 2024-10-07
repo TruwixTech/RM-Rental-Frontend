@@ -219,59 +219,54 @@ const MyCart = () => {
 
   return (
     <div className="amazon-cart">
-      <div className="cart-content">
-        <div className="cart-items">
-          <div className="shop-heading">
-            <h2 className="cart-heading">Shopping Cart</h2>
+      <div className="cart-content flex flex-col md:flex-row">
+      <div className="cart-items">
+  <div className="shop-heading">
+    <h2 className="cart-heading">Shopping Cart</h2>
+  </div>
+  {userCartData.items.length === 0 ? (
+    <div className="empty-cart">
+      <img src={placeholderImageURL} alt="Empty Cart" />
+      <p>Your Cart is empty.</p>
+    </div>
+  ) : (
+    userCartData.items.map((item) => (
+      <div key={item?.product?._id} className="cart-border">
+        <div className="cart-item">
+          <div className="image-to-left">
+            <img
+              src={item?.product?.img[0] || placeholderImageURL}
+              alt="Product"
+            />
           </div>
-          {userCartData.items.length === 0 ? (
-            <div className="empty-cart">
-              <img src={placeholderImageURL} alt="Empty Cart" />
-              <p>Your Cart is empty.</p>
-            </div>
-          ) : (
-            userCartData.items.map((item) => (
-              <div key={item?.product?._id} className="cart-border">
-                <div className="cart-item">
-                  <div className="image-to-left">
-                    <img
-                      src={item?.product?.img[0] || placeholderImageURL}
-                      alt="Product"
-                    />
-                  </div>
-                  <div className="item-details">
-                    <h3>{item?.product?.title}</h3>
-                    <p className="sub-title">{item?.product?.sub_title}</p>
-                    <p className="price">
-                      {`₹ ${
-                        getRentMonthsPrice(
-                          item?.rentOptions.rentMonthsCount,
-                          item?.product?.rentalOptions
-                        ) * item?.rentOptions?.quantity
-                      } / ${item?.rentOptions.rentMonthsCount} months on rent`}
-                    </p>
-                    <p>
-                      Quantity:{" "}
-                      <span className="border rounded-full px-2 m-2 bg-blue-500 text-white">
-                        {item?.rentOptions?.quantity}
-                      </span>
-                    </p>
-                    <p className="delivery">{formattedDeliveryDate}</p>
-                  </div>
-
-                  <div className="delete-btn-container">
-                    <button
-                      className="delete-btn"
-                      onClick={() => handleProductRemove(item?.product?._id)}
-                    >
-                      <FaTrash />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))
-          )}
+          <div className="item-details">
+            <h3>{item?.product?.title}</h3>
+            <p className="sub-title">{item?.product?.sub_title}</p>
+            <p className="price">
+              {`₹ ${getRentMonthsPrice(item?.rentOptions.rentMonthsCount, item?.product?.rentalOptions) * item?.rentOptions?.quantity} / ${item?.rentOptions.rentMonthsCount} months on rent`}
+            </p>
+            <p>
+              Quantity:{" "}
+              <span className="border rounded-full px-2 m-2 bg-blue-500 text-white">
+                {item?.rentOptions?.quantity}
+              </span>
+            </p>
+            <p className="delivery">{formattedDeliveryDate}</p>
+          </div>
+          <div className="delete-btn-container">
+            <button
+              className="delete-btn"
+              onClick={() => handleProductRemove(item?.product?._id)}
+            >
+              <FaTrash />
+            </button>
+          </div>
         </div>
+      </div>
+    ))
+  )}
+</div>
+
 
         <div className="cart-overview">
           <div className="cart-header"></div>
