@@ -3,13 +3,12 @@
   height: 100%;
   width: 250px; /* Adjust width as needed */
   position: fixed;
-  top: 0;
+  top: 0; /* Set the navbar to start at the top of the page */
   left: -250px; /* Hide the navbar by default */
-  background-color: #FFD74D; /* Dark background for visibility */
+  background-color: #fdd74d; /* Dark background for visibility */
   color: #000;
   transition: 0.3s;
   z-index: 1000;
-  top: 111;
 }
 
 .side-navbar.open {
