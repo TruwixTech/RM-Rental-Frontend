@@ -46,7 +46,7 @@ const MyOrders = () => {
             {[
               { icon: <FaShoppingBag />, name: "My Orders", url: "/myorders" },
               { icon: <FaIdCard />, name: "KYC", url: "/kyc" },
-            //   { icon: <FaAddressBook />, name: "Address", url: "/address" },
+              //   { icon: <FaAddressBook />, name: "Address", url: "/address" },
               {
                 icon: <RiMoneyRupeeCircleFill />,
                 name: "Payment",
@@ -71,8 +71,7 @@ const MyOrders = () => {
           </div>
         </div>
       </div>
-
-      <div className="user-profile-right flex justify-between w-[76%] p-8 bg-white shadow-md shadow-[#dadada] rounded-lg">
+      <div className="flex justify-between sm:w-full md:w-[76%] p-8 bg-white shadow-md shadow-[#dadada] rounded-lg">
         {loading ? (
           <p>Loading Orders...</p>
         ) : (
@@ -80,39 +79,58 @@ const MyOrders = () => {
             <h2 className="text-2xl font-semibold mb-4">My Orders</h2>
             {orders.length > 0 ? (
               <div className="order-list w-full">
-                {orders.map((order) => (
-                  <table key={order?._id} className="table w-full mb-4">
-                    <thead>
-                      <tr>
-                        <th>Order ID</th>
-                        <th>Order Date</th>
-                        <th>Order Amount</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>{order._id}</td>
-                        <td>{new Date(order.createdAt).toDateString()}</td>
-                        <td>Rs.{order.totalPrice}</td>
-                        <td>{order.status}</td>
-                        <td>
-                          <button
-                            onClick={() => {
-                              navigate("/orderconfirm", {
-                                state: { orderId: order._id },
-                              });
-                            }}
-                            className="btn btn-primary"
-                          >
-                            View Details
-                          </button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                ))}
+                <div className="overflow-x-auto">
+                  {orders.map((order) => (
+                    <table key={order?._id} className="table-auto w-full mb-4">
+                      <thead>
+                        <tr>
+                          <th className="w-1/5 px-3">Order ID</th>{" "}
+                          {/* Added px-2 */}
+                          <th className="w-1/5 px-3">Order Date</th>{" "}
+                          {/* Added px-2 */}
+                          <th className="w-1/5 px-3">Order Amount</th>{" "}
+                          {/* Added px-2 */}
+                          <th className="w-1/5 px-3">Status</th>{" "}
+                          {/* Added px-2 */}
+                          <th className="w-1/5 px-3">Action</th>{" "}
+                          {/* Added px-2 */}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="whitespace-nowrap px-3">
+                            {order._id}
+                          </td>{" "}
+                          {/* Added px-2 */}
+                          <td className="whitespace-nowrap px-3">
+                            {new Date(order.createdAt).toDateString()}
+                          </td>{" "}
+                          {/* Added px-2 */}
+                          <td className="whitespace-nowrap px-3">
+                            Rs.{order.totalPrice}
+                          </td>{" "}
+                          {/* Added px-2 */}
+                          <td className="whitespace-nowrap px-3">
+                            {order.status}
+                          </td>{" "}
+                          {/* Added px-2 */}
+                          <td>
+                            <button
+                              onClick={() => {
+                                navigate("/orderconfirm", {
+                                  state: { orderId: order._id },
+                                });
+                              }}
+                              className="btn btn-primary"
+                            >
+                              Details
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  ))}
+                </div>
               </div>
             ) : (
               <p>No orders found.</p>

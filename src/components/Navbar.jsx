@@ -26,7 +26,6 @@ const Navbar = ({ active, userClickHandler }) => {
     if (data) {
       setCartItems(data?.items);
     }
-    
   };
   useEffect(() => {
     if (user) {
@@ -45,14 +44,15 @@ const Navbar = ({ active, userClickHandler }) => {
               <img src={logo} alt="" />
             </Link>
           </div>
-          <div className="leftnav-searchbar">
+          {/* <div className="leftnav-searchbar">
             <FaSearch className="search-icon" />
             <input
               type="text"
               placeholder="Search Product"
               className="search-input"
             />
-          </div>
+          </div> */}
+          
         </div>
 
         <div className="rightnav">
@@ -81,50 +81,52 @@ const Navbar = ({ active, userClickHandler }) => {
             </>
           ) : (
             <>
-              <div className="cartgroup">
-                {user?.role === "Admin" && (
-                  <Link
-                    to="/admindashboard"
-                    className="border rounded-full px-3 py-2 border-gray-500"
+              <div className="flex">
+                <div className="cartgroup">
+                  {user?.role === "Admin" && (
+                    <Link
+                      to="/admindashboard"
+                      className="border rounded-full px-3 py-2 border-gray-500"
+                    >
+                      Dashboard
+                    </Link>
+                  )}
+                  <div
+                    className="rightnav-cart"
+                    onClick={() => navigate("/mycart")}
                   >
-                    Dashboard
-                  </Link>
-                )}
-                <div
-                  className="rightnav-cart"
-                  onClick={() => navigate("/mycart")}
-                >
-                  <MdShoppingBag className="shoping-bag" /> 
-                  <span className="cart-count"></span>
+                    <MdShoppingBag className="shoping-bag" />
+                    <span className="cart-count"></span>
+                  </div>
+                  <div className="rightnav-cartcount"></div>
                 </div>
-                <div className="rightnav-cartcount"></div>
-              </div>
-              <div
-                onClick={userClickHandler}
-                className=""
-                id="user"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: "#FEC500",
-                  cursor: "pointer",
-                  width: "3.5vw",
-                  height: "3.5vw",
-                  borderRadius: "50%",
-                  overflow: "hidden",
-                }}
-                to=""
-              >
-                {active === false ? (
-                  <img
-                    className="w-full h-full rounded-full"
-                    src={User}
-                    alt=""
-                  />
-                ) : (
-                  <IoClose className="text-3xl text-semibold text-black" />
-                )}
+                <div
+                  onClick={userClickHandler}
+                  className=""
+                  id="user"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: "#FEC500",
+                    cursor: "pointer",
+                    width: "3.5vw",
+                    height: "3.5vw",
+                    borderRadius: "50%",
+                    overflow: "hidden",
+                  }}
+                  to=""
+                >
+                  {active === false ? (
+                    <img
+                      className="w-full h-full rounded-full"
+                      src={User}
+                      alt=""
+                    />
+                  ) : (
+                    <IoClose className="text-3xl text-semibold text-black" />
+                  )}
+                </div>
               </div>
             </>
           )}
@@ -152,16 +154,6 @@ const Navbar = ({ active, userClickHandler }) => {
           >
             <div className="product">Products</div>
           </Link>
-
-          <select
-            className={`bottomnav-left-products ${
-              activeLink === "popular" ? "active" : ""
-            }`}
-            onClick={() => handleLinkClick("popular")}
-          >
-            <option value="">Popular Items</option>
-            <option value="1">1</option>
-          </select>
 
           <Link
             style={{ overflow: "hidden" }}

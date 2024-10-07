@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import "../assets/csss/Products.css";
 // import RangeSlider from "../components/RangeSlider";
@@ -62,7 +61,7 @@ const Products = () => {
   return (
     <div>
       <div className="productpage">
-        <div className="productpage-left">
+        <div className="productpage-left hidden md:block">
           <div className="productpage-left-sidebar">
             {/* <RangeSlider /> */}
 
@@ -283,8 +282,8 @@ const Products = () => {
           </div>
         </div>
 
-        <div className="productpage-right">
-          <div className="topsection">
+        <div className="productpage-right sm:w-auto">
+          <div className="flex justify-between items-center mb-4">
             <p>
               Showing{" "}
               {productFilter.limit * (productFilter.page - 1) +
@@ -297,17 +296,18 @@ const Products = () => {
             </p>
 
             <div className="custom-select">
-              <select>
+              <select className="border border-gray-300 rounded p-1">
                 <option value="latest">Sort by Latest</option>
                 <option value="oldest">Sort by Oldest</option>
               </select>
             </div>
           </div>
-          <div className="grid grid-cols-4 gap-4">
+
+          <div className="grid md:grid-cols-4 gap-4">
             {products.map((product) => (
               <div
                 key={product._id}
-                className="max-w-80 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+                className="md:max-w-80 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
               >
                 <div className="image-container bg-gray-100 p-2 rounded-t-lg">
                   <a href={"/product/" + product?._id}>

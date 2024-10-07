@@ -82,7 +82,7 @@ const KYCPage = () => {
   };
 
   return (
-    <div className="user-profile w-full flex justify-between p-8 bg-[#f1f1f1]">
+    <div className="user-profile w-full flex justify-between p-8 bg-[#f1f1f1] sm:space-y-3">
       <div className="user-profile-left flex flex-col py-8 px-10 w-[20%] shadow-md shadow-[#dadada] bg-white rounded-lg">
         <div className="w-full">
           <h1 className="text-xl font-semibold">Welcome, {user?.name}</h1>
@@ -121,7 +121,7 @@ const KYCPage = () => {
         </div>
       </div>
 
-      <div className="user-profile-right flex justify-between w-[76%] p-8 bg-white shadow-md shadow-[#dadada] rounded-lg">
+      <div className="flex justify-between md:w-[76%] p-8 bg-white shadow-md shadow-[#dadada] rounded-lg">
         {loading ? (
           <p>Loading KYC status...</p>
         ) : (
