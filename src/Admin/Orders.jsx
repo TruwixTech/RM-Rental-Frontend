@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import $ from 'jquery'; // Import jQuery
-import '../Admin/Csss/Orders.css';
+import React, { useState, useEffect } from "react";
+import toast from "react-hot-toast";
+import $ from "jquery"; // Import jQuery
+import "../Admin/Csss/Orders.css";
 import { AXIOS_INSTANCE } from "../service";
 
 const Orders = () => {
@@ -39,8 +39,7 @@ const Orders = () => {
   const handleStatusClick = (order) => {
     setEditingOrder(order);
     setNewStatus(order.status);
-    // Show the form using jQuery
-    $(".status-form-overlay").show();
+    $(".status-form-update").show();
   };
 
   const handleStatusChange = (event) => {
@@ -52,14 +51,13 @@ const Orders = () => {
     if (!editingOrder) return;
 
     try {
-      // Send all required fields
-      await AXIOS_INSTANCE.put(`/orders/${editingOrder._id}`, {
-        userId: editingOrder.user, // Assuming userId is in the order object
-        products: editingOrder.products, // Assuming products are in the order object
-        totalPrice: editingOrder.totalPrice, // Assuming totalPrice is in the order object
-        status: newStatus.trim(), // Updated status
+      await AXIOS_INSTANCE.put(`/admin/orders/update`, {
+        orderId: editingOrder._id, // Send the order ID
+        newStatus: newStatus.trim(), // Send the new status
       });
-      // Update local orders state after successful update
+
+      toast.success("Order status updated successfully");
+
       setOrders(
         orders.map((order) =>
           order._id === editingOrder._id
@@ -69,7 +67,7 @@ const Orders = () => {
       );
       setEditingOrder(null);
       setNewStatus("");
-      $(".status-form-overlay").hide();
+      $(".status-form-update").hide();
     } catch (err) {
       console.error("Error updating order status:", err);
       setError(err);
@@ -79,10 +77,9 @@ const Orders = () => {
   const closeModal = () => {
     setEditingOrder(null);
     setNewStatus("");
-    $(".status-form-overlay").hide();
+    $(".status-form-update").hide();
   };
 
-  // Pagination logic
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
   const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
@@ -113,7 +110,7 @@ const Orders = () => {
               <tr key={order._id}>
                 <td>{order._id}</td>
                 <td>{new Date(order.orderDate).toLocaleDateString()}</td>
-                <td>₹{" "}{order.totalPrice.toFixed(2)}</td>
+                <td>₹ {order.totalPrice.toFixed(2)}</td>
                 <td>
                   <button
                     className={`status-button ${order.status.toLowerCase()}`}
@@ -132,43 +129,71 @@ const Orders = () => {
         </tbody>
       </table>
 
-      {/* Status Update Form */}
-      <div className="status-form-overlay">
-        <div className="status-form">
-          <button className="status-form-close" onClick={closeModal}>
+      {/* Status Update Modal */}
+      <div
+        className={`fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center ${
+          editingOrder ? "block" : "hidden"
+        }`}
+      >
+        <div className="bg-white p-6 rounded-md shadow-lg w-full max-w-lg">
+          <button
+            className="absolute top-4 right-4 text-2xl font-bold text-gray-700"
+            onClick={closeModal}
+          >
             &times;
           </button>
-          <div>Update Order Status</div>
+          <p className="text-2xl font-semibold mb-4">Update Order Status</p>
           <form onSubmit={handleFormSubmit}>
-            <div>
-              {editingOrder ? <p>{editingOrder._id}</p> : <p>Loading...</p>}
-              <label htmlFor="status">Status:</label>
+            <div className="flex flex-col space-y-2">
+              {editingOrder ? (
+                <p className="text-gray-700">Order ID: {editingOrder._id}</p>
+              ) : (
+                <p>Loading...</p>
+              )}
+              <label htmlFor="status" className="font-medium">
+                Status:
+              </label>
               <select
                 id="status"
                 value={newStatus}
                 onChange={handleStatusChange}
+                className="border border-gray-300 p-2 rounded-md"
               >
                 <option value="pending">Pending</option>
                 <option value="completed">Completed</option>
                 <option value="shipped">Shipped</option>
                 <option value="cancelled">Cancelled</option>
               </select>
+              <button
+                type="submit"
+                className="mt-4 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md"
+                onClick={handleFormSubmit}
+              >
+                Update Status
+              </button>
+              <button
+                type="button"
+                className="mt-2 bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded-md"
+                onClick={closeModal}
+              >
+                Cancel
+              </button>
             </div>
-            <button type="submit">Update Status</button>
-            <button type="button" onClick={closeModal}>
-              Cancel
-            </button>
           </form>
         </div>
       </div>
 
       {/* Pagination Controls */}
-      <div className="pagination-controls">
+      <div className="flex justify-center mt-4 space-x-2">
         {Array.from({ length: totalPages }, (_, index) => (
           <button
             key={index + 1}
             onClick={() => handlePageChange(index + 1)}
-            className={currentPage === index + 1 ? "active" : ""}
+            className={`px-4 py-2 rounded-md ${
+              currentPage === index + 1
+                ? "bg-blue-500 text-white"
+                : "bg-gray-200 text-gray-800"
+            }`}
           >
             {index + 1}
           </button>

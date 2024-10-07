@@ -37,7 +37,7 @@ const AdminPage = () => {
           <FaBox />
         </div>
         <div className="text">
-          <h3>Products in Stock</h3>
+          <div>Products in Stock</div>
           <p className="value">300</p>
         </div>
       </div>
@@ -47,7 +47,7 @@ const AdminPage = () => {
           <FaClipboardList />
         </div>
         <div className="text">
-          <h3>Total Products</h3>
+          <div>Total Products</div>
           <p className="value">{productCount}</p>
         </div>
       </div>
@@ -57,7 +57,7 @@ const AdminPage = () => {
           <FaUsers />
         </div>
         <div className="text">
-          <h3>Total Users</h3>
+          <div>Total Users</div>
           <p className="value">{userCount}</p>
         </div>
       </div>
