@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import logo from "../assets/img/Logo.png";
-import { FaSearch } from "react-icons/fa";
+// import { FaSearch } from "react-icons/fa";
 import { MdShoppingBag } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 // import { FaCheck } from "react-icons/fa";
@@ -27,14 +28,14 @@ const Navbar = ({ active, userClickHandler }) => {
       setCartItems(data?.items);
     }
   };
-  useEffect(() => {
-    if (user) {
-      let interval = setInterval(() => {
-        getMyCart();
-      }, 6000);
-      return () => clearInterval(interval);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (user) {
+  //     let interval = setInterval(() => {
+  //       getMyCart();
+  //     }, 6000);
+  //     return () => clearInterval(interval);
+  //   }
+  // }, []);
   return (
     <div className="mainnavbar">
       <div className="upnavbar">

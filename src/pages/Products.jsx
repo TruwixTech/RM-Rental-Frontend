@@ -10,13 +10,26 @@ const Products = () => {
     limit: 8,
     size: 10,
   });
+
+  const [sortOption, setSortOption] = useState("latest"); // State for sorting option
+
   const getProducts = async () => {
     const { data } = await getAllProductsAPI(
       productFilter.page,
       productFilter.limit,
       productFilter.size
     );
-    setProducts(data);
+
+    // Sort the products based on the selected sort option
+    const sortedProducts = data.sort((a, b) => {
+      if (sortOption === "latest") {
+        return new Date(b.createdAt) - new Date(a.createdAt); // Sort by latest
+      } else {
+        return new Date(a.createdAt) - new Date(b.createdAt); // Sort by oldest
+      }
+    });
+
+    setProducts(sortedProducts);
   };
   useEffect(() => {
     getProducts();
@@ -285,18 +298,23 @@ const Products = () => {
         <div className="productpage-right sm:w-auto">
           <div className="flex justify-between items-center mb-4">
             <p>
-              Showing{" "}
-              {productFilter.limit * (productFilter.page - 1) +
-                1 -
-                productFilter.limit}{" "}
-              to{" "}
-              {productFilter.limit * productFilter.page < products.length
-                ? productFilter.limit * productFilter.page
-                : products.length}{" "}
+              Showing {productFilter.limit * (productFilter.page - 1) + 1} to{" "}
+              {Math.min(
+                productFilter.limit * productFilter.page,
+                products.length
+              )}{" "}
+              of {products.length} products
             </p>
 
             <div className="custom-select">
-              <select className="border border-gray-300 rounded p-1">
+              <select
+                className="border border-gray-300 rounded p-1"
+                value={sortOption}
+                onChange={(e) => {
+                  setSortOption(e.target.value);
+                  getProducts(); // Fetch products again with new sort option
+                }}
+              >
                 <option value="latest">Sort by Latest</option>
                 <option value="oldest">Sort by Oldest</option>
               </select>
