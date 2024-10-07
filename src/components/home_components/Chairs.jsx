@@ -1,6 +1,7 @@
 import "../../assets/csss/Chairs.css";
 import { useEffect, useState } from "react";
 import { getAllProductsAPI } from "../../service/products.service";
+import {Link} from "react-router-dom"
 
 const Chairs = () => {
   const [products, setProducts] = useState([]);
@@ -56,7 +57,7 @@ const Chairs = () => {
 
       <div className="card-grid">
         {products.map((product) => (
-          <div className="card" key={product?._id} >
+          <Link to={`/product/${product?._id}`} className="card" key={product?._id}>
             <div className="card-img">
               <img src={product.img[0]} alt={product.title} />
             </div>
@@ -83,7 +84,7 @@ const Chairs = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
