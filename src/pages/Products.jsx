@@ -1,17 +1,22 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import "../assets/csss/Products.css";
 import { getAllProductsAPI } from "../service/products.service";
 
 const Products = () => {
+  const location = useLocation();
+  const selectedCategory = location.state?.selectedCategory || "";
+
   const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
   const [productFilter, setProductFilter] = useState({
     page: 1,
     limit: 8,
     size: 10,
   });
   const [sortOption, setSortOption] = useState("latest");
-  const [selectedCategories, setSelectedCategories] = useState(new Set());
+  const [selectedCategories, setSelectedCategories] = useState(
+    selectedCategory ? new Set([selectedCategory]) : new Set()
+  );
 
   const getProducts = async () => {
     const { data } = await getAllProductsAPI(
@@ -20,14 +25,10 @@ const Products = () => {
       productFilter.size
     );
 
-    // Filter products based on selected categories
     const filtered = selectedCategories.size
-      ? data.filter((product) =>
-          selectedCategories.has(product.category)
-        )
+      ? data.filter((product) => selectedCategories.has(product.category))
       : data;
 
-    // Sort the products based on the selected sort option
     const sortedProducts = filtered.sort((a, b) => {
       if (sortOption === "latest") {
         return new Date(b.createdAt) - new Date(a.createdAt);
@@ -43,16 +44,16 @@ const Products = () => {
     const category = event.target.value;
     const updatedCategories = new Set(selectedCategories);
     if (updatedCategories.has(category)) {
-      updatedCategories.delete(category); // Remove if already selected
+      updatedCategories.delete(category);
     } else {
-      updatedCategories.add(category); // Add if not selected
+      updatedCategories.add(category);
     }
     setSelectedCategories(updatedCategories);
   };
 
   useEffect(() => {
     getProducts();
-  }, [selectedCategories, sortOption]); // Fetch products when categories or sort option changes
+  }, [selectedCategories, sortOption]);
 
   const getLowestRentPrice = (rentalOptions) => {
     if (!rentalOptions) return "No rent options";
@@ -70,7 +71,7 @@ const Products = () => {
       <div className="productpage">
         <div className="productpage-left hidden md:block">
           <div className="productpage-left-sidebar">
-            <div className="productpage-left-sidebar-filters bg-white rounded-md shadow-md p-4 ">
+            <div className="productpage-left-sidebar-filters bg-white rounded-md shadow-md p-4">
               <div className="filter-title text-lg font-semibold mb-4 border-b pb-2">
                 Filter by Categories
               </div>
@@ -82,7 +83,7 @@ const Products = () => {
                   { id: "category-storage", value: "storage" },
                   { id: "category-bed", value: "bed" },
                   { id: "category-bath", value: "bath" },
-                  { id: "category-chair", value: "chair" }, // Added "chair" category
+                  { id: "category-chair", value: "chair" },
                 ].map((category) => (
                   <div className="checkbox flex items-center" key={category.id}>
                     <div className="checkbox-grp flex items-center">
@@ -93,6 +94,7 @@ const Products = () => {
                         value={category.value}
                         onChange={handleCategoryChange}
                         className="mr-2 w-5 h-5 accent-blue-500 transition duration-200 ease-in-out transform hover:scale-110"
+                        checked={selectedCategories.has(category.value)} // Automatically check the box if selected
                       />
                       <label
                         htmlFor={category.id}
@@ -107,6 +109,7 @@ const Products = () => {
             </div>
           </div>
         </div>
+
 
         <div className="productpage-right sm:w-auto">
           <div className="flex justify-between items-center mb-4">
