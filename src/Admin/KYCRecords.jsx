@@ -38,6 +38,14 @@ const KYCRecords = () => {
     fetchKYCs();
   }, []);
 
+  // Function to truncate document names to 20 characters
+  const truncateString = (str, maxLength) => {
+    if (str.length > maxLength) {
+      return str.slice(0, maxLength) + "...";
+    }
+    return str;
+  };
+
   return (
     <div className="w-full flex justify-center p-8 bg-[#f1f1f1]">
       <div className="user-profile-right flex justify-center w-full p-8 bg-white shadow-md shadow-[#dadada] rounded-lg">
@@ -45,95 +53,98 @@ const KYCRecords = () => {
           <p>Loading KYC Records...</p>
         ) : (
           <div className="flex flex-col items-start w-full">
-             <h2 className="text-2xl font-semibold mb-4">KYC Records</h2>
+            <h2 className="text-2xl font-semibold mb-4">KYC Records</h2>
             {kycs.length > 0 ? (
               <div className="kyc-list w-full">
-                {kycs.map((kyc) => (
-                  <table key={kyc?._id} className="table w-full mb-4">
-                    <thead>
-                      <tr>
-                        <th>KYC ID</th>
-                        <th>User Name</th>
-                        <th>User Email</th>
-                        <th>Uploaded At</th>
-                        <th>KYC Status</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
+                <table className="table w-full mb-4">
+                  <thead>
+                    <tr>
+                      <th>KYC ID</th>
+                      <th>User Name</th>
+                      <th>User Email</th>
+                      <th>User Mobile</th>
+                      <th>Uploaded Documents</th>
+                      <th>KYC Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {kycs.map((kyc) => (
+                      <tr key={kyc?._id}>
                         <td>{kyc._id}</td>
                         <td>{kyc.userId?.name}</td>
                         <td>{kyc.userId?.email}</td>
+                        <td>{kyc.userId?.mobileNumber}</td>
                         <td>
-                          {new Date(
-                            kyc.documents[0]?.uploadedAt
-                          ).toDateString()}
+                          <ul>
+                            {kyc.documents.map((document) => (
+                              <li key={document._id}>
+                                <a
+                                  href={document.documentUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  {truncateString(document.documentType, 20)}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
                         </td>
                         <td>{kyc.kycStatus}</td>
                         <td>
                           {/* View Document and Conditional Action buttons */}
-                          <div className="flex space-x-2">
-                            <button
-                              onClick={() => {
-                                window.open(
-                                  kyc.documents[0]?.documentUrl,
-                                  "_blank"
-                                );
-                              }}
-                              className="btn btn-primary"
-                            >
-                              View Document
-                            </button>
+                          <div className="flex flex-col space-y-2">
+                            {/* Fixed-width action buttons */}
+                            <div className="flex space-x-2 justify-center">
+                              {kyc.kycStatus === "Pending" && (
+                                <>
+                                  <button
+                                    onClick={() =>
+                                      handleKYCStatusUpdate(kyc._id, "Approved")
+                                    }
+                                    className="btn btn-success w-24"
+                                  >
+                                    Approve
+                                  </button>
+                                  <button
+                                    onClick={() =>
+                                      handleKYCStatusUpdate(kyc._id, "Rejected")
+                                    }
+                                    className="btn btn-danger w-24"
+                                  >
+                                    Reject
+                                  </button>
+                                </>
+                              )}
 
-                            {kyc.kycStatus === "Pending" && (
-                              <>
+                              {kyc.kycStatus === "Rejected" && (
                                 <button
                                   onClick={() =>
                                     handleKYCStatusUpdate(kyc._id, "Approved")
                                   }
-                                  className="btn btn-success"
+                                  className="btn btn-success w-24"
                                 >
                                   Approve
                                 </button>
+                              )}
+
+                              {kyc.kycStatus === "Approved" && (
                                 <button
                                   onClick={() =>
                                     handleKYCStatusUpdate(kyc._id, "Rejected")
                                   }
-                                  className="btn btn-danger"
+                                  className="btn btn-danger w-24"
                                 >
                                   Reject
                                 </button>
-                              </>
-                            )}
-
-                            {kyc.kycStatus === "Rejected" && (
-                              <button
-                                onClick={() =>
-                                  handleKYCStatusUpdate(kyc._id, "Approved")
-                                }
-                                className="btn btn-success"
-                              >
-                                Approve
-                              </button>
-                            )}
-
-                            {kyc.kycStatus === "Approved" && (
-                              <button
-                                onClick={() =>
-                                  handleKYCStatusUpdate(kyc._id, "Rejected")
-                                }
-                                className="btn btn-danger"
-                              >
-                                Reject
-                              </button>
-                            )}
+                              )}
+                            </div>
                           </div>
                         </td>
                       </tr>
-                    </tbody>
-                  </table>
-                ))}
+                    ))}
+                  </tbody>
+                </table>
               </div>
             ) : (
               <p>No KYC records found.</p>
