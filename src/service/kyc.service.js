@@ -36,12 +36,18 @@ export const getKYCStatusAPI = {
   },
 };
 
-export const uploadKYCAPI = async (files, userId) => {
+export const uploadKYCAPI = async (files, userId, alternateNumber, currentAddress) => {
   try {
     const formData = new FormData();
+    
+    // Append files to FormData
     files.forEach((file) => {
       formData.append("files", file); // Use the same name as specified in multer
     });
+
+    // Append alternate number and current address to FormData
+    formData.append("alternateNumber", alternateNumber);
+    formData.append("currentAddress", currentAddress);
 
     const { data } = await AXIOS_INSTANCE.post(
       `/kyc/upload/${userId}`,

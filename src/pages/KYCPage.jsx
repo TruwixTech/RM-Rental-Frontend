@@ -20,6 +20,8 @@ const KYCPage = () => {
   const [kycStatus, setKycStatus] = useState(null);
   const [loading, setLoading] = useState(true);
   const [files, setFiles] = useState([]);
+  const [alternateNumber, setAlternateNumber] = useState('');
+  const [currentAddress, setCurrentAddress] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const ClickHandler = (link) => {
@@ -43,35 +45,40 @@ const KYCPage = () => {
   }, []);
 
   const handleFileChange = (e) => {
-    const selectedFiles = Array.from(e.target.files);
-    setFiles(selectedFiles);
-    console.log("Selected files for upload:", selectedFiles);
+    const selectedFile = e.target.files[0]; // Get the first selected file
+
+    if (files.length < 5) {
+      setFiles((prevFiles) => [...prevFiles, selectedFile]); // Add the selected file to the existing files
+    } else {
+      toast.error("You can only upload a maximum of 5 files.");
+    }
+    e.target.value = ""; // Reset the input value to allow re-selection of the same file
   };
 
-  const handleDrop = (e) => {
-    e.preventDefault();
-    const droppedFiles = Array.from(e.dataTransfer.files);
-    setFiles((prevFiles) => [...prevFiles, ...droppedFiles]);
-  };
-
-  const handleDragOver = (e) => {
-    e.preventDefault();
+  const handleRemoveFile = (index) => {
+    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index)); // Remove file by index
   };
 
   const handleSubmitKYC = async (e) => {
     e.preventDefault();
-    if (files.length === 0) {
-      toast.error("Please select at least one document.");
+    if (files.length !== 5) {
+      toast.error("Please select exactly 5 documents.");
+      return;
+    }
+    if (!alternateNumber || !currentAddress) {
+      toast.error("Please fill out all fields.");
       return;
     }
     setIsSubmitting(true);
 
     try {
-      const response = await uploadKYCAPI(files, user?._id);
+      const response = await uploadKYCAPI(files, user?._id, alternateNumber, currentAddress);
       if (response.success) {
         toast.success("KYC documents uploaded successfully.");
         fetchKYCStatus(); // Fetch the updated status after submission
         setFiles([]); // Clear files after successful submission
+        setAlternateNumber(''); // Clear alternate number
+        setCurrentAddress(''); // Clear current address
       } else {
         toast.error("Error submitting KYC documents.");
       }
@@ -152,33 +159,28 @@ const KYCPage = () => {
 
             {kycStatus === null && (
               <div className="w-full flex flex-col items-start">
-                 <h2 className="text-2xl font-semibold mb-4">
+                <h2 className="text-2xl font-semibold mb-4">
                   Upload KYC Documents
                 </h2>
                 <form
                   onSubmit={handleSubmitKYC}
                   className="flex flex-col gap-4 w-full"
                 >
-                  <div
-                    onDrop={handleDrop}
-                    onDragOver={handleDragOver}
-                    className="border-dashed border-2 border-gray-400 p-4 rounded-md cursor-pointer"
-                  >
+                  <div className="border-dashed border-2 border-gray-400 p-4 rounded-md cursor-pointer">
                     <input
                       type="file"
                       onChange={handleFileChange}
-                      multiple
                       accept=".jpg,.jpeg,.png,.pdf"
                       className="hidden"
                       id="file-upload"
                     />
                     <label
                       htmlFor="file-upload"
-                      className="flex flex-col items-center"
+                      className="flex flex-col items-center cursor-pointer"
                     >
                       <FaUpload className="text-4xl mb-2" />
                       <span className="text-gray-500">
-                        Drag & Drop your documents here or click to upload
+                        Click to upload your document
                       </span>
                     </label>
                   </div>
@@ -187,19 +189,45 @@ const KYCPage = () => {
                       <h3 className="font-medium">Attached Documents:</h3>
                       <ul className="list-disc list-inside">
                         {files.map((file, index) => (
-                          <li key={index} className="text-gray-700">
+                          <li key={index} className="text-gray-700 flex justify-between items-center">
                             {file.name}
+                            <button
+                              type="button"
+                              className="text-red-500 ml-2"
+                              onClick={() => handleRemoveFile(index)}
+                            >
+                              Remove
+                            </button>
                           </li>
                         ))}
                       </ul>
                     </div>
                   )}
+
+                  {/* New Fields for Alternate Number and Current Address */}
+                  <input
+                    type="text"
+                    placeholder="Alternate Number"
+                    value={alternateNumber}
+                    onChange={(e) => setAlternateNumber(e.target.value)}
+                    className="border border-gray-400 p-2 rounded"
+                    required
+                  />
+                  <input
+                    type="text"
+                    placeholder="Current Address"
+                    value={currentAddress}
+                    onChange={(e) => setCurrentAddress(e.target.value)}
+                    className="border border-gray-400 p-2 rounded"
+                    required
+                  />
+
                   <button
                     type="submit"
                     className={`mt-4 bg-blue-500 text-white py-2 px-4 rounded ${
-                      isSubmitting ? "cursor-not-allowed" : "cursor-pointer"
+                      isSubmitting || files.length !== 5 ? "cursor-not-allowed" : "cursor-pointer"
                     }`}
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || files.length !== 5}
                   >
                     {isSubmitting ? "Uploading..." : "Submit KYC"}
                   </button>
