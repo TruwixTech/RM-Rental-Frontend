@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 import "../assets/csss/MyCart.css";
 import { deleteProductFromCartAPI, getCartAPI } from "../service/cart.service";
 import storageService from "../service/storage.service";
-import axios from "axios";
 import { AXIOS_INSTANCE } from "../service";
 import toast from "react-hot-toast";
+import userService from "../service/user.service";
 
 const placeholderImageURL =
   "https://cdn.dribbble.com/users/887568/screenshots/3172047/media/725fca9f20d010f19b3cd5411c50a652.gif";
@@ -29,12 +29,12 @@ const MyCart = () => {
   const destinations = "18.532881931761416, 73.85157119570161";
 
   const getDistance = async () => {
-    const distance = await axios.post("http://localhost:4000/api/shipping", {
-      origins,
-      destinations,
-    });
+    const distance = await userService.getLocation(origins, destinations);
     setDistanceToShop(distance.data.distance);
     setAddress(distance.data.address);
+
+    console.log(distanceToShop);
+    console.log(address)
   };
 
   // Trigger getDistance only after origins is set
@@ -161,7 +161,7 @@ const MyCart = () => {
       cartTotal,
       shippingCost,
       cartItems,
-      address
+      address,
     });
     console.log("Order Response:", orderResponse);
 
@@ -220,60 +220,66 @@ const MyCart = () => {
   return (
     <div className="amazon-cart">
       <div className="cart-content flex flex-col md:flex-row">
-      <div className="cart-items">
-  <div className="shop-heading">
-  <h2 className="cart-heading">Shopping Cart</h2>
-  </div>
-  {userCartData.items.length === 0 ? (
-    <div className="empty-cart">
-      <img src={placeholderImageURL} alt="Empty Cart" />
-      <p>Your Cart is empty.</p>
-    </div>
-  ) : (
-    userCartData.items.map((item) => (
-      <div key={item?.product?._id} className="cart-border">
-        <div className="cart-item">
-          <div className="image-to-left">
-            <img
-              src={item?.product?.img[0] || placeholderImageURL}
-              alt="Product"
-            />
+        <div className="cart-items">
+          <div className="shop-heading">
+            <h2 className="cart-heading">Shopping Cart</h2>
           </div>
-          <div className="item-details">
-            <h3>{item?.product?.title}</h3>
-            <p className="sub-title">{item?.product?.sub_title}</p>
-            <p className="price">
-              {`₹ ${getRentMonthsPrice(item?.rentOptions.rentMonthsCount, item?.product?.rentalOptions) * item?.rentOptions?.quantity} / ${item?.rentOptions.rentMonthsCount} months on rent`}
-            </p>
-            <p>
-              Quantity:{" "}
-              <span className="border rounded-full px-2 m-2 text-black">
-                {item?.rentOptions?.quantity}
-              </span>
-            </p>
-            <p className="delivery">{formattedDeliveryDate}</p>
-          </div>
-          <div className="delete-btn-container">
-            <button
-              className="delete-btn"
-              onClick={() => handleProductRemove(item?.product?._id)}
-            >
-              <FaTrash />
-            </button>
-          </div>
+          {userCartData.items.length === 0 ? (
+            <div className="empty-cart">
+              <img src={placeholderImageURL} alt="Empty Cart" />
+              <p>Your Cart is empty.</p>
+            </div>
+          ) : (
+            userCartData.items.map((item) => (
+              <div key={item?.product?._id} className="cart-border">
+                <div className="cart-item">
+                  <div className="image-to-left">
+                    <img
+                      src={item?.product?.img[0] || placeholderImageURL}
+                      alt="Product"
+                    />
+                  </div>
+                  <div className="item-details">
+                    <h3>{item?.product?.title}</h3>
+                    <p className="sub-title">{item?.product?.sub_title}</p>
+                    <p className="price">
+                      {`₹ ${
+                        getRentMonthsPrice(
+                          item?.rentOptions.rentMonthsCount,
+                          item?.product?.rentalOptions
+                        ) * item?.rentOptions?.quantity
+                      } / ${item?.rentOptions.rentMonthsCount} months on rent`}
+                    </p>
+                    <p>
+                      Quantity:{" "}
+                      <span className="border rounded-full px-2 m-2 text-black">
+                        {item?.rentOptions?.quantity}
+                      </span>
+                    </p>
+                    <p className="delivery">{formattedDeliveryDate}</p>
+                  </div>
+                  <div className="delete-btn-container">
+                    <button
+                      className="delete-btn"
+                      onClick={() => handleProductRemove(item?.product?._id)}
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
         </div>
-      </div>
-    ))
-  )}
-</div>
-
 
         <div className="cart-overview">
           <div className="cart-header"></div>
           <div className="proceed-container">
-            <div className="cart-details">
-              <div className="my-2">Cart Total | ₹{calculateTotalPrice().toFixed(2) || "0.00"}</div>
-            </div>
+            {/* <div className="cart-details">
+              <div className="my-2">
+                Cart Total | ₹{calculateTotalPrice().toFixed(2) || "0.00"}
+              </div>
+            </div> */}
             {/* <button
               className={`proceed-btn ${
                 userCartData.items.length === 0
@@ -300,11 +306,11 @@ const MyCart = () => {
                 userCartData.items.length === 0
                   ? "cursor-not-allowed opacity-50"
                   : ""
-              }`}
+              } font-semibold`}
               onClick={handlePayment}
               disabled={userCartData.items.length === 0}
             >
-              Pay Now <span className="arrow-icon">→</span>
+              Pay ₹ {calculateTotalPrice().toFixed(2) || ""} Now <span className="arrow-icon">→</span>
             </button>
           </div>
 

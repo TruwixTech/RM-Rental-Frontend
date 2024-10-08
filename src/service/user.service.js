@@ -48,6 +48,18 @@ const api = {
       return error;
     }
   },
+
+  getLocation: async (origins, destinations) => {
+    try {
+      const data = await AXIOS_INSTANCE.post(`/shipping`, {
+        origins,
+        destinations,
+      });
+      return data;
+    } catch (error) {
+      return error;
+    }
+  },
 };
 
 export default api;
