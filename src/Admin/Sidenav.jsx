@@ -23,7 +23,7 @@ const SideNavbar = () => {
                     <Link to="allproduct" onClick={closeNav}>All product</Link>
                     {/* <Link to="approve" onClick={closeNav}>Approve</Link> */}
                     <Link to="orders"  onClick={closeNav}>Orders</Link>
-                    <Link to="blog"  onClick={closeNav}>Blog</Link>
+                    {/* <Link to="blog"  onClick={closeNav}>Blog</Link> */}
                     
                     {/* <Link><IoIosLogOut className="logout-icon" onClick={logout} /></Link> */}
                     {/* <button onClick={logout} className="logout-btn">Logout</button>  */}

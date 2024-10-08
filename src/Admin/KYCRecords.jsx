@@ -55,27 +55,25 @@ const KYCRecords = () => {
           <div className="flex flex-col items-start w-full">
             <h2 className="text-2xl font-semibold mb-4">KYC Records</h2>
             {kycs.length > 0 ? (
-              <div className="kyc-list w-full">
-                <table className="table w-full mb-4">
+              <div className="kyc-list w-full overflow-x-auto"> {/* Make this div scrollable */}
+                <table className="table-auto w-full mb-4">
                   <thead>
                     <tr>
-                      <th>KYC ID</th>
-                      <th>User Name</th>
-                      <th>User Email</th>
-                      <th>User Mobile</th>
-                      <th>Uploaded Documents</th>
-                      <th>KYC Status</th>
-                      <th>Action</th>
+                      <th className="px-2 py-1">User Name</th>
+                      <th className="px-2 py-1">User Email</th>
+                      <th className="px-2 py-1">User Mobile</th>
+                      <th className="px-2 py-1">Uploaded Documents</th>
+                      <th className="px-2 py-1">KYC Status</th>
+                      <th className="px-2 py-1">Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     {kycs.map((kyc) => (
-                      <tr key={kyc?._id}>
-                        <td>{kyc._id}</td>
-                        <td>{kyc.userId?.name}</td>
-                        <td>{kyc.userId?.email}</td>
-                        <td>{kyc.userId?.mobileNumber}</td>
-                        <td>
+                      <tr key={kyc?._id} className="text-sm">
+                        <td className="border px-2 py-1">{kyc.userId?.name}</td>
+                        <td className="border px-2 py-1">{kyc.userId?.email}</td>
+                        <td className="border px-2 py-1">{kyc.userId?.mobileNumber}</td>
+                        <td className="border px-2 py-1">
                           <ul>
                             {kyc.documents.map((document) => (
                               <li key={document._id}>
@@ -90,11 +88,9 @@ const KYCRecords = () => {
                             ))}
                           </ul>
                         </td>
-                        <td>{kyc.kycStatus}</td>
-                        <td>
-                          {/* View Document and Conditional Action buttons */}
+                        <td className="border px-2 py-1">{kyc.kycStatus}</td>
+                        <td className="border px-2 py-1">
                           <div className="flex flex-col space-y-2">
-                            {/* Fixed-width action buttons */}
                             <div className="flex space-x-2 justify-center">
                               {kyc.kycStatus === "Pending" && (
                                 <>
@@ -116,7 +112,6 @@ const KYCRecords = () => {
                                   </button>
                                 </>
                               )}
-
                               {kyc.kycStatus === "Rejected" && (
                                 <button
                                   onClick={() =>
@@ -127,7 +122,6 @@ const KYCRecords = () => {
                                   Approve
                                 </button>
                               )}
-
                               {kyc.kycStatus === "Approved" && (
                                 <button
                                   onClick={() =>
