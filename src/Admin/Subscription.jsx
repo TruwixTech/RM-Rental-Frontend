@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import $ from "jquery"; // Import jQuery
 import { AXIOS_INSTANCE } from "../service";
