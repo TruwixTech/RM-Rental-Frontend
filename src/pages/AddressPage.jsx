@@ -63,7 +63,6 @@ export default function AddressPage({ finalPayment }) {
           paymentData
         );
         if (verifyResponse?.data?.success) {
-          alert("Payment successful");
           navigate("/orderconfirm", {
             state: { orderId: orderData._id },
           });
