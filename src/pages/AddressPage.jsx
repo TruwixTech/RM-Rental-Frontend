@@ -9,15 +9,14 @@ export default function AddressPage({ finalPayment }) {
     location.state;
 
     console.log(cartTotal)
-
-  const [modifyAddress, setModifyAddress] = useState(apiFetchedAddress || {});
-  const [isCustomAddress, setIsCustomAddress] = useState(false);
-  const [selectedAddressId, setSelectedAddressId] = useState(null);
+  const [modifyAddress, setModifyAddress] = useState(""); // Store the custom address as a single string
+  const [isCustomAddress, setIsCustomAddress] = useState(false); // Toggle between fetched and custom address
+  const [selectedAddress, setSelectedAddress] = useState(null); // Track whether fetched address is selected
   const user = storageService.get("user");
   const navigate = useNavigate();
 
   const handlePayment = async () => {
-    if (!modifyAddress.id && !isCustomAddress) {
+    if (!selectedAddress && !isCustomAddress && !modifyAddress) {
       alert("Please select or enter an address");
       return;
     }
@@ -26,12 +25,15 @@ export default function AddressPage({ finalPayment }) {
       return;
     }
 
+    // Determine the address to send
+    const addressToSend = isCustomAddress ? modifyAddress : selectedAddress;
+
     // Step 1: Create an order from the backend
     const orderResponse = await AXIOS_INSTANCE.post("/create/order", {
-      pincodeTo: modifyAddress.pincode,
       cartTotal,
       shippingCost,
       cartItems,
+      address: addressToSend, // Send the selected or custom address
     });
 
     const orderData = orderResponse?.data;
@@ -43,7 +45,7 @@ export default function AddressPage({ finalPayment }) {
     // Step 2: Trigger Razorpay Payment Gateway
     const options = {
       key: "rzp_test_Lx1DFKJyuWRRZG",
-      amount: cartTotal,
+      amount: cartTotal * 100,
       currency: orderData.currency || "INR",
       name: "RM RENTAL",
       description: "Rm Rental Payment",
@@ -84,23 +86,16 @@ export default function AddressPage({ finalPayment }) {
     rzp.open();
   };
 
-  const handleSelectAddress = (address) => {
-    if (selectedAddressId === address.id) {
-      setSelectedAddressId(null);
-      setModifyAddress({});
-    } else {
-      setModifyAddress(address);
-      setSelectedAddressId(address.id);
-    }
+  const handleSelectAddress = () => {
+    setSelectedAddress(apiFetchedAddress); // Set the fetched address string as selected
+    setModifyAddress(""); // Clear custom address if any
+    setIsCustomAddress(false); // Ensure we're not in custom address mode
   };
 
   const toggleCustomAddress = () => {
-    setIsCustomAddress(!isCustomAddress);
-    // Reset selection if switching to custom address
-    if (isCustomAddress) {
-      setSelectedAddressId(null); // Deselect fetched address
-      setModifyAddress({}); // Clear custom address fields
-    }
+    setIsCustomAddress((prev) => !prev);
+    setSelectedAddress(null); // Deselect fetched address when switching to custom
+    setModifyAddress(""); // Reset the custom address field when switching
   };
 
   return (
@@ -121,53 +116,14 @@ export default function AddressPage({ finalPayment }) {
               Fill in a New Address
             </div>
             <div className="form-group mb-4">
-              <label htmlFor="address1">Address Line 1</label>
-              <input
-                type="text"
-                id="address1"
-                name="addressLineOne"
-                value={modifyAddress.addressLineOne || ""}
-                onChange={(e) =>
-                  setModifyAddress({
-                    ...modifyAddress,
-                    addressLineOne: e.target.value,
-                  })
-                }
+              <label htmlFor="address">Address</label>
+              <textarea
+                id="address"
+                value={modifyAddress}
+                onChange={(e) => setModifyAddress(e.target.value)}
                 className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-              />
-            </div>
-
-            <div className="form-group mb-4">
-              <label htmlFor="address2">Address Line 2</label>
-              <input
-                type="text"
-                id="address2"
-                name="addressLineTwo"
-                value={modifyAddress.addressLineTwo || ""}
-                onChange={(e) =>
-                  setModifyAddress({
-                    ...modifyAddress,
-                    addressLineTwo: e.target.value,
-                  })
-                }
-                className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-              />
-            </div>
-
-            <div className="form-group mb-4">
-              <label htmlFor="pincode">Pincode</label>
-              <input
-                type="text"
-                id="pincode"
-                name="pincode"
-                value={modifyAddress.pincode || ""}
-                onChange={(e) =>
-                  setModifyAddress({
-                    ...modifyAddress,
-                    pincode: e.target.value,
-                  })
-                }
-                className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                rows="4"
+                placeholder="Enter your address here"
               />
             </div>
           </div>
@@ -182,20 +138,21 @@ export default function AddressPage({ finalPayment }) {
               </thead>
               <tbody>
                 {apiFetchedAddress && (
-                  <tr key={apiFetchedAddress.id}>
+                  <tr>
                     <td colSpan={2} className="py-2 px-4 border-b">
-                      {apiFetchedAddress}
+                      {apiFetchedAddress}{" "}
+                      {/* Display the fetched address as a string */}
                     </td>
                     <td className="py-2 px-4 border-b text-right">
                       <button
                         className={`px-4 py-2 rounded transition ${
-                          selectedAddressId === apiFetchedAddress.id
+                          selectedAddress === apiFetchedAddress
                             ? "bg-green-500 text-white"
                             : "bg-blue-500 text-white"
                         } hover:bg-blue-600`}
-                        onClick={() => handleSelectAddress(apiFetchedAddress)}
+                        onClick={handleSelectAddress}
                       >
-                        {selectedAddressId === apiFetchedAddress.id
+                        {selectedAddress === apiFetchedAddress
                           ? "Selected"
                           : "Select"}
                       </button>
@@ -210,10 +167,12 @@ export default function AddressPage({ finalPayment }) {
 
       <button
         className={`bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition mt-4 ${
-          !modifyAddress.id && !isCustomAddress ? "cursor-not-allowed" : ""
+          !(isCustomAddress && modifyAddress) && !selectedAddress
+            ? "cursor-not-allowed opacity-50"
+            : ""
         }`}
         onClick={handlePayment}
-        disabled={!modifyAddress.id && !isCustomAddress} // Disable the button until an address is selected
+        disabled={!(isCustomAddress && modifyAddress) && !selectedAddress} // Disable if no address is selected or filled
       >
         Proceed to payment
       </button>
