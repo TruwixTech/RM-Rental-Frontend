@@ -2,27 +2,30 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { RiMoneyRupeeCircleFill } from "react-icons/ri";
-import { IoSettings } from "react-icons/io5";
-import {
-  FaAddressBook,
-  FaHistory,
-  FaShoppingBag,
-  FaIdCard,
-} from "react-icons/fa";
+import { FaShoppingBag, FaIdCard } from "react-icons/fa";
 import storageService from "../service/storage.service";
 import { getKYCStatusAPI, uploadKYCAPI } from "../service/kyc.service"; // Service to fetch and send KYC data
 import toast from "react-hot-toast";
 import { FaUpload } from "react-icons/fa"; // Import upload icon
+import { MdDeleteOutline } from "react-icons/md";
 
 const KYCPage = () => {
   const [activeLink, setActiveLink] = useState("");
   const user = storageService.get("user");
   const [kycStatus, setKycStatus] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [files, setFiles] = useState([]);
-  const [alternateNumber, setAlternateNumber] = useState('');
-  const [currentAddress, setCurrentAddress] = useState('');
+  const [files, setFiles] = useState(Array(5).fill(null)); // Array for 5 file inputs
+  const [alternateNumber, setAlternateNumber] = useState("");
+  const [currentAddress, setCurrentAddress] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const documentTypes = [
+    "Aadhaar Card",
+    "PAN Card",
+    "Office ID",
+    "Utility Bill",
+    "Photo",
+  ];
 
   const ClickHandler = (link) => {
     setActiveLink(link);
@@ -44,25 +47,28 @@ const KYCPage = () => {
     fetchKYCStatus();
   }, []);
 
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0]; // Get the first selected file
-
-    if (files.length < 5) {
-      setFiles((prevFiles) => [...prevFiles, selectedFile]); // Add the selected file to the existing files
-    } else {
-      toast.error("You can only upload a maximum of 5 files.");
-    }
-    e.target.value = ""; // Reset the input value to allow re-selection of the same file
+  const handleFileChange = (index, e) => {
+    const selectedFile = e.target.files[0]; // Get the selected file
+    setFiles((prevFiles) => {
+      const newFiles = [...prevFiles];
+      newFiles[index] = selectedFile; // Update the file at the specific index
+      return newFiles;
+    });
   };
 
   const handleRemoveFile = (index) => {
-    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index)); // Remove file by index
+    setFiles((prevFiles) => {
+      const newFiles = [...prevFiles];
+      newFiles[index] = null; // Clear the file at the specific index
+      return newFiles;
+    });
   };
 
   const handleSubmitKYC = async (e) => {
     e.preventDefault();
-    if (files.length !== 5) {
-      toast.error("Please select exactly 5 documents.");
+    if (files.some((file) => !file)) {
+      // Check if all 5 files are selected
+      toast.error("Please select all 5 documents.");
       return;
     }
     if (!alternateNumber || !currentAddress) {
@@ -72,13 +78,18 @@ const KYCPage = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await uploadKYCAPI(files, user?._id, alternateNumber, currentAddress);
+      const response = await uploadKYCAPI(
+        files,
+        user?._id,
+        alternateNumber,
+        currentAddress
+      );
       if (response.success) {
         toast.success("KYC documents uploaded successfully.");
         fetchKYCStatus(); // Fetch the updated status after submission
-        setFiles([]); // Clear files after successful submission
-        setAlternateNumber(''); // Clear alternate number
-        setCurrentAddress(''); // Clear current address
+        setFiles(Array(5).fill(null)); // Clear files after successful submission
+        setAlternateNumber(""); // Clear alternate number
+        setCurrentAddress(""); // Clear current address
       } else {
         toast.error("Error submitting KYC documents.");
       }
@@ -101,14 +112,11 @@ const KYCPage = () => {
             {[
               { icon: <FaShoppingBag />, name: "My Orders", url: "/myorders" },
               { icon: <FaIdCard />, name: "KYC", url: "/kyc" },
-              // { icon: <FaAddressBook />, name: "Address", url: "/address" },
-              // { icon: <FaHistory />, name: "Order History", url: "/myorders" },
               {
                 icon: <RiMoneyRupeeCircleFill />,
                 name: "Payment",
                 url: "/payment",
               },
-              // { icon: <IoSettings />, name: "Setting", url: "/setting" },
             ].map((item, index) => (
               <Link
                 to={item.url}
@@ -166,45 +174,47 @@ const KYCPage = () => {
                   onSubmit={handleSubmitKYC}
                   className="flex flex-col gap-4 w-full"
                 >
-                  <div className="border-dashed border-2 border-gray-400 p-4 rounded-md cursor-pointer">
-                    <input
-                      type="file"
-                      onChange={handleFileChange}
-                      accept=".jpg,.jpeg,.png,.pdf"
-                      className="hidden"
-                      id="file-upload"
-                    />
-                    <label
-                      htmlFor="file-upload"
-                      className="flex flex-col items-center cursor-pointer"
+                  {documentTypes.map((docType, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center border-dashed border-2 border-gray-400 p-4 rounded-md"
                     >
-                      <FaUpload className="text-4xl mb-2" />
-                      <span className="text-gray-500">
-                        Click to upload your document
-                      </span>
-                    </label>
-                  </div>
-                  {files.length > 0 && (
-                    <div className="mt-2">
-                      <h3 className="font-medium">Attached Documents:</h3>
-                      <ul className="list-disc list-inside">
-                        {files.map((file, index) => (
-                          <li key={index} className="text-gray-700 flex justify-between items-center">
-                            {file.name}
-                            <button
-                              type="button"
-                              className="text-red-500 ml-2"
-                              onClick={() => handleRemoveFile(index)}
-                            >
-                              Remove
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
+                      <input
+                        type="file"
+                        onChange={(e) => handleFileChange(index, e)}
+                        accept=".jpg,.jpeg,.png,.pdf"
+                        className="hidden"
+                        id={`file-upload-${index}`}
+                      />
+                      <label
+                        htmlFor={`file-upload-${index}`}
+                        className="flex flex-col items-center cursor-pointer w-full"
+                      >
+                        <FaUpload className="text-4xl mb-2" />
+                        <span className="text-gray-500">
+                          {`Click to upload ${docType}`}
+                        </span>
+                      </label>
+                      {files[index] && (
+                        <div className="flex items-center justify-between w-full mt-2">
+                          <span className="text-gray-700 ml-4 truncate">
+                            {files[index].name.length > 10
+                              ? `${files[index].name.substring(0, 10)}...`
+                              : files[index].name}
+                          </span>
+                          <button
+                            type="button"
+                            className="text-red-500 ml-4 px-2 py-1 bg-transparent border border-red-500 rounded-md hover:bg-red-500 hover:text-white"
+                            onClick={() => handleRemoveFile(index)}
+                          >
+                            <MdDeleteOutline />
+                          </button>
+                        </div>
+                      )}
                     </div>
-                  )}
+                  ))}
 
-                  {/* New Fields for Alternate Number and Current Address */}
+                  {/* Fields for Alternate Number and Current Address */}
                   <input
                     type="text"
                     placeholder="Alternate Number"
@@ -225,9 +235,9 @@ const KYCPage = () => {
                   <button
                     type="submit"
                     className={`mt-4 bg-blue-500 text-white py-2 px-4 rounded ${
-                      isSubmitting || files.length !== 5 ? "cursor-not-allowed" : "cursor-pointer"
+                      isSubmitting ? "cursor-not-allowed" : "cursor-pointer"
                     }`}
-                    disabled={isSubmitting || files.length !== 5}
+                    disabled={isSubmitting}
                   >
                     {isSubmitting ? "Uploading..." : "Submit KYC"}
                   </button>
