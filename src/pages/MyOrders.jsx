@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { RiMoneyRupeeCircleFill } from "react-icons/ri";
 import { IoSettings } from "react-icons/io5";
@@ -21,6 +21,8 @@ const MyOrders = () => {
     type: "",
     message: "",
   }); // Form data state
+
+  const form = useRef();
 
   const ClickHandler = (link) => {
     setActiveLink(link);
@@ -51,38 +53,39 @@ const MyOrders = () => {
   // Handle form submit
   const handleSubmit = (orderId) => {
     const order = orders.find((order) => order._id === orderId);
-    const orderAmount = order ? order.totalPrice : 0; // Get the order amount from the order
-
+    const orderAmount = order ? order.totalPrice : 0;
+  
     const templateParams = {
-      to_name: "Daradesuraj",
-      from_name: user?.name,
-      to_email: "daradesuraj05@gmail.com",
+      name: "Daradesuraj",
+      // from_name: user?.name,
+      // to_email: "rmfurniture2020@gmail.com",
       subject: formData.subject,
-      order_id: orderId,
-      order_amount: orderAmount, // Include order amount here
-      type: formData.type,
+      // order_id: orderId,
+      // order_amount: orderAmount,
+      // type: formData.type,
       message: formData.message,
-      user_email: user?.email,
-      user_mobile: user?.mobileNumber, // Assuming user object has a mobile property
+      // user_email: user?.email,
+      // user_mobile: user?.mobileNumber,
     };
 
+    console.log(templateParams)
+  
     emailjs
       .send(
-        "YOUR_SERVICE_ID",
-        "YOUR_TEMPLATE_ID",
-        templateParams,
-        "YOUR_USER_ID"
+        "",
+        "",
+        templateParams,  // Pass the form data directly here
+        ""
       )
       .then((response) => {
-        // console.log("Email sent successfully:", response);
         toast.success("Service Request Sent Successfully");
-        closeModal(); // Close modal on successful send
+        closeModal();
       })
       .catch((error) => {
         toast.error("Failed to Send Service Request");
-        // console.error("Failed to send email:", error);
       });
   };
+  
 
   return (
     <div className="user-profile w-full flex justify-between p-8 bg-[#f1f1f1]">
@@ -207,7 +210,14 @@ const MyOrders = () => {
             <p className="text-2xl font-semibold mb-4">
               Return / Complaint Form
             </p>
-            <div className="flex flex-col space-y-4">
+            <form
+              ref={form}
+              className="flex flex-col space-y-4"
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSubmit(editingSubscription._id);
+              }}
+            >
               {" "}
               {/* Space between fields */}
               <div className="flex items-center gap-2">
@@ -215,8 +225,8 @@ const MyOrders = () => {
                   Subject:
                 </label>
                 <textarea
-                  
                   id="subject"
+                  name="subject"
                   value={formData.subject}
                   onChange={(e) =>
                     setFormData({ ...formData, subject: e.target.value })
@@ -226,12 +236,13 @@ const MyOrders = () => {
                   rows={2}
                 />
               </div>
-              <div className="flex items-center gap-2">
+              {/* <div className="flex items-center gap-2">
                 <label htmlFor="type" className="flex-shrink-0 font-medium">
                   Type:
                 </label>
                 <select
                   id="type"
+                  name="type"
                   value={formData.type}
                   onChange={(e) =>
                     setFormData({ ...formData, type: e.target.value })
@@ -243,13 +254,14 @@ const MyOrders = () => {
                   <option value="Return">Return</option>
                   <option value="Complaint">Complaint</option>
                 </select>
-              </div>
+              </div> */}
               <div className="flex items-center gap-2">
                 <label htmlFor="message" className="flex-shrink-0 font-medium">
                   Message:
                 </label>
                 <textarea
                   id="message"
+                  name="message"
                   value={formData.message}
                   onChange={(e) =>
                     setFormData({ ...formData, message: e.target.value })
@@ -261,7 +273,7 @@ const MyOrders = () => {
               </div>
               <button
                 className="bg-green-500 text-white rounded-md py-2 cursor-pointer"
-                onClick={() => handleSubmit(editingSubscription._id)} // Pass order ID to handleSubmit
+                // onClick={() => handleSubmit(editingSubscription._id)} // Pass order ID to handleSubmit
               >
                 Submit
               </button>
@@ -272,7 +284,7 @@ const MyOrders = () => {
               >
                 Cancel
               </button>
-            </div>
+            </form>
           </div>
         </div>
       )}
