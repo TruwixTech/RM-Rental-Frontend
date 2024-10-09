@@ -81,7 +81,7 @@
     color: #FFF;
     leading-trim: both;
     text-edge: cap;
-    font-family: Satoshi;
+    
     font-size: 0.7rem;
     font-style: normal;
     font-weight: 900;
@@ -132,7 +132,7 @@ border: 1px solid rgba(64, 64, 64, 0.50);
 
 .checkboxes .checkbox label{
   color: var(--Default-Black, #000);
-font-family: Outfit;
+
 font-size: 0.8rem;
 font-style: normal;
 font-weight: 500;
@@ -143,7 +143,7 @@ line-height: normal;
   color: #FEC500;
 leading-trim: both;
 text-edge: cap;
-font-family: Outfit;
+
 font-size: 0.7rem;
 font-style: normal;
 font-weight: 400;
@@ -169,7 +169,7 @@ font-weight: 400;
   color: rgba(0, 0, 0, 0.60);
 leading-trim: both;
 text-edge: cap;
-font-family: Outfit;
+
 font-size: 1rem;
 font-style: normal;
 font-weight: 500;
@@ -235,7 +235,7 @@ transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
 
 .productpage  .card-name{
   color: #0D1B39;
-font-family: Inter;
+
 font-size: 1rem;
 font-style: normal;
 font-weight: 600;
@@ -286,7 +286,7 @@ text-transform: capitalize;
 .productpage  .card-category{
   color: #8D8D8D;
 
-font-family: Inter;
+
 font-size: 0.7919rem;
 font-style: normal;
 font-weight: 400;
@@ -307,7 +307,7 @@ line-height: normal;
   margin-top: 7.5px;
   margin-left: 2px;
   color: #0D1B39;
-  font-family: Inter;
+  
   font-size: 1.05rem;
   font-style: normal;
   font-weight: 600;
@@ -317,7 +317,7 @@ line-height: normal;
 .productpage  .card-price span{
   margin-right: 1.5px;
   color: #0D1B39;
-font-family: Inter;
+
 font-size: 0.78106rem;
 font-style: normal;
 font-weight: 600;
@@ -380,7 +380,7 @@ line-height: normal;
     color: #FFF;
     leading-trim: both;
     text-edge: cap;
-    font-family: Satoshi;
+    
     font-size: 0.6rem;
     font-style: normal;
     font-weight: 700;
@@ -433,7 +433,7 @@ border: 1px solid rgba(64, 64, 64, 0.50);
 
 .checkboxes .checkbox label{
   color: var(--Default-Black, #000);
-font-family: Outfit;
+
 font-size: 0.6rem;
 font-style: normal;
 font-weight: 500;
@@ -444,7 +444,7 @@ line-height: normal;
   color: #FEC500;
 leading-trim: both;
 text-edge: cap;
-font-family: Outfit;
+
 font-size: 0.6rem;
 font-style: normal;
 font-weight: 400;
@@ -471,7 +471,7 @@ font-weight: 400;
   color: rgba(0, 0, 0, 0.60);
 leading-trim: both;
 text-edge: cap;
-font-family: Outfit;
+
 font-size: 0.7rem;
 font-style: normal;
 font-weight: 500;
@@ -543,7 +543,7 @@ transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
 
 .productpage  .card-name{
   color: #0D1B39;
-font-family: Inter;
+
 font-size: 0.7rem;
 font-style: normal;
 font-weight: 600;
@@ -595,7 +595,7 @@ text-transform: capitalize;
 .productpage  .card-category{
   color: #8D8D8D;
 
-font-family: Inter;
+
 font-size: 0.5919rem;
 font-style: normal;
 font-weight: 400;
@@ -616,7 +616,7 @@ line-height: normal;
   margin-top: 4.5px;
   margin-left: 2px;
   color: #0D1B39;
-  font-family: Inter;
+  
   font-size: 0.6rem;
   font-style: normal;
   font-weight: 600;
@@ -626,7 +626,7 @@ line-height: normal;
 .productpage  .card-price span{
   margin-right: 1.5px;
   color: #0D1B39;
-font-family: Inter;
+
 font-size: 0.68106rem;
 font-style: normal;
 font-weight: 600;

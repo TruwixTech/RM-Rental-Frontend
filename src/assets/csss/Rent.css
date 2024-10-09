@@ -8,7 +8,7 @@
 .rent-title h1{
   text-align: center;
   color: #3E3E3E;
-font-family: Satoshi;
+
 /* font-family: Poppins; */
 font-size: 3.64456rem;
 font-style: normal;
@@ -50,7 +50,6 @@ letter-spacing: -0.16931rem;
   margin-bottom: 10px; */
   align-self: stretch;
   color: var(--Heading, #15202E);
-font-family: Satoshi,sans-serif;
 font-size: 1.35894rem;
 font-style: normal;
 font-weight: 700;
@@ -64,7 +63,7 @@ letter-spacing: -0.07075rem;
   align-self: stretch;
   color: var(--Main-Text, #525252);
 font-feature-settings: 'liga' off, 'clig' off;
-font-family: Satoshi;
+
 font-size: 1rem;
 font-style: normal;
 font-weight: 400;
@@ -85,7 +84,7 @@ line-height: 1.50619rem; /* 156.25% */
   .rent-title h1{
     text-align: center;
     color: #3E3E3E;
-font-family: Satoshi;
+
 /* font-family: Poppins; */
 font-size: 1.64456rem;
 font-style: normal;
@@ -127,7 +126,6 @@ letter-spacing: 0rem;
     margin-bottom: 10px; */
     align-self: stretch;
     color: var(--Heading, #15202E);
-font-family: Satoshi,sans-serif;
 font-size: 1.35894rem;
 font-style: normal;
 font-weight: 700;
@@ -141,7 +139,7 @@ letter-spacing: -0.07075rem;
     align-self: stretch;
     color: var(--Main-Text, #525252);
 font-feature-settings: 'liga' off, 'clig' off;
-font-family: Satoshi;
+
 font-size: 1rem;
 font-style: normal;
 font-weight: 400;
@@ -162,7 +160,7 @@ line-height: 1.50619rem; /* 156.25% */
 .rent-title h1{
   text-align: center;
   color: #3E3E3E;
-font-family: Satoshi;
+
 /* font-family: Poppins; */
 font-size: 2rem;
 font-style: normal;
@@ -204,7 +202,6 @@ letter-spacing: 0rem;
   margin-bottom: 10px; */
   align-self: stretch;
   color: var(--Heading, #15202E);
-font-family: Satoshi,sans-serif;
 font-size: 1.35894rem;
 font-style: normal;
 font-weight: 700;
@@ -218,7 +215,7 @@ letter-spacing: -0.07075rem;
   align-self: stretch;
   color: var(--Main-Text, #525252);
 font-feature-settings: 'liga' off, 'clig' off;
-font-family: Satoshi;
+
 font-size: 1rem;
 font-style: normal;
 font-weight: 400;
@@ -237,7 +234,7 @@ line-height: 1.50619rem; /* 156.25% */
 .rent-title h1{
   text-align: center;
   color: #3E3E3E;
-font-family: Satoshi;
+
 /* font-family: Poppins; */
 font-size: 2rem;
 font-style: normal;
@@ -279,7 +276,6 @@ letter-spacing: 0rem;
   margin-bottom: 10px; */
   align-self: stretch;
   color: var(--Heading, #15202E);
-font-family: Satoshi,sans-serif;
 font-size: 1.35894rem;
 font-style: normal;
 font-weight: 700;
@@ -293,7 +289,7 @@ letter-spacing: -0.07075rem;
   align-self: stretch;
   color: var(--Main-Text, #525252);
 font-feature-settings: 'liga' off, 'clig' off;
-font-family: Satoshi;
+
 font-size: 1rem;
 font-style: normal;
 font-weight: 400;
@@ -316,7 +312,7 @@ line-height: 1.50619rem; /* 156.25% */
 .rent-title h1{
   text-align: center;
   color: #3E3E3E;
-font-family: Satoshi;
+
 /* font-family: Poppins; */
 font-size: 2rem;
 font-style: normal;
@@ -358,7 +354,6 @@ letter-spacing: 0rem;
   margin-bottom: 10px; */
   align-self: stretch;
   color: var(--Heading, #15202E);
-font-family: Satoshi,sans-serif;
 font-size: 1.35894rem;
 font-style: normal;
 font-weight: 700;
@@ -372,7 +367,7 @@ letter-spacing: -0.07075rem;
   align-self: stretch;
   color: var(--Main-Text, #525252);
 font-feature-settings: 'liga' off, 'clig' off;
-font-family: Satoshi;
+
 font-size: 1rem;
 font-style: normal;
 font-weight: 400;

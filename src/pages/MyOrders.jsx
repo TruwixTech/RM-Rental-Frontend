@@ -214,8 +214,8 @@ const MyOrders = () => {
                 <label htmlFor="subject" className="flex-shrink-0 font-medium">
                   Subject:
                 </label>
-                <input
-                  type="text"
+                <textarea
+                  
                   id="subject"
                   value={formData.subject}
                   onChange={(e) =>
@@ -223,6 +223,7 @@ const MyOrders = () => {
                   }
                   className="border border-gray-300 rounded-md p-1 flex-1"
                   required
+                  rows={2}
                 />
               </div>
               <div className="flex items-center gap-2">
@@ -255,6 +256,7 @@ const MyOrders = () => {
                   }
                   className="border border-gray-300 rounded-md p-1 flex-1"
                   required
+                  rows={4}
                 />
               </div>
               <button

@@ -84,7 +84,7 @@ gap: 55.431px;
 padding-bottom: 12px;
 align-items: flex-start;
 color: #111827;
-font-family: Poppins;
+
 font-size: 1.5rem;
 font-style: normal;
 font-weight: 600;
@@ -98,7 +98,7 @@ line-height: 1.5rem; /* 111.111% */
 align-items: center;
 flex-shrink: 0;
 color: #4B5563;
-font-family: Poppins;
+
 font-size: 0.8rem;
 font-style: normal;
 font-weight: 400;
@@ -121,7 +121,7 @@ gap: 5px;
     display: flex;
 align-items: flex-start;
 color: #111827;
-font-family: Poppins;
+
 font-size: 1rem;
 font-style: normal;
 font-weight: 600;
@@ -140,7 +140,7 @@ align-self: stretch;
     display: flex;
 align-items: center;
 color: #4B5563;
-font-family: Poppins;
+
 font-size: 0.8rem;
 font-style: normal;
 font-weight: 400;
@@ -206,7 +206,7 @@ gap: 9px;
     display: flex;
 align-items: center;
 color: #63624B;
-font-family: Poppins;
+
 font-size: 1rem;
 font-style: normal;
 font-weight: 600;
@@ -227,7 +227,7 @@ gap: 3px;
 align-items: flex-start;
 color: #404040;
 
-font-family: Poppins;
+
 font-size: 1.25013rem;
 font-style: normal;
 font-weight: 600;
@@ -238,7 +238,7 @@ line-height: 1.79rem; /* 133.333% */
     display: flex;
     align-items: center;
     color: #63624B;
-font-family: Poppins;
+
 font-size: 1rem;
 font-style: normal;
 font-weight: 500;
@@ -261,7 +261,7 @@ align-self: stretch;
     display: flex;
 align-items: flex-start;
 color: #404040;
-font-family: Poppins;
+
 font-size: 1rem;
 font-style: normal;
 font-weight: 600;
@@ -293,7 +293,7 @@ cursor: pointer;
     display: flex;
 align-items: center;
 color: #63624B;
-font-family: Poppins;
+
 font-size: 0.7rem;
 font-style: normal;
 font-weight: 600;
@@ -350,7 +350,7 @@ gap: 15.001px;
     display: flex;
     align-items: center;
     color: #63624B;
-    font-family: Poppins;
+    
     font-size: 1.0006rem;
     font-style: normal;
     font-weight: 500;
@@ -393,7 +393,7 @@ color: #fff;
     display: flex;
 align-items: center;
 color: #FFF;
-font-family: Poppins;
+
 font-size: 0.70006rem;
 font-style: normal;
 font-weight: 500;
@@ -430,7 +430,7 @@ align-self: stretch;
     display: flex;
 align-items: center;
 color: #63624B;
-font-family: Poppins;
+
 font-size: 1.0006rem;
 font-style: normal;
 font-weight: 400;
@@ -459,7 +459,7 @@ align-items: flex-start;
 
 .productdetails-right-4 .total .Total-Label h5, .Total-Amount h5{
     color: #404040;
-font-family: Poppins;
+
 font-size: 1.0006rem;
 font-style: normal;
 font-weight: 600;
@@ -494,7 +494,7 @@ cursor: pointer;
     display: flex;
 align-items: center;
 color: #63624B;
-font-family: Poppins;
+
 font-size: 0.7rem;
 font-style: normal;
 font-weight: 600;
@@ -534,7 +534,7 @@ cursor: pointer;
     display: flex;
 align-items: center;
 color: #63624B;
-font-family: Poppins;
+
 font-size: 0.7rem;
 font-style: normal;
 font-weight: 600;
@@ -575,7 +575,7 @@ cursor: pointer;
     display: flex;
     align-items: center;
     color: #63624B;
-font-family: Poppins;
+
 font-size: 0.7rem;
 font-style: normal;
 font-weight: 600;
@@ -726,7 +726,7 @@ line-height: 1.55013rem; /* 150% */
         display: flex;
     align-items: center;
     color: #63624B;
-    font-family: Poppins;
+    
     font-size: 0.8006rem;
     font-style: normal;
     font-weight: 600;
@@ -747,7 +747,7 @@ line-height: 1.55013rem; /* 150% */
     align-items: flex-start;
     color: #404040;
     
-    font-family: Poppins;
+    
     font-size: 1.00013rem;
     font-style: normal;
     font-weight: 600;
@@ -758,7 +758,7 @@ line-height: 1.55013rem; /* 150% */
         display: flex;
         align-items: center;
         color: #63624B;
-    font-family: Poppins;
+    
     font-size: 0.7rem;
     font-style: normal;
     font-weight: 500;
@@ -787,7 +787,7 @@ line-height: 1.55013rem; /* 150% */
         display: flex;
     align-items: flex-start;
     color: #404040;
-    font-family: Poppins;
+    
     font-size: 0.7rem;
     font-style: normal;
     font-weight: 600;
@@ -824,7 +824,7 @@ line-height: 1.55013rem; /* 150% */
         display: flex;
     align-items: center;
     color: black;
-    font-family: Poppins;
+    
     font-size: 0.6rem;
     font-style: normal;
     font-weight: 600;
@@ -884,7 +884,7 @@ line-height: 1.55013rem; /* 150% */
         display: flex;
     align-items: center;
     color: #63624B;
-    font-family: Poppins;
+    
     font-size: 1.0006rem;
     font-size: 10px;
     font-style: normal;
@@ -925,7 +925,7 @@ line-height: 1.55013rem; /* 150% */
         display: flex;
     align-items: center;
     color: #FFF;
-    font-family: Poppins;
+    
     font-size: 0.7rem;
     font-style: normal;
     font-weight: 500;
@@ -962,7 +962,7 @@ line-height: 1.55013rem; /* 150% */
         display: flex;
     align-items: center;
     color: #63624B;
-    font-family: Poppins;
+    
     font-size: 0.7rem;
     font-style: normal;
     font-weight: 400;
@@ -991,7 +991,7 @@ line-height: 1.55013rem; /* 150% */
     
     .productdetails-right-4 .total .Total-Label h5, .Total-Amount h5{
         color: #404040;
-    font-family: Poppins;
+    
     font-size: 0.7rem;
     font-style: normal;
     font-weight: 600;
@@ -1026,7 +1026,7 @@ line-height: 1.55013rem; /* 150% */
         display: flex;
     align-items: center;
     color: black;
-    font-family: Poppins;
+    
     font-size: 0.7rem;
     font-style: normal;
     font-weight: 600;
@@ -1066,7 +1066,7 @@ line-height: 1.55013rem; /* 150% */
         display: flex;
     align-items: center;
     color: black;
-    font-family: Poppins;
+    
     font-size: 0.7rem;
     font-style: normal;
     font-weight: 600;
@@ -1107,7 +1107,7 @@ line-height: 1.55013rem; /* 150% */
         display: flex;
         align-items: center;
         color: black;
-    font-family: Poppins;
+    
     font-size: 0.7rem;
     font-style: normal;
     font-weight: 600;

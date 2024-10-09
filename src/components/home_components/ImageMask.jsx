@@ -59,7 +59,7 @@ const ImageMask = () => {
             </div>
             <div className='fullbanner-img'><img src={fullbanner} alt="" /></div>
             <div className="fullbanner-lower">
-            <h2>Rent the perfect furniture for your home to elevate your living space.</h2>
+            {/* <h2>Rent the perfect furniture for your home to elevate your living space.</h2> */}
                 </div>
         </div>
         </div>

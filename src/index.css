@@ -1,7 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap'); /* Import Roboto */
+
+/* Tailwind CSS Base, Components, Utilities */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Set Roboto Font Globally */
+* {
+  font-family: 'Roboto', sans-serif; /* Apply Roboto to the entire site */
+}
 h1 {
   overflow: hidden;
 }

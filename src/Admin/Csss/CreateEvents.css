@@ -7,7 +7,6 @@
     width: 100vw;
     text-align: left;
     color: black;
-    font-family: 'DM Sans', sans-serif;
     justify-content: space-evenly; /* Space between image and content */
   }
   h1{

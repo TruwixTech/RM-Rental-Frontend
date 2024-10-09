@@ -15,7 +15,7 @@
 .page6-up-left {
   color: #0f0f0f;
 
-  font-family: Satoshi;
+  
   font-size: 3.232rem;
   font-style: normal;
   font-weight: 500;
@@ -64,7 +64,7 @@
   border: 1.352px solid #c5c5c5;
   background: rgba(255, 255, 255, 0.2);
   color: #0f0f0f;
-  font-family: Satoshi;
+  
   font-size: 0.7rem;
   font-style: normal;
   font-weight: 500;
@@ -128,7 +128,7 @@
     width: 100%;
     color: #0f0f0f;
 
-    font-family: Satoshi;
+    
     font-size: 4vw;
     font-style: normal;
     font-weight: 500;
@@ -185,7 +185,7 @@
     border: 1px solid #c5c5c5;
     background: rgba(255, 255, 255, 0.2);
     color: #0f0f0f;
-    font-family: Satoshi;
+    
     font-size: 0.5rem;
     font-style: normal;
     font-weight: 500;

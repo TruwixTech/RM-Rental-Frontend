@@ -84,6 +84,7 @@ const Products = () => {
                   { id: "category-bed", value: "bed" },
                   { id: "category-bath", value: "bath" },
                   { id: "category-chair", value: "chair" },
+                  { id: "category-table", value: "table" }
                 ].map((category) => (
                   <div className="checkbox flex items-center" key={category.id}>
                     <div className="checkbox-grp flex items-center">

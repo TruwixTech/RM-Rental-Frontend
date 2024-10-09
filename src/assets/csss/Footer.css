@@ -4,7 +4,7 @@
   gap: 0rem;
   /* background: rgba(254, 197, 0, 0.11);; */
   padding: 4rem 3rem 1rem 3rem;
-  font-family: Arial, sans-serif;
+  
   color: #000;
 }
 
@@ -34,7 +34,7 @@
   color: #0F0F0F;
 text-align: justify;
 
-font-family: Satoshi;
+
 font-size: 0.9rem;
 font-style: normal;
 font-weight: 500;
@@ -58,7 +58,7 @@ text-transform: capitalize;
 
 .footer-section h4 {
   color: #000;
-font-family: Satoshi;
+
 font-size: 1.2rem;
 font-style: normal;
 font-weight: 900;
@@ -78,7 +78,7 @@ text-transform: uppercase;
 .footer-section ul li {
  
   color: #191A26;
-font-family: Satoshi;
+
 font-size: 1rem;
 font-style: normal;
 font-weight: 700;
@@ -110,7 +110,7 @@ letter-spacing: -0.03075rem;
 
 .footer-bottom p{
   color: #667085;
-font-family: Satoshi;
+
 font-size: 0.76138rem;
 font-style: normal;
 font-weight: 500;
@@ -151,7 +151,7 @@ line-height: 150%;
     font-size: 1rem;
     text-align: center;
 
-    font-family: Satoshi;
+    
     font-size: 1rem;
     font-style: normal;
     font-weight: 500;
@@ -182,7 +182,7 @@ line-height: 150%;
     color: #0F0F0F;
 text-align: justify;
 
-font-family: Satoshi;
+
 font-size: 0.5rem;
 font-style: normal;
 font-weight: 500;
@@ -196,7 +196,7 @@ text-transform: capitalize;
   
   .footer-section h4 {
     color: #000;
-font-family: Satoshi;
+
 font-size: 1.3rem;
 font-style: normal;
 font-weight: 900;
@@ -221,7 +221,7 @@ overflow: hidden;
   .footer-section ul li {
    
     color: #191A26;
-font-family: Satoshi;
+
 font-size: 1rem;
 font-style: normal;
 font-weight: 700;
@@ -253,7 +253,7 @@ letter-spacing: 0rem;
 
   .footer-bottom p{
     color: #667085;
-font-family: Satoshi;
+
 font-size: 0.7rem;
 font-style: normal;
 font-weight: 500;
@@ -297,7 +297,7 @@ line-height: 150%;
     /* width: 80%; */
     text-align: justify;
     
-    font-family: Satoshi;
+    
     font-size: 0.8rem;
     font-style: normal;
     font-weight: 500;
@@ -328,7 +328,7 @@ line-height: 150%;
     color: #191A26;
 text-align: justify;
 
-font-family: Satoshi;
+
 font-size: 0.9rem;
 font-style: normal;
 font-weight: 700;
@@ -341,7 +341,7 @@ text-transform: capitalize;
   
   .footer-section h4 {
     color: #808D9E;
-font-family: Satoshi;
+
 font-size: 1rem;
 font-style: normal;
 font-weight: 700;
@@ -376,7 +376,7 @@ text-transform: uppercase;
 
   .footer-bottom p{
     color: #667085;
-font-family: Satoshi;
+
 font-size: 0.7rem;
 font-style: normal;
 font-weight: 500;
@@ -407,7 +407,7 @@ line-height: 150%;
     
     gap: 0rem;
     background: rgba(254, 197, 0, 0.11);;
-    font-family: Arial, sans-serif;
+    
     color: #000;
   
 }
@@ -426,7 +426,7 @@ line-height: 150%;
   /* width: 80%; */
   text-align: center;
   
-  font-family: Satoshi;
+  
   font-size: 1rem;
   font-style: normal;
   font-weight: 500;
@@ -457,7 +457,7 @@ line-height: 150%;
   color: #191A26;
 text-align: justify;
 
-font-family: Satoshi;
+
 font-size: 0.9rem;
 font-style: normal;
 font-weight: 700;
@@ -470,7 +470,7 @@ text-transform: capitalize;
 
 .footer-section h4 {
   color: #808D9E;
-font-family: Satoshi;
+
 font-size: 1rem;
 font-style: normal;
 font-weight: 700;
@@ -505,7 +505,7 @@ text-transform: uppercase;
 
 .footer-bottom p{
   color: #667085;
-font-family: Satoshi;
+
 font-size: 0.7rem;
 font-style: normal;
 font-weight: 500;

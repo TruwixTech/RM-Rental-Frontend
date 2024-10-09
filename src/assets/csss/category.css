@@ -70,7 +70,7 @@ gap: 0px;
 .appliancegroup .appliancegroup-title{
   color: #3E3E3E;
 text-align: right;
-font-family: Urbanist;
+/* font-family: Urbanist; */
 font-size: 1rem;
 font-style: normal;
 font-weight: 600;
@@ -162,7 +162,7 @@ text-transform: capitalize;
   .appliancegroup .appliancegroup-title{
     color: #3E3E3E;
   text-align: right;
-  font-family: Urbanist;
+  /* font-family: Urbanist; */
   font-size: 0.85rem;
   font-style: normal;
   font-weight: 600;
@@ -257,7 +257,7 @@ text-transform: capitalize;
   .appliancegroup .appliancegroup-title{
     color: #3E3E3E;
   text-align: right;
-  font-family: Urbanist;
+  /* font-family: Urbanist; */
   font-size: 1rem;
   font-style: normal;
   font-weight: 600;
@@ -354,7 +354,7 @@ text-transform: capitalize;
   .appliancegroup .appliancegroup-title{
     color: #3E3E3E;
   text-align: right;
-  font-family: Urbanist;
+  /* font-family: Urbanist; */
   font-size: 0.9rem;
   font-style: normal;
   font-weight: 600;
@@ -449,7 +449,7 @@ text-transform: capitalize;
   .appliancegroup .appliancegroup-title{
     color: #3E3E3E;
   text-align: right;
-  font-family: Urbanist;
+  /* font-family: Urbanist; */
   font-size: 0.9rem;
   font-style: normal;
   font-weight: 600;
@@ -541,7 +541,7 @@ text-transform: capitalize;
   .appliancegroup .appliancegroup-title{
     color: #3E3E3E;
   text-align: right;
-  font-family: Urbanist;
+  /* font-family: Urbanist; */
   font-size: 0.9rem;
   font-style: normal;
   font-weight: 600;

@@ -93,7 +93,7 @@ outline: none;
 
 .upper h2{
     color: #0F0F0F;
-font-family: Satoshi;
+
 font-size: 3rem;
 font-style: normal;
 font-weight: 500;
@@ -102,7 +102,7 @@ letter-spacing: -0.08125rem;
 }
 .upper span{
     color: var(--grey, rgba(15, 15, 15, 0.30));
-    font-family: Satoshi;
+    
     font-size: 3rem;
     font-style: normal;
     font-weight: 500;
@@ -119,7 +119,7 @@ letter-spacing: -0.08125rem;
 
 .upper .Subtitle{
     color: #0F0F0F;
-font-family: Satoshi;
+
 font-size: 1rem;
 font-style: normal;
 font-weight: 500;
@@ -149,7 +149,7 @@ letter-spacing: -0.02825rem;
     text-align: justify;
     leading-trim: both;
     text-edge: cap;
-    font-family: Satoshi;
+    
     font-size: 1.2rem;
     font-style: normal;
     font-weight: 500;
@@ -217,7 +217,7 @@ letter-spacing: -0.02825rem;
 
     .fullbanner h2{
         color: #0F0F0F;
-        font-family: Satoshi;
+        
         font-size: 1.5rem;
         font-style: normal;
         font-weight: 500;
@@ -227,7 +227,7 @@ letter-spacing: -0.02825rem;
 
     .fullbanner span{
         color: var(--grey, rgba(15, 15, 15, 0.30));
-        font-family: Satoshi;
+        
         font-size: 1.5rem;
         font-style: normal;
         font-weight: 500;
@@ -279,7 +279,7 @@ letter-spacing: -0.02825rem;
 
     .fullbanner-subtitle{
         color: #0F0F0F;
-        font-family: Satoshi;
+        
         font-size: 0.8rem;
         font-style: normal;
         font-weight: 500;
@@ -294,7 +294,7 @@ letter-spacing: -0.02825rem;
     .fullbanner-lower h2{
         color: #0F0F0F;
         text-align: justify;
-        font-family: Satoshi;
+        
         font-size: 1rem;
         font-style: normal;
         font-weight: 500;
@@ -341,7 +341,7 @@ letter-spacing: -0.02825rem;
 
     .fullbanner h2{
         color: #0F0F0F;
-        font-family: Satoshi;
+        
         font-size: 1.8rem;
         font-style: normal;
         font-weight: 500;
@@ -351,7 +351,7 @@ letter-spacing: -0.02825rem;
 
     .fullbanner span{
         color: var(--grey, rgba(15, 15, 15, 0.30));
-        font-family: Satoshi;
+        
         font-size: 2rem;
         font-style: normal;
         font-weight: 500;
@@ -403,7 +403,7 @@ letter-spacing: -0.02825rem;
 
     .fullbanner-subtitle{
         color: #0F0F0F;
-        font-family: Satoshi;
+        
         font-size: 0.8rem;
         font-style: normal;
         font-weight: 500;
@@ -418,7 +418,7 @@ letter-spacing: -0.02825rem;
     .fullbanner-lower h2{
         color: #0F0F0F;
         text-align: justify;
-        font-family: Satoshi;
+        
         font-size: 1.2rem;
         font-style: normal;
         font-weight: 500;
@@ -523,7 +523,7 @@ letter-spacing: -0.02825rem;
     
     .upper h2{
         color: #0F0F0F;
-    font-family: Satoshi;
+    
     font-size: 1.5rem;
     font-style: normal;
     font-weight: 500;
@@ -532,7 +532,7 @@ letter-spacing: -0.02825rem;
     }
     .upper span{
         color: var(--grey, rgba(15, 15, 15, 0.30));
-        font-family: Satoshi;
+        
         font-size: 1.5rem;
         font-style: normal;
         font-weight: 500;
@@ -549,7 +549,7 @@ letter-spacing: -0.02825rem;
     
     .upper .Subtitle{
         color: #0F0F0F;
-    font-family: Satoshi;
+    
     font-size: 0.8rem;
     font-style: normal;
     font-weight: 500;
@@ -579,7 +579,7 @@ letter-spacing: -0.02825rem;
         text-align: justify;
         leading-trim: both;
         text-edge: cap;
-        font-family: Satoshi;
+        
         font-size: 0.8rem;
         font-style: normal;
         font-weight: 500;
@@ -712,7 +712,7 @@ letter-spacing: -0.02825rem;
     
     .upper h2{
         color: #0F0F0F;
-    font-family: Satoshi;
+    
     font-size: 2rem;
     font-style: normal;
     font-weight: 500;
@@ -721,7 +721,7 @@ letter-spacing: -0.02825rem;
     }
     .upper span{
         color: var(--grey, rgba(15, 15, 15, 0.30));
-        font-family: Satoshi;
+        
         font-size: 2rem;
         font-style: normal;
         font-weight: 500;
@@ -738,7 +738,7 @@ letter-spacing: -0.02825rem;
     
     .upper .Subtitle{
         color: #0F0F0F;
-    font-family: Satoshi;
+    
     font-size: 0.8rem;
     font-style: normal;
     font-weight: 500;
@@ -768,7 +768,7 @@ letter-spacing: -0.02825rem;
         text-align: justify;
         leading-trim: both;
         text-edge: cap;
-        font-family: Satoshi;
+        
         font-size: 1rem;
         font-style: normal;
         font-weight: 500;

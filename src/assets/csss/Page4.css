@@ -31,7 +31,7 @@
   margin-bottom: 15px;
   color: #5a5a5a;
 
-  font-family: Satoshi;
+  
   font-style: normal;
   font-weight: 500;
   line-height: 160%;
@@ -45,7 +45,7 @@
 
 .page4-right-group-contain span {
   color: #B58C00;
-font-family: Satoshi;
+
 font-size: 1rem;
 font-style: normal;
 font-weight: 700;
@@ -54,7 +54,7 @@ line-height: 160%; /* 2.1895rem */
 
 .page4-right-group-contain p {
   color: #222528;
-font-family: Satoshi;
+
 font-size: 0.9rem;
 font-style: normal;
 font-weight: 500;
@@ -65,7 +65,7 @@ line-height: 160%; /* 1.75163rem */
   margin-top: 10px;
   padding: 10px 32px;
   font-size: 1rem;
-  font-family: Satoshi;
+  
   font-style: normal;
   background-color: #fec500;
   color: white;
@@ -117,7 +117,7 @@ line-height: 160%; /* 1.75163rem */
     margin-bottom: 15px;
     color: #5a5a5a;
   
-    font-family: Satoshi;
+    
     font-style: normal;
     font-weight: 500;
     line-height: 1.2rem;
@@ -132,7 +132,7 @@ line-height: 160%; /* 1.75163rem */
   
   .page4-right-group-contain span {
     color: #B58C00;
-  font-family: Satoshi;
+  
   font-size: 0.9rem;
   font-style: normal;
   font-weight: 700;
@@ -141,7 +141,7 @@ line-height: 160%; /* 1.75163rem */
   
   .page4-right-group-contain p {
     color: #222528;
-  font-family: Satoshi;
+  
   font-size: 0.7rem;
   font-style: normal;
   font-weight: 500;
@@ -152,7 +152,7 @@ line-height: 160%; /* 1.75163rem */
     margin-top: 6px;
     padding: 8px 22px;
     font-size: 0.6rem;
-    font-family: Satoshi;
+    
     font-style: normal;
     background-color: #fec500;
     color: white;
@@ -208,7 +208,7 @@ line-height: 160%; /* 1.75163rem */
     margin-bottom: 15px;
     color: #5a5a5a;
   
-    font-family: Satoshi;
+    
     font-style: normal;
     font-weight: 500;
     line-height: 1.2rem;
@@ -223,7 +223,7 @@ line-height: 160%; /* 1.75163rem */
   
   .page4-right-group-contain span {
     color: #B58C00;
-  font-family: Satoshi;
+  
   font-size: 0.9rem;
   font-style: normal;
   font-weight: 700;
@@ -232,7 +232,7 @@ line-height: 160%; /* 1.75163rem */
   
   .page4-right-group-contain p {
     color: #222528;
-  font-family: Satoshi;
+  
   font-size: 0.7rem;
   font-style: normal;
   font-weight: 500;
@@ -243,7 +243,7 @@ line-height: 160%; /* 1.75163rem */
     margin-top: 6px;
     padding: 8px 22px;
     font-size: 0.6rem;
-    font-family: Satoshi;
+    
     font-style: normal;
     background-color: #fec500;
     color: white;
@@ -296,7 +296,7 @@ line-height: 160%; /* 1.75163rem */
     margin-bottom: 15px;
     color: #5a5a5a;
   
-    font-family: Satoshi;
+    
     font-style: normal;
     font-weight: 500;
     line-height: 1.2rem;
@@ -311,7 +311,7 @@ line-height: 160%; /* 1.75163rem */
   
   .page4-right-group-contain span {
     color: #B58C00;
-  font-family: Satoshi;
+  
   font-size: 0.9rem;
   font-style: normal;
   font-weight: 700;
@@ -320,7 +320,7 @@ line-height: 160%; /* 1.75163rem */
   
   .page4-right-group-contain p {
     color: #222528;
-  font-family: Satoshi;
+  
   font-size: 0.7rem;
   font-style: normal;
   font-weight: 500;
@@ -331,7 +331,7 @@ line-height: 160%; /* 1.75163rem */
     margin-top: 6px;
     padding: 8px 22px;
     font-size: 0.6rem;
-    font-family: Satoshi;
+    
     font-style: normal;
     background-color: #fec500;
     color: white;
