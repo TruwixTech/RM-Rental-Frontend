@@ -158,10 +158,10 @@ const Subscription = () => {
                   <td className=" text-center w-full">{sub.user.name}</td>
                   <td className=" text-center w-full">{sub.user.email}</td>
                   <td className=" text-center w-full">
-                    {new Date(sub.orderDate).toLocaleDateString("en-US")}
+                    {new Date(sub.orderDate).toLocaleDateString("en-GB")}
                   </td>
                   <td className=" text-center w-full">
-                    {new Date(sub.endDate).toLocaleDateString("en-US")}
+                    {new Date(sub.endDate).toLocaleDateString("en-GB")}
                   </td>
                   <td className=" text-center w-full text-red-500">
                     <SubscriptionStatus
