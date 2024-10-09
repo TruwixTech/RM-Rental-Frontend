@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import $ from "jquery"; // Import jQuery
 import { AXIOS_INSTANCE } from "../service";
+import toast from "react-hot-toast";
 
 const Subscription = () => {
   const [subscriptions, setSubscriptions] = useState([]);
@@ -11,87 +12,93 @@ const Subscription = () => {
   const [newStartDate, setNewStartDate] = useState("");
   const [filter, setFilter] = useState("all");
   const [newOrderDate, setNewOrderDate] = useState(new Date());
+  const [newOrderEndDate, setNewOrderEndDate] = useState(new Date());
+
+  const fetchSubscriptions = async () => {
+    try {
+      const response = await AXIOS_INSTANCE.get("/orders");
+      console.log("API Response:", response.data);
+      if (response.data && Array.isArray(response.data.data)) {
+        setSubscriptions(response.data.data);
+      } else {
+        console.error("Unexpected response format:", response.data);
+        setError("Unexpected response format");
+      }
+    } catch (err) {
+      console.error("Error fetching subscriptions:", err);
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchSubscriptions = async () => {
-      try {
-        const response = await AXIOS_INSTANCE.get("/orders");
-        console.log("API Response:", response.data);
-        if (response.data && Array.isArray(response.data.data)) {
-          setSubscriptions(response.data.data);
-        } else {
-          console.error("Unexpected response format:", response.data);
-          setError("Unexpected response format");
-        }
-      } catch (err) {
-        console.error("Error fetching subscriptions:", err);
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSubscriptions();
+    fetchSubscriptions(); // Initially fetch subscriptions
   }, []);
-
-  const calculateEndsubDate = (date) => {
-    const startDate = new Date(date);
-    const nextMonth = new Date(startDate.setMonth(startDate.getMonth() + 1)); // Move to the same date next month
-    return nextMonth.toISOString().split("T")[0];
-  };
 
   const handleStatusClick = (subscription) => {
     setEditingSubscription(subscription);
-    setNewStartDate(subscription.orderDate); // Set to the orderDate directly
+    setNewOrderDate(new Date(subscription.orderDate)); // Set the start date
+    setNewOrderEndDate(new Date(subscription.endDate)); // Set the correct end date
     $(".status-form-overlay").show();
   };
 
-
-  console.log(editingSubscription);
- 
-
   const handleUpdate = async (id) => {
+    console.log(newOrderDate);
+    console.log(newOrderEndDate);
     try {
-      const response = await AXIOS_INSTANCE.put(
-        `/orders/${id}`,
-        { orderDate: newOrderDate.toISOString() }
-        // Sending new orderDate
-      );
+      const response = await AXIOS_INSTANCE.put(`/orders/${id}`, {
+        orderDate: newOrderDate.toISOString(),
+        endDate: newOrderEndDate.toISOString(), // Include endDate in the same object
+      });
 
-      alert("Order date updated successfully");
-      closeModal(); // Close the modal after successful update
-
-      if (response.ok) {
-        const updatedOrder = await response.json();
-        console.log("Order date updated:", updatedOrder);
+      if (response.status === 200) {
+        toast.success("Subscription updated successfully");
+        fetchSubscriptions();
+        closeModal(); // Close the modal after successful update
       } else {
-        console.error("Failed to update order date");
+        toast.error("Failed to update order");
       }
     } catch (error) {
-      console.error("Error:", error);
+      toast.error("Something went wrong");
+      // console.error("Error:", error);
     }
   };
- 
 
   const closeModal = () => {
     setEditingSubscription(null);
     setNewStartDate("");
     $(".status-form-overlay").hide(); // Hide the overlay when closing
   };
+
   const SubscriptionStatus = ({ startDate, endDate }) => {
     const today = new Date();
+    const startDateObj = new Date(startDate);
     const endDateObj = new Date(endDate);
-    const isExpired = today >= endDateObj;
+
+    // Calculate the difference between startDate and endDate in days
+    const timeDifference = Math.abs(endDateObj - startDateObj);
+    const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24)); // Convert time difference to days
+
+    const isExpired = today >= endDateObj || daysDifference > 30;
     const status = isExpired ? "Expired" : "Active";
     const statusColor = isExpired ? "text-red-500" : "text-green-500";
 
     return <button className={`status-button ${statusColor}`}>{status}</button>;
   };
 
+  // Filter active and expired subscriptions based on the new criteria
   const filteredSubscriptions = subscriptions.filter((sub) => {
     const today = new Date();
-    const endDateObj = new Date(calculateEndsubDate(sub.orderDate));
-    const isExpired = today > endDateObj;
+    const startDateObj = new Date(sub.orderDate);
+    const endDateObj = new Date(sub.endDate);
+
+    // Calculate the difference between startDate and endDate in days
+    const timeDifference = Math.abs(endDateObj - startDateObj);
+    const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24)); // Convert time difference to days
+
+    // Determine if the subscription is expired
+    const isExpired = today >= endDateObj || daysDifference > 30;
 
     if (filter === "active") return !isExpired; // Active subscriptions
     if (filter === "expired") return isExpired; // Expired subscriptions
@@ -151,22 +158,21 @@ const Subscription = () => {
         <tbody className="w-full">
           {filteredSubscriptions.length > 0 ? (
             filteredSubscriptions.map((sub) => {
-              const endsubDate = calculateEndsubDate(sub.orderDate);
               return (
                 <tr key={sub._id} className="flex gap-6">
                   <td className=" text-center w-full">{sub._id}</td>
                   <td className=" text-center w-full">{sub.user.name}</td>
                   <td className=" text-center w-full">{sub.user.email}</td>
                   <td className=" text-center w-full">
-                    {new Date(sub.orderDate).toLocaleDateString("en-GB")}
+                    {new Date(sub.orderDate).toLocaleDateString("en-US")}
                   </td>
                   <td className=" text-center w-full">
-                    {new Date(sub.endDate).toLocaleDateString("en-GB")}
+                    {new Date(sub.endDate).toLocaleDateString("en-US")}
                   </td>
                   <td className=" text-center w-full text-red-500">
                     <SubscriptionStatus
                       startDate={sub.orderDate}
-                      endDate={endsubDate}
+                      endDate={sub.endDate}
                     />
                   </td>
                   <td className="w-full text-center ">
@@ -184,7 +190,6 @@ const Subscription = () => {
       </table>
 
       {/* Modal for editing subscription */}
-      {/* Modal for editing subscription */}
       <div
         className="status-form-overlay"
         style={{ display: editingSubscription ? "block" : "none" }}
@@ -193,7 +198,7 @@ const Subscription = () => {
           <button className="status-form-close" onClick={closeModal}>
             &times;
           </button>
-          <p className="text-2xl my-2">Update Subscription Start Date</p>
+          <p className="text-2xl my-2">Update Subscription Duration</p>
           <div>
             <div className="flex flex-col justify-center items-center">
               {editingSubscription ? (
@@ -201,7 +206,7 @@ const Subscription = () => {
               ) : (
                 <p>Loading...</p>
               )}
-              <div className="flex ietms-center gap-4 my-2">
+              <div className="flex items-center gap-4 my-2">
                 <label htmlFor="startDate" className="flex items-center">
                   Start Date:
                 </label>
@@ -212,13 +217,23 @@ const Subscription = () => {
                   className="flex items-center border border-gray-300 rounded-md p-1"
                 />
               </div>
+              <div className="flex items-center gap-4 my-2">
+                <label htmlFor="endDate" className="flex items-center">
+                  End Date:
+                </label>
+                <input
+                  type="date"
+                  value={newOrderEndDate.toISOString().substring(0, 10)}
+                  onChange={(e) => setNewOrderEndDate(new Date(e.target.value))}
+                  className="flex items-center border border-gray-300 rounded-md p-1"
+                />
+              </div>
             </div>
             <div
               className="w-full my-1 bg-green-500 text-white p-2 rounded-md cursor-pointer flex justify-center items-center"
               onClick={() => handleUpdate(editingSubscription._id)}
-              
             >
-              Update Start Date
+              Update
             </div>
             <button type="button" className="w-full my-1" onClick={closeModal}>
               Cancel
