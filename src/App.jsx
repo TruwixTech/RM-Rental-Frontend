@@ -30,6 +30,7 @@ import Orders from "./Admin/Orders";
 import KYCPage from "./pages/KYCPage";
 import KYCRecords from "./Admin/KYCRecords";
 import Contact from "./components/Contact";
+import MySubscriptions from "./pages/MySubscriptions";
 
 const App = () => {
   const navigate = useNavigate();
@@ -124,6 +125,7 @@ const App = () => {
           <Route path="/orderconfirm" element={<OrderConfirm />} />
           <Route path="/address" element={<AddressPage />} />
           <Route path="/kyc" element={<KYCPage />}></Route>
+          <Route path="/payment" element={<MySubscriptions />}></Route>
           {/* <Route path="/admindashboard" element={<AdminDashboard />} /> */}
 
           <Route path="/admindashboard" element={<AdminDashboard />}>
