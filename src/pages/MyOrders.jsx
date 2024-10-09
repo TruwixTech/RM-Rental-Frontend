@@ -30,7 +30,7 @@ const MyOrders = () => {
 
   const fetchOrders = async () => {
     try {
-      const { data } = await userService.getMyOrders();
+      const { data } = await userService.getMyOrders(user?._id);
       setOrders(data);
     } catch (error) {
       console.log(error);

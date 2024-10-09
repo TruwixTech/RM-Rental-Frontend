@@ -9,15 +9,11 @@ import userService from "../service/user.service"; // Import userService for ord
 
 // SubscriptionStatus Component
 const SubscriptionStatus = ({ startDate, endDate }) => {
-  const startDateObj = new Date(startDate);
   const endDateObj = new Date(endDate);
+  const today = new Date();
 
-  // Calculate the difference between the startDate and endDate in days
-  const timeDifference = endDateObj - startDateObj;
-  const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
-
-  // Check if the difference is more than 30 days
-  const isExpired = daysDifference > 30;
+  // Check if the endDate is less than today's date
+  const isExpired = endDateObj <= today;
   const status = isExpired ? "Expired" : "Active";
   const statusColor = isExpired ? "text-red-500" : "text-green-500";
 
@@ -36,7 +32,7 @@ const MySubscriptions = () => {
 
   const fetchOrders = async () => {
     try {
-      const { data } = await userService.getMyOrders();
+      const { data } = await userService.getMyOrders(user?._id);
       setOrders(data);
     } catch (error) {
       console.log(error);
@@ -121,14 +117,10 @@ const MySubscriptions = () => {
                               {order._id}
                             </td>
                             <td className="whitespace-nowrap px-3 py-2">
-                              {new Date(order.orderDate).toLocaleDateString(
-                                "en-US"
-                              )}
+                              {new Date(order.orderDate).toDateString()}
                             </td>
                             <td className="whitespace-nowrap px-3 py-2">
-                              {new Date(order.endDate).toLocaleDateString(
-                                "en-US"
-                              )}
+                              {new Date(order.endDate).toDateString()}
                             </td>
                             <td className="whitespace-nowrap px-3 py-2">
                               Rs. {order.totalPrice.toFixed(2)}

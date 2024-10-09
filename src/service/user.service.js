@@ -22,9 +22,9 @@ const api = {
       return error;
     }
   },
-  getMyOrders: async () => {
+  getMyOrders: async (id) => {
     try {
-      const { data } = await AXIOS_INSTANCE.get("/orders");
+      const { data } = await AXIOS_INSTANCE.get(`/orders/${id}`);
       return data;
     } catch (error) {
       return error;

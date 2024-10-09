@@ -72,18 +72,14 @@ const Subscription = () => {
   };
 
   const SubscriptionStatus = ({ startDate, endDate }) => {
-    const today = new Date();
-    const startDateObj = new Date(startDate);
     const endDateObj = new Date(endDate);
-
-    // Calculate the difference between startDate and endDate in days
-    const timeDifference = Math.abs(endDateObj - startDateObj);
-    const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24)); // Convert time difference to days
-
-    const isExpired = today >= endDateObj || daysDifference > 30;
+    const today = new Date();
+  
+    // Check if the endDate is less than today's date
+    const isExpired = endDateObj <= today;
     const status = isExpired ? "Expired" : "Active";
     const statusColor = isExpired ? "text-red-500" : "text-green-500";
-
+  
     return <button className={`status-button ${statusColor}`}>{status}</button>;
   };
 
@@ -164,10 +160,10 @@ const Subscription = () => {
                   <td className=" text-center w-full">{sub.user.name}</td>
                   <td className=" text-center w-full">{sub.user.email}</td>
                   <td className=" text-center w-full">
-                    {new Date(sub.orderDate).toLocaleDateString("en-US")}
+                    {new Date(sub.orderDate).toDateString()}
                   </td>
                   <td className=" text-center w-full">
-                    {new Date(sub.endDate).toLocaleDateString("en-US")}
+                    {new Date(sub.endDate).toDateString()}
                   </td>
                   <td className=" text-center w-full text-red-500">
                     <SubscriptionStatus

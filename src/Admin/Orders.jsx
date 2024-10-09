@@ -92,6 +92,23 @@ const Orders = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "pending":
+        return "bg-yellow-500";
+      case "kyc_verified":
+        return "bg-blue-500"; // Add color for KYC Verified
+      case "shipped":
+        return "bg-orange-500";
+      case "cancelled":
+        return "bg-red-500";
+      case "delivered":
+        return "bg-green-500"; // Add color for Delivered
+      default:
+        return "bg-gray-500"; // Fallback color
+    }
+  };
+
   return (
     <div className="orders-container">
       <h1>Orders</h1>
@@ -113,7 +130,7 @@ const Orders = () => {
                 <td>₹ {order.totalPrice.toFixed(2)}</td>
                 <td>
                   <button
-                    className={`status-button ${order.status.toLowerCase()}`}
+                    className={`status-button ${getStatusColor(order.status)}`}
                     onClick={() => handleStatusClick(order)}
                   >
                     {order.status}
@@ -160,9 +177,10 @@ const Orders = () => {
                 className="border border-gray-300 p-2 rounded-md"
               >
                 <option value="pending">Pending</option>
-                <option value="completed">Completed</option>
+                <option value="kyc_verified">KYC Verified</option>
                 <option value="shipped">Shipped</option>
                 <option value="cancelled">Cancelled</option>
+                <option value="delivered">Delivered</option>
               </select>
               <button
                 type="submit"
