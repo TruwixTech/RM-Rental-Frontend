@@ -178,7 +178,7 @@ const MyOrders = () => {
                               onClick={() => {
                                 setEditingSubscription(order); // Set order to be edited
                               }}
-                              className="btn bg-red-600 text-white"
+                              className="rounded-lg py-2 px-2 bg-red-600 text-white my-1"
                             >
                               Return / Complaint
                             </button>
