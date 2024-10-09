@@ -37,8 +37,7 @@ const OrderConfirm = () => {
           <p className="text-lg">THANK YOU</p>
           <h1 className="text-3xl font-bold my-2">YOUR ORDER IS CONFIRMED</h1>
           <p className="">
-            We will sending you an email confirmation to example. @rmrental.com
-            shortly
+            You need to Complete your KYC then only your order will be dispatched for delivery within 24 hours.
           </p>
         </div>
         <div className="order-confirm-left-btm flex flex-col gap-8  w-full bg-white p-8 rounded-lg">
