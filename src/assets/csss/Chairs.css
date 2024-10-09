@@ -906,3 +906,12 @@
 @media (min-width: 1441px) {
   /* Styles for large desktops */
 }
+
+@media (max-width: 480px) {
+  .card-details {
+      padding: 0px 10px;
+      height: 20%;
+      background-color: #fff;
+      margin-top: 100px;
+  }
+}
