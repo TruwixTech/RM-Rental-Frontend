@@ -132,7 +132,14 @@ const MySubscriptions = () => {
                               />
                             </td>
                             <td className="whitespace-nowrap px-3 py-2">
-                              <button className="rounded-lg py-2 px-2 bg-green-600 text-white">
+                              <button
+                                className={`rounded-lg py-2 px-2 ${
+                                  endDate <= new Date()
+                                    ? "bg-green-600"
+                                    : "bg-gray-400 cursor-not-allowed"
+                                } text-white`}
+                                disabled={endDate > new Date()} // Disable if endDate is greater than today
+                              >
                                 Pay Now
                               </button>
                             </td>

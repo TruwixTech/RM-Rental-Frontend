@@ -56,7 +56,6 @@ const MyOrders = () => {
     const orderAmount = order ? order.totalPrice : 0;
 
     const templateParams = {
-      
       name: user?.name,
       // to_email: "rmfurniture2020@gmail.com",
       subject: formData.subject,
@@ -71,23 +70,25 @@ const MyOrders = () => {
     console.log(templateParams);
 
     emailjs
-    .sendForm(
-      'service_4ef1465', // replace with your EmailJS service ID
-      'template_4r16o6k', // replace with your EmailJS template ID
-      form.current,
-      'kjKv0FoUnqquZpgTb' // replace with your EmailJS user ID
-    )
-    .then(
-      (result) => {
-        console.log(result.text);
-        alert('Message sent successfully!');
-      },
-      (error) => {
-        console.log(error.text);
-        alert('Failed to send message.');
-      }
-    );
-};
+      .sendForm(
+        "service_4ef1465", // replace with your EmailJS service ID
+        "template_4r16o6k", // replace with your EmailJS template ID
+        form.current,
+        "kjKv0FoUnqquZpgTb" // replace with your EmailJS user ID
+      )
+      .then(
+        (result) => {
+          // console.log(result.text);
+          toast.success("Service Request Sent Successfully");
+          closeModal();
+          // alert('Message sent successfully!');
+        },
+        (error) => {
+          // console.log(error.text);
+          toast.error("Something Went Wrong");
+        }
+      );
+  };
 
   return (
     <div className="user-profile w-full flex justify-between p-8 bg-[#f1f1f1]">
@@ -226,7 +227,8 @@ const MyOrders = () => {
                 <label htmlFor="name" className="font-medium ">
                   Name
                 </label>
-                <input type="text"
+                <input
+                  type="text"
                   id="name"
                   name="name"
                   value={formData.name}
@@ -235,14 +237,14 @@ const MyOrders = () => {
                   }
                   className="border w-[70%] border-gray-300 rounded-md px-2 flex-1"
                   required
-                  
                 />
               </div>
               <div className="flex items-center gap-2">
                 <label htmlFor="name" className="font-medium ">
                   Email
                 </label>
-                <input type="email"
+                <input
+                  type="email"
                   id="email"
                   name="email"
                   value={formData.email}
@@ -251,7 +253,6 @@ const MyOrders = () => {
                   }
                   className="border w-[70%] border-gray-300 rounded-md px-2 flex-1"
                   required
-                  
                 />
               </div>
               {/* <div className="flex items-center gap-2">
@@ -288,7 +289,7 @@ const MyOrders = () => {
                   <option value="Return">Return</option>
                   <option value="Complaint">Complaint</option>
                 </select>
-              </div> 
+              </div>
               <div className="flex flex-col gap-2">
                 <label htmlFor="message" className="flex-shrink-0 font-medium">
                   Message
