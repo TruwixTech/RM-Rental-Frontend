@@ -56,36 +56,38 @@ const MyOrders = () => {
     const orderAmount = order ? order.totalPrice : 0;
   
     const templateParams = {
-      name: "Daradesuraj",
-      // from_name: user?.name,
+      
+      name: user?.name,
       // to_email: "rmfurniture2020@gmail.com",
       subject: formData.subject,
       // order_id: orderId,
       // order_amount: orderAmount,
-      // type: formData.type,
+      type: formData.type,
       message: formData.message,
-      // user_email: user?.email,
+      email: formData?.email,
       // user_mobile: user?.mobileNumber,
     };
 
     console.log(templateParams)
   
     emailjs
-      .send(
-        "",
-        "",
-        templateParams,  // Pass the form data directly here
-        ""
-      )
-      .then((response) => {
-        toast.success("Service Request Sent Successfully");
-        closeModal();
-      })
-      .catch((error) => {
-        toast.error("Failed to Send Service Request");
-      });
-  };
-  
+    .sendForm(
+      'service_4ef1465', // replace with your EmailJS service ID
+      'template_4r16o6k', // replace with your EmailJS template ID
+      form.current,
+      'kjKv0FoUnqquZpgTb' // replace with your EmailJS user ID
+    )
+    .then(
+      (result) => {
+        console.log(result.text);
+        alert('Message sent successfully!');
+      },
+      (error) => {
+        console.log(error.text);
+        alert('Failed to send message.');
+      }
+    );
+};
 
   return (
     <div className="user-profile w-full flex justify-between p-8 bg-[#f1f1f1]">
@@ -140,7 +142,7 @@ const MyOrders = () => {
                         <th className="w-1/5 px-3">Order Date</th>
                         <th className="w-1/6 px-1">Order Amount</th>
                         <th className="w-1/6 px-1">Status</th>
-                        <th className="w-1/5 px-3">Action</th>
+                        {/* <th className="w-1/5 px-3">Action</th> */}
                       </tr>
                     </thead>
                     <tbody>
@@ -156,13 +158,13 @@ const MyOrders = () => {
                             {new Date(order.createdAt).toDateString()}
                           </td>
                           <td className="whitespace-nowrap px-1 py-2">
-                            Rs.{order.totalPrice}
+                            Rs. {order.totalPrice.toFixed(2)}
                           </td>
                           <td className="whitespace-nowrap px-1 py-2">
                             {order.status}
                           </td>
                           <td className="flex gap-2">
-                            <button
+                            {/* <button
                               onClick={() => {
                                 navigate("/orderconfirm", {
                                   state: { orderId: order._id },
@@ -171,12 +173,12 @@ const MyOrders = () => {
                               className="btn btn-primary"
                             >
                               Details
-                            </button>
+                            </button> */}
                             <button
                               onClick={() => {
                                 setEditingSubscription(order); // Set order to be edited
                               }}
-                              className="btn btn-secondary"
+                              className="btn bg-red-600 text-white"
                             >
                               Return / Complaint
                             </button>
@@ -221,6 +223,38 @@ const MyOrders = () => {
               {" "}
               {/* Space between fields */}
               <div className="flex items-center gap-2">
+                <label htmlFor="name" className="font-medium ">
+                  Name
+                </label>
+                <input type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
+                  className="border w-[70%] border-gray-300 rounded-md px-2 flex-1"
+                  required
+                  
+                />
+              </div>
+              <div className="flex items-center gap-2">
+                <label htmlFor="name" className="font-medium ">
+                  Email
+                </label>
+                <input type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
+                  className="border w-[70%] border-gray-300 rounded-md px-2 flex-1"
+                  required
+                  
+                />
+              </div>
+              {/* <div className="flex items-center gap-2">
                 <label htmlFor="subject" className="flex-shrink-0 font-medium">
                   Subject:
                 </label>
@@ -235,10 +269,10 @@ const MyOrders = () => {
                   required
                   rows={2}
                 />
-              </div>
-              {/* <div className="flex items-center gap-2">
-                <label htmlFor="type" className="flex-shrink-0 font-medium">
-                  Type:
+              </div> */}
+              <div className="flex gap-2">
+                <label htmlFor="type" className="mr-2 font-medium">
+                  Type
                 </label>
                 <select
                   id="type"
@@ -247,17 +281,17 @@ const MyOrders = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, type: e.target.value })
                   }
-                  className="border border-gray-300 rounded-md p-1 flex-1"
+                  className="border w-[70%] border-gray-300 rounded-md px-2 flex-1"
                   required
                 >
                   <option value="">Select</option>
                   <option value="Return">Return</option>
                   <option value="Complaint">Complaint</option>
                 </select>
-              </div> */}
-              <div className="flex items-center gap-2">
+              </div> 
+              <div className="flex flex-col gap-2">
                 <label htmlFor="message" className="flex-shrink-0 font-medium">
-                  Message:
+                  Message
                 </label>
                 <textarea
                   id="message"
