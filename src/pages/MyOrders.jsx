@@ -54,7 +54,7 @@ const MyOrders = () => {
   const handleSubmit = (orderId) => {
     const order = orders.find((order) => order._id === orderId);
     const orderAmount = order ? order.totalPrice : 0;
-  
+
     const templateParams = {
       name: "Daradesuraj",
       // from_name: user?.name,
@@ -68,13 +68,13 @@ const MyOrders = () => {
       // user_mobile: user?.mobileNumber,
     };
 
-    console.log(templateParams)
-  
+    console.log(templateParams);
+
     emailjs
       .send(
         "",
         "",
-        templateParams,  // Pass the form data directly here
+        templateParams, // Pass the form data directly here
         ""
       )
       .then((response) => {
@@ -85,7 +85,6 @@ const MyOrders = () => {
         toast.error("Failed to Send Service Request");
       });
   };
-  
 
   return (
     <div className="user-profile w-full flex justify-between p-8 bg-[#f1f1f1]">
@@ -162,7 +161,7 @@ const MyOrders = () => {
                             {order.status}
                           </td>
                           <td className="flex gap-2">
-                            <button
+                            {/* <button
                               onClick={() => {
                                 navigate("/orderconfirm", {
                                   state: { orderId: order._id },
@@ -171,7 +170,7 @@ const MyOrders = () => {
                               className="btn btn-primary"
                             >
                               Details
-                            </button>
+                            </button> */}
                             <button
                               onClick={() => {
                                 setEditingSubscription(order); // Set order to be edited

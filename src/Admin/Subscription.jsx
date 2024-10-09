@@ -161,7 +161,7 @@ const Subscription = () => {
                     {new Date(sub.orderDate).toLocaleDateString("en-US")}
                   </td>
                   <td className=" text-center w-full">
-                    {new Date(endsubDate).toLocaleDateString()}
+                    {new Date(sub.endDate).toLocaleDateString("en-US")}
                   </td>
                   <td className=" text-center w-full text-red-500">
                     <SubscriptionStatus
