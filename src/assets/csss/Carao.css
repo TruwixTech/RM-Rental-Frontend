@@ -170,16 +170,14 @@ font-size: 9px;
     width: 55px;
     height: 55px;
     border-radius: 50%;
-    background-color: #fff;
     /* padding: 14px; */
     /* display: flex; */
     /* justify-content: center; */
     /* align-items: center; */
     position: relative;
-    top: 28px;
-    left: 8px;
+    top: 40px;
+    left: 10px;
     z-index: 222;
-    background-image: url('../img/person1.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

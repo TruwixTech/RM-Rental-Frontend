@@ -243,9 +243,27 @@ const ProductDetails = () => {
               <div className="price-lg">
                 <span>Rent at</span>
                 <h3>
-                  {selectedMonth
-                    ? `₹${getRentPrice()} / Month`
-                    : "Select month"}
+                  {selectedMonth ? (
+                    <div>
+                      {" "}
+                      <span
+                        style={{
+                          textDecoration: "line-through",
+                          marginRight: "8px",
+                        }}
+                      >
+                        {"₹ " +
+                          ((Number(getRentPrice()) || 0) * 1.1).toFixed(2)}
+                      </span>
+                      <span>
+                        {"₹ " +
+                          (Number(getRentPrice()) || 0).toFixed(2) +
+                          "/ month"}
+                      </span>
+                    </div>
+                  ) : (
+                    "Select month"
+                  )}
                 </h3>
               </div>
             )}

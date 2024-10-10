@@ -1,41 +1,46 @@
 import "../../assets/csss/Carao.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import guy1 from "../../assets/img/guy1.png";
+import guy2 from "../../assets/img/guy2.png";
+import guy3 from "../../assets/img/guy3.png";
+import guy4 from "../../assets/img/guy4.png";
+import guy5 from "../../assets/img/guy5.png";
 
 const data = [
   {
-    name: "Priya Kumar",
-    review: "Needed last-minute furniture, and RM Rental delivered fast! Super convenient and friendly service. Highly recommend!",
+    name: "Pawan Kandpal",
+    review: "Services are good and flexible with the monthly rents, as i experienced. Thanks RM Furniture to help me during emergency. 🙏",
     rating: 5,
     title: "", // if needed
-    image: "", // add image path if needed
+    image: guy1, // add image path if needed
   },
   {
-    name: "Vikram Aggarwal",
-    review: "RM Rental offered flexible options for my office. Great quality furniture and professional service. Will use again!",
+    name: "Divyanshi Tyagi",
+    review: "Awesome service Have rented a fridge from them for few months, the rent was reasonable and condition of fridge was good",
     rating: 5,
     title: "", // if needed
-    image: "", // add image path if needed
+    image: guy2, // add image path if needed
   },
   {
-    name: "Sneha Punia",
-    review: "Affordable and stylish furniture with flexible rental options. RM Rental made furnishing my home simple and stress-free!",
+    name: "Risabh Agarwal",
+    review: "Good furniture and very good services post delivery. Very kind and polite behaviour",
     rating: 5,
     title: "", // if needed
-    image: "", // add image path if needed
+    image: guy3, // add image path if needed
   },
   {
-    name: "Megha Singh",
-    review: "RM Rental’s customer service was amazing. They answered all my questions quickly and helped me choose the right furniture. Great experience!",
+    name: "Ishika Sisodia",
+    review: "Great products, Hassle-free service. Amazing experience with RM furniture",
     rating: 5,
     title: "", // if needed
-    image: "", // add image path if needed
+    image: guy4, // add image path if needed
   },
   {
-    name: "Aditi Bhat",
-    review: "I’ve used RM Rental for both my home and office. Every time, they delivered on time with top-notch furniture. Will keep coming back!",
+    name: "Ravneet punia",
+    review: "Best place to rent your furniture. I rented my furniture with just 1 call, but best part was when i returned. On just 1 call I gave them time to pack up the furniture, they themselves brought their teams and vans to pack up. Within 2 hrs ",
     rating: 5,
     title: "", // if needed
-    image: "", // add image path if needed
+    image: guy5, // add image path if needed
   },
   
 ];
@@ -57,10 +62,10 @@ const Carao = () => {
                 <div className="card-cont">
                   <div className="Testimonial-Content-Container ">
                     <div className="Reviewer-Image-Container">
-                      {item.image && <img src={item.image} alt={item.name} />}
+                       <img src={item.image} alt={item.name} />
                     </div>
 
-                    <div className="card-cont-review-cont  min-h-[120px]">
+                    <div className="card-cont-review-cont  min-h-[150px]">
                       <div className="Reviewer-Info-Container">
                         <div className="text-sm">{item.name}</div>
                         {item.title && (

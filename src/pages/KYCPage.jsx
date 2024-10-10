@@ -18,9 +18,11 @@ const KYCPage = () => {
   const [alternateNumber, setAlternateNumber] = useState("");
   const [currentAddress, setCurrentAddress] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [rejectedReason, setRejectReason] = useState(null);
 
   const documentTypes = [
-    "Aadhaar Card",
+    "Aadhaar Card Front",
+    "Aadhaar Card Back",
     "PAN Card",
     "Office ID",
     "Utility Bill",
@@ -34,14 +36,24 @@ const KYCPage = () => {
   const fetchKYCStatus = async () => {
     try {
       const response = await getKYCStatusAPI.getKYCStatus(user?._id);
+      
       if (response.kycStatus) {
         setKycStatus(response.kycStatus);
       }
+  
+      if (response.rejectReason) {
+        setRejectReason(response.rejectReason); // Assuming you have a state for rejectReason
+      } else {
+        setRejectReason(null); // Clear rejectReason if it's not present
+      }
     } catch (error) {
       setKycStatus(null);
+      setRejectReason(null); // Clear rejectReason in case of an error
     }
+    
     setLoading(false);
   };
+  
 
   useEffect(() => {
     fetchKYCStatus();
@@ -68,7 +80,7 @@ const KYCPage = () => {
     e.preventDefault();
     if (files.some((file) => !file)) {
       // Check if all 5 files are selected
-      toast.error("Please select all 5 documents.");
+      toast.error("Please select all 6 documents.");
       return;
     }
     if (!alternateNumber || !currentAddress) {
@@ -87,7 +99,7 @@ const KYCPage = () => {
       if (response.success) {
         toast.success("KYC documents uploaded successfully.");
         fetchKYCStatus(); // Fetch the updated status after submission
-        setFiles(Array(5).fill(null)); // Clear files after successful submission
+        setFiles(Array(6).fill(null)); // Clear files after successful submission
         setAlternateNumber(""); // Clear alternate number
         setCurrentAddress(""); // Clear current address
       } else {
@@ -158,9 +170,10 @@ const KYCPage = () => {
                 </div>
               )}
               {kycStatus === "Rejected" && (
-                <div className="flex items-center bg-red-100 text-red-800 p-2 rounded">
+                <div className="flex items-center  bg-red-100 text-red-800 p-4 rounded">
                   <FaUpload className="mr-2" />
-                  <span>Your KYC was rejected.</span>
+                  <span className="">Your KYC was rejected and Reason of Rejection of KYC : {rejectedReason}</span>
+                 
                 </div>
               )}
             </div>

@@ -5,6 +5,9 @@ import toast from "react-hot-toast";
 const KYCRecords = () => {
   const [kycs, setKycs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showRejectModal, setShowRejectModal] = useState(false); // State to handle reject modal visibility
+  const [currentKycId, setCurrentKycId] = useState(null); // Track the KYC ID being rejected
+  const [rejectedReason, setRejectReason] = useState(""); // State for capturing reject reason
 
   // Fetch all KYC records
   const fetchKYCs = async () => {
@@ -18,10 +21,16 @@ const KYCRecords = () => {
   };
 
   // Handle KYC status update
-  const handleKYCStatusUpdate = async (kycId, newStatus) => {
+  const handleKYCStatusUpdate = async (kycId, newStatus, rejectedReason) => {
     try {
-      const data = await updateKYCAPI.updateKYC(kycId, newStatus);
+      console.log("KYC ID:", kycId);
+      console.log("New Status:", newStatus);
+      console.log("Rejection Reason:", rejectedReason); // Log to check if reason is passed
+
+      const data = await updateKYCAPI.updateKYC(kycId, newStatus, rejectedReason); 
+      
       console.log(data);
+  
       if (data.success) {
         toast.success("KYC Status Updated Successfully!");
         fetchKYCs(); // Refresh the KYC list after updating
@@ -31,8 +40,28 @@ const KYCRecords = () => {
     } catch (error) {
       console.log("Error updating KYC status:", error);
     }
+};
+
+  // Show reject modal with current KYC ID
+  const openRejectModal = (kycId) => {
+    setCurrentKycId(kycId); // Set the current KYC ID
+    // handleKYCStatusUpdate(kycId, "Rejected", rejectedReason); // Update the status to rejected
+    setShowRejectModal(true); // Show the modal
   };
 
+  // Handle reject submit
+  const handleRejectSubmit = () => {
+    if (!rejectedReason) {
+      toast.error("Please enter a reason for rejection.");
+      return;
+    }
+  
+    // Call the function to update the KYC status and pass the rejection reason
+    handleKYCStatusUpdate(currentKycId, "Rejected", rejectedReason);
+  
+    setShowRejectModal(false); // Close the modal after submitting
+    setRejectReason(""); 
+  };
   // Fetch KYC records when component mounts
   useEffect(() => {
     fetchKYCs();
@@ -55,7 +84,7 @@ const KYCRecords = () => {
           <div className="flex flex-col items-start w-full">
             <h2 className="text-2xl font-semibold mb-4">KYC Records</h2>
             {kycs.length > 0 ? (
-              <div className="kyc-list w-full overflow-x-auto"> {/* Make this div scrollable */}
+              <div className="kyc-list w-full overflow-x-auto">
                 <table className="table-auto w-full mb-4">
                   <thead>
                     <tr>
@@ -103,9 +132,7 @@ const KYCRecords = () => {
                                     Approve
                                   </button>
                                   <button
-                                    onClick={() =>
-                                      handleKYCStatusUpdate(kyc._id, "Rejected")
-                                    }
+                                    onClick={() => openRejectModal(kyc._id)} // Open modal for rejection
                                     className="btn btn-danger w-24"
                                   >
                                     Reject
@@ -124,9 +151,7 @@ const KYCRecords = () => {
                               )}
                               {kyc.kycStatus === "Approved" && (
                                 <button
-                                  onClick={() =>
-                                    handleKYCStatusUpdate(kyc._id, "Rejected")
-                                  }
+                                  onClick={() => openRejectModal(kyc._id)} // Open modal for rejection
                                   className="btn btn-danger w-24"
                                 >
                                   Reject
@@ -146,6 +171,36 @@ const KYCRecords = () => {
           </div>
         )}
       </div>
+
+      {/* Reject Modal */}
+      {showRejectModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg w-1/3">
+            <h3 className="text-lg font-semibold mb-4">Reason for Rejection</h3>
+            <textarea
+              className="w-full p-2 border rounded-md mb-4"
+              rows="4"
+              value={rejectedReason}
+              onChange={(e) => setRejectReason(e.target.value)}
+              placeholder="Enter the reason for rejection..."
+            />
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={() => setShowRejectModal(false)} // Close modal without action
+                className="btn btn-secondary"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleRejectSubmit} // Submit the reject reason
+                className="btn btn-danger"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

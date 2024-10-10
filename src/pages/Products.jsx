@@ -6,7 +6,6 @@ import { getAllProductsAPI } from "../service/products.service";
 const Products = () => {
   const location = useLocation();
   const selectedCategory = location.state?.selectedCategory || "";
-
   const [products, setProducts] = useState([]);
   const [productFilter, setProductFilter] = useState({
     page: 1,
@@ -58,7 +57,8 @@ const Products = () => {
   const getLowestRentPrice = (rentalOptions) => {
     if (!rentalOptions) return "No rent options";
 
-    const { rent3Months, rent6Months, rent9Months, rent12Months } = rentalOptions;
+    const { rent3Months, rent6Months, rent9Months, rent12Months } =
+      rentalOptions;
     const rents = [rent3Months, rent6Months, rent9Months, rent12Months].filter(
       (rent) => rent !== null && rent !== undefined
     );
@@ -78,13 +78,13 @@ const Products = () => {
               <div className="checkboxes space-y-4">
                 {[
                   { id: "category-appliance", value: "appliance" },
-                  { id: "category-sofa", value: "sofa" },
-                  { id: "category-kitchen", value: "kitchen" },
+                  { id: "category-sofa", value: "Living Room" },
+                  // { id: "category-kitchen", value: "kitchen" },
                   { id: "category-storage", value: "storage" },
-                  { id: "category-bed", value: "bed" },
-                  { id: "category-bath", value: "bath" },
-                  { id: "category-chair", value: "chair" },
-                  { id: "category-table", value: "table" }
+                  { id: "category-bed", value: "bedroom" },
+                  // { id: "category-bath", value: "bath" },
+                  { id: "category-chair", value: "study room" },
+                  { id: "category-table", value: "table" },
                 ].map((category) => (
                   <div className="checkbox flex items-center" key={category.id}>
                     <div className="checkbox-grp flex items-center">
@@ -110,7 +110,6 @@ const Products = () => {
             </div>
           </div>
         </div>
-
 
         <div className="productpage-right sm:w-auto">
           <div className="flex justify-between items-center mb-4">
@@ -173,10 +172,11 @@ const Products = () => {
                         product.rentalOptions.rent6Months ||
                         product.rentalOptions.rent9Months ||
                         product.rentalOptions.rent12Months) ? (
-                        <h5>
-                          {"Rent ₹ " +
-                            getLowestRentPrice(product.rentalOptions) +
-                            " onwards"}
+                          <h5>
+                          <span style={{ textDecoration: "line-through", marginRight: "8px" }}>
+                            {"₹ " + (Number(getLowestRentPrice(product.rentalOptions)) * 1.1).toFixed(2)}
+                          </span>
+                          {"Rent ₹ " + Number(getLowestRentPrice(product.rentalOptions)).toFixed(2) + " onwards"}
                         </h5>
                       ) : (
                         "No rent options"

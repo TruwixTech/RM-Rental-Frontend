@@ -13,9 +13,9 @@ export const getAllKYCAPI = {
 };
 
 export const updateKYCAPI = {
-  updateKYC: async (kycId, newStatus) => {
+  updateKYC: async (kycId, newStatus,rejectedReason) => {
     try {
-      const data = await AXIOS_INSTANCE.put(`/kyc`, {kycId, newStatus});
+      const data = await AXIOS_INSTANCE.put(`/kyc`, {kycId, newStatus, rejectedReason});
       return data.data;
     } catch (error) {
       console.error("Error fetching KYCs", error);
@@ -28,10 +28,17 @@ export const getKYCStatusAPI = {
   getKYCStatus: async (userId) => {
     try {
       const { data } = await AXIOS_INSTANCE.get(`/kyc/status/${userId}`);
-      return data;
+      
+      // Ensure the data includes rejectReason, kycStatus, and documents
+      return {
+        success: data.success,
+        kycStatus: data.kycStatus,
+        documents: data.documents,
+        rejectReason: data.rejectReason || null, // Handle the case where rejectReason might not exist
+      };
     } catch (error) {
       console.error("Error fetching KYC status:", error);
-      throw error; // Throw the error for handling in the component
+      throw error; // Propagate the error for handling in the component
     }
   },
 };

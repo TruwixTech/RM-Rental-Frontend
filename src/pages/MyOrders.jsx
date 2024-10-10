@@ -108,7 +108,7 @@ const MyOrders = () => {
                 name: "Payment",
                 url: "/payment",
               },
-              { icon: <IoSettings />, name: "Setting", url: "/setting" },
+              // { icon: <IoSettings />, name: "Setting", url: "/setting" },
             ].map((item, index) => (
               <Link
                 to={item.url}
