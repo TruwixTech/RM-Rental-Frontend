@@ -165,24 +165,17 @@ const MyOrders = () => {
                             {order.status}
                           </td>
                           <td className="flex gap-2">
-                            {/* <button
-                              onClick={() => {
-                                navigate("/orderconfirm", {
-                                  state: { orderId: order._id },
-                                });
-                              }}
-                              className="btn btn-primary"
-                            >
-                              Details
-                            </button> */}
-                            <button
-                              onClick={() => {
-                                setEditingSubscription(order); // Set order to be edited
-                              }}
-                              className="rounded-lg py-2 px-2 bg-red-600 text-white my-1"
-                            >
-                              Return / Complaint
-                            </button>
+                            {/* Conditionally render the button only when the status is 'delivered' */}
+                            {order.status === "delivered" && (
+                              <button
+                                onClick={() => {
+                                  setEditingSubscription(order); // Set order to be edited
+                                }}
+                                className="rounded-lg py-2 px-2 bg-red-600 text-white my-1"
+                              >
+                                Return / Complaint
+                              </button>
+                            )}
                           </td>
                         </tr>
                       ))}
