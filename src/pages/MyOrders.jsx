@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { RiMoneyRupeeCircleFill } from "react-icons/ri";
 import { IoSettings } from "react-icons/io5";
 import { FaShoppingBag, FaIdCard } from "react-icons/fa";
@@ -14,14 +14,16 @@ const MyOrders = () => {
   const user = storageService.get("user");
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [editingSubscription, setEditingSubscription] = useState(null); // State for the form
   const [formData, setFormData] = useState({
     subject: "",
     type: "",
     message: "",
+    product: "All", // Default to 'All'
+    pickupDate: "", // State for pickup date
   }); // Form data state
-
+  const [products, setProducts] = useState([]); // State for products
   const form = useRef();
 
   const ClickHandler = (link) => {
@@ -38,53 +40,62 @@ const MyOrders = () => {
     setLoading(false);
   };
 
-  // Set active link to "My Orders" when component mounts
   useEffect(() => {
     fetchOrders();
-    setActiveLink("My Orders"); // Set active link as "My Orders"
+    setActiveLink("My Orders");
   }, []);
 
-  // Close modal
   const closeModal = () => {
     setEditingSubscription(null);
-    setFormData({ subject: "", type: "", message: "" }); // Reset form data
+    setFormData({
+      subject: "",
+      type: "",
+      message: "",
+      product: "All",
+      pickupDate: "",
+    });
+    setProducts([]); // Reset products when modal closes
   };
 
-  // Handle form submit
+  const fetchProductsForOrder = async (orderId) => {
+    console.log(orderId);
+    try {
+      const data = await userService.getOrderProducts(orderId);
+      console.log(data); // Fetch products for the order
+      setProducts(data.data); // Assuming the API returns a list of product names
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to fetch products");
+    }
+  };
+
   const handleSubmit = (orderId) => {
-    const order = orders.find((order) => order._id === orderId);
-    const orderAmount = order ? order.totalPrice : 0;
+    // const order = orders.find((order) => order._id === orderId);
+    // const orderAmount = order ? order.totalPrice : 0;
 
-    const templateParams = {
-      name: user?.name,
-      // to_email: "rmfurniture2020@gmail.com",
-      subject: formData.subject,
-      // order_id: orderId,
-      // order_amount: orderAmount,
-      type: formData.type,
-      message: formData.message,
-      email: formData?.email,
-      // user_mobile: user?.mobileNumber,
-    };
-
-    console.log(templateParams);
+    // // const templateParams = {
+    //   name: user?.name,
+    //   subject: formData.subject,
+    //   type: formData.type,
+    //   message: formData.message,
+    //   product: formData.product,
+    //   pickupDate: formData.pickupDate,
+    //   email: formData?.email,
+    // };
 
     emailjs
       .sendForm(
-        "service_4ef1465", // replace with your EmailJS service ID
-        "template_4r16o6k", // replace with your EmailJS template ID
+        "service_4ef1465",
+        "template_4r16o6k",
         form.current,
-        "kjKv0FoUnqquZpgTb" // replace with your EmailJS user ID
+        "kjKv0FoUnqquZpgTb"
       )
       .then(
         (result) => {
-          // console.log(result.text);
           toast.success("Service Request Sent Successfully");
           closeModal();
-          // alert('Message sent successfully!');
         },
         (error) => {
-          // console.log(error.text);
           toast.error("Something Went Wrong");
         }
       );
@@ -143,7 +154,6 @@ const MyOrders = () => {
                         <th className="w-1/5 px-3">Order Date</th>
                         <th className="w-1/6 px-1">Order Amount</th>
                         <th className="w-1/6 px-1">Status</th>
-                        {/* <th className="w-1/5 px-3">Action</th> */}
                       </tr>
                     </thead>
                     <tbody>
@@ -165,11 +175,11 @@ const MyOrders = () => {
                             {order.status}
                           </td>
                           <td className="flex gap-2">
-                            {/* Conditionally render the button only when the status is 'delivered' */}
                             {order.status === "delivered" && (
                               <button
                                 onClick={() => {
-                                  setEditingSubscription(order); // Set order to be edited
+                                  setEditingSubscription(order);
+                                  fetchProductsForOrder(order?._id); // Fetch products for this order
                                 }}
                                 className="rounded-lg py-2 px-2 bg-red-600 text-white my-1"
                               >
@@ -189,14 +199,9 @@ const MyOrders = () => {
           </div>
         )}
       </div>
-      {/* Modal Form for Return / Complaint */}
       {editingSubscription && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          {" "}
-          {/* Full-screen overlay */}
           <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full mx-4">
-            {" "}
-            {/* Modal container */}
             <button
               className="absolute top-2 right-2 text-gray-600"
               onClick={closeModal}
@@ -214,8 +219,6 @@ const MyOrders = () => {
                 handleSubmit(editingSubscription._id);
               }}
             >
-              {" "}
-              {/* Space between fields */}
               <div className="flex items-center gap-2">
                 <label htmlFor="name" className="font-medium ">
                   Name
@@ -233,7 +236,7 @@ const MyOrders = () => {
                 />
               </div>
               <div className="flex items-center gap-2">
-                <label htmlFor="name" className="font-medium ">
+                <label htmlFor="email" className="font-medium ">
                   Email
                 </label>
                 <input
@@ -248,22 +251,6 @@ const MyOrders = () => {
                   required
                 />
               </div>
-              {/* <div className="flex items-center gap-2">
-                <label htmlFor="subject" className="flex-shrink-0 font-medium">
-                  Subject:
-                </label>
-                <textarea
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={(e) =>
-                    setFormData({ ...formData, subject: e.target.value })
-                  }
-                  className="border border-gray-300 rounded-md p-1 flex-1"
-                  required
-                  rows={2}
-                />
-              </div> */}
               <div className="flex gap-2">
                 <label htmlFor="type" className="mr-2 font-medium">
                   Type
@@ -283,8 +270,46 @@ const MyOrders = () => {
                   <option value="Complaint">Complaint</option>
                 </select>
               </div>
+              <div className="flex gap-2">
+                <label htmlFor="product" className="mr-2 font-medium">
+                  Product
+                </label>
+                <select
+                  id="product"
+                  name="product"
+                  value={formData.product}
+                  onChange={(e) =>
+                    setFormData({ ...formData, product: e.target.value })
+                  }
+                  className="border w-[70%] border-gray-300 rounded-md px-2 flex-1"
+                  required
+                >
+                  <option value="All">All</option>
+                  {products.map((product, index) => (
+                    <option key={index} value={product}>
+                      {product}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex items-center gap-2">
+                <label htmlFor="pickupDate" className="font-medium">
+                  Pickup Date
+                </label>
+                <input
+                  type="date"
+                  id="pickupDate"
+                  name="pickupDate"
+                  value={formData.pickupDate}
+                  onChange={(e) =>
+                    setFormData({ ...formData, pickupDate: e.target.value })
+                  }
+                  className="border w-[70%] border-gray-300 rounded-md px-2 flex-1"
+                  required
+                />
+              </div>
               <div className="flex flex-col gap-2">
-                <label htmlFor="message" className="flex-shrink-0 font-medium">
+                <label htmlFor="message" className="font-medium">
                   Message
                 </label>
                 <textarea
@@ -299,10 +324,8 @@ const MyOrders = () => {
                   rows={4}
                 />
               </div>
-              <button
-                className="bg-green-500 text-white rounded-md py-2 cursor-pointer"
-                // onClick={() => handleSubmit(editingSubscription._id)} // Pass order ID to handleSubmit
-              >
+
+              <button className="bg-green-500 text-white rounded-md py-2 cursor-pointer">
                 Submit
               </button>
               <button
