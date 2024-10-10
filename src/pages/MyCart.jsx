@@ -242,7 +242,7 @@ const MyCart = () => {
                     />
                   </div>
                   <div className="item-details">
-                    <h3>{item?.product?.title}</h3>
+                    <h3 className="">{item?.product?.title}</h3>
                     <p className="sub-title">{item?.product?.sub_title}</p>
                     <p className="price">
                       {`₹ ${

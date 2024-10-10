@@ -222,14 +222,28 @@
 }
 
 /* Media Queries for Mobile Adjustments */
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .cart-item {
-    padding: 30px; /* More padding for larger screens */
+    padding: 10px; /* More padding for larger screens */
   }
 
   .image-to-left img {
-    width: 180px; /* Larger image width for larger screens */
-    height: 180px;
+    width: 220px; /* Larger image width for larger screens */
+    height: 220px;
     margin-right: 20px; /* More margin for larger screens */
+
+
   }
+  .cart-item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+    
+  }
+  .delete-btn-container {
+    margin-top: 20px;
+  }
+  
+  
 }
