@@ -26,7 +26,7 @@ const MyCart = () => {
   const month = deliveryDate.toLocaleString("default", { month: "short" });
   const formattedDeliveryDate = `Delivery by ${day} ${month}`;
 
-  const destinations = "18.532881931761416, 73.85157119570161";
+  const destinations = "28.639472251102678, 77.35496546714297";
 
   const getDistance = async () => {
     const distance = await userService.getLocation(origins, destinations);

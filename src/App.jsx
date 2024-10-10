@@ -40,6 +40,15 @@ const App = () => {
     setActive(!active);
   };
 
+  const handleLogout = () => {
+    navigate("/");
+    localStorage.removeItem("token");
+    localStorage.clear();
+    window.location.reload();
+    
+
+  };
+
   return (
     <div>
       <Navbar active={active} userClickHandler={userClickHandler} />
@@ -94,16 +103,9 @@ const App = () => {
               <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#FEC500] text-black text-2xl">
                 <IoLogOutSharp />
               </div>
-              <Link
-                onClick={() => {
-                  localStorage.removeItem("token");
-                  localStorage.clear();
-                  window.location.reload();
-                }}
-                className="block px-4 py-2"
-              >
+              <div onClick={handleLogout} className="block px-4 py-2 cursor-pointer">
                 Logout
-              </Link>
+              </div>
             </li>
           </ul>
         </div>
@@ -133,7 +135,10 @@ const App = () => {
             <Route path="allproduct" element={<AllProducts />} />
             <Route path="addproduct" element={<AddProduct />} />
             <Route path="orders" element={<Orders />} />
-            <Route path="/admindashboard/kyc-records" element={<KYCRecords />} />
+            <Route
+              path="/admindashboard/kyc-records"
+              element={<KYCRecords />}
+            />
             {/*  <Route path="coupon" element={<Coupon />} />
             <Route path="categorie" element={<Categories />} />
             <Route path="brands" element={<Brands />} />
@@ -151,7 +156,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/products" element={<Products />} />
-         
+          <Route path="/product/:id" element={<ProductDetails />} />
         </Routes>
       )}
       <Routes>
