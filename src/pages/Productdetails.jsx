@@ -1,13 +1,15 @@
 /* eslint-disable no-unused-vars */
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../assets/csss/Productdetails.css";
 import { useParams } from "react-router-dom";
 import { addToCartAPI } from "../service/cart.service";
 import { getProductByIdAPI } from "../service/products.service";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import storageService from "../service/storage.service";
 
 const ProductDetails = () => {
+  const user = storageService.get("user");
   const [productData, setProductData] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
   const [selectedMonth, setSelectedMonth] = useState(3);
@@ -81,6 +83,10 @@ const ProductDetails = () => {
   };
 
   const myproductAdd = async (type) => {
+    if (!user) {
+      toast.error("You are not logged in!");
+      return;
+    }
     let rent_quantity = 1;
 
     switch (type) {
@@ -94,7 +100,6 @@ const ProductDetails = () => {
               rentMonthsCount: selectedMonth, // 3, 6, 9, or 12
               rentMonths: getRentMonths(selectedMonth), // Human-readable months
             },
-            
           });
 
           if (data?.success) {
@@ -102,18 +107,17 @@ const ProductDetails = () => {
             toast.success(
               `Product added to cart for ${selectedMonth} months rent`
             );
-            navigate("/mycart")
+            navigate("/mycart");
           } else {
             toast.error("Product already in cart");
           }
         }
         break;
-  
+
       default:
         break;
     }
   };
-  
 
   // const handleIncreaseBuyQuantity = () => {
   //   setBuyQuantity((prevQuantity) => prevQuantity + 1);
@@ -238,7 +242,11 @@ const ProductDetails = () => {
             {productData?.details?.month && (
               <div className="price-lg">
                 <span>Rent at</span>
-                <h3>{selectedMonth ? `₹${getRentPrice()} / Month` : "Select month"}</h3>
+                <h3>
+                  {selectedMonth
+                    ? `₹${getRentPrice()} / Month`
+                    : "Select month"}
+                </h3>
               </div>
             )}
           </div>
@@ -305,7 +313,6 @@ const ProductDetails = () => {
             <button
               className="cart-button"
               onClick={() => myproductAdd("rent")}
-              
             >
               <i className="ri-shopping-bag-line"></i>
               <div className="Add-to-Cart-Button"> Rent</div>
