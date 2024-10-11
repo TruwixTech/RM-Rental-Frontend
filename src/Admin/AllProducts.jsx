@@ -5,7 +5,7 @@ import $ from 'jquery';
 import './Csss/AllProducts.css';
 import { FaEdit } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
-import { useSelector } from 'react-redux'; // Assuming you're using Redux for auth
+// import { useSelector } from 'react-redux'; // Assuming you're using Redux for auth
 import { AXIOS_INSTANCE } from "../service";
 
 const AllProducts = () => {
@@ -14,19 +14,22 @@ const AllProducts = () => {
   const [error, setError] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(5); // Set the number of products per page
-  const token = useSelector((state) => state.auth.token);
+  const productsPerPage = 5; // Products per page
+  // const token = useSelector((state) => state.auth.token);
 
+  // Fetch products on component mount
   useEffect(() => {
-    AXIOS_INSTANCE.get("/products")
-      .then((response) => {
+    const fetchProducts = async () => {
+      try {
+        const response = await AXIOS_INSTANCE.get("/products");
         setProducts(response.data.data);
         setLoading(false);
-      })
-      .catch((error) => {
-        setError(error.message);
+      } catch (err) {
+        setError(err.message);
         setLoading(false);
-      });
+      }
+    };
+    fetchProducts();
   }, []);
 
   const openEditForm = (product) => {
@@ -51,7 +54,7 @@ const AllProducts = () => {
     $(".overlay").fadeOut();
   };
 
-  const handleEditSubmit = (event) => {
+  const handleEditSubmit = async (event) => {
     event.preventDefault();
     const updatedProduct = {
       title: event.target.title.value,
@@ -60,48 +63,39 @@ const AllProducts = () => {
       category: event.target.category.value,
     };
 
-    AXIOS_INSTANCE.put(`/products/${selectedProduct._id}`, updatedProduct, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        setProducts(
-          products.map((product) =>
-            product._id === selectedProduct._id ? response.data.data : product
-          )
-        );
-        closeEditForm();
-      })
-      .catch((error) => {
-        setError(error.message);
+    try {
+      const response = await AXIOS_INSTANCE.put(`/products/${selectedProduct._id}`, updatedProduct, {
+        headers: { Authorization: `Bearer ${token}` },
       });
+      setProducts(
+        products.map((product) => 
+          product._id === selectedProduct._id ? response.data.data : product
+        )
+      );
+      closeEditForm();
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
-  const handleDelete = () => {
-    AXIOS_INSTANCE.delete(`/products/${selectedProduct._id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then(() => {
-        setProducts(
-          products.filter((product) => product._id !== selectedProduct._id)
-        );
-        closeDeleteModal();
-      })
-      .catch((error) => {
-        setError(error.message);
+  const handleDelete = async () => {
+    try {
+      await AXIOS_INSTANCE.delete(`/products/${selectedProduct._id}`, {
+        headers: { Authorization: `Bearer ${token}` },
       });
+      setProducts(
+        products.filter((product) => product._id !== selectedProduct._id)
+      );
+      closeDeleteModal();
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   // Pagination logic
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  );
+  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
 
   const totalPages = Math.ceil(products.length / productsPerPage);
 
@@ -115,6 +109,7 @@ const AllProducts = () => {
       <div className="header-container">
         <h1 className="products-title">ALL Products</h1>
       </div>
+
       <div className="table-container">
         <table className="products-table">
           <thead>
@@ -133,7 +128,7 @@ const AllProducts = () => {
               <tr key={product._id}>
                 <td>{product.title}</td>
                 <td>{product.sub_title}</td>
-                <td>${product.price.toFixed(2)}</td>
+                <td>${typeof product.price === 'number' ? product.price.toFixed(2) : "N/A"}</td>
                 <td>{product.category}</td>
                 <td>
                   {product.img.length > 0 && (
@@ -182,7 +177,7 @@ const AllProducts = () => {
       </div>
 
       {/* Edit Product Form */}
-      <div id="editForm">
+      <div id="editForm" className="modal-form">
         <form onSubmit={handleEditSubmit}>
           <div className="form-header">Edit Product</div>
           <label>Title</label>
@@ -220,7 +215,7 @@ const AllProducts = () => {
       </div>
 
       {/* Delete Confirmation Modal */}
-      <div id="deleteModal">
+      <div id="deleteModal" className="modal-confirm">
         <div className="modal-header">
           Are you sure you want to delete this product?
         </div>

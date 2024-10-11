@@ -32,6 +32,7 @@ import KYCRecords from "./Admin/KYCRecords";
 import Contact from "./components/Contact";
 import MySubscriptions from "./pages/MySubscriptions";
 
+
 const App = () => {
   const navigate = useNavigate();
   const [active, setActive] = useState(false);
@@ -45,8 +46,6 @@ const App = () => {
     localStorage.removeItem("token");
     localStorage.clear();
     window.location.reload();
-    
-
   };
 
   return (
@@ -103,7 +102,10 @@ const App = () => {
               <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#FEC500] text-black text-2xl">
                 <IoLogOutSharp />
               </div>
-              <div onClick={handleLogout} className="block px-4 py-2 cursor-pointer">
+              <div
+                onClick={handleLogout}
+                className="block px-4 py-2 cursor-pointer"
+              >
                 Logout
               </div>
             </li>
@@ -132,7 +134,10 @@ const App = () => {
 
           <Route path="/admindashboard" element={<AdminDashboard />}>
             <Route index element={<AdminPage />} />
-            <Route path="allproduct" element={<AllProducts />} />
+            <Route
+              path="allproduct"
+              element={<AllProducts />}
+            />
             <Route path="addproduct" element={<AddProduct />} />
             <Route path="orders" element={<Orders />} />
             <Route
