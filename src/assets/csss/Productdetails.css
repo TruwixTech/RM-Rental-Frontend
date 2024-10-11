@@ -40,7 +40,7 @@ gap: 44.267px;
 }
 
 .productdetails-left-up .Product-Images-Container{
-    display: flex;
+display: flex;
 padding-bottom: 10.216px;
 align-items: flex-start;
 gap: 55.431px;
@@ -59,7 +59,7 @@ gap: 55.431px;
 
 .productdetails-left-up .fourimg div{
     width: 100%;
-    height: 100%;
+    height: 33%;
     border-radius: 10px;
     
 }
