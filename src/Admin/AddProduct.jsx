@@ -11,79 +11,81 @@ const AddProduct = () => {
     category: "",
     img: [],
     description: "",
-    fabricCare: {
-      material: "",
-      color: [],
-    },
-    woodType: {
-      material: "",
-      color: [],
-    },
-    seatingCapacity: [],
-    configType: [],
-    colorOptions: [],
+    // fabricCare: {
+    //   material: "",
+    //   color: [],
+    // },
+    // woodType: {
+    //   material: "",
+    //   color: [],
+    // },
+    // seatingCapacity: [],
+    // configType: [],
+    // colorOptions: [],
     month: [],
-    size: "",
+    // size: "",
     rent3Months: null,
     rent6Months: null,
     rent9Months: null,
     rent12Months: null,
   });
 
-  const [newFabricColor, setNewFabricColor] = useState(null);
-  const [fabricColors, setFabricColors] = useState([]);
-  const [newWoodColor, setNewWoodColor] = useState(null);
-  const [woodColors, setWoodColors] = useState([]);
+  // const [newFabricColor, setNewFabricColor] = useState(null);
+  // const [fabricColors, setFabricColors] = useState([]);
+  // const [newWoodColor, setNewWoodColor] = useState(null);
+  // const [woodColors, setWoodColors] = useState([]);
   const [newMonth, setNewMonth] = useState(null);
   const [newRentPrice, setNewRentPrice] = useState(null);
 
   const [submitError, setSubmitError] = useState(null);
   const token = localStorage.getItem("token");
 
-  const [newSeatingCapacity, setNewSeatingCapacity] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const [newConfigType, setNewConfigType] = useState(null);
+  // const [newSeatingCapacity, setNewSeatingCapacity] = useState(null);
 
-  const [newColorOption, setNewColorOption] = useState(null);
+  // const [newConfigType, setNewConfigType] = useState(null);
+
+  // const [newColorOption, setNewColorOption] = useState(null);
   const [colorOptions, setColorOptions] = useState([]);
 
   const fileInputRef = useRef(null);
 
-  const handleSeatingCapacityChange = (e) => {
-    const value = e.target.value;
-    if (!isNaN(value) && value.trim() !== "") {
-      setNewSeatingCapacity(value);
-    }
-  };
+  // const handleSeatingCapacityChange = (e) => {
+  //   const value = e.target.value;
+  //   if (!isNaN(value) && value.trim() !== "") {
+  //     setNewSeatingCapacity(value);
+  //   }
+  // };
 
-  const addSeatingCapacity = () => {
-    const capacity = parseInt(newSeatingCapacity, 10);
-    if (!isNaN(capacity) && !formData.seatingCapacity.includes(capacity)) {
-      setFormData((prevData) => ({
-        ...prevData,
-        seatingCapacity: [...prevData.seatingCapacity, capacity],
-      }));
-      setNewSeatingCapacity("");
-    }
-  };
+  // const addSeatingCapacity = () => {
+  //   const capacity = parseInt(newSeatingCapacity, 10);
+  //   if (!isNaN(capacity) && !formData.seatingCapacity.includes(capacity)) {
+  //     setFormData((prevData) => ({
+  //       ...prevData,
+  //       seatingCapacity: [...prevData.seatingCapacity, capacity],
+  //     }));
+  //     setNewSeatingCapacity("");
+  //   }
+  // };
 
-  const handleConfigType = (e) => {
-    const value = e.target.value;
-    if (!isNaN(value) && value.trim() !== "") {
-      setNewConfigType(value);
-    }
-  };
+  // const handleConfigType = (e) => {
+  //   const value = e.target.value;
+  //   if (!isNaN(value) && value.trim() !== "") {
+  //     setNewConfigType(value);
+  //   }
+  // };
 
-  const addHandleConfigType = () => {
-    const SetConfigType = parseInt(newConfigType, 10);
-    if (!isNaN(SetConfigType) && !formData.configType.includes(SetConfigType)) {
-      setFormData((prevData) => ({
-        ...prevData,
-        configType: [...prevData.configType, SetConfigType],
-      }));
-      setNewConfigType("");
-    }
-  };
+  // const addHandleConfigType = () => {
+  //   const SetConfigType = parseInt(newConfigType, 10);
+  //   if (!isNaN(SetConfigType) && !formData.configType.includes(SetConfigType)) {
+  //     setFormData((prevData) => ({
+  //       ...prevData,
+  //       configType: [...prevData.configType, SetConfigType],
+  //     }));
+  //     setNewConfigType("");
+  //   }
+  // };
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -101,55 +103,55 @@ const AddProduct = () => {
     }
   };
 
-  const handleFabricCareChange = (field, value) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      fabricCare: {
-        ...prevData.fabricCare,
-        [field]: value,
-      },
-    }));
-  };
+  // const handleFabricCareChange = (field, value) => {
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     fabricCare: {
+  //       ...prevData.fabricCare,
+  //       [field]: value,
+  //     },
+  //   }));
+  // };
 
-  const handleWoodTypeChange = (field, value) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      woodType: {
-        ...prevData.woodType,
-        [field]: value,
-      },
-    }));
-  };
+  // const handleWoodTypeChange = (field, value) => {
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     woodType: {
+  //       ...prevData.woodType,
+  //       [field]: value,
+  //     },
+  //   }));
+  // };
 
-  const handleFabricColorChange = (color) => {
-    const updatedColors = formData.fabricCare.color.includes(color)
-      ? formData.fabricCare.color.filter((c) => c !== color)
-      : [...formData.fabricCare.color, color];
-    handleFabricCareChange("color", updatedColors);
-  };
+  // const handleFabricColorChange = (color) => {
+  //   const updatedColors = formData.fabricCare.color.includes(color)
+  //     ? formData.fabricCare.color.filter((c) => c !== color)
+  //     : [...formData.fabricCare.color, color];
+  //   handleFabricCareChange("color", updatedColors);
+  // };
 
-  const handleWoodColorChange = (color) => {
-    const updatedColors = formData.woodType.color.includes(color)
-      ? formData.woodType.color.filter((c) => c !== color)
-      : [...formData.woodType.color, color];
-    handleWoodTypeChange("color", updatedColors);
-  };
+  // const handleWoodColorChange = (color) => {
+  //   const updatedColors = formData.woodType.color.includes(color)
+  //     ? formData.woodType.color.filter((c) => c !== color)
+  //     : [...formData.woodType.color, color];
+  //   handleWoodTypeChange("color", updatedColors);
+  // };
 
-  const addFabricColor = () => {
-    if (newFabricColor && !fabricColors.includes(newFabricColor)) {
-      const updatedColors = [...fabricColors, newFabricColor];
-      setFabricColors(updatedColors);
-      setNewFabricColor("");
-    }
-  };
+  // const addFabricColor = () => {
+  //   if (newFabricColor && !fabricColors.includes(newFabricColor)) {
+  //     const updatedColors = [...fabricColors, newFabricColor];
+  //     setFabricColors(updatedColors);
+  //     setNewFabricColor("");
+  //   }
+  // };
 
-  const addWoodColor = () => {
-    if (newWoodColor && !woodColors.includes(newWoodColor)) {
-      const updatedColors = [...woodColors, newWoodColor];
-      setWoodColors(updatedColors);
-      setNewWoodColor("");
-    }
-  };
+  // const addWoodColor = () => {
+  //   if (newWoodColor && !woodColors.includes(newWoodColor)) {
+  //     const updatedColors = [...woodColors, newWoodColor];
+  //     setWoodColors(updatedColors);
+  //     setNewWoodColor("");
+  //   }
+  // };
 
   const addMonthAndRent = () => {
     const month = parseInt(newMonth, 10);
@@ -188,26 +190,28 @@ const AddProduct = () => {
     }
   };
 
-  const handleColorOptionChange = (color) => {
-    const updatedColors = formData.colorOptions.includes(color)
-      ? formData.colorOptions.filter((c) => c !== color)
-      : [...formData.colorOptions, color];
-    setFormData((prevData) => ({
-      ...prevData,
-      colorOptions: updatedColors,
-    }));
-  };
+  // const handleColorOptionChange = (color) => {
+  //   const updatedColors = formData.colorOptions.includes(color)
+  //     ? formData.colorOptions.filter((c) => c !== color)
+  //     : [...formData.colorOptions, color];
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     colorOptions: updatedColors,
+  //   }));
+  // };
 
-  const addColorOption = () => {
-    if (newColorOption && !colorOptions.includes(newColorOption)) {
-      const updatedOptions = [...colorOptions, newColorOption];
-      setColorOptions(updatedOptions);
-      setNewColorOption("");
-    }
-  };
+  // const addColorOption = () => {
+  //   if (newColorOption && !colorOptions.includes(newColorOption)) {
+  //     const updatedOptions = [...colorOptions, newColorOption];
+  //     setColorOptions(updatedOptions);
+  //     setNewColorOption("");
+  //   }
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setLoading(true);
 
     const data = new FormData();
     Object.keys(formData).forEach((key) => {
@@ -215,33 +219,39 @@ const AddProduct = () => {
         for (let i = 0; i < formData.img.length; i++) {
           data.append("img", formData.img[i]);
         }
-      } else if (key === "fabricCare" || key === "woodType") {
-        Object.keys(formData[key]).forEach((subKey) => {
-          if (Array.isArray(formData[key][subKey])) {
-            formData[key][subKey].forEach((item) => {
-              data.append(`${key}[${subKey}][]`, item);
-            });
-          } else {
-            data.append(`${key}[${subKey}]`, formData[key][subKey]);
-          }
-        });
-      } else if (key === "month") {
+      }
+      // else if (key === "fabricCare" || key === "woodType") {
+      //   Object.keys(formData[key]).forEach((subKey) => {
+      //     if (Array.isArray(formData[key][subKey])) {
+      //       formData[key][subKey].forEach((item) => {
+      //         data.append(`${key}[${subKey}][]`, item);
+      //       });
+      //     } else {
+      //       data.append(`${key}[${subKey}]`, formData[key][subKey]);
+      //     }
+      //   });
+      // }
+      else if (key === "month") {
         formData[key].forEach((month) => {
           data.append("month[]", month);
         });
-      } else if (key === "seatingCapacity") {
-        formData[key].forEach((capacity) => {
-          data.append("seatingCapacity[]", capacity);
-        });
-      } else if (key === "configType") {
-        formData[key].forEach((SetConfigType) => {
-          data.append("configType[]", SetConfigType);
-        });
-      } else if (key === "colorOptions") {
-        formData[key].forEach((colorOption) => {
-          data.append("colorOptions[]", colorOption);
-        });
-      } else {
+      }
+      // else if (key === "seatingCapacity") {
+      //   formData[key].forEach((capacity) => {
+      //     data.append("seatingCapacity[]", capacity);
+      //   });
+      // }
+      //  else if (key === "configType") {
+      //   formData[key].forEach((SetConfigType) => {
+      //     data.append("configType[]", SetConfigType);
+      //   });
+      // }
+      // else if (key === "colorOptions") {
+      //   formData[key].forEach((colorOption) => {
+      //     data.append("colorOptions[]", colorOption);
+      //   });
+      // }
+      else {
         data.append(key, formData[key]);
       }
     });
@@ -263,23 +273,23 @@ const AddProduct = () => {
         category: "",
         img: [], // Clear file input
         description: "",
-        fabricCare: {
-          material: "",
-          color: [],
-        },
-        size: "", // Reset size
-        woodType: {
-          material: "",
-          color: [],
-        },
-        seatingCapacity: [],
-        configType: [],
-        colorOptions: [],
+        // fabricCare: {
+        //   material: "",
+        //   color: [],
+        // },
+        // size: "", // Reset size
+        // woodType: {
+        //   material: "",
+        //   color: [],
+        // },
+        // seatingCapacity: [],
+        // configType: [],
+        // colorOptions: [],
         month: [], // Reset month and rent
       });
 
-      setNewFabricColor(""); // Reset new color inputs
-      setNewWoodColor("");
+      // setNewFabricColor(""); // Reset new color inputs
+      // setNewWoodColor("");
       setNewMonth(""); // Reset month input field
       setNewRentPrice(""); // Reset rent input field
 
@@ -287,20 +297,22 @@ const AddProduct = () => {
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
+      setLoading(false);
     } catch (err) {
+      setLoading(false);
       toast.error("Something went wrong! Try again later!");
       setSubmitError(err.response?.data?.error || "An error occurred");
     }
+    setLoading(false);
   };
-
 
   return (
     <div className="add-product">
-       <h2 className="mb-10 text-center overflow-hidden font-semibold text-2xl">
+      <h2 className="mb-10 text-center overflow-hidden font-semibold text-2xl">
         Add Product
       </h2>
       <form onSubmit={handleSubmit} className="add-product-form">
-        <div className="flex gap-20">
+        <div className="flex gap-8">
           <div>
             <div className="form-group">
               <label>Title</label>
@@ -311,6 +323,7 @@ const AddProduct = () => {
                 placeholder="Title"
                 onChange={handleChange}
                 className="form-input"
+                required
               />
             </div>
             <div className="form-group">
@@ -322,6 +335,7 @@ const AddProduct = () => {
                 placeholder="Subtitle"
                 onChange={handleChange}
                 className="form-input"
+                required
               />
             </div>
             <div className="form-group">
@@ -330,6 +344,7 @@ const AddProduct = () => {
                 value={formData.category}
                 onChange={handleChange}
                 className="p-2"
+                required
               >
                 <option value="">Select Category</option>
                 <option value="appliance">Appliance</option>
@@ -342,26 +357,17 @@ const AddProduct = () => {
               </select>
             </div>
             <div className="form-group">
-              <label>Product Images</label>
-              <input
-                type="file"
-                name="img"
-                onChange={handleChange}
-                multiple
-                className="form-input"
-                ref={fileInputRef} //
-              />
-            </div>
-            <div className="form-group">
               <label>Description</label>
               <input
                 type="text"
                 onChange={handleChange}
                 value={formData.description}
                 name="description"
+                required
               />
             </div>
-            <div className="form-group">
+
+            {/* <div className="form-group">
               <label>Fabric Care Details</label>
 
               <input
@@ -374,8 +380,8 @@ const AddProduct = () => {
                 }
                 className="form-input"
               />
-            </div>
-            <div className="form-group">
+            </div> */}
+            {/* <div className="form-group">
               <select
                 onChange={(e) =>
                   setFormData({ ...formData, size: e.target.value })
@@ -386,8 +392,8 @@ const AddProduct = () => {
                 <option value="medium">Medium</option>
                 <option value="large">Large</option>
               </select>
-            </div>
-            <div className="form-group">
+            </div> */}
+            {/* <div className="form-group">
               <label className="m-0">Fabric Color</label>
               {fabricColors.map((color, index) => (
                 <div key={index}>
@@ -402,8 +408,8 @@ const AddProduct = () => {
                   <label htmlFor={color}>{color}</label>
                 </div>
               ))}
-            </div>
-            <div className="form-group">
+            </div> */}
+            {/* <div className="form-group">
               <input
                 type="text"
                 value={newFabricColor}
@@ -432,10 +438,10 @@ const AddProduct = () => {
                 }
                 className="form-input"
               />
-            </div>
+            </div> */}
           </div>
           <div>
-            <div className="form-group">
+            {/* <div className="form-group">
               <label className="m-0">Wood Color</label>
               {woodColors.map((color, index) => (
                 <div key={index}>
@@ -545,6 +551,18 @@ const AddProduct = () => {
                   {color}
                 </label>
               ))}
+            </div> */}
+            <div className="form-group">
+              <label>Product Images</label>
+              <input
+                type="file"
+                name="img"
+                onChange={handleChange}
+                multiple
+                className="form-input"
+                ref={fileInputRef} //
+                required
+              />
             </div>
             <div className="form-group">
               <label>Available Months</label>
@@ -555,6 +573,7 @@ const AddProduct = () => {
                   placeholder="Add a month"
                   onChange={(e) => setNewMonth(e.target.value)}
                   className="form-input"
+                  required
                 />
                 <input
                   type="text"
@@ -562,19 +581,20 @@ const AddProduct = () => {
                   placeholder="Add rent price"
                   onChange={(e) => setNewRentPrice(e.target.value)}
                   className="fomr-input"
+                  required
                 />
               </div>
               <button
                 type="button"
                 onClick={addMonthAndRent}
-                className="submit-button  text-black bg-[#FFD74D]"
+                className="submit-button  text-white bg-[#FFD74D]"
               >
                 Add Month & Rent
               </button>
             </div>
             <div className="form-group">
               {formData.month.map((month, index) => (
-                <div key={index}>
+                <div key={index} className="flex gap-2">
                   <label>{month}</label>
                   <button
                     type="button"
@@ -584,7 +604,7 @@ const AddProduct = () => {
                         month: formData.month.filter((m) => m !== month),
                       })
                     }
-                    className="remove-button"
+                    className="remove-button hover:text-red-500"
                   >
                     Remove
                   </button>
@@ -594,8 +614,12 @@ const AddProduct = () => {
             {submitError && <div className="error-message">{submitError}</div>}
           </div>
         </div>
-        <button type="submit" className="submit-button text-black bg-[#FFD74D]">
-          Add Product
+        <button
+          type="submit"
+          className="submit-button hover:text-white bg-[#FFD74D]"
+          disabled={loading}
+        >
+          {loading ? "Adding Product..." : "Add Product"}
         </button>
       </form>
     </div>
