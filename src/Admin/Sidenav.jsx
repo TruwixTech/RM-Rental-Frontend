@@ -18,9 +18,9 @@ const SideNavbar = () => {
                 <nav className='mt-4'>
                     <Link to="/admindashboard" onClick={closeNav}>Statistics</Link>
                     {/* <Link to="allproduct" onClick={closeNav}>Booking</Link> */}
-                    <Link to="kyc-records" onClick={closeNav}>Manage KYC</Link>
+                    <Link to="kyc-records" onClick={closeNav}>Manage KYCs</Link>
                     <Link to="addproduct" onClick={closeNav}>Add Product</Link>
-                    <Link to="allproduct" onClick={closeNav}>All product</Link>
+                    <Link to="allproduct" onClick={closeNav}>All Products</Link>
                     {/* <Link to="approve" onClick={closeNav}>Approve</Link> */}
                     <Link to="orders"  onClick={closeNav}>Orders</Link>
                     {/* <Link to="blog"  onClick={closeNav}>Blog</Link> */}

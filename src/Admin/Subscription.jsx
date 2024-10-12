@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import $ from "jquery"; // Import jQuery
@@ -17,7 +18,6 @@ const Subscription = () => {
   const fetchSubscriptions = async () => {
     try {
       const response = await AXIOS_INSTANCE.get("/orders");
-      console.log("API Response:", response.data);
       if (response.data && Array.isArray(response.data.data)) {
         setSubscriptions(response.data.data);
       } else {

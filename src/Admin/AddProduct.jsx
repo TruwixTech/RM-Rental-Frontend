@@ -604,7 +604,7 @@ const AddProduct = () => {
                         month: formData.month.filter((m) => m !== month),
                       })
                     }
-                    className="remove-button hover:text-red-500"
+                    className="remove-button text-red-500"
                   >
                     Remove
                   </button>
