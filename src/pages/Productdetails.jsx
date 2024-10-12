@@ -199,9 +199,12 @@ const ProductDetails = () => {
             <br />
             <div className="Main-Title">{productData?.title}</div>
             <div className="Description-Container">
+              {productData?.sub_title}
+            </div>
+            <div className="Description-Container">
               {productData?.details?.description}
             </div>
-            <div className="Fabric">
+            {/* <div className="Fabric">
               <div className="Section-Title">Fabric + Care</div>
               <div className="Fabric-Details">
                 <div className="Info-Row">
@@ -211,9 +214,9 @@ const ProductDetails = () => {
                   Color: {productData?.details?.fabricCare?.color?.[0]}
                 </div>
               </div>
-            </div>
+            </div> */}
 
-            <div className="Fabric">
+            {/* <div className="Fabric">
               <div className="Section-Title">Wood Type</div>
               <div className="Fabric-Details">
                 <div className="Info-Row">
@@ -223,7 +226,7 @@ const ProductDetails = () => {
                   Color: {productData?.details?.woodType?.color?.[0]}
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -231,7 +234,7 @@ const ProductDetails = () => {
           <div className="productdetails-right-1">
             <div className="productdetails-right-1-1">
               <i className="ri-star-fill"></i>
-              <span>4.9</span>
+              <span>4.5</span>
               <span>.</span>
               <span>149 reviews</span>
             </div>
