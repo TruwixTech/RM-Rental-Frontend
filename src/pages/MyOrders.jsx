@@ -226,14 +226,15 @@ const MyOrders = () => {
                                 Return / Complaint
                               </button>
                             )}
-                            {order.status !== "delivered" && (
-                              <button
-                                onClick={() => openDeleteModal(order?._id)}
-                                className="rounded-lg py-2 px-2 bg-gray-400 text-white my-1"
-                              >
-                                Cancel
-                              </button>
-                            )}
+                            {order.status !== "delivered" &&
+                              order.status !== "cancelled" && (
+                                <button
+                                  onClick={() => openDeleteModal(order?._id)}
+                                  className="rounded-lg py-2 px-2 bg-gray-400 text-white my-1"
+                                >
+                                  Cancel
+                                </button>
+                              )}
                           </td>
                         </tr>
                       ))}
