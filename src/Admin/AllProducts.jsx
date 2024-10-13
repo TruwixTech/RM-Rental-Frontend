@@ -203,7 +203,7 @@ const AllProducts = () => {
         <h1 className="products-title">ALL Products</h1>
       </div>
       <div className="table-container">
-        <table className="products-table">
+        <table className="products-table table-responsive">
           <thead>
             <tr>
               <th>Title</th>
@@ -274,7 +274,7 @@ const AllProducts = () => {
           <div className="form-header">Edit Product</div>
           <br />
           <div className="md:flex md:gap-4">
-            <div className="w-[50%]">
+            <div className="md:w-[50%]">
               {/* Title */}
               <label>Title</label>
               <input
@@ -403,7 +403,7 @@ const AllProducts = () => {
                 ))}
               </div> */}
             </div>
-            <div className="w-[50%]">
+            <div className="md:w-[50%]">
               <div className="flex space-x-2">
                 <label>Select Months:</label>
                 <br />
@@ -447,18 +447,17 @@ const AllProducts = () => {
                   12 Months
                 </label>
               </div>
-              <label>Rent for 3 Months</label>
-              <input
-                type="number"
-                name="rentalOptions.rent3Months"
-                disabled={!months.includes(3)}
-                defaultValue={
-                  months.includes(3)
-                    ? selectedProduct?.rentalOptions?.rent3Months
-                    : ""
-                }
-              />
-
+                <label>Rent for 3 Months</label>
+                <input
+                  type="number"
+                  name="rentalOptions.rent3Months"
+                  disabled={!months.includes(3)}
+                  defaultValue={
+                    months.includes(3)
+                      ? selectedProduct?.rentalOptions?.rent3Months
+                      : ""
+                  }
+                />
               <label>Rent for 6 Months</label>
               <input
                 type="number"
