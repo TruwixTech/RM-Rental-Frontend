@@ -62,9 +62,20 @@ const api = {
   },
 
   getOrderProducts: async (id) => {
-    console.log(id)
+    console.log(id);
     try {
       const data = await AXIOS_INSTANCE.get(`/order/orders/${id}`);
+
+      return data;
+    } catch (error) {
+      return error;
+    }
+  },
+
+  cancelOrder: async (id) => {
+    console.log(id);
+    try {
+      const data = await AXIOS_INSTANCE.put(`/order/cancel/${id}`);
 
       return data;
     } catch (error) {
