@@ -31,7 +31,7 @@
 .products-table {
   width: 100%;
   border-collapse: collapse;
-  overflow: hidden;
+  /* overflow: hidden; */
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -41,7 +41,8 @@
   color: #fff;
 }
 
-.products-table th, .products-table td {
+.products-table th,
+.products-table td {
   padding: 12px 15px;
   text-align: left;
   box-sizing: border-box;
@@ -75,7 +76,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 600px;
+  width: 700px;
   background-color: #fff;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

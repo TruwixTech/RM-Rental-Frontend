@@ -202,8 +202,8 @@ const AllProducts = () => {
       <div className="header-container">
         <h1 className="products-title">ALL Products</h1>
       </div>
-      <div className="table-container">
-        <table className="products-table table-responsive">
+      <div className="table-container overflow-x-auto">
+        <table className="products-table table-responsive min-w-full block md:table">
           <thead>
             <tr>
               <th>Title</th>
@@ -447,17 +447,17 @@ const AllProducts = () => {
                   12 Months
                 </label>
               </div>
-                <label>Rent for 3 Months</label>
-                <input
-                  type="number"
-                  name="rentalOptions.rent3Months"
-                  disabled={!months.includes(3)}
-                  defaultValue={
-                    months.includes(3)
-                      ? selectedProduct?.rentalOptions?.rent3Months
-                      : ""
-                  }
-                />
+              <label>Rent for 3 Months</label>
+              <input
+                type="number"
+                name="rentalOptions.rent3Months"
+                disabled={!months.includes(3)}
+                defaultValue={
+                  months.includes(3)
+                    ? selectedProduct?.rentalOptions?.rent3Months
+                    : ""
+                }
+              />
               <label>Rent for 6 Months</label>
               <input
                 type="number"
