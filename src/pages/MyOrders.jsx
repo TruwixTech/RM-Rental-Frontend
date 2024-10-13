@@ -70,25 +70,30 @@ const MyOrders = () => {
   };
 
   const handleSubmit = (orderId) => {
-    // const order = orders.find((order) => order._id === orderId);
-    // const orderAmount = order ? order.totalPrice : 0;
+    setLoading(true);
+    const selectedProducts =
+      formData.product.length > 0
+        ? formData.product.join(", ")
+        : "No products selected";
 
-    // // const templateParams = {
-    //   name: user?.name,
-    //   subject: formData.subject,
-    //   type: formData.type,
-    //   message: formData.message,
-    //   product: formData.product,
-    //   pickupDate: formData.pickupDate,
-    //   email: formData?.email,
-    // };
+    // Add selected products to form data for the email template
+    const templateParams = {
+      name: formData.name,
+      subject: formData.subject,
+      type: formData.type,
+      message: formData.message,
+      product: selectedProducts, // Send the selected products or 'No products selected'
+      pickupDate: formData.pickupDate,
+      email: formData.email,
+    };
 
     emailjs
       .sendForm(
         "service_4ef1465",
         "template_4r16o6k",
         form.current,
-        "kjKv0FoUnqquZpgTb"
+        "kjKv0FoUnqquZpgTb",
+        templateParams // Pass the template parameters to emailjs
       )
       .then(
         (result) => {
@@ -99,6 +104,7 @@ const MyOrders = () => {
           toast.error("Something Went Wrong");
         }
       );
+    setLoading(false);
   };
 
   return (
@@ -220,7 +226,7 @@ const MyOrders = () => {
               }}
             >
               <div className="flex items-center gap-2">
-                <label htmlFor="name" className="font-medium ">
+                <label htmlFor="name" className="font-medium">
                   Name
                 </label>
                 <input
@@ -236,7 +242,7 @@ const MyOrders = () => {
                 />
               </div>
               <div className="flex items-center gap-2">
-                <label htmlFor="email" className="font-medium ">
+                <label htmlFor="email" className="font-medium">
                   Email
                 </label>
                 <input
@@ -270,28 +276,65 @@ const MyOrders = () => {
                   <option value="Complaint">Complaint</option>
                 </select>
               </div>
-              <div className="flex gap-2">
-                <label htmlFor="product" className="mr-2 font-medium">
-                  Product
-                </label>
-                <select
-                  id="product"
-                  name="product"
-                  value={formData.product}
-                  onChange={(e) =>
-                    setFormData({ ...formData, product: e.target.value })
-                  }
-                  className="border w-[70%] border-gray-300 rounded-md px-2 flex-1"
-                  required
-                >
-                  <option value="All">All</option>
-                  {products.map((product, index) => (
-                    <option key={index} value={product}>
+
+              {/* Product Selection */}
+              <div className="flex flex-col gap-2">
+                <label className="font-medium">Select Products</label>
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="selectAll"
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        // Select all products
+                        setFormData({
+                          ...formData,
+                          product: products.map((product) => product),
+                        });
+                      } else {
+                        // Deselect all
+                        setFormData({ ...formData, product: [] });
+                      }
+                    }}
+                  />
+                  <label htmlFor="selectAll" className="ml-2">
+                    Select All
+                  </label>
+                </div>
+
+                {/* List all products with checkboxes */}
+                {products.map((product, index) => (
+                  <div key={index} className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id={`product-${index}`}
+                      value={product}
+                      checked={formData.product.includes(product)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          // Add product to the selected list
+                          setFormData({
+                            ...formData,
+                            product: [...formData.product, product],
+                          });
+                        } else {
+                          // Remove product from the selected list
+                          setFormData({
+                            ...formData,
+                            product: formData.product.filter(
+                              (p) => p !== product
+                            ),
+                          });
+                        }
+                      }}
+                    />
+                    <label htmlFor={`product-${index}`} className="ml-2">
                       {product}
-                    </option>
-                  ))}
-                </select>
+                    </label>
+                  </div>
+                ))}
               </div>
+
               <div className="flex items-center gap-2">
                 <label htmlFor="pickupDate" className="font-medium">
                   Pickup Date
@@ -325,8 +368,13 @@ const MyOrders = () => {
                 />
               </div>
 
-              <button className="bg-green-500 text-white rounded-md py-2 cursor-pointer">
-                Submit
+              <button
+                className={`bg-green-500 text-white rounded-md py-2 ${
+                  loading ? "cursor-not-allowed" : "cursor-pointer"
+                }`}
+                disabled={loading}
+              >
+                {loading ? <div>Sending...</div> : <div>Send</div>}
               </button>
               <button
                 type="button"
