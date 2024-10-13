@@ -8,6 +8,8 @@ import storageService from "../service/storage.service";
 import userService from "../service/user.service"; // Import userService for orders
 import emailjs from "emailjs-com"; // Import EmailJS
 import toast from "react-hot-toast";
+import $ from "jquery";
+import "../assets/csss/MyOrders.css";
 
 const MyOrders = () => {
   const [activeLink, setActiveLink] = useState("");
@@ -23,7 +25,8 @@ const MyOrders = () => {
     product: "All", // Default to 'All'
     pickupDate: "", // State for pickup date
   }); // Form data state
-  const [products, setProducts] = useState([]); // State for products
+  const [products, setProducts] = useState([]);
+  const [deleteOrderId, setDeleteOrderId] = useState();
   const form = useRef();
 
   const ClickHandler = (link) => {
@@ -57,6 +60,17 @@ const MyOrders = () => {
     setProducts([]); // Reset products when modal closes
   };
 
+  const openDeleteModal = (orderId) => {
+    setDeleteOrderId(orderId);
+    $("#deleteModal").fadeIn();
+    $(".overlay").fadeIn();
+  };
+
+  const closeDeleteModal = () => {
+    $("#deleteModal").fadeOut();
+    $(".overlay").fadeOut();
+  };
+
   const fetchProductsForOrder = async (orderId) => {
     console.log(orderId);
     try {
@@ -67,6 +81,25 @@ const MyOrders = () => {
       console.log(error);
       toast.error("Failed to fetch products");
     }
+  };
+
+  const handleCancelOrder = async () => {
+    try {
+      const data = await userService.cancelOrder(deleteOrderId);
+      toast.success("Order Cancelled");
+      $("#deleteModal").fadeOut();
+      $(".overlay").fadeOut();
+      setDeleteOrderId();
+      fetchOrders();
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to cancel order");
+    }
+  };
+
+  const closeEditForm = () => {
+    $("#deleteModal").fadeOut();
+    $(".overlay").fadeOut();
   };
 
   const handleSubmit = (orderId) => {
@@ -160,6 +193,7 @@ const MyOrders = () => {
                         <th className="w-1/5 px-3">Order Date</th>
                         <th className="w-1/6 px-1">Order Amount</th>
                         <th className="w-1/6 px-1">Status</th>
+                        <th className="w-1/6 px-1">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -190,6 +224,14 @@ const MyOrders = () => {
                                 className="rounded-lg py-2 px-2 bg-red-600 text-white my-1"
                               >
                                 Return / Complaint
+                              </button>
+                            )}
+                            {order.status !== "delivered" && (
+                              <button
+                                onClick={() => openDeleteModal(order?._id)}
+                                className="rounded-lg py-2 px-2 bg-gray-400 text-white my-1"
+                              >
+                                Cancel
                               </button>
                             )}
                           </td>
@@ -387,6 +429,24 @@ const MyOrders = () => {
           </div>
         </div>
       )}
+
+      <div className="overlay" onClick={closeEditForm}></div>
+
+      {/* Delete Modal */}
+      <div id="deleteModal">
+        <h2 className="pb-4 text-xl">Cancel Order</h2>
+        <p className="pb-4">Action can not be undone!</p>
+        <button
+          type="submit"
+          onClick={handleCancelOrder}
+          className="confirm-btn"
+        >
+          Yes
+        </button>
+        <button onClick={closeDeleteModal} className="cancel-btn">
+          No
+        </button>
+      </div>
     </div>
   );
 };
