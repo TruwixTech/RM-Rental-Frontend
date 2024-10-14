@@ -36,6 +36,8 @@ const KYCPage = () => {
   const fetchKYCStatus = async () => {
     try {
       const response = await getKYCStatusAPI.getKYCStatus(user?._id);
+
+      console.log(response);
       
       if (response.kycStatus) {
         setKycStatus(response.kycStatus);
