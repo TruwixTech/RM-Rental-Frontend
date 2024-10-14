@@ -313,17 +313,17 @@ const AllProducts = () => {
                   Appliance
                 </option>
                 <option
-                  value="sofa"
-                  selected={selectedProduct?.category === "sofa"}
+                  value="livingroom"
+                  selected={selectedProduct?.category === "livingroom"}
                 >
-                  Sofa
+                  Living Room
                 </option>
-                <option
+                {/* <option
                   value="kitchen"
                   selected={selectedProduct?.category === "kitchen"}
                 >
                   Kitchen
-                </option>
+                </option> */}
                 <option
                   value="storage"
                   selected={selectedProduct?.category === "storage"}
@@ -331,23 +331,23 @@ const AllProducts = () => {
                   Storage
                 </option>
                 <option
-                  value="bed"
-                  selected={selectedProduct?.category === "bed"}
+                  value="studyroom"
+                  selected={selectedProduct?.category === "studyroom"}
                 >
-                  Bed
+                  Study Room
                 </option>
                 <option
-                  value="bath"
-                  selected={selectedProduct?.category === "bath"}
+                  value="bedroom"
+                  selected={selectedProduct?.category === "bedroom"}
                 >
-                  Bath
+                  Bed Room
                 </option>
-                <option
+                {/* <option
                   value="chair"
                   selected={selectedProduct?.category === "chair"}
                 >
                   Chair
-                </option>
+                </option> */}
                 <option
                   value="table"
                   selected={selectedProduct?.category === "table"}

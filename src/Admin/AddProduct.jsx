@@ -348,12 +348,12 @@ const AddProduct = () => {
               >
                 <option value="">Select Category</option>
                 <option value="appliance">Appliance</option>
-                <option value="sofa">Sofa</option>
-                <option value="kitchen">Kitchen</option>
+                <option value="livingroom">Living Room</option>
+                {/* <option value="kitchen">Kitchen</option> */}
                 <option value="storage">Storage</option>
-                <option value="bed">Bed</option>
-                <option value="bath">Bath</option>
-                <option value="chair">Chair</option>
+                <option value="studyroom">Study Room</option>
+                <option value="bedroom">Bed Room</option>
+                <option value="table">Table</option>
               </select>
             </div>
             <div className="form-group">
@@ -573,7 +573,6 @@ const AddProduct = () => {
                   placeholder="Add a month"
                   onChange={(e) => setNewMonth(e.target.value)}
                   className="form-input"
-                  required
                 />
                 <input
                   type="text"
@@ -581,7 +580,6 @@ const AddProduct = () => {
                   placeholder="Add rent price"
                   onChange={(e) => setNewRentPrice(e.target.value)}
                   className="fomr-input"
-                  required
                 />
               </div>
               <button

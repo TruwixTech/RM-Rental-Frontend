@@ -37,28 +37,13 @@ const Categories = () => {
 
         <div
           className="appliance  cursor-pointer"
-          onClick={() => handleCategoryClick("sofa")}
+          onClick={() => handleCategoryClick("livingroom")}
         >
           <div className="ceilinglight">
             <img src={sofa} alt="" />
           </div>
           <div className="appliancegroup">
-            <div className="appliancegroup-title">Sofa</div>
-            <div>
-              <FaArrowRight className="custom-arrow" />
-            </div>
-          </div>
-        </div>
-
-        <div
-          className="appliance  cursor-pointer"
-          onClick={() => handleCategoryClick("kitchen")}
-        >
-          <div className="ceilinglight">
-            <img className="kitchen" src={kitchen} alt="" />
-          </div>
-          <div className="appliancegroup">
-            <div className="appliancegroup-title">Kitchen</div>
+            <div className="appliancegroup-title">Living Room</div>
             <div>
               <FaArrowRight className="custom-arrow" />
             </div>
@@ -82,13 +67,13 @@ const Categories = () => {
 
         <div
           className="appliance  cursor-pointer"
-          onClick={() => handleCategoryClick("bed")}
+          onClick={() => handleCategoryClick("studyroom")}
         >
           <div className="ceilinglight">
-            <img className="kitchen" src={bed} alt="" />
+            <img className="kitchen" src={kitchen} alt="" />
           </div>
           <div className="appliancegroup">
-            <div className="appliancegroup-title">Bed</div>
+            <div className="appliancegroup-title">Study Room</div>
             <div>
               <FaArrowRight className="custom-arrow" />
             </div>
@@ -97,13 +82,28 @@ const Categories = () => {
 
         <div
           className="appliance  cursor-pointer"
-          onClick={() => handleCategoryClick("bath")}
+          onClick={() => handleCategoryClick("bedroom")}
+        >
+          <div className="ceilinglight">
+            <img className="kitchen" src={bed} alt="" />
+          </div>
+          <div className="appliancegroup">
+            <div className="appliancegroup-title">Bed Room</div>
+            <div>
+              <FaArrowRight className="custom-arrow" />
+            </div>
+          </div>
+        </div>
+
+        <div
+          className="appliance  cursor-pointer"
+          onClick={() => handleCategoryClick("table")}
         >
           <div className="ceilinglight">
             <img className="kitchen" src={toilet} alt="" />
           </div>
           <div className="appliancegroup">
-            <div className="appliancegroup-title">Bath</div>
+            <div className="appliancegroup-title">Table</div>
             <div>
               <FaArrowRight className="custom-arrow" />
             </div>

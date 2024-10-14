@@ -78,12 +78,14 @@ const Products = () => {
               <div className="checkboxes space-y-4">
                 {[
                   { id: "category-appliance", value: "appliance" },
-                  { id: "category-sofa", value: "Living Room" },
+                  { id: "category-livingroom", value: "livingroom" },
                   // { id: "category-kitchen", value: "kitchen" },
                   { id: "category-storage", value: "storage" },
+                  { id: "category-studryroom", value: "studyroom" },
+
                   { id: "category-bed", value: "bedroom" },
                   // { id: "category-bath", value: "bath" },
-                  { id: "category-chair", value: "study room" },
+                  // { id: "category-chair", value: "study room" },
                   { id: "category-table", value: "table" },
                 ].map((category) => (
                   <div className="checkbox flex items-center" key={category.id}>
@@ -172,11 +174,25 @@ const Products = () => {
                         product.rentalOptions.rent6Months ||
                         product.rentalOptions.rent9Months ||
                         product.rentalOptions.rent12Months) ? (
-                          <h5>
-                          <span style={{ textDecoration: "line-through", marginRight: "8px" }}>
-                            {"₹ " + (Number(getLowestRentPrice(product.rentalOptions)) * 1.1).toFixed(2)}
+                        <h5>
+                          <span
+                            style={{
+                              textDecoration: "line-through",
+                              marginRight: "8px",
+                            }}
+                          >
+                            {"₹ " +
+                              (
+                                Number(
+                                  getLowestRentPrice(product.rentalOptions)
+                                ) * 1.1
+                              ).toFixed(2)}
                           </span>
-                          {"Rent ₹ " + Number(getLowestRentPrice(product.rentalOptions)).toFixed(2) + " onwards"}
+                          {"Rent ₹ " +
+                            Number(
+                              getLowestRentPrice(product.rentalOptions)
+                            ).toFixed(2) +
+                            " onwards"}
                         </h5>
                       ) : (
                         "No rent options"
