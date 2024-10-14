@@ -9,26 +9,27 @@ import { MdOutlineArrowRightAlt } from "react-icons/md";
 const Rent = () => {
   const features = [
     {
-      title: "Product Durability",
-      description: "Our product durability is unmatched.",
+      title: "Flexibility",
+      description: "Renting gives users the option to enjoy furniture and appliances without long-term commitments, ideal for students, expatriates, or those with temporary living arrangements.",
       icon: <RiSofaLine />
     },
     {
-      title: "Quality Insurance",
-      description: "Our insurance policies offer comprehensive coverage for your peace of mind.",
+      title: "Convenience",
+      description: "Renting provides an affordable solution to access premium furniture and appliances without the need for large upfront purchases, making it budget-friendly.",
       icon: <CiSquareMinus />
     },
     {
-      title: "Extended Warranty",
-      description: "Our warranty covers all products for a period of one year from the date of purchase.",
+      title: "Eco-Friendly & Sustainable",
+      description: "Rental services promote sustainability by refurbishing furniture and appliances, reducing waste through reuse in a circular economy, helping the environment over time.",
       icon: <CiCalendar />
     },
     {
-      title: "Consultant Design",
-      description: "RM Furnitures Consultants are available 24/7 to assist you.",
+      title: "Variety & Customization",
+      description: "Renting offers a diverse selection of products to suit different tastes and preferences, from modern to classic styles, with options for high-end and basic items.",
       icon: <AiFillCustomerService />
     },
   ];
+  
 
   return (
     <div className=''>
