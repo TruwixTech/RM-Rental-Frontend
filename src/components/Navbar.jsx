@@ -93,7 +93,7 @@ const Navbar = ({ active, userClickHandler }) => {
                     </Link>
                   )}
                   <div
-                    className="rightnav-cart"
+                    className="rightnav-cart "
                     onClick={() => navigate("/mycart")}
                   >
                     <MdShoppingBag className="shoping-bag" />
