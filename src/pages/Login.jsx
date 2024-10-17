@@ -4,6 +4,7 @@ import "../assets/csss/Login.css";
 import userService from "../service/user.service";
 import toast from "react-hot-toast";
 import storageService from "../service/storage.service";
+
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -11,33 +12,44 @@ const Login = () => {
     password: "",
     loading: false,
   });
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormData({
       ...formData,
       loading: true,
     });
-    const data = await userService.loginAPI(formData.email, formData.password);
-    if (data) {
-      storageService.save("token", data.token);
-      storageService.save("user", data.user);
-      toast.success("Login successful");
-      if (data.user.role === "Admin") {
-        navigate("/admindashboard");
+
+    try {
+      const data = await userService.loginAPI(formData.email, formData.password);
+      if (data) {
+        storageService.save("token", data.token);
+        storageService.save("user", data.user);
+        toast.success("Login successful");
+        if (data.user.role === "Admin") {
+          navigate("/admindashboard");
+        } else {
+          navigate("/");
+        }
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       } else {
-        navigate("/");
+        throw new Error("Invalid credentials");
       }
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
-    } else {
-      alert("Invalid email or password");
+    } catch (error) {
+      toast.error("Invalid email or password");
+      setFormData({
+        ...formData,
+        loading: false, // Reset the loading state so the button is clickable again
+      });
     }
   };
 
@@ -45,7 +57,7 @@ const Login = () => {
     <div className="wrapper">
       <div className="login-container">
         <div className="text-center text-2xl font-bold">Login</div>
-        <div onSubmit={handleSubmit} className="login-form mt-4">
+        <form onSubmit={handleSubmit} className="login-form mt-4">
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
@@ -53,6 +65,7 @@ const Login = () => {
               id="email"
               name="email"
               onChange={handleChange}
+              value={formData.email}
             />
           </div>
           <div className="form-group">
@@ -62,18 +75,19 @@ const Login = () => {
               id="password"
               name="password"
               onChange={handleChange}
+              value={formData.password}
             />
           </div>
           <button
+            id="login-button"
             type="submit"
-            disabled={formData?.loading}
+            disabled={formData.loading}
             className="submit-button"
-            onClick={handleSubmit}
             style={{ backgroundColor: "#FFD74D", color: "#000" }}
           >
-            {formData?.loading ? "Logging in..." : "Login"}
+            {formData.loading ? "Logging in..." : "Login"}
           </button>
-        </div>
+        </form>
         <p className="signup-link">
           Don&apos;t have an account? <Link to="/signup">Sign Up</Link>
         </p>
