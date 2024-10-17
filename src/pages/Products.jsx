@@ -7,6 +7,7 @@ const Products = () => {
   const location = useLocation();
   const selectedCategory = location.state?.selectedCategory || "";
   const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(""); // Define searchTerm state
   const [productFilter, setProductFilter] = useState({
     page: 1,
     limit: 8,
@@ -50,6 +51,9 @@ const Products = () => {
     setSelectedCategories(updatedCategories);
   };
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
   useEffect(() => {
     getProducts();
   }, [selectedCategories, sortOption]);
@@ -66,6 +70,22 @@ const Products = () => {
     return rents.length > 0 ? rents[0] : "No rent options";
   };
 
+  // In your Products component
+  const filteredProducts = products.filter((product) => {
+    const searchLower = searchTerm.toLowerCase().trim();
+
+    // Ensure both name and desc exist and are converted to lower case
+    const productName = product.title ? product.title.toLowerCase() : "";
+
+    // Log comparison
+    const matchFound = productName.includes(searchLower);
+    
+
+    // Return match based on search term
+    return matchFound;
+  });
+
+  
   return (
     <div>
       <div className="productpage">
@@ -114,15 +134,39 @@ const Products = () => {
         </div>
 
         <div className="productpage-right sm:w-auto">
-          <div className="flex justify-between items-center mb-4">
-            <p>
+          <div className="flex flex-col md:flex-row gap-6  md:justify-between items-center mb-4">
+            <div>
               Showing {productFilter.limit * (productFilter.page - 1) + 1} to{" "}
               {Math.min(
                 productFilter.limit * productFilter.page,
                 products.length
               )}{" "}
               of {products.length} products
-            </p>
+            </div>
+            <div className="w-[90%] md:w-[35%] relative mt-2">
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+                className="p-2 pl-10 pr-4 w-full rounded-full border border-gray-300 text-sm focus:outline-none "
+              />
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 text-gray-400 absolute right-3 top-1/2 transform -translate-y-1/2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </div>
 
             <div className="custom-select">
               <select
@@ -139,7 +183,7 @@ const Products = () => {
           </div>
 
           <div className="grid md:grid-cols-4 gap-4">
-            {products.map((product) => (
+            {filteredProducts.map((product) => (
               <div
                 key={product._id}
                 className="md:max-w-80 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
