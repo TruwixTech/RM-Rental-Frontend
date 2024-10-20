@@ -1,12 +1,14 @@
 import { useNavigate } from "react-router-dom"; // Use useNavigate in place of useHistory
 import ceiling from "../../assets/img/ceiling.png";
 import sofa from "../../assets/img/sofa.png";
-import kitchen from "../../assets/img/kitchen.png";
+// import kitchen from "../../assets/img/kitchen.png";
 import nightstand from "../../assets/img/nightstand.png";
-import toilet from "../../assets/img/toilet.png";
+// import toilet from "../../assets/img/toilet.png";
 import bed from "../../assets/img/bed.png";
 import { FaArrowRight } from "react-icons/fa";
 import "../../assets/csss/category.css";
+import { MdOutlineTableBar } from "react-icons/md";
+import { MdTableRestaurant } from "react-icons/md";
 
 const Categories = () => {
   const navigate = useNavigate(); // Initialize useNavigate
@@ -70,7 +72,7 @@ const Categories = () => {
           onClick={() => handleCategoryClick("studyroom")}
         >
           <div className="ceilinglight">
-            <img className="kitchen" src={kitchen} alt="" />
+            <MdTableRestaurant size={30}/>
           </div>
           <div className="appliancegroup">
             <div className="appliancegroup-title">Study Room</div>
@@ -100,7 +102,7 @@ const Categories = () => {
           onClick={() => handleCategoryClick("table")}
         >
           <div className="ceilinglight">
-            <img className="kitchen" src={toilet} alt="" />
+          <MdOutlineTableBar size={30}/>
           </div>
           <div className="appliancegroup">
             <div className="appliancegroup-title">Table</div>

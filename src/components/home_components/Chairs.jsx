@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import "../../assets/csss/Chairs.css";
 import { useEffect, useState } from "react";
 import { getAllProductsAPI } from "../../service/products.service";
@@ -5,13 +6,15 @@ import { Link } from "react-router-dom";
 import { addToCartAPI } from "../../service/cart.service";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import storageService from "../service/storage.service";
+
 
 const Chairs = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const user = storageService.get("user");
   const fetchProducts = async () => {
     try {
       const response = await getAllProductsAPI(1, 8, 10);
