@@ -2,9 +2,15 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "../assets/csss/Products.css";
 import { getAllProductsAPI } from "../service/products.service";
+import { addToCartAPI } from "../service/cart.service";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import storageService from "../service/storage.service";
 
 const Products = () => {
+  const navigate = useNavigate();
   const location = useLocation();
+  const user = storageService.get("user");
   const selectedCategory = location.state?.selectedCategory || "";
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState(""); // Define searchTerm state
@@ -58,6 +64,30 @@ const Products = () => {
     getProducts();
   }, [selectedCategories, sortOption]);
 
+  const myproductAdd = async (productId) => {
+    if (!user) {
+      toast.error("You are not logged in!");
+      return;
+    }
+
+    const data = await addToCartAPI({
+      items: {
+        product: productId,
+        quantity: 1,
+        rentMonthsCount: 3, // 3, 6, 9, or 12
+        rentMonths: "rent3Months", // Human-readable months
+      },
+    });
+
+    if (data?.success) {
+      // Show success message when product is added to cart for rent
+      toast.success(`Product added to cart for 3 months rent`);
+      navigate("/mycart");
+    } else {
+      toast.error("Product already in cart");
+    }
+  };
+
   const getLowestRentPrice = (rentalOptions) => {
     if (!rentalOptions) return "No rent options";
 
@@ -79,13 +109,11 @@ const Products = () => {
 
     // Log comparison
     const matchFound = productName.includes(searchLower);
-    
 
     // Return match based on search term
     return matchFound;
   });
 
-  
   return (
     <div>
       <div className="productpage">
@@ -149,7 +177,7 @@ const Products = () => {
                 placeholder="Search products..."
                 value={searchTerm}
                 onChange={handleSearchChange}
-                className="p-2 pl-10 pr-4 w-full rounded-full border border-gray-300 text-sm focus:outline-none "
+                className="py-2 pl-10 pr-4 w-full rounded-full border border-gray-300 text-sm focus:outline-none "
               />
 
               <svg
@@ -186,9 +214,11 @@ const Products = () => {
             {filteredProducts.map((product) => (
               <div
                 key={product._id}
-                className="md:max-w-80 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+                className="md:max-w-80 bg-white rounded-lg "
+                // border border-gray-100 shadow dark:bg-gray-800 dark:border-gray-700 remove this from above line
               >
-                <div className="image-container bg-gray-100 p-2 rounded-t-lg">
+                <div className="image-container p-2 rounded-t-lg">
+                  {/* removed bg-gray-100 from this line*/}
                   <a href={"/product/" + product?._id}>
                     <img
                       className="rounded-lg w-full h-64 object-cover"
@@ -207,12 +237,12 @@ const Products = () => {
                       {product.title}
                     </h3>
                   </a>
-                  <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                  {/* <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
                     {product.sub_title}
-                  </p>
+                  </p> */}
                   <div className="card-rating text-2xl">{"★".repeat(5)}</div>
                   <div className="price-cont flex justify-between items-center">
-                    <p className="card-price text-lg font-semibold text-gray-900 mb-0">
+                    <p className="card-price text-lg font-semibold text-gray-200 mb-0">
                       {product.rentalOptions &&
                       (product.rentalOptions.rent3Months ||
                         product.rentalOptions.rent6Months ||
@@ -225,14 +255,14 @@ const Products = () => {
                               marginRight: "8px",
                             }}
                           >
-                            {"₹ " +
+                            {/* {"₹ " +
                               (
                                 Number(
                                   getLowestRentPrice(product.rentalOptions)
                                 ) * 1.1
-                              ).toFixed(2)}
+                              ).toFixed(2)} */}
                           </span>
-                          {"Rent ₹ " +
+                          {"₹" +
                             Number(
                               getLowestRentPrice(product.rentalOptions)
                             ).toFixed(2) +
@@ -242,6 +272,12 @@ const Products = () => {
                         "No rent options"
                       )}
                     </p>
+                    <button
+                      className="card-add-button"
+                      onClick={() => myproductAdd(product?._id)}
+                    >
+                      +
+                    </button>
                   </div>
                 </div>
               </div>
