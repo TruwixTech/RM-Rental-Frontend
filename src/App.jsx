@@ -31,6 +31,7 @@ import KYCPage from "./pages/KYCPage";
 import KYCRecords from "./Admin/KYCRecords";
 import Contact from "./components/Contact";
 import MySubscriptions from "./pages/MySubscriptions";
+import ForgotPassword from "./pages/ForgotPassword";
 
 
 const App = () => {
@@ -160,6 +161,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/password" element={<ForgotPassword />} />
           <Route path="/products" element={<Products />} />
           <Route path="/product/:id" element={<ProductDetails />} />
         </Routes>
