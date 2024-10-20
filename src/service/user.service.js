@@ -49,6 +49,18 @@ const api = {
     }
   },
 
+  resetPassword: async (mobileNumber, newPassword) => {
+    try {
+      const { data } = await AXIOS_INSTANCE.patch(`/password/`, {
+        mobileNumber,
+        newPassword,
+      });
+      return data;
+    } catch (error) {
+      return error;
+    }
+  },
+
   getLocation: async (origins, destinations) => {
     try {
       const data = await AXIOS_INSTANCE.post(`/shipping`, {
