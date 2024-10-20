@@ -1,9 +1,13 @@
 import "../../assets/csss/Chairs.css";
 import { useEffect, useState } from "react";
 import { getAllProductsAPI } from "../../service/products.service";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
+import { addToCartAPI } from "../../service/cart.service";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const Chairs = () => {
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -28,6 +32,31 @@ const Chairs = () => {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  const myproductAdd = async (productId) => {
+    if (!user) {
+      toast.error("You are not logged in!");
+      return;
+    }
+
+    const data = await addToCartAPI({
+      items: {
+        product: productId,
+        quantity: 1,
+        rentMonthsCount: 3, // 3, 6, 9, or 12
+        rentMonths: "rent3Months", // Human-readable months
+      },
+    });
+
+    if (data?.success) {
+      // Show success message when product is added to cart for rent
+      toast.success(`Product added to cart for 3 months rent`);
+      navigate("/mycart");
+    } else {
+      toast.error("Product already in cart");
+    }
+  };
+
 
   const getLowestRentPrice = (rentalOptions) => {
     if (!rentalOptions) return "No rent options";
@@ -57,34 +86,65 @@ const Chairs = () => {
 
       <div className="card-grid">
         {products.map((product) => (
-          <Link to={`/product/${product?._id}`} className="card" key={product?._id}>
-            <div className="card-img">
-              <img src={product.img[0]} alt={product.title} />
+          <div
+            key={product?._id}
+            className="md:max-w-80 bg-white rounded-lg"
+          >
+            <div className="image-container p-2 rounded-t-lg">
+              <Link to={`/product/${product?._id}`}>
+                <img
+                  className="rounded-lg w-full h-64 object-cover"
+                  src={product.img[0]}
+                  alt="Product image Not Found"
+                  onError={(e) => {
+                    e.target.src =
+                      "https://5.imimg.com/data5/SELLER/Default/2024/6/429181615/CM/AE/LG/41750052/li4411-home-collection-mechanical-hands-massage-chair-500x500.jpg";
+                  }}
+                />
+              </Link>
             </div>
-            <div className="cardddd">
-              <div className="card-sqr"></div>
-              <div className="card-details">
-                <span className="card-category text-xl truncate">{product?.title}</span>
-                <div className="price-cont">
-                  <p className="card-price">
-                    {product.rentalOptions &&
-                    (product.rentalOptions.rent3Months ||
-                      product.rentalOptions.rent6Months ||
-                      product.rentalOptions.rent9Months ||
-                      product.rentalOptions.rent12Months) ? (
-                      <h5>
-                        {"Rent ₹ " +
-                          getLowestRentPrice(product.rentalOptions) +
-                          " onwards"}
-                      </h5>
-                    ) : (
-                      "No rent options"
-                    )}
-                  </p>
-                </div>
+            <div className="p-4">
+              <Link to={`/product/${product?._id}`}>
+                <h3 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 overflow-hidden text-ellipsis whitespace-nowrap">
+                  {product.title}
+                </h3>
+              </Link>
+              <div className="card-rating text-2xl">{"★".repeat(5)}</div>
+              <div className="price-cont flex justify-between items-center">
+                <p className="card-price text-lg font-semibol mb-0">
+                  {product.rentalOptions &&
+                  (product.rentalOptions.rent3Months ||
+                    product.rentalOptions.rent6Months ||
+                    product.rentalOptions.rent9Months ||
+                    product.rentalOptions.rent12Months) ? (
+                    <h5>
+                      <span
+                        style={{
+                          textDecoration: "line-through",
+                          marginRight: "8px",
+                        }}
+                      >
+                        {/* Commented out the original price display */}
+                      </span>
+                      {"₹" +
+                        Number(
+                          getLowestRentPrice(product.rentalOptions)
+                        ).toFixed(2) +
+                        " onwards"}
+                    </h5>
+                  ) : (
+                    "No rent options"
+                  )}
+                </p>
+                <button
+                  className="card-add-button"
+                  onClick={() => myproductAdd(product?._id)}
+                >
+                  +
+                </button>
               </div>
             </div>
-          </Link>
+          </div>
         ))}
       </div>
     </div>
