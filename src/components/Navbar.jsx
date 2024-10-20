@@ -11,6 +11,7 @@ import { IoClose } from "react-icons/io5";
 import User from "../assets/img/user.png";
 import storageService from "../service/storage.service";
 import { getCartAPI } from "../service/cart.service";
+import { HiOutlineShoppingBag } from "react-icons/hi";
 
 const Navbar = ({ active, userClickHandler }) => {
   const navigate = useNavigate();
@@ -53,7 +54,6 @@ const Navbar = ({ active, userClickHandler }) => {
               className="search-input"
             />
           </div> */}
-          
         </div>
 
         <div className="rightnav">
@@ -83,24 +83,26 @@ const Navbar = ({ active, userClickHandler }) => {
           ) : (
             <>
               <div className="flex">
-                <div className="cartgroup">
+                <div className="cartgroup gap-2">
                   {user?.role === "Admin" && (
                     <Link
                       to="/admindashboard"
-                      className="border rounded-full px-3 py-2 border-gray-500"
+                      className="border rounded-full px-3 py-2 border-gray-400"
                     >
                       Dashboard
                     </Link>
                   )}
+                  {user.role === "Admin" ? "|" : ""}
                   <div
-                    className="rightnav-cart "
+                    className="rightnav-cart"
                     onClick={() => navigate("/mycart")}
                   >
-                    <MdShoppingBag className="shoping-bag" />
+                    <HiOutlineShoppingBag className="shoping-bag " size={30} />
                     <span className="cart-count"></span>
                   </div>
                   <div className="rightnav-cartcount"></div>
                 </div>
+
                 <div
                   onClick={userClickHandler}
                   className=""
