@@ -330,7 +330,7 @@ const ProductDetails = () => {
               </div>
             </div>
             <button
-              className="cart-button"
+              className="cart-button py-2 px-4"
               onClick={() => myproductAdd("rent")}
             >
               <i className="ri-shopping-bag-line"></i>
