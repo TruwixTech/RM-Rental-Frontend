@@ -8,6 +8,7 @@ import { IoMail } from "react-icons/io5";
 // import { FaAddressBook, FaLocationDot } from "react-icons/fa6";
 // import { FaHistory } from "react-icons/fa";
 import { FaShoppingBag, FaIdCard } from "react-icons/fa";
+import default_profile from "../assets/img/default_profile.webp";
 
 import storageService from "../service/storage.service";
 const UserDashboard = () => {
@@ -73,7 +74,9 @@ const UserDashboard = () => {
         <div className="user-profile-right-left flex flex-col gap-8 w-[35%] rounded-lg">
           <div className="w-full shadow-md shadow-[#dadada] bg-white rounded-lg p-3 px-4">
             <div className="w-full flex flex-col gap-3 items-center">
-              <div className="w-20 h-20 rounded-full bg-black"></div>
+              <div className="w-20 h-20 rounded-full">
+                <img src={default_profile} alt={user?.name} />
+              </div>
               <div>
                 <h1 className="text-xl font-semibold">{user?.name}</h1>
                 <p className="text-sm text-center">{user?.email}</p>
