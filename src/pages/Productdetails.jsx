@@ -172,7 +172,7 @@ const ProductDetails = () => {
                     <div
                       key={index}
                       onClick={() => handleImageSelect(imgSrc)}
-                      className={`image-container ${
+                      className={` ${
                         selectedImage === imgSrc ? "selected-image" : ""
                       }`}
                     >
@@ -274,20 +274,18 @@ const ProductDetails = () => {
 
           <div className="productdetails-right-2">
             <h5>Months</h5>
-            <div className="months">
+            <div className="flex gap-4">
               {productData?.details?.month?.map((month, index) => (
                 <div
                   key={index}
-                  className={`month ${
-                    selectedMonth === month ? "bg-primary" : "bg-light"
+                  className={`px-3 py-2 cursor-pointer rounded-xl ${
+                    selectedMonth === month
+                      ? "bg-gray-400 text-white border-none"
+                      : "bg-light border border-gray-900 text-black"
                   }`}
                   onClick={() => handleMonthClick(month)}
                 >
-                  <div
-                    className={`${selectedMonth === month ? "text-white" : ""}`}
-                  >
-                    {month}
-                  </div>
+                  <span className="font-semibold">{month} Mon</span>
                 </div>
               ))}
             </div>
@@ -336,7 +334,7 @@ const ProductDetails = () => {
               onClick={() => myproductAdd("rent")}
             >
               <i className="ri-shopping-bag-line"></i>
-              <div className="Add-to-Cart-Button"> Rent</div>
+              <div className="Add-to-Cart-Button">Add to cart</div>
             </button>
           </div>
 
