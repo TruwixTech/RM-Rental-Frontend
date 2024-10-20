@@ -3,9 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import "../assets/csss/SignUp.css";
 import userService from "../service/user.service";
 import toast from "react-hot-toast";
+import storageService from "../service/storage.service";
+
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
+  const user = storageService.get("user");
+  if(user) {
+    navigate("/products");
+  }
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
