@@ -57,12 +57,20 @@ gap: 55.431px;
 
 
 
-.productdetails-left-up .fourimg div{
+.productdetails-left-up .fourimg div {
     width: 100%;
     height: 33%;
     border-radius: 10px;
-    
 }
+
+
+/* For mobile screens */
+@media (max-width: 768px) {
+    .productdetails-left-up .fourimg div {
+        width: 30%;
+    }
+}
+
 
 .productdetails-left-up .fourimg div img{
     width: 100%;
