@@ -198,7 +198,7 @@ const Products = () => {
 
             <div className="custom-select">
               <select
-                className="border border-gray-300 rounded p-1"
+                className="border border-gray-300 rounded-full p-2"
                 value={sortOption}
                 onChange={(e) => {
                   setSortOption(e.target.value);
