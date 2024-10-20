@@ -5,13 +5,9 @@ import userService from "../service/user.service";
 import toast from "react-hot-toast";
 import storageService from "../service/storage.service";
 
-
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const user = storageService.get("user");
-  if(user) {
-    navigate("/products");
-  }
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -193,9 +189,13 @@ const ForgotPassword = () => {
 
           {error && <p className="error-message">{error}</p>}
         </div>
-        <p className="login-link">
-          Remembered your password? <Link to="/login">Login</Link>
-        </p>
+        {!user && (
+          <>
+            <p className="login-link">
+              Remembered your password? <Link to="/login">Login</Link>
+            </p>
+          </>
+        )}
       </div>
     </div>
   );
