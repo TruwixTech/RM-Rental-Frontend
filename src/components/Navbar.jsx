@@ -25,18 +25,19 @@ const Navbar = ({ active, userClickHandler }) => {
   };
   const getMyCart = async () => {
     const data = await getCartAPI();
+    console.log("Cart: ", data.data.items);
     if (data) {
-      setCartItems(data?.items);
+      setCartItems(data?.data?.items);
     }
   };
-  // useEffect(() => {
-  //   if (user) {
-  //     let interval = setInterval(() => {
-  //       getMyCart();
-  //     }, 6000);
-  //     return () => clearInterval(interval);
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (user) {
+      let interval = setInterval(() => {
+        getMyCart();
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, []);
   return (
     <div className="mainnavbar">
       <div className="upnavbar">
@@ -82,7 +83,7 @@ const Navbar = ({ active, userClickHandler }) => {
             </>
           ) : (
             <>
-              <div className="flex">
+              <div className="flex gap-3">
                 <div className="cartgroup gap-2">
                   {user?.role === "Admin" && (
                     <Link
@@ -93,14 +94,24 @@ const Navbar = ({ active, userClickHandler }) => {
                     </Link>
                   )}
                   {user.role === "Admin" ? "|" : ""}
+                  <div></div>
                   <div
                     className="rightnav-cart"
                     onClick={() => navigate("/mycart")}
                   >
                     <HiOutlineShoppingBag className="shoping-bag " size={30} />
-                    <span className="cart-count"></span>
+                    {/* <span className="cart-count"></span> */}
                   </div>
-                  <div className="rightnav-cartcount"></div>
+                  <div></div>
+                  <div
+                    className="font-semibold flex gap-4"
+                    onClick={() => navigate("/mycart")}
+                  >
+                    <div className="text-lg md:text-xl">|</div>
+                    <div className="text-lg md:text-xl">
+                      CART ({cartItems?.length})
+                    </div>
+                  </div>
                 </div>
 
                 <div
@@ -121,11 +132,13 @@ const Navbar = ({ active, userClickHandler }) => {
                   to=""
                 >
                   {active === false ? (
-                    <img
-                      className="w-full h-full rounded-full"
-                      src={User}
-                      alt=""
-                    />
+                    <>
+                      <img
+                        className="w-full h-full rounded-full"
+                        src={User}
+                        alt=""
+                      />
+                    </>
                   ) : (
                     <IoClose className="text-3xl text-semibold text-black" />
                   )}

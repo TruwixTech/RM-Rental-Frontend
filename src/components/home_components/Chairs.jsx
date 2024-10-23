@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { addToCartAPI } from "../../service/cart.service";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import storageService from "../service/storage.service";
+import storageService from "../..//service/storage.service";
 
 
 const Chairs = () => {

@@ -33,12 +33,10 @@ const MyCart = () => {
 
     setDistanceToShop(distance.data.distance);
     setAddress(distance.data.address);
-
-    
   };
 
-  console.log(distanceToShop);
-    console.log(address);
+  // console.log(distanceToShop);
+  // console.log(address);
   // Trigger getDistance only after origins is set
   useEffect(() => {
     if (origins) {
