@@ -100,7 +100,7 @@ const Navbar = ({ active, userClickHandler }) => {
                     onClick={() => navigate("/mycart")}
                   >
                     <HiOutlineShoppingBag className="shoping-bag " size={30} />
-                    {/* <span className="cart-count"></span> */}
+                    <span className="cart-count"></span>
                   </div>
                   <div></div>
                   <div
@@ -190,8 +190,8 @@ const Navbar = ({ active, userClickHandler }) => {
           </Link> */}
         </div>
 
-        {/* <div className="bottomnav-right">
-          <div
+        <div className="bottomnav-right">
+          {/* <div
             style={{ overflow: "hidden" }}
             className={activeLink === "shipping" ? "active" : ""}
             onClick={() => handleLinkClick("shipping")}
@@ -204,15 +204,15 @@ const Navbar = ({ active, userClickHandler }) => {
             onClick={() => handleLinkClick("returns")}
           >
             <span className="renttt">Returns</span>
-          </div>
+          </div> */}
           <div
             style={{ overflow: "hidden" }}
             className={activeLink === "faqs" ? "active" : ""}
             onClick={() => handleLinkClick("faqs")}
           >
-            <span className="renttt">FAQs</span>
+            <span className="renttt text-lg">FAQs</span>
           </div>
-        </div> */}
+        </div>
       </div>
     </div>
   );
