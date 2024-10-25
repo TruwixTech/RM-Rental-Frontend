@@ -44,7 +44,7 @@ const FAQ = () => {
   ];
 
   return (
-    <section className="py-8 bg-gray-50 sm:py-16 lg:py-10">
+    <section className="py-8 sm:py-16 lg:py-10">
       <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl lg:text-3xl">
@@ -55,7 +55,7 @@ const FAQ = () => {
           {faqs.map((item, index) => (
             <div
               key={index}
-              className="transition-all duration-200 bg-white border border-gray-200 shadow-lg cursor-pointer hover:bg-gray-50"
+              className="transition-all duration-200 bg-white border  shadow-lg cursor-pointer  rounded-xl"
             >
               <button
                 type="button"
