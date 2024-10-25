@@ -8,7 +8,6 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import storageService from "../..//service/storage.service";
 
-
 const Chairs = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
@@ -60,16 +59,28 @@ const Chairs = () => {
     }
   };
 
-
   const getLowestRentPrice = (rentalOptions) => {
     if (!rentalOptions) return "No rent options";
 
-    const { rent3Months, rent6Months, rent9Months, rent12Months } = rentalOptions;
-    const rents = [rent3Months, rent6Months, rent9Months, rent12Months].filter(
-      (rent) => rent !== null && rent !== undefined
-    );
+    const { rent12Months, rent9Months, rent6Months, rent3Months } =
+      rentalOptions;
 
-    return rents.length > 0 ? rents[0] : "No rent options";
+    // Create an array with the rents in the order of preference
+    const rents = [
+      { value: rent12Months, label: "12 Months" },
+      { value: rent9Months, label: "9 Months" },
+      { value: rent6Months, label: "6 Months" },
+      { value: rent3Months, label: "3 Months" },
+    ];
+
+    // Find the first defined rent value
+    for (const rent of rents) {
+      if (rent.value !== null && rent.value !== undefined) {
+        return rent.value; // Return the first available rent
+      }
+    }
+
+    return "No rent options"; // Return this only if no rents are available
   };
 
   if (loading) {
@@ -89,10 +100,7 @@ const Chairs = () => {
 
       <div className="card-grid">
         {products.map((product) => (
-          <div
-            key={product?._id}
-            className="md:max-w-80 bg-white rounded-lg"
-          >
+          <div key={product?._id} className="md:max-w-80 bg-white rounded-lg">
             <div className="image-container p-2 rounded-t-lg">
               <Link to={`/product/${product?._id}`}>
                 <img
@@ -114,7 +122,7 @@ const Chairs = () => {
               </Link>
               <div className="card-rating text-2xl">{"★".repeat(5)}</div>
               <div className="price-cont flex justify-between items-center">
-                <p className="card-price text-lg font-semibol mb-0">
+                <p className="card-price text-lg font-semibold  mb-0">
                   {product.rentalOptions &&
                   (product.rentalOptions.rent3Months ||
                     product.rentalOptions.rent6Months ||
@@ -127,7 +135,8 @@ const Chairs = () => {
                           marginRight: "8px",
                         }}
                       >
-                        {/* Commented out the original price display */}
+                        {/* You can uncomment this if you want to show the crossed-out price */}
+                        {/* {"₹ " + (Number(getLowestRentPrice(product.rentalOptions)) * 1.1).toFixed(2)} */}
                       </span>
                       {"₹" +
                         Number(
@@ -139,6 +148,7 @@ const Chairs = () => {
                     "No rent options"
                   )}
                 </p>
+
                 <button
                   className="card-add-button"
                   onClick={() => myproductAdd(product?._id)}

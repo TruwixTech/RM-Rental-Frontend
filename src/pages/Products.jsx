@@ -91,13 +91,25 @@ const Products = () => {
   const getLowestRentPrice = (rentalOptions) => {
     if (!rentalOptions) return "No rent options";
 
-    const { rent3Months, rent6Months, rent9Months, rent12Months } =
+    const { rent12Months, rent9Months, rent6Months, rent3Months } =
       rentalOptions;
-    const rents = [rent3Months, rent6Months, rent9Months, rent12Months].filter(
-      (rent) => rent !== null && rent !== undefined
-    );
 
-    return rents.length > 0 ? rents[0] : "No rent options";
+    // Create an array with the rents in the order of preference
+    const rents = [
+      { value: rent12Months, label: "12 Months" },
+      { value: rent9Months, label: "9 Months" },
+      { value: rent6Months, label: "6 Months" },
+      { value: rent3Months, label: "3 Months" },
+    ];
+
+    // Find the first defined rent value
+    for (const rent of rents) {
+      if (rent.value !== null && rent.value !== undefined) {
+        return rent.value; // Return the first available rent
+      }
+    }
+
+    return "No rent options"; // Return this only if no rents are available
   };
 
   // In your Products component
@@ -255,12 +267,8 @@ const Products = () => {
                               marginRight: "8px",
                             }}
                           >
-                            {/* {"₹ " +
-                              (
-                                Number(
-                                  getLowestRentPrice(product.rentalOptions)
-                                ) * 1.1
-                              ).toFixed(2)} */}
+                            {/* You can uncomment this if you want to show the crossed-out price */}
+                            {/* {"₹ " + (Number(getLowestRentPrice(product.rentalOptions)) * 1.1).toFixed(2)} */}
                           </span>
                           {"₹" +
                             Number(
@@ -272,6 +280,7 @@ const Products = () => {
                         "No rent options"
                       )}
                     </p>
+
                     <button
                       className="card-add-button"
                       onClick={() => myproductAdd(product?._id)}
