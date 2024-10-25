@@ -55,7 +55,7 @@ const FAQ = () => {
           {faqs.map((item, index) => (
             <div
               key={index}
-              className="transition-all duration-200 bg-white border  shadow-lg cursor-pointer  rounded-xl"
+              className="transition-all duration-200 bg-white border rounded-xl"
             >
               <button
                 type="button"
@@ -70,7 +70,7 @@ const FAQ = () => {
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  className={`w-6 h-6 text-gray-400 transform transition-transform duration-200 ${
+                  className={`w-6 h-6 transform transition-transform duration-200 ${
                     openIndex === index ? 'rotate-180' : ''
                   }`}
                 >
@@ -91,7 +91,7 @@ const FAQ = () => {
           ))}
         </div>
         <p className="text-center text-gray-600 text-base mt-9">
-          Still have questions? {" "}
+          Still have questions?{" "}
           <Link to="/contactus" className="cursor-pointer font-medium text-tertiary transition-all duration-200 hover:text-tertiary focus:text-tertiary hover-underline">
             Contact our support
           </Link>
