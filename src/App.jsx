@@ -18,6 +18,7 @@ import storageService from "./service/storage.service";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import AboutUs from "./pages/AboutUs";
+import FAQ from "./pages/FAQ";
 import ProductDetails from "./pages/Productdetails";
 import MyCart from "./pages/MyCart";
 import AddressPage from "./pages/AddressPage";
@@ -130,6 +131,7 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactUS />} />
+          <Route path="/faq" element={<FAQ />} />
           <Route path="/products" element={<Products />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/mycart" element={<MyCart />} />
@@ -174,6 +176,7 @@ const App = () => {
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactUS />} />
+          <Route path="/faq" element={<FAQ />} />
         </Routes>
       )}
       <Routes>

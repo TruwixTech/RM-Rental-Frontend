@@ -193,13 +193,13 @@ const Navbar = ({ active, userClickHandler }) => {
         </div>
 
         <div className="bottomnav-right">
-          <div
+          <Link to="/faq"
             style={{ overflow: "hidden" }}
             className={activeLink === "faqs" ? "active" : ""}
             onClick={() => handleLinkClick("faqs")}
           >
             <span className="renttt text-lg">FAQs</span>
-          </div>
+          </Link>
         </div>
       </div>
     </div>

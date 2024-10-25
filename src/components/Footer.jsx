@@ -47,6 +47,12 @@ const Footer = () => {
                 About Us
               </Link>
               <Link
+                to="/faq"
+                className="text-gray-500 my-1 text-decoration-none"
+              >
+                FAQs
+              </Link>
+              <Link
                 to={"https://g.page/r/Cc3q4p7qCMi3EAI/review"}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -54,15 +60,15 @@ const Footer = () => {
               >
                 Reviews
               </Link>
-              <Link className="text-gray-500 my-1 text-decoration-none">
-                Financing
-              </Link>
-              <Link to="/contactus" className="text-gray-500 my-1 text-decoration-none">
+              <Link
+                to="/contactus"
+                className="text-gray-500 my-1 text-decoration-none"
+              >
                 Contact Us
               </Link>
-              <Link className="text-gray-500 my-1 text-decoration-none">
+              {/* <Link className="text-gray-500 my-1 text-decoration-none">
                 Our Blog
-              </Link>
+              </Link> */}
             </div>
             {/* <div className="footer-section">
               <h4>RESOURCES</h4>
@@ -108,10 +114,23 @@ const Footer = () => {
         </div>
 
         <div className="flex flex-col md:flex-row mx-4 text-center md:text-start md:mx-20 justify-between items-center py-6 border-t-2 border-gray-400 mt-10">
-          <p className="text-sm md:text-base ">
+          {/* <p className="text-sm md:text-base ">
             ©2024 RM Rental , made with 💖 by Campaigning Source, all rights
             reserved
+          </p> */}
+          <p className="text-sm md:text-base ">
+            ©2024 RM Rental, Developed by{" "}
+            <a
+              href="https://crazywebdev.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 hover:underline"
+            >
+              CrazyWebDev Technologies
+            </a>
+            , All Rights Reserved.
           </p>
+
           <p className="mt-2 md:mt-0" onClick={handleOpenPdf1}>
             <a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a>
           </p>
