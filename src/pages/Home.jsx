@@ -11,12 +11,14 @@ import "../assets/csss/Home.css";
 
 const Home = () => {
   return (
-    <div>
+    <div className="overflow-x-hidden overflow-clip">
       <div className="home1">
         <ImageMask />
         <Category />
       </div>
-      <Textslider />
+      <div>
+        <Textslider />
+      </div>
       <div className="fullrent">
         <Rent />
       </div>

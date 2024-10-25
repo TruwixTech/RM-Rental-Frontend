@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Products from "./pages/Products";
@@ -16,6 +17,7 @@ import User from "./assets/img/user.png";
 import storageService from "./service/storage.service";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
+import AboutUs from "./pages/AboutUs";
 import ProductDetails from "./pages/Productdetails";
 import MyCart from "./pages/MyCart";
 import AddressPage from "./pages/AddressPage";
@@ -32,12 +34,14 @@ import KYCRecords from "./Admin/KYCRecords";
 import Contact from "./components/Contact";
 import MySubscriptions from "./pages/MySubscriptions";
 import ForgotPassword from "./pages/ForgotPassword";
-
+import ContactUS from "./pages/ContactUs";
 
 const App = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [active, setActive] = useState(false);
   const [user, setUser] = useState(storageService.get("user"));
+
   const userClickHandler = () => {
     setActive(!active);
   };
@@ -49,13 +53,18 @@ const App = () => {
     window.location.reload();
   };
 
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
   return (
     <div>
       <Navbar active={active} userClickHandler={userClickHandler} />
       <div
         className={`${
           active === false ? "user-slider-off" : "user-slider-on"
-        } absolute top-[14.5%]  z-40 rounded-b-xl shadow-md shadow-[#878787] right-0 w-[20vw] h-fit bg-[#fff] text-[#000]`}
+        } absolute top-[14.5%] z-40 rounded-b-xl shadow-md shadow-[#878787] right-0 w-[20vw] h-fit bg-[#fff] text-[#000]`}
       >
         <div className="w-full p-2">
           <ul className="py-1 px-2">
@@ -71,7 +80,7 @@ const App = () => {
                 {user?.name}
               </Link>
             </li>
-            <li className="w-full flex items-center mt-2 py-2 px-2 rounded-lg  hover:bg-gray-100">
+            <li className="w-full flex items-center mt-2 py-2 px-2 rounded-lg hover:bg-gray-100">
               <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#FEC500] text-black text-2xl">
                 <RiEdit2Fill />
               </div>
@@ -83,7 +92,7 @@ const App = () => {
                 Edit Profile
               </Link>
             </li>
-            {/* <li className="w-full flex items-center mt-2 py-2 px-2 rounded-lg  hover:bg-gray-100">
+            {/* <li className="w-full flex items-center mt-2 py-2 px-2 rounded-lg hover:bg-gray-100">
               <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#FEC500] text-black text-2xl">
                 <IoSettings />
               </div>
@@ -91,7 +100,7 @@ const App = () => {
                 Setting & Privacy
               </Link>
             </li> */}
-            <li className="w-full flex items-center mt-2 py-2 px-2 rounded-lg  hover:bg-gray-100">
+            <li className="w-full flex items-center mt-2 py-2 px-2 rounded-lg hover:bg-gray-100">
               <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#FEC500] text-black text-2xl">
                 <IoIosHelpCircle />
               </div>
@@ -99,7 +108,7 @@ const App = () => {
                 Help & Support
               </Link>
             </li>
-            <li className="w-full flex items-center mt-2 py-2 px-2 rounded-lg  hover:bg-gray-100">
+            <li className="w-full flex items-center mt-2 py-2 px-2 rounded-lg hover:bg-gray-100">
               <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#FEC500] text-black text-2xl">
                 <IoLogOutSharp />
               </div>
@@ -119,6 +128,8 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/password" element={<ForgotPassword />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/contactus" element={<ContactUS />} />
           <Route path="/products" element={<Products />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/mycart" element={<MyCart />} />
@@ -133,20 +144,16 @@ const App = () => {
           <Route path="/kyc" element={<KYCPage />}></Route>
           <Route path="/payment" element={<MySubscriptions />}></Route>
           {/* <Route path="/admindashboard" element={<AdminDashboard />} /> */}
-
           <Route path="/admindashboard" element={<AdminDashboard />}>
             <Route index element={<AdminPage />} />
-            <Route
-              path="allproduct"
-              element={<AllProducts />}
-            />
+            <Route path="allproduct" element={<AllProducts />} />
             <Route path="addproduct" element={<AddProduct />} />
             <Route path="orders" element={<Orders />} />
             <Route
               path="/admindashboard/kyc-records"
               element={<KYCRecords />}
             />
-            {/*  <Route path="coupon" element={<Coupon />} />
+            {/* <Route path="coupon" element={<Coupon />} />
             <Route path="categorie" element={<Categories />} />
             <Route path="brands" element={<Brands />} />
             <Route path="orderdetails" element={<OrderDetails />} />
@@ -165,6 +172,8 @@ const App = () => {
           <Route path="/password" element={<ForgotPassword />} />
           <Route path="/products" element={<Products />} />
           <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/contactus" element={<ContactUS />} />
         </Routes>
       )}
       <Routes>

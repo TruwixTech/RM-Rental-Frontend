@@ -1,6 +1,6 @@
 
 
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import '../../assets/csss/Textslider.css';
 
 const Textslider = () => {
@@ -27,7 +27,7 @@ const Textslider = () => {
   }, []);
 
   return (
-    <div>
+    <div className="">
       <div id="textslide" ref={textSlideRef}>
         <div className="elem">
           <h3>

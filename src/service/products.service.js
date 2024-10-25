@@ -59,3 +59,13 @@ export const placeOrderAPI = async (payload) => {
     return error;
   }
 };
+
+
+export const searchProduct = async (term) => {
+  try {
+    const response = await AXIOS_INSTANCE.get(`/products/search?query=${term}`);
+    return response;
+  } catch (error) {
+    return error;
+  }
+};

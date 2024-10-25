@@ -2,16 +2,15 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import logo from "../assets/img/Logo.png";
-// import { FaSearch } from "react-icons/fa";
 import { MdShoppingBag } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
-// import { FaCheck } from "react-icons/fa";
-// import { IoTimeSharp } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
 import User from "../assets/img/user.png";
 import storageService from "../service/storage.service";
 import { getCartAPI } from "../service/cart.service";
 import { HiOutlineShoppingBag } from "react-icons/hi";
+import { FaSearch } from "react-icons/fa";
+import { searchProduct } from "../service/products.service";
 
 const Navbar = ({ active, userClickHandler }) => {
   const navigate = useNavigate();
@@ -19,17 +18,17 @@ const Navbar = ({ active, userClickHandler }) => {
   const user = storageService.get("user");
   const [cartItems, setCartItems] = useState([]);
 
-  // const [wishlistItems, setWishlistItems] = useState([]);
   const handleLinkClick = (link) => {
     setActiveLink(link);
   };
+
   const getMyCart = async () => {
     const data = await getCartAPI();
-    console.log("Cart: ", data.data.items);
     if (data) {
       setCartItems(data?.data?.items);
     }
   };
+
   useEffect(() => {
     if (user) {
       let interval = setInterval(() => {
@@ -38,113 +37,134 @@ const Navbar = ({ active, userClickHandler }) => {
       return () => clearInterval(interval);
     }
   }, []);
+
+  // Search functionality states
+  const [searchTerm, setSearchTerm] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [suggestionsVisible, setSuggestionsVisible] = useState(false);
+
+  // Handle search input change and fetch suggestions from the backend
+  const handleInputChange = async (e) => {
+    setSearchTerm(e.target.value);
+    if (e.target.value.length > 0) {
+      try {
+        const response = await searchProduct(e.target.value);
+        setSuggestions(response.data);
+        setSuggestionsVisible(true);
+      } catch (error) {
+        console.error("Error fetching suggestions:", error);
+        setSuggestionsVisible(false);
+      }
+    } else {
+      setSuggestions([]); // Clear suggestions
+      setSuggestionsVisible(false); // Hide the dropdown
+    }
+  };
+  
+
+  const handleSuggestionClick = (id) => {
+    setSearchTerm("");
+    setSuggestionsVisible(false);
+    // Navigate to the product page with the product id
+    navigate(`/product/${id}`);
+  };
+
   return (
     <div className="mainnavbar">
       <div className="upnavbar">
         <div className="leftnav">
           <div className="logo">
             <Link to="/">
-              <img src={logo} alt="" />
+              <img src={logo} alt="logo" />
             </Link>
           </div>
-          {/* <div className="leftnav-searchbar">
+
+          {/* Search Bar */}
+          <div className="leftnav-searchbar">
             <FaSearch className="search-icon" />
             <input
               type="text"
               placeholder="Search Product"
-              className="search-input"
+              className="search-input outline-black"
+              value={searchTerm}
+              onChange={handleInputChange}
             />
-          </div> */}
+            {/* Display search suggestions */}
+            {suggestionsVisible && (
+              <ul className="search-suggestions active">
+                {suggestions.map((item) => (
+                  <li
+                    key={item.id}
+                    onClick={() => handleSuggestionClick(item.id)}
+                    className="search-suggestion-item"
+                  >
+                    {item.title}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
 
         <div className="rightnav">
-          {/* <div className="buygroup">
-            <div className="buy">Buy</div>
-            <div className="buy-right">
-              <FaCheck />
-            </div>
-          </div>
-          <div className="buygroup">
-            <div className="buy">Rent</div>
-            <div className="buy-right buy-right-to">
-              <IoTimeSharp />
-            </div>
-          </div> */}
-
-          {/* <div className="rightnav-heart" onClick={() => navigate("/wishlist")}>
-            <FaRegHeart className="heart-icon" /> {wishlistItems.length}
-          </div> */}
-
           {!user ? (
-            <>
-              <Link className="login" to="/login">
-                Login
-              </Link>
-            </>
+            <Link className="login" to="/login">
+              Login
+            </Link>
           ) : (
-            <>
-              <div className="flex gap-3">
-                <div className="cartgroup gap-2">
-                  {user?.role === "Admin" && (
-                    <Link
-                      to="/admindashboard"
-                      className="border rounded-full px-3 py-2 border-gray-400"
-                    >
-                      Dashboard
-                    </Link>
-                  )}
-                  {user.role === "Admin" ? "|" : ""}
-                  <div></div>
-                  <div
-                    className="rightnav-cart"
-                    onClick={() => navigate("/mycart")}
+            <div className="flex gap-3">
+              <div className="cartgroup gap-2">
+                {user?.role === "Admin" && (
+                  <Link
+                    to="/admindashboard"
+                    className="border rounded-full px-3 py-2 border-gray-400"
                   >
-                    <HiOutlineShoppingBag className="shoping-bag " size={30} />
-                    <span className="cart-count"></span>
-                  </div>
-                  <div></div>
-                  <div
-                    className="font-semibold flex gap-4"
-                    onClick={() => navigate("/mycart")}
-                  >
-                    <div className="text-lg md:text-xl">|</div>
-                    <div className="text-lg md:text-xl">
-                      CART ({cartItems?.length})
-                    </div>
-                  </div>
-                </div>
+                    Dashboard
+                  </Link>
+                )}
+                {user.role === "Admin" ? "|" : ""}
 
                 <div
-                  onClick={userClickHandler}
-                  className=""
-                  id="user"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: "#FEC500",
-                    cursor: "pointer",
-                    width: "3.5vw",
-                    height: "3.5vw",
-                    borderRadius: "50%",
-                    overflow: "hidden",
-                  }}
-                  to=""
+                  className="rightnav-cart"
+                  onClick={() => navigate("/mycart")}
                 >
-                  {active === false ? (
-                    <>
-                      <img
-                        className="w-full h-full rounded-full"
-                        src={User}
-                        alt=""
-                      />
-                    </>
-                  ) : (
-                    <IoClose className="text-3xl text-semibold text-black" />
-                  )}
+                  <HiOutlineShoppingBag className="shoping-bag " size={30} />
+                  <span className="cart-count"></span>
+                </div>
+                <div
+                  className="font-semibold flex gap-4"
+                  onClick={() => navigate("/mycart")}
+                >
+                  <div className="text-lg md:text-xl">|</div>
+                  <div className="text-lg md:text-xl">
+                    CART ({cartItems?.length})
+                  </div>
                 </div>
               </div>
-            </>
+
+              <div
+                onClick={userClickHandler}
+                className=""
+                id="user"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "#FEC500",
+                  cursor: "pointer",
+                  width: "3.5vw",
+                  height: "3.5vw",
+                  borderRadius: "50%",
+                  overflow: "hidden",
+                }}
+              >
+                {active === false ? (
+                  <img className="w-full h-full rounded-full" src={User} alt="" />
+                ) : (
+                  <IoClose className="text-3xl text-semibold text-black" />
+                )}
+              </div>
+            </div>
           )}
         </div>
       </div>
@@ -170,41 +190,9 @@ const Navbar = ({ active, userClickHandler }) => {
           >
             <div className="product">Products</div>
           </Link>
-
-          {/* <Link
-            style={{ overflow: "hidden" }}
-            className={activeLink === "rent" ? "active" : ""}
-            onClick={() => handleLinkClick("rent")}
-          >
-            <span className="renttt">Rent Furniture</span>
-          </Link>
-
-          <Link
-            to="/orderdetails"
-            className={`text-decoration-none ${
-              activeLink === "orders" ? "active" : ""
-            }`}
-            onClick={() => handleLinkClick("orders")}
-          >
-            Orders
-          </Link> */}
         </div>
 
         <div className="bottomnav-right">
-          {/* <div
-            style={{ overflow: "hidden" }}
-            className={activeLink === "shipping" ? "active" : ""}
-            onClick={() => handleLinkClick("shipping")}
-          >
-            <span className="renttt">Shipping</span>
-          </div>
-          <div
-            style={{ overflow: "hidden" }}
-            className={activeLink === "returns" ? "active" : ""}
-            onClick={() => handleLinkClick("returns")}
-          >
-            <span className="renttt">Returns</span>
-          </div> */}
           <div
             style={{ overflow: "hidden" }}
             className={activeLink === "faqs" ? "active" : ""}

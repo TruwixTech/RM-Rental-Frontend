@@ -40,6 +40,13 @@ const Footer = () => {
             <div className="w-full md:w-1/3 flex flex-col items-center md:items-start ">
               <div className="text-black font-bold">ABOUT</div>
               <Link
+                className="text-gray-500 my-1 text-decoration-none"
+                href
+                to={"/aboutus"}
+              >
+                About Us
+              </Link>
+              <Link
                 to={"https://g.page/r/Cc3q4p7qCMi3EAI/review"}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -47,18 +54,11 @@ const Footer = () => {
               >
                 Reviews
               </Link>
-              <Link
-                className="text-gray-500 my-1 text-decoration-none"
-                href
-                to={"/contact"}
-              >
-                Careers
-              </Link>
               <Link className="text-gray-500 my-1 text-decoration-none">
                 Financing
               </Link>
-              <Link className="text-gray-500 my-1 text-decoration-none">
-                Patents
+              <Link to="/contactus" className="text-gray-500 my-1 text-decoration-none">
+                Contact Us
               </Link>
               <Link className="text-gray-500 my-1 text-decoration-none">
                 Our Blog
