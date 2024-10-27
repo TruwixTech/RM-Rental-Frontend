@@ -16,6 +16,8 @@ const Navbar = ({ active, userClickHandler }) => {
   const navigate = useNavigate();
   const [activeLink, setActiveLink] = useState("home");
   const user = storageService.get("user");
+
+  console.log("User By OAUTH: ", user)
   const [cartItems, setCartItems] = useState([]);
 
   const handleLinkClick = (link) => {
@@ -23,7 +25,7 @@ const Navbar = ({ active, userClickHandler }) => {
   };
 
   const getMyCart = async () => {
-    const data = await getCartAPI();
+    const data = await getCartAPI(user?._id);
     if (data) {
       setCartItems(data?.data?.items);
     }

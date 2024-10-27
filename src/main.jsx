@@ -6,10 +6,13 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
-    <Toaster />
-    <App />
-  </BrowserRouter>
+  <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+    <BrowserRouter>
+      <Toaster />
+      <App />
+    </BrowserRouter>
+  </GoogleOAuthProvider>
 );

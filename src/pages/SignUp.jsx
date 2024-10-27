@@ -1,9 +1,12 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../assets/csss/SignUp.css";
 import userService from "../service/user.service";
 import storageService from "../service/storage.service";
 import toast from "react-hot-toast";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -29,6 +32,38 @@ const SignUp = () => {
     });
   };
 
+  const responseMessage = async (response) => {
+    console.log("Google response:", response);
+
+    try {
+      const { credential } = response;
+      const idToken = credential;
+
+      const credentials = jwtDecode(idToken);
+      console.log("Decoded credentials:", credentials);
+
+      const res = await userService.googleOAuth(idToken);
+
+      if (res.status === 200) {
+        const { token } = res.data;
+        console.log("data", res.data);
+        localStorage.setItem("authToken", token);
+        storageService.save("token", res.data.token);
+        storageService.save("user", res.data.user);
+        toast.success("Login successful");
+        navigate("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      }
+    } catch (error) {
+      console.error("Error during Google login:", error);
+    }
+  };
+
+  const errorMessage = (error) => {
+    toast.error("Something Went Wrong!");
+  };
   const handleSubmit = async () => {
     setLoading(true);
     setError(null); // Clear any previous errors
@@ -112,7 +147,11 @@ const SignUp = () => {
   return (
     <div className="wrapper">
       <div className="sign-up-container">
-      <div className="text-center text-2xl font-bold">Sign Up</div>
+        <div className="flex justify-center items-center mb-2">
+          <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
+        </div>
+        <div className="flex justify-center items-center">OR</div>
+        <div className="text-center text-2xl font-bold">Sign Up</div>
         <div className="sign-up-form mt-4">
           <div className="form-group">
             <label htmlFor="name">Name</label>

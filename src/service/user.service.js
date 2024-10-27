@@ -1,6 +1,14 @@
 import { AXIOS_INSTANCE } from ".";
 
 const api = {
+  googleOAuth: async (token) => {
+    try {
+      const data = await AXIOS_INSTANCE.post("/oauth", { token });
+      return data;
+    } catch (error) {
+      return error;
+    }
+  },
   loginAPI: async (email, password) => {
     try {
       const { data } = await AXIOS_INSTANCE.post("/login", { email, password });

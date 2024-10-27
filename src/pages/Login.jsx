@@ -5,6 +5,8 @@ import "../assets/csss/Login.css";
 import userService from "../service/user.service";
 import toast from "react-hot-toast";
 import storageService from "../service/storage.service";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -21,6 +23,39 @@ const Login = () => {
     });
   };
 
+  const responseMessage = async (response) => {
+    console.log("Google response:", response);
+
+    try {
+      const { credential } = response;
+      const idToken = credential;
+
+      const credentials = jwtDecode(idToken);
+      console.log("Decoded credentials:", credentials);
+
+      const res = await userService.googleOAuth(idToken);
+
+      if (res.status === 200) {
+        const { token } = res.data;
+        console.log("data", res.data);
+        localStorage.setItem("authToken", token);
+        storageService.save("token", res.data.token);
+        storageService.save("user", res.data.user);
+        toast.success("Login successful");
+        navigate("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      }
+    } catch (error) {
+      console.error("Error during Google login:", error);
+    }
+  };
+
+  const errorMessage = (error) => {
+    toast.error("Something Went Wrong!");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormData({
@@ -29,7 +64,10 @@ const Login = () => {
     });
 
     try {
-      const data = await userService.loginAPI(formData.email, formData.password);
+      const data = await userService.loginAPI(
+        formData.email,
+        formData.password
+      );
       if (data) {
         storageService.save("token", data.token);
         storageService.save("user", data.user);
@@ -57,6 +95,10 @@ const Login = () => {
   return (
     <div className="wrapper">
       <div className="login-container">
+        <div className="flex justify-center items-center mb-2">
+          <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
+        </div>
+        <div className="flex justify-center items-center">OR</div>
         <div className="text-center text-2xl font-bold">Login</div>
         <form onSubmit={handleSubmit} className="login-form mt-4">
           <div className="form-group">
