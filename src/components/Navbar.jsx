@@ -8,6 +8,7 @@ import { IoClose } from "react-icons/io5";
 import User from "../assets/img/user.png";
 import storageService from "../service/storage.service";
 import { getCartAPI } from "../service/cart.service";
+import AddressSelect from "./DrawerHero";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { FaSearch } from "react-icons/fa";
 import { searchProduct } from "../service/products.service";
@@ -75,10 +76,13 @@ const Navbar = ({ active, userClickHandler }) => {
     <div className="mainnavbar">
       <div className="upnavbar">
         <div className="leftnav">
-          <div className="logo">
+          <div className="logo flex gap-10 items-center">
             <Link to="/">
               <img src={logo} alt="logo" />
             </Link>
+            <div>
+              <AddressSelect/>
+            </div>
           </div>
 
           {/* Search Bar */}

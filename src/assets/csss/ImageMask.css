@@ -46,7 +46,7 @@
     height: 38%;
     
     position: absolute;
-    z-index: 111;
+    z-index: 40;
     background-color: #F1F1F1;
    
 }
@@ -137,7 +137,7 @@ letter-spacing: -0.02825rem;
     position: absolute;
     bottom: 0;
     right: 0;
-    z-index: 111;
+    z-index: 40;
    
     display: flex;
     border-radius: 50px 0px 0px 0px;
@@ -167,7 +167,7 @@ letter-spacing: -0.02825rem;
     border-radius: 50%;
     border: 1px solid #6B6500;
   
-    z-index: 2222;
+    z-index: 42;
     position: absolute;
     right:   15px;
     bottom: 10px;
@@ -476,7 +476,7 @@ letter-spacing: -0.02825rem;
         height: 38%;
         
         position: absolute;
-        z-index: 111;
+        z-index: 40;
         background-color: #F1F1F1;
        
     }
@@ -567,7 +567,7 @@ letter-spacing: -0.02825rem;
         position: absolute;
         bottom: 0;
         right: 0;
-        z-index: 111;
+        z-index: 40;
        
         display: flex;
         border-radius: 50px 0px 0px 0px;
@@ -597,7 +597,7 @@ letter-spacing: -0.02825rem;
         border-radius: 50%;
         border: 1px solid #6B6500;
       
-        z-index: 2222;
+        z-index: 44;
         position: absolute;
         right:   15px;
         bottom: 10px;
@@ -665,7 +665,7 @@ letter-spacing: -0.02825rem;
         height: 38%;
         
         position: absolute;
-        z-index: 111;
+        z-index: 40;
         background-color: #F1F1F1;
        
     }
@@ -756,7 +756,7 @@ letter-spacing: -0.02825rem;
         position: absolute;
         bottom: 0;
         right: 0;
-        z-index: 111;
+        z-index: 40;
        
         display: flex;
         border-radius: 50px 0px 0px 0px;
@@ -786,7 +786,7 @@ letter-spacing: -0.02825rem;
         border-radius: 50%;
         border: 1px solid #6B6500;
       
-        z-index: 2222;
+        z-index: 44;
         position: absolute;
         right:   15px;
         bottom: 10px;
