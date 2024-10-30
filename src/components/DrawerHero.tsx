@@ -79,13 +79,15 @@ const DrawerHero = () => {
         </DrawerTrigger>
 
         <DrawerContent className="">
-          <DrawerHeader>
-            <DrawerTitle>Select Delivery Location</DrawerTitle>
+        <DrawerHeader>
+            <DrawerTitle></DrawerTitle>
           </DrawerHeader>
 
           <DrawerBody className="no-scrollbar">
+          
             <div className="flex flex-col items-center gap-4">
               {/* Pincode Input */}
+              <h3 className="my-2">Select Delivery Location</h3>
               <div className="w-full flex items-center border rounded-lg p-2">
                 <input
                   type="text"
