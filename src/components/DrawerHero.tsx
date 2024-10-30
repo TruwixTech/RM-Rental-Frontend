@@ -65,12 +65,13 @@ const DrawerHero = () => {
       <Drawer open={isOpen} onOpenChange={setIsOpen}>
         <DrawerTrigger asChild className="flex gap-2 items-center">
           <div className="flex items-center">
-            <span><CiLocationOn size={30} /></span>
+            <span><CiLocationOn size={30}  className="hidden md:block"/></span>
+            <span><CiLocationOn size={10}  className="block md:hidden"/></span>
             <div className="flex flex-col">
-              <span className="text-[14px] text-gray-600">Delivery to</span>
+              <span className="text-[8px] md:text-[14px] text-gray-600 hidden md:block">Delivery to</span>
               <span
                 onClick={() => setIsOpen(true)}
-                className="text-sm font-bold text-gray-600">
+                className="text-[8px] md:text-sm font-bold text-gray-600">
                 {selectedLocation}
               </span>
             </div>

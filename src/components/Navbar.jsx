@@ -80,7 +80,7 @@ const Navbar = ({ active, userClickHandler }) => {
             <Link to="/">
               <img src={logo} alt="logo" />
             </Link>
-            <div>
+            <div className="hidden md:block">
               <AddressSelect/>
             </div>
           </div>
