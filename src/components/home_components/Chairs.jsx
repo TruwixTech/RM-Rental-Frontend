@@ -98,9 +98,9 @@ const Chairs = () => {
         <p>Check out what is new in the market!</p>
       </div>
 
-      <div className="card-grid">
+      <div className="card-grid w-full">
         {products.map((product) => (
-          <div key={product?._id} className="md:max-w-80 bg-white rounded-lg">
+          <div key={product?._id} className="card bg-white rounded-lg">
             <div className="image-container p-2 rounded-t-lg">
               <Link to={`/product/${product?._id}`}>
                 <img
@@ -116,7 +116,7 @@ const Chairs = () => {
             </div>
             <div className="p-4">
               <Link to={`/product/${product?._id}`}>
-                <h3 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 overflow-hidden text-ellipsis whitespace-nowrap">
+                <h3 className="mb-2 w-[200px] text-base font-bold tracking-tight text-gray-900 overflow-hidden text-ellipsis whitespace-nowrap">
                   {product.title}
                 </h3>
               </Link>
