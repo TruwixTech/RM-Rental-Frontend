@@ -59,7 +59,7 @@ const AdminDashboard = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("Product created:", response.data);
+      // console.log("Product created:", response.data);
       setFormData({
         title: "",
         sub_title: "",

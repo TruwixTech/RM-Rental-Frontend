@@ -59,7 +59,7 @@ const AdminDashboard = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("Product created:", response.data);
+      // console.log("Product created:", response.data);
       setFormData({
         title: "",
         sub_title: "",
@@ -68,7 +68,7 @@ const AdminDashboard = () => {
         img: [],
       });
     } catch (err) {
-      console.error("Error creating product:", err);
+      // console.error("Error creating product:", err);
       setSubmitError(err.response?.data?.error || "An error occurred");
     }
   };

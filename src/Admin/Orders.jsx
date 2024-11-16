@@ -18,7 +18,7 @@ const Orders = () => {
     const fetchOrders = async () => {
       try {
         const response = await AXIOS_INSTANCE.get("/orders");
-        console.log("API Response:", response.data);
+        // console.log("API Response:", response.data);
         if (response.data && Array.isArray(response.data.data)) {
           setOrders(response.data.data);
         } else {

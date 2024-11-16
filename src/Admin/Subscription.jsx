@@ -44,8 +44,8 @@ const Subscription = () => {
   };
 
   const handleUpdate = async (id) => {
-    console.log(newOrderDate);
-    console.log(newOrderEndDate);
+    // console.log(newOrderDate);
+    // console.log(newOrderEndDate);
     try {
       const response = await AXIOS_INSTANCE.put(`/orders/${id}`, {
         orderDate: newOrderDate.toISOString(),

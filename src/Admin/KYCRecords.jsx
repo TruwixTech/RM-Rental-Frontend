@@ -23,13 +23,13 @@ const KYCRecords = () => {
   // Handle KYC status update
   const handleKYCStatusUpdate = async (kycId, newStatus, rejectedReason) => {
     try {
-      console.log("KYC ID:", kycId);
-      console.log("New Status:", newStatus);
-      console.log("Rejection Reason:", rejectedReason); // Log to check if reason is passed
+      // console.log("KYC ID:", kycId);
+      // console.log("New Status:", newStatus);
+      // console.log("Rejection Reason:", rejectedReason); // Log to check if reason is passed
 
       const data = await updateKYCAPI.updateKYC(kycId, newStatus, rejectedReason); 
       
-      console.log(data);
+      // console.log(data);
   
       if (data.success) {
         toast.success("KYC Status Updated Successfully!");

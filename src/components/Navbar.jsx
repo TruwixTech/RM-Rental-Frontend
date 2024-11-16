@@ -18,7 +18,7 @@ const Navbar = ({ active, userClickHandler }) => {
   const [activeLink, setActiveLink] = useState("home");
   const user = storageService.get("user");
 
-  console.log("User By OAUTH: ", user)
+  // console.log("User By OAUTH: ", user)
   const [cartItems, setCartItems] = useState([]);
 
   const handleLinkClick = (link) => {
