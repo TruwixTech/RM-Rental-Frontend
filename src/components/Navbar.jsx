@@ -9,14 +9,27 @@ import User from "../assets/img/user.png";
 import storageService from "../service/storage.service";
 import { getCartAPI } from "../service/cart.service";
 import AddressSelect from "./DrawerHero";
+
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { FaSearch } from "react-icons/fa";
 import { searchProduct } from "../service/products.service";
+
+import AddressSelect2 from "./DrawerHero2";
 
 const Navbar = ({ active, userClickHandler }) => {
   const navigate = useNavigate();
   const [activeLink, setActiveLink] = useState("home");
   const user = storageService.get("user");
+  const [showPopup, setShowPopup] = useState(false);
+
+  // Show popup every time the page reloads
+  useEffect(() => {
+    setShowPopup(true);
+  }, []);
+
+  const closePopup = () => {
+    setShowPopup(false);
+  };
 
   // console.log("User By OAUTH: ", user)
   const [cartItems, setCartItems] = useState([]);
@@ -199,12 +212,16 @@ const Navbar = ({ active, userClickHandler }) => {
         </div>
 
         <div className="bottomnav-right">
+        <div className="absolute -right-[1500px]">
+              <AddressSelect2/>
+            </div>
           <Link to="/faq"
             style={{ overflow: "hidden" }}
             className={activeLink === "faqs" ? "active" : ""}
             onClick={() => handleLinkClick("faqs")}
           >
             <span className="renttt text-lg">FAQs</span>
+           
           </Link>
         </div>
       </div>

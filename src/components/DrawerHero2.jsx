@@ -11,42 +11,42 @@ import Ghaziabad from "../assets/img/Ghaziabad.png";
 import { useLocation } from "react-router-dom";
 
 // Define a mapping of cities to their pincodes
-const cityPincodes = {
+const cityPincodes2 = {
   Delhi: "110001",
   Gurugram: "122018",
   Noida: "201301",
   Ghaziabad: "201001",
 };
 
-const DrawerHero = () => {
-  const location = useLocation(); // Get the current route
-  const [selectedLocation, setSelectedLocation] = useState(
-    localStorage.getItem("selectedLocation") || "Choose Location"
+const DrawerHero2 = () => {
+  const location2 = useLocation(); // Get the current route
+  const [selectedLocation2, setSelectedLocation2] = useState(
+    localStorage.getItem("selectedLocation2") || "Choose Location"
   );
-  const [pincode, setPincode] = useState("");
-  const [showDrawer, setShowDrawer] = useState(true); // Always show drawer on reload
+  const [pincode2, setPincode2] = useState("");
+  const [showDrawer2, setShowDrawer2] = useState(true); // Always show drawer on reload
 
   // Notify when the location is updated
-  const notify = () => toast.success("Location updated successfully!");
+  const notify2 = () => toast.success("Location updated successfully!");
 
-  const handlePincodeSubmit = () => {
-    if (pincode.trim()) {
-      setSelectedLocation(pincode);
-      notify();
-      setShowDrawer(false);
-      localStorage.setItem("selectedLocation", pincode); // Save selection
-      setPincode(""); // Clear the pincode input
+  const handlePincodeSubmit2 = () => {
+    if (pincode2.trim()) {
+      setSelectedLocation2(pincode2);
+      notify2();
+      setShowDrawer2(false);
+      localStorage.setItem("selectedLocation2", pincode2); // Save selection
+      setPincode2(""); // Clear the pincode input
     } else {
       toast.error("Please enter a valid pincode.");
     }
   };
 
-  const handleCitySelect = (city) => {
-    const selectedPincode = cityPincodes[city];
-    setSelectedLocation(selectedPincode);
-    notify();
-    setShowDrawer(false);
-    localStorage.setItem("selectedLocation", selectedPincode); // Save selection
+  const handleCitySelect2 = (city) => {
+    const selectedPincode2 = cityPincodes2[city];
+    setSelectedLocation2(selectedPincode2);
+    notify2();
+    setShowDrawer2(false);
+    localStorage.setItem("selectedLocation2", selectedPincode2); // Save selection
   };
 
   // Reset the drawer to show on reload
@@ -55,16 +55,15 @@ const DrawerHero = () => {
     const isFirstVisit = localStorage.getItem("hasVisitedHome");
 
     if (location.pathname === "/" && !isFirstVisit) {
-      setShowDrawer(true);
+      setShowDrawer2(true);
       localStorage.setItem("hasVisitedHome", "true"); // Mark that the user has visited
     } else {
-      setShowDrawer(false);
+      setShowDrawer2(false);
     }
-  }, [location.pathname]);
-
+  }, [location2.pathname]);
 
   // Map city names to their respective images
-  const cityImages = {
+  const cityImages2 = {
     Delhi,
     Gurugram,
     Noida,
@@ -72,7 +71,7 @@ const DrawerHero = () => {
   };
 
   return (
-    <div className="flex justify-center">
+    <div className="md:hidden flex justify-center">
       {/* Drawer Trigger */}
       <div className="md:flex items-center gap-2 hidden">
         <CiLocationOn size={30} className="hidden md:block" />
@@ -81,16 +80,16 @@ const DrawerHero = () => {
             Delivery to
           </span>
           <span
-            onClick={() => setShowDrawer(true)}
+            onClick={() => setShowDrawer2(true)}
             className="text-[8px] md:text-sm font-bold text-gray-600 cursor-pointer"
           >
-            {selectedLocation}
+            {selectedLocation2}
           </span>
         </div>
       </div>
 
       {/* Drawer */}
-      {showDrawer && (
+      {showDrawer2 && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
           <div className="bg-white rounded-lg p-6 w-[90%] md:w-[500px] relative">
             <h3 className="text-center mb-4 text-lg font-semibold">
@@ -101,13 +100,13 @@ const DrawerHero = () => {
               <div className="w-full flex items-center border rounded-lg p-2">
                 <input
                   type="text"
-                  value={pincode}
-                  onChange={(e) => setPincode(e.target.value)}
+                  value={pincode2}
+                  onChange={(e) => setPincode2(e.target.value)}
                   placeholder="Enter your pincode"
                   className="flex-grow outline-none px-2 text-sm"
                 />
                 <button
-                  onClick={handlePincodeSubmit}
+                  onClick={handlePincodeSubmit2}
                   className="text-blue-500 text-lg"
                 >
                   →
@@ -115,7 +114,7 @@ const DrawerHero = () => {
               </div>
               <p className="text-sm mt-2">
                 Currently selected pincode:{" "}
-                <span className="font-bold">{pincode || "None"}</span>
+                <span className="font-bold">{pincode2 || "None"}</span>
               </p>
 
               {/* City Selection */}
@@ -123,14 +122,14 @@ const DrawerHero = () => {
                 Or select one of your nearby cities
               </h3>
               <div className="grid grid-cols-3 gap-6 mt-2">
-                {Object.keys(cityImages).map((city) => (
+                {Object.keys(cityImages2).map((city) => (
                   <div key={city} className="flex flex-col items-center">
                     <button
-                      onClick={() => handleCitySelect(city)}
+                      onClick={() => handleCitySelect2(city)}
                       className="bg-blue-100 rounded-xl flex items-center justify-center h-20 w-20"
                     >
                       <img
-                        src={cityImages[city]}
+                        src={cityImages2[city]}
                         alt={`${city} icon`}
                         className="w-full h-full object-cover"
                       />
@@ -143,7 +142,7 @@ const DrawerHero = () => {
 
             {/* Close Button */}
             <button
-              onClick={() => setShowDrawer(false)}
+              onClick={() => setShowDrawer2(false)}
               className="absolute top-3 right-3 text-gray-600 text-xl font-bold"
             >
               ×
@@ -158,4 +157,4 @@ const DrawerHero = () => {
   );
 };
 
-export default DrawerHero;
+export default DrawerHero2;

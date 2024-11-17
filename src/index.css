@@ -164,3 +164,7 @@ h1 {
     font-size: 6vw;
   }
 }
+
+.drawer-container-main-z{
+  z-index: 50;
+}

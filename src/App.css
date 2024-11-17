@@ -47,7 +47,9 @@
   width: 33vw;
   background-color: #F8F8F8;
   padding: 0.5vw 1.4vw;
-  position: relative; /* Required for dropdown positioning */
+  position: relative;
+  /* margin-right: 40px; */
+   /* Required for dropdown positioning */
 }
 
 .search-icon {
