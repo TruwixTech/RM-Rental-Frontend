@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { CiLocationOn } from "react-icons/ci";
 import { toast, Toaster } from "react-hot-toast";
 
@@ -7,7 +7,6 @@ import Delhi from "../assets/img/Delhi.png";
 import Gurugram from "../assets/img/Gurugram.png";
 import Noida from "../assets/img/Noida.png";
 import Ghaziabad from "../assets/img/Ghaziabad.png";
-
 import { useLocation } from "react-router-dom";
 
 // Define a mapping of cities to their pincodes
@@ -97,7 +96,7 @@ const DrawerHero2 = () => {
             </h3>
             <div className="flex flex-col items-center gap-4">
               {/* Pincode Input */}
-              <div className="w-full flex items-center border rounded-lg p-2">
+              {/* <div className="w-full flex items-center border rounded-lg p-2">
                 <input
                   type="text"
                   value={pincode2}
@@ -111,22 +110,24 @@ const DrawerHero2 = () => {
                 >
                   →
                 </button>
+               
               </div>
               <p className="text-sm mt-2">
                 Currently selected pincode:{" "}
                 <span className="font-bold">{pincode2 || "None"}</span>
               </p>
+               */}
 
               {/* City Selection */}
               <h3 className="mt-4 text-lg font-semibold">
-                Or select one of your nearby cities
+              Select one of the nearby cities we Deliver
               </h3>
               <div className="grid grid-cols-3 gap-6 mt-2">
                 {Object.keys(cityImages2).map((city) => (
                   <div key={city} className="flex flex-col items-center">
                     <button
                       onClick={() => handleCitySelect2(city)}
-                      className="bg-blue-100 rounded-xl flex items-center justify-center h-20 w-20"
+                      className="border-2 border-gray-500 bg-gray-100 rounded-xl flex items-center justify-center h-20 w-20"
                     >
                       <img
                         src={cityImages2[city]}
@@ -143,7 +144,7 @@ const DrawerHero2 = () => {
             {/* Close Button */}
             <button
               onClick={() => setShowDrawer2(false)}
-              className="absolute top-3 right-3 text-gray-600 text-xl font-bold"
+              className="absolute top-3 right-6 text-gray-600 text-4xl font-bold"
             >
               ×
             </button>

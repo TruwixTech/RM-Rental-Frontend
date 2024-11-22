@@ -98,7 +98,7 @@ const DrawerHero = () => {
             </h3>
             <div className="flex flex-col items-center gap-4">
               {/* Pincode Input */}
-              <div className="w-full flex items-center border rounded-lg p-2">
+              {/* <div className="w-full flex items-center border rounded-lg p-2">
                 <input
                   type="text"
                   value={pincode}
@@ -116,18 +116,18 @@ const DrawerHero = () => {
               <p className="text-sm mt-2">
                 Currently selected pincode:{" "}
                 <span className="font-bold">{pincode || "None"}</span>
-              </p>
+              </p> */}
 
               {/* City Selection */}
               <h3 className="mt-4 text-lg font-semibold">
-                Or select one of your nearby cities
+                Select one of the nearby cities we Deliver
               </h3>
               <div className="grid grid-cols-3 gap-6 mt-2">
                 {Object.keys(cityImages).map((city) => (
                   <div key={city} className="flex flex-col items-center">
                     <button
                       onClick={() => handleCitySelect(city)}
-                      className="bg-blue-100 rounded-xl flex items-center justify-center h-20 w-20"
+                      className="border-2 border-gray-500 bg-gray-100 rounded-xl flex items-center justify-center h-20 w-20"
                     >
                       <img
                         src={cityImages[city]}
@@ -144,7 +144,7 @@ const DrawerHero = () => {
             {/* Close Button */}
             <button
               onClick={() => setShowDrawer(false)}
-              className="absolute top-3 right-3 text-gray-600 text-xl font-bold"
+              className="absolute top-3 right-6 text-gray-600 text-4xl font-bold"
             >
               ×
             </button>
