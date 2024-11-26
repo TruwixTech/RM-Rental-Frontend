@@ -14,7 +14,7 @@ const Orderdetails = () => {
   <div className='order-container'>
     <div className="order-details-container">
       <h1 style={{color: '#FFD74D', fontWeight: 700}}>Thank You for Your Purchase!</h1>
-      <div>Order ID: {orderId}</h2>
+      <h2>Order ID: {orderId}</h2>
       <div className="order-details">
         {cartData && cartData.length > 0 ? (
           cartData.map((item) => (

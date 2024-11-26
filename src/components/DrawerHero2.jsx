@@ -95,29 +95,6 @@ const DrawerHero2 = () => {
               Select Delivery Location
             </h3>
             <div className="flex flex-col items-center gap-4">
-              {/* Pincode Input */}
-              {/* <div className="w-full flex items-center border rounded-lg p-2">
-                <input
-                  type="text"
-                  value={pincode2}
-                  onChange={(e) => setPincode2(e.target.value)}
-                  placeholder="Enter your pincode"
-                  className="flex-grow outline-none px-2 text-sm"
-                />
-                <button
-                  onClick={handlePincodeSubmit2}
-                  className="text-blue-500 text-lg"
-                >
-                  →
-                </button>
-               
-              </div>
-              <p className="text-sm mt-2">
-                Currently selected pincode:{" "}
-                <span className="font-bold">{pincode2 || "None"}</span>
-              </p>
-               */}
-
               {/* City Selection */}
               <h3 className="mt-4 text-lg font-semibold">
               Select one of the nearby cities we Deliver

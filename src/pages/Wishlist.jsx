@@ -3,7 +3,6 @@ import React from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromWishlist } from "../features/wishlistSlice";
-// import { Link } from "react-router-dom";
 
 const placeholderImageURL = "https://img.freepik.com/free-vector/hand-drawn-people-supermarket-background_23-2148131593.jpg?w=740&t=st=1711799669~exp=1711800269~hmac=4b141e4abb7d58d2d81dde1fa92b4d864e38d22ebf439ea48189286e99e8dedf"; // Replace this with your placeholder image URL
 
@@ -37,7 +36,7 @@ const Wishlist = () => {
                 </div>
                 <div className="wishlist-details">
                   <div className="wishlist-text">
-                    <div>{item.productName}</h2>
+                    <h2>{item.productName}</h2>
                     <h3>{item.productTitle}</h3>
                     <p>Price: ₹{item.productPrice}</p>
                   </div>
@@ -49,9 +48,6 @@ const Wishlist = () => {
                       <FaDeleteLeft />
                       Remove
                     </button>
-                    {/* <Link to={`/productdetail/${item.id}`}>
-                      <button className="buy-now-wishlist">Buy now</button>
-                    </Link> */}
                   </div>
                 </div>
               </div>

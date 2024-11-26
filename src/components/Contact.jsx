@@ -24,17 +24,6 @@ const Contact = () => {
           <p className="flex items-center text-sm">
             <span className="mr-2"><FaPhone size={16} /></span> +91 {" "} 8920309557
           </p>
-          {/* <div className="flex gap-4">
-            <a href="#" className="text-white hover:text-gray-300">
-              <i className="fab fa-instagram"><AiFillInstagram size={24} /></i>
-            </a>
-            <a href="#" className="text-white hover:text-gray-300">
-              <i className="fab fa-twitter"><FaTwitter size={22} /></i>
-            </a>
-            <a href="#" className="text-white hover:text-gray-300">
-              <i className="fab fa-linkedin"><SiLinkedin size={20} /></i>
-            </a>
-          </div> */}
         </div>
       <div className="bg-white w-[95%] md:w-[45%] flex flex-col md:flex-row items-center  relative min-h-[500px] md:min-h-[600px] -top-1 " style={{ boxShadow: '0 -4px 10px rgba(0, 0, 0, 0.2)'}}>
         {/* Contact Information Section */}
@@ -52,17 +41,6 @@ const Contact = () => {
           <p className="flex items-center">
             <span className="mr-2"><FaPhone size={20} /></span> +91 {" "} 8920309557
           </p>
-          {/* <div className="flex gap-10 my-10">
-            <a href="#" className="text-white hover:text-gray-300">
-              <i className="fab fa-instagram"><AiFillInstagram size={34} /></i>
-            </a>
-            <a href="#" className="text-white hover:text-gray-300">
-              <i className="fab fa-twitter"><FaTwitter size={34} /></i>
-            </a>
-            <a href="#" className="text-white hover:text-gray-300">
-              <i className="fab fa-linkedin"><SiLinkedin size={30} /></i>
-            </a>
-          </div> */}
         </div>
 
         {/* Form Section */}

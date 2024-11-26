@@ -1,9 +1,7 @@
 import { useNavigate } from "react-router-dom"; // Use useNavigate in place of useHistory
 import ceiling from "../../assets/img/ceiling.png";
 import sofa from "../../assets/img/sofa.png";
-// import kitchen from "../../assets/img/kitchen.png";
 import nightstand from "../../assets/img/nightstand.png";
-// import toilet from "../../assets/img/toilet.png";
 import bed from "../../assets/img/bed.png";
 import { FaArrowRight } from "react-icons/fa";
 import "../../assets/csss/category.css";

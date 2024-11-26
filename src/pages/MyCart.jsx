@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 import "../assets/csss/MyCart.css";
 import { deleteProductFromCartAPI, getCartAPI } from "../service/cart.service";
 import storageService from "../service/storage.service";
-// import { AXIOS_INSTANCE } from "../service";
-// import toast from "react-hot-toast";
 import userService from "../service/user.service";
 
 const placeholderImageURL =
@@ -35,8 +33,6 @@ const MyCart = () => {
     setAddress(distance.data.address);
   };
 
-  // console.log(distanceToShop);
-  // console.log(address);
   // Trigger getDistance only after origins is set
   useEffect(() => {
     if (origins) {
@@ -141,82 +137,6 @@ const MyCart = () => {
     return (subtotal || 0) + (gst || 0) + (deposit || 0) + (shippingFee || 0);
   };
 
-  // const handlePayment = async () => {
-  //   if (!user) {
-  //     alert("Please login to continue");
-  //     return;
-  //   }
-
-  //   if (userCartData.items.length === 0) {
-  //     toast.error("Cart is empty!");
-  //   }
-
-  //   const cartTotal = calculateTotalPrice().toFixed(2);
-  //   const shippingCost = calculateShippingFee().toFixed(2);
-  //   const cartItems = userCartData.items;
-
-  //   // Step 1: Create an order from the backend
-  //   const orderResponse = await AXIOS_INSTANCE.post("/create/order", {
-  //     pincodeTo: "123123",
-  //     cartTotal,
-  //     shippingCost,
-  //     cartItems,
-  //     address,
-  //   });
-  //   console.log("Order Response:", orderResponse);
-
-  //   const orderData = orderResponse?.data;
-  //   if (!orderData.success) {
-  //     alert("Order creation failed Reason: " + orderData.error);
-  //     return;
-  //   }
-
-  //   const amountToRazorpay = cartTotal * 100;
-
-  //   // Step 2: Trigger Razorpay Payment Gateway
-  //   const options = {
-  //     key: "rzp_test_Lx1DFKJyuWRRZG", // Replace with your Razorpay Key ID
-  //     amount: amountToRazorpay,
-  //     currency: orderData.currency || "INR",
-  //     name: "RM RENTAL",
-  //     description: "Rm Rental Payment",
-  //     image: "https://your-logo-url.com/logo.png", // Optional: Add your logo
-  //     order_id: orderData.id,
-  //     handler: async (response) => {
-  //       const paymentData = {
-  //         order_id: orderData._id,
-  //         payment_id: response.razorpay_payment_id,
-  //         signature: response.razorpay_signature,
-  //       };
-
-  //       const verifyResponse = await AXIOS_INSTANCE.post(
-  //         "/order/verifyPayment",
-  //         paymentData
-  //       );
-  //       if (verifyResponse?.data?.success) {
-  //         alert("Payment successful");
-  //         navigate("/orderconfirm", {
-  //           state: { orderId: orderData._id },
-  //         });
-  //       } else {
-  //         alert("Payment verification failed");
-  //         navigate("/orderfailed");
-  //       }
-  //     },
-  //     prefill: {
-  //       name: user?.name, // Optional: Prefill with customer data
-  //       email: user?.email,
-  //       contact: "9999999999",
-  //     },
-  //     theme: {
-  //       color: "#F37254",
-  //     },
-  //   };
-
-  //   const rzp = new window.Razorpay(options);
-  //   rzp.open();
-  // };
-
   return (
     <div className="amazon-cart">
       <div className="cart-content flex flex-col md:flex-row">
@@ -243,12 +163,11 @@ const MyCart = () => {
                     <h3 className="">{item?.product?.title}</h3>
                     <p className="sub-title">{item?.product?.sub_title}</p>
                     <p className="price">
-                      {`₹ ${
-                        getRentMonthsPrice(
-                          item?.rentOptions.rentMonthsCount,
-                          item?.product?.rentalOptions
-                        ) * item?.rentOptions?.quantity
-                      } / ${item?.rentOptions.rentMonthsCount} months on rent`}
+                      {`₹ ${getRentMonthsPrice(
+                        item?.rentOptions.rentMonthsCount,
+                        item?.product?.rentalOptions
+                      ) * item?.rentOptions?.quantity
+                        } / ${item?.rentOptions.rentMonthsCount} months on rent`}
                     </p>
                     <p>
                       Quantity:{" "}
@@ -275,49 +194,11 @@ const MyCart = () => {
         <div className="cart-overview">
           <div className="cart-header"></div>
           <div className="proceed-container">
-            {/* <div className="cart-details">
-              <div className="my-2">
-                Cart Total | ₹{calculateTotalPrice().toFixed(2) || "0.00"}
-              </div>
-            </div> */}
-            {/* <button
-              className={`proceed-btn ${
-                userCartData.items.length === 0
-                  ? "cursor-not-allowed opacity-50"
-                  : ""
-              }`}
-              onClick={() => {
-                if (userCartData.items.length !== 0) {
-                  navigate("/address/finalPayment", {
-                    state: {
-                      cartTotal: calculateTotalPrice(), // Sending total price
-                      shippingCost: calculateShippingFee(), // Sending shipping fee
-                      cartItems: userCartData.items, // Sending cart items
-                    },
-                  });
-                }
-              }}
-              disabled={userCartData.items.length === 0}
-            >
-              Proceed <span className="arrow-icon">→</span>
-            </button> */}
-            {/* <button
-              className={`proceed-btn ${
-                userCartData.items.length === 0
-                  ? "cursor-not-allowed opacity-50"
-                  : ""
-              } font-semibold`}
-              onClick={handlePayment}
-              disabled={userCartData.items.length === 0}
-            >
-              Pay ₹ {calculateTotalPrice().toFixed(2) || ""} Now <span className="arrow-icon">→</span>
-            </button> */}
             <button
-              className={`proceed-btn ${
-                userCartData.items.length === 0
-                  ? "cursor-not-allowed opacity-50"
-                  : ""
-              }`}
+              className={`proceed-btn ${userCartData.items.length === 0
+                ? "cursor-not-allowed opacity-50"
+                : ""
+                }`}
               onClick={() => {
                 if (userCartData.items.length !== 0) {
                   navigate("/address/finalPayment", {

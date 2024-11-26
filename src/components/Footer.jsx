@@ -33,9 +33,6 @@ const Footer = () => {
               <Link className="text-gray-500 my-1 text-decoration-none">
                 Stores
               </Link>
-              {/* <Link className="text-gray-500 my-1 text-decoration-none">
-                Trade program
-              </Link> */}
             </div>
             <div className="w-full md:w-1/3 flex flex-col items-center md:items-start ">
               <div className="text-black font-bold">ABOUT</div>
@@ -66,27 +63,7 @@ const Footer = () => {
               >
                 Contact Us
               </Link>
-              {/* <Link className="text-gray-500 my-1 text-decoration-none">
-                Our Blog
-              </Link> */}
             </div>
-            {/* <div className="footer-section">
-              <h4>RESOURCES</h4>
-              <Link className="footer-link text-decoration-none">
-                Look Up Order Status
-              </Link>
-              <Link className="footer-link text-decoration-none">
-                Assembly Instructions
-              </Link>
-              <Link className="footer-link text-decoration-none">Returns</Link>
-              <Link className="footer-link text-decoration-none">
-                Shipping & Delivery
-              </Link>
-              <Link className="footer-link text-decoration-none">FAQ</Link>
-              <Link className="footer-link text-decoration-none">
-                Refer a Friend
-              </Link>
-            </div> */}
             <div className="w-full md:w-1/3 flex flex-col items-center md:items-start ">
               <div className="text-black font-bold">CONTACT</div>
               <div className="flex flex-col items-center md:items-start">
@@ -117,19 +94,6 @@ const Footer = () => {
           <p className="text-sm md:text-base ">
             ©2024 RM Rental , made with 💖 by Campaigning Source, All Rights Reserved.
           </p>
-          {/* <p className="text-sm md:text-base ">
-            ©2024 RM Rental, Developed by{" "}
-            <a
-              href="https://crazywebdev.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-500 hover:underline"
-            >
-              CrazyWebDev Technologies
-            </a>
-            , All Rights Reserved.
-          </p> */}
-
           <p className="mt-2 md:mt-0" onClick={handleOpenPdf1}>
             <a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a>
           </p>

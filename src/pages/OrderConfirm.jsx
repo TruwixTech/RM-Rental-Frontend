@@ -1,15 +1,9 @@
 import  { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { IoIosCheckmarkCircle } from "react-icons/io";
-// import { FaDownload } from "react-icons/fa";
-// import { FaTruck } from "react-icons/fa";
-// import { FaAddressBook } from "react-icons/fa";
-// import { MdContacts } from "react-icons/md";
-// import { MdArrowForwardIos } from "react-icons/md";
 import { AXIOS_INSTANCE } from "../service";
 
 const OrderConfirm = () => {
-  // const params = useParams();
   const location = useLocation();
   const [orderId, setOrderId] = useState(location.state?.orderId);
   const [orderData, setOrderData] = useState(location.state?.orderData);

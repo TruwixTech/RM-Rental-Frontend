@@ -183,7 +183,6 @@ const Subscription = () => {
       </table>
 
       {/* Modal for editing subscription */}
-      {/* Modal for editing subscription */}
       <div
         className="status-form-overlay"
         style={{ display: editingSubscription ? "block" : "none" }}

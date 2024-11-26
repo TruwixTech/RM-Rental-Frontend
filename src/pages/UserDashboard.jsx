@@ -1,12 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-// import { SiWindows } from "react-icons/si";
 import { RiMoneyRupeeCircleFill } from "react-icons/ri";
-// import { IoSettings } from "react-icons/io5";
 import { IoCall } from "react-icons/io5";
 import { IoMail } from "react-icons/io5";
-// import { FaAddressBook, FaLocationDot } from "react-icons/fa6";
-// import { FaHistory } from "react-icons/fa";
 import { FaShoppingBag, FaIdCard } from "react-icons/fa";
 import default_profile from "../assets/img/default_profile.webp";
 
@@ -29,39 +25,26 @@ const UserDashboard = () => {
           <h1 className="my-8 font-medium text-gray-400">Menu</h1>
           <div className="flex flex-col gap-4 links w-full">
             {[
-              // { icon: <SiWindows />, name: "Wishlist", url: "/wishlist" },
               { icon: <FaShoppingBag />, name: "My Orders", url: "/myorders" },
               {
                 icon: <FaIdCard />,
                 name: "KYC",
                 url: "/kyc",
               },
-              // {
-              //   icon: <FaAddressBook />,
-              //   name: "Address",
-              //   url: "/address",
-              // },
-              // {
-              //   icon: <FaHistory />,
-              //   name: "Order History",
-              //   url: "/myorders",
-              // },
               {
                 icon: <RiMoneyRupeeCircleFill />,
                 name: "Payment",
                 url: "/payment",
               },
-              // { icon: <IoSettings />, name: "Setting", url: "/setting" },
             ].map((item, index) => (
               <Link
                 to={item.url}
                 key={index}
                 onClick={() => ClickHandler(item.name)}
-                className={`${
-                  activeLink === item.name
+                className={`${activeLink === item.name
                     ? "text-black font-semibold"
                     : "text-[grey]"
-                } flex items-center gap-3 text-xl`}
+                  } flex items-center gap-3 text-xl`}
               >
                 {item.icon}
                 {item.name}
@@ -90,10 +73,6 @@ const UserDashboard = () => {
                 <IoCall className="text-xl" />
                 {user?.mobileNumber}
               </Link>
-              {/* <Link className="w-full flex items-center gap-3 py-1">
-                <FaLocationDot className="text-xl" />
-                {user?.address[0]?.addressLineOne}
-              </Link> */}
             </div>
           </div>
         </div>

@@ -31,7 +31,6 @@ const Navbar = ({ active, userClickHandler }) => {
     setShowPopup(false);
   };
 
-  // console.log("User By OAUTH: ", user)
   const [cartItems, setCartItems] = useState([]);
 
   const handleLinkClick = (link) => {
