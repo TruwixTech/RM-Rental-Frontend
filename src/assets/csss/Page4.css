@@ -262,7 +262,6 @@ line-height: 160%; /* 1.75163rem */
 }
 @media (min-width: 768px) and (max-width: 1024px){
   .page4 {
-    /* display: block; */
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
@@ -346,8 +345,4 @@ line-height: 160%; /* 1.75163rem */
   .page4 .page4-right button:hover {
     opacity: 1;
   }
-}
-@media (min-width: 1025px) and (max-width: 1440px){
-}
-@media (min-width: 1441px) {
 }

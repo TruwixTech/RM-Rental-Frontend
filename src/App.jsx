@@ -63,9 +63,8 @@ const App = () => {
     <div>
       <Navbar active={active} userClickHandler={userClickHandler} />
       <div
-        className={`${
-          active === false ? "user-slider-off" : "user-slider-on"
-        } absolute top-[14.5%] z-40 rounded-b-xl shadow-md shadow-[#878787] right-0 w-[20vw] h-fit bg-[#fff] text-[#000]`}
+        className={`${active === false ? "user-slider-off" : "user-slider-on"
+          } absolute top-[14.5%] z-40 rounded-b-xl shadow-md shadow-[#878787] right-0 w-[20vw] h-fit bg-[#fff] text-[#000]`}
       >
         <div className="w-full p-2">
           <ul className="py-1 px-2">
@@ -93,14 +92,6 @@ const App = () => {
                 Edit Profile
               </Link>
             </li>
-            {/* <li className="w-full flex items-center mt-2 py-2 px-2 rounded-lg hover:bg-gray-100">
-              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#FEC500] text-black text-2xl">
-                <IoSettings />
-              </div>
-              <Link href="#" className="block px-4 py-2">
-                Setting & Privacy
-              </Link>
-            </li> */}
             <li className="w-full flex items-center mt-2 py-2 px-2 rounded-lg hover:bg-gray-100">
               <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#FEC500] text-black text-2xl">
                 <IoIosHelpCircle />
@@ -145,7 +136,6 @@ const App = () => {
           <Route path="/address" element={<AddressPage />} />
           <Route path="/kyc" element={<KYCPage />}></Route>
           <Route path="/payment" element={<MySubscriptions />}></Route>
-          {/* <Route path="/admindashboard" element={<AdminDashboard />} /> */}
           <Route path="/admindashboard" element={<AdminDashboard />}>
             <Route index element={<AdminPage />} />
             <Route path="allproduct" element={<AllProducts />} />
@@ -155,15 +145,6 @@ const App = () => {
               path="/admindashboard/kyc-records"
               element={<KYCRecords />}
             />
-            {/* <Route path="coupon" element={<Coupon />} />
-            <Route path="categorie" element={<Categories />} />
-            <Route path="brands" element={<Brands />} />
-            <Route path="orderdetails" element={<OrderDetails />} />
-            <Route path="userevents/:userId" element={<UserEvents />} />
-            <Route path="updateform" element={<Updateform />} />
-            <Route path="approve" element={<Approve />} />
-            <Route path="blog" element={<Blog />} />
-            <Route path="createblog" element={<Createblog />} /> */}
           </Route>
         </Routes>
       ) : (
@@ -180,24 +161,6 @@ const App = () => {
         </Routes>
       )}
       <Routes>
-        {/* <Route path="/" element={<Home />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/mycart" element={<MyCart />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/wishlist" element={<Wishlist />} />
-        <Route path="/productdetail" element={<Productdetails />} />
-        <Route path="/productdetail/:id" element={<Productdetails />} />
-        <Route path="/success/:id" element={<Success />} />
-        <Route path="/orderdetails" element={<Orderdetails />} />
-        <Route path="/orderconfirm" element={<OrderConfirm />} />
-        <Route path="/orderreject" element={<OrderReject />} />
-        <Route path="/orderpending" element={<OrderPending />} />
-        <Route path="/thankuorder" element={<ThankuOrder />} />
-        <Route path="/address" element={<AddressPage />} />
-        <Route
-          path="/address/finalPayment"
-          element={<AddressPage finalPayment={true} />}
-        /> */}
       </Routes>
       <Footer />
     </div>

@@ -92,32 +92,11 @@ const DrawerHero = () => {
       {/* Drawer */}
       {showDrawer && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]">
-          <div className="bg-white rounded-lg p-6 w-[90%] md:w-[500px] relative">
+          <div className="bg-white rounded-lg p-6 w-[90%] md:w-[500px] relative z-[9999]">
             <h3 className="text-center mb-4 text-lg font-semibold">
               Select Delivery Location
             </h3>
             <div className="flex flex-col items-center gap-4">
-              {/* Pincode Input */}
-              {/* <div className="w-full flex items-center border rounded-lg p-2">
-                <input
-                  type="text"
-                  value={pincode}
-                  onChange={(e) => setPincode(e.target.value)}
-                  placeholder="Enter your pincode"
-                  className="flex-grow outline-none px-2 text-sm"
-                />
-                <button
-                  onClick={handlePincodeSubmit}
-                  className="text-blue-500 text-lg"
-                >
-                  →
-                </button>
-              </div>
-              <p className="text-sm mt-2">
-                Currently selected pincode:{" "}
-                <span className="font-bold">{pincode || "None"}</span>
-              </p> */}
-
               {/* City Selection */}
               <h3 className="mt-4 text-lg font-semibold">
                 Select one of the nearby cities we Deliver

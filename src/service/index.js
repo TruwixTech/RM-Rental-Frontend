@@ -2,10 +2,6 @@
 import axios from "axios";
 import storageService from "./storage.service";
 
-// export const AXIOS_INSTANCE_WITHOUT_INTERCEPTOR = axios.create({
-//   baseURL: "https://rm-rental-backend.vercel.app/api",
-//   // baseURL: "http://localhost:4000/api",
-// });
 export const AXIOS_INSTANCE_WITHOUT_INTERCEPTOR = axios.create({
   baseURL: process.env.NODE_ENV === "production"
     ? "https://rmrental-backend.vercel.app/api"

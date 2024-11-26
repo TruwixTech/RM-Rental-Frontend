@@ -12,12 +12,6 @@ const Page6 = () => {
             Discover the extensive <p>services we provide for you.</p> 
             </div>
             <div className='page6-up-right'>
-{/* 
-            <div className='page6-up-right-date'>
-                <div>/01</div>
-                <div>/02</div>
-                <div>/03</div>
-            </div> */}
             <p>Explore Our Comprehensive Offerings</p>
             </div>
         </div>

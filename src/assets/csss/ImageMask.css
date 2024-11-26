@@ -15,10 +15,7 @@
    
     position: relative; 
 }
-/* .banner-img{
-   overflow-x: hidden;
-    
-} */
+
 .container1 img {
     width: 100%;
     position: absolute;
@@ -35,7 +32,6 @@
     width: 100%;
     height: 100%;
     display: flex;
-    /* z-index: 40; */
     flex-direction: column;
 }
 
@@ -47,7 +43,6 @@
     height: 38%;
     
     position: absolute;
-    /* z-index: 40; */
     background-color: #F1F1F1;
    
 }
@@ -71,7 +66,6 @@
 .btn button{
     display: flex;
 width: 97.08px;
-/* padding: 4px 28px; */
 justify-content: center;
 align-items: center;
 gap: 4.132px;
@@ -138,7 +132,6 @@ letter-spacing: -0.02825rem;
     position: absolute;
     bottom: 0;
     right: 0;
-    /* z-index: 40; */
    
     display: flex;
     border-radius: 50px 0px 0px 0px;
@@ -205,7 +198,6 @@ letter-spacing: -0.02825rem;
     .fullbanner .fullbanner-img{
         width: 100%;
         border-radius: 25px;
-        /* padding: 1rem 1rem; */
     }
 
     .fullbanner .fullbanner-img img{
@@ -240,11 +232,9 @@ letter-spacing: -0.02825rem;
    
     .fullbanner-btn{
         display: flex;
-    /* justify-content: center; */
     align-items: center;
     gap: 12px;
     padding: 6px 0 ;
-    /* width: 60%; */
 }
 
 .fullbanner-btn button{
@@ -252,7 +242,6 @@ letter-spacing: -0.02825rem;
         width: 100%;
         padding: 8px 0px;
         justify-content: center;
-        /* justify-content: start; */
         align-items: center;
         gap: 4.132px;
         border-radius: 8px;
@@ -302,7 +291,6 @@ letter-spacing: -0.02825rem;
         line-height:  1.2rem;
         letter-spacing: -0.053rem;
         text-transform: uppercase;
-        /* padding: 2.5rem 10rem 0rem 2rem; */
     }
     
    
@@ -329,7 +317,6 @@ letter-spacing: -0.02825rem;
     .fullbanner .fullbanner-img{
         width: 100%;
         border-radius: 25px;
-        /* padding: 1rem 1rem; */
     }
 
     .fullbanner .fullbanner-img img{
@@ -364,11 +351,9 @@ letter-spacing: -0.02825rem;
    
     .fullbanner-btn{
         display: flex;
-    /* justify-content: center; */
     align-items: center;
     gap: 12px;
     padding: 6px 0 ;
-    /* width: 60%; */
 }
 
 .fullbanner-btn button{
@@ -376,7 +361,6 @@ letter-spacing: -0.02825rem;
         width: 100px;
         padding: 8px 0px;
         justify-content: center;
-        /* justify-content: start; */
         align-items: center;
         gap: 4.132px;
         border-radius: 8px;
@@ -426,7 +410,6 @@ letter-spacing: -0.02825rem;
         line-height:  1.5rem;
         letter-spacing: -0.053rem;
         text-transform: uppercase;
-        /* padding: 2.5rem 10rem 0rem 2rem; */
     }
 }
 @media (min-width: 768px) and (max-width: 1024px){
@@ -440,16 +423,12 @@ letter-spacing: -0.02825rem;
         justify-content: center;
         
         height: 40vh;
-        /* height: 100%; */
         margin: 2% 6%;
     
        
         position: relative; 
     }
-    .banner-img{
-       
-        
-    }
+
     .container1 img {
         width: 100%;
         position: absolute;
@@ -501,7 +480,6 @@ letter-spacing: -0.02825rem;
     .btn button{
         display: flex;
     width: 95px;
-    /* padding: 4px 28px; */
     justify-content: center;
     align-items: center;
     gap: 4.132px;
@@ -635,10 +613,6 @@ letter-spacing: -0.02825rem;
        
         position: relative; 
     }
-    .banner-img{
-       
-        
-    }
     .container1 img {
         width: 100%;
         position: absolute;
@@ -690,7 +664,6 @@ letter-spacing: -0.02825rem;
     .btn button{
         display: flex;
     width: 95px;
-    /* padding: 4px 28px; */
     justify-content: center;
     align-items: center;
     gap: 4.132px;
