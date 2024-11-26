@@ -85,6 +85,7 @@
 
 .footer-logo {
   width: 250px;
+  height: auto;
   margin-bottom: 10px;
 }
 
@@ -221,6 +222,7 @@
 
   .footer-logo {
     width: 150px;
+    height: auto;
     margin-bottom: 10px;
   }
 
@@ -334,6 +336,7 @@
 
   .footer-logo {
     width: 150px;
+    height: auto;
     margin-bottom: 10px;
   }
 
@@ -453,6 +456,7 @@
 
   .footer-logo {
     width: 150px;
+    height: auto;
     margin-bottom: 10px;
   }
 

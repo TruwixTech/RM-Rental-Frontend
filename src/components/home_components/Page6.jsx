@@ -22,7 +22,7 @@ const Page6 = () => {
         
         <div className='page6-down'>
             <div className='page6-down-imgcontainer-left' style={{position: "relative"}}>
-                <img src={subtract} alt="" />
+                <img src={subtract} alt="sofa and table" />
                 <div className='int-ext-sec' style={{position: 'absolute', top: '77%', right: "10%",}}>
                  <button style={{padding: "3px 20px", borderRadius: "50px", backgroundColor: "white",border: "1px solid black"}}>• Interior</button>
                  <button style={{padding: "3px 20px", borderRadius: "50px", marginLeft: "10px", backgroundColor: "white", border: "1px solid black"}}>• Exterior</button>
@@ -36,7 +36,7 @@ const Page6 = () => {
                 <div className='page6-p'>Transform. Style. Inspire.</div>
             </div>
             <div className='page6-down-imgcontainer-right' style={{position: "relative"}}>
-                <img src={subtract2} alt="" />
+                <img src={subtract2} alt="furniture image" />
                 <div className='int-ext-sec' style={{position: 'absolute', top: '77%', left: "55%",}}>
                  <button style={{padding: "3px 20px", borderRadius: "50px", backgroundColor: "white", border: "1px solid black"}}>• Interior</button>
                  <button style={{padding: "3px 20px", borderRadius: "50px", marginLeft: "10px",backgroundColor: "white", border: "1px solid black"}}>• Exterior</button>

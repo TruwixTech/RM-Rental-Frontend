@@ -25,7 +25,7 @@ const Categories = () => {
           onClick={() => handleCategoryClick("appliance")}
         >
           <div className="ceilinglight">
-            <img src={ceiling} alt="" />
+            <img src={ceiling} alt="cieling image" />
           </div>
           <div className="appliancegroup">
             <div className="appliancegroup-title">Appliance</div>
@@ -40,7 +40,7 @@ const Categories = () => {
           onClick={() => handleCategoryClick("livingroom")}
         >
           <div className="ceilinglight">
-            <img src={sofa} alt="" />
+            <img src={sofa} alt="Sofa" />
           </div>
           <div className="appliancegroup">
             <div className="appliancegroup-title">Living Room</div>
@@ -55,7 +55,7 @@ const Categories = () => {
           onClick={() => handleCategoryClick("storage")}
         >
           <div className="ceilinglight">
-            <img className="kitchen" src={nightstand} alt="" />
+            <img className="kitchen" src={nightstand} alt="Kitchen" />
           </div>
           <div className="appliancegroup">
             <div className="appliancegroup-title">Storage</div>
@@ -85,7 +85,7 @@ const Categories = () => {
           onClick={() => handleCategoryClick("bedroom")}
         >
           <div className="ceilinglight">
-            <img className="kitchen" src={bed} alt="" />
+            <img className="kitchen" src={bed} alt="Kitchen" />
           </div>
           <div className="appliancegroup">
             <div className="appliancegroup-title">Bed Room</div>
