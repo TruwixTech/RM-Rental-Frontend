@@ -13,7 +13,6 @@ const ProductDetails = () => {
   const [productData, setProductData] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
   const [selectedMonth, setSelectedMonth] = useState(3);
-  // const [buyQuantity, setBuyQuantity] = useState(1); // Separate state for buy quantity
   const [rentQuantity, setRentQuantity] = useState(1); // Separate state for rent quantity
   const { id } = useParams();
 
@@ -119,14 +118,6 @@ const ProductDetails = () => {
     }
   };
 
-  // const handleIncreaseBuyQuantity = () => {
-  //   setBuyQuantity((prevQuantity) => prevQuantity + 1);
-  // };
-
-  // const handleDecreaseBuyQuantity = () => {
-  //   setBuyQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
-  // };
-
   const handleIncreaseRentQuantity = () => {
     setRentQuantity((prevQuantity) => prevQuantity + 1);
   };
@@ -172,9 +163,8 @@ const ProductDetails = () => {
                     <div
                       key={index}
                       onClick={() => handleImageSelect(imgSrc)}
-                      className={` ${
-                        selectedImage === imgSrc ? "selected-image" : ""
-                      }`}
+                      className={` ${selectedImage === imgSrc ? "selected-image" : ""
+                        }`}
                     >
                       <img
                         src={imgSrc}
@@ -204,29 +194,6 @@ const ProductDetails = () => {
             <div className="Description-Container">
               {productData?.details?.description}
             </div>
-            {/* <div className="Fabric">
-              <div className="Section-Title">Fabric + Care</div>
-              <div className="Fabric-Details">
-                <div className="Info-Row">
-                  Material: {productData?.details?.fabricCare?.material}
-                </div>
-                <div className="Info-Row">
-                  Color: {productData?.details?.fabricCare?.color?.[0]}
-                </div>
-              </div>
-            </div> */}
-
-            {/* <div className="Fabric">
-              <div className="Section-Title">Wood Type</div>
-              <div className="Fabric-Details">
-                <div className="Info-Row">
-                  Material: {productData?.details?.woodType?.material}
-                </div>
-                <div className="Info-Row">
-                  Color: {productData?.details?.woodType?.color?.[0]}
-                </div>
-              </div>
-            </div> */}
           </div>
         </div>
 
@@ -238,10 +205,6 @@ const ProductDetails = () => {
               <span>.</span>
               <span>149 reviews</span>
             </div>
-            {/* <div className="price-lg">
-              <span>Buy at</span>
-              <h3>₹{productData?.buyPrice}</h3>
-            </div> */}
             {productData?.details?.month && (
               <div className="price-lg">
                 <span>Rent at</span>
@@ -278,11 +241,10 @@ const ProductDetails = () => {
               {productData?.details?.month?.map((month, index) => (
                 <div
                   key={index}
-                  className={`px-3 py-2 cursor-pointer rounded-xl ${
-                    selectedMonth === month
+                  className={`px-3 py-2 cursor-pointer rounded-xl ${selectedMonth === month
                       ? "bg-gray-400 text-white border-none"
                       : "bg-light border border-gray-900 text-black"
-                  }`}
+                    }`}
                   onClick={() => handleMonthClick(month)}
                 >
                   <span className="font-semibold">{month} Mon</span>
@@ -290,25 +252,6 @@ const ProductDetails = () => {
               ))}
             </div>
           </div>
-
-          {/* Buy Quantity and Add to Cart Button */}
-          {/* <div className="productdetails-right-3">
-            <div className="Quantity-Selector">
-              <div className="decrease-btn" onClick={handleDecreaseBuyQuantity}>
-                <i className="ri-subtract-line"></i>
-              </div>
-              <div className="current-quantity">
-                <div className="px16-medium">{buyQuantity}</div>
-              </div>
-              <div className="increase-btn" onClick={handleIncreaseBuyQuantity}>
-                <i className="ri-add-line"></i>
-              </div>
-            </div>
-            <button className="cart-button" onClick={() => myproductAdd("buy")}>
-              <i className="ri-shopping-bag-line"></i>
-              <div className="Add-to-Cart-Button"> Buy</div>
-            </button>
-          </div> */}
 
           {/* Rent Quantity and Add to Cart Button */}
           <div className="productdetails-right-3">
@@ -337,20 +280,6 @@ const ProductDetails = () => {
               <div className="Add-to-Cart-Button">Add to cart</div>
             </button>
           </div>
-
-          {/* <div className="productdetails-right-4">
-            <hr className="seperator" />
-
-            <div className="total">
-              <div className="Total-Label">
-                <h5>Total Buy Price</h5>
-              </div>
-              <div className="Total-Amount">
-                <h5>₹{productData?.buyPrice * buyQuantity}</h5>
-              </div>
-            </div>
-          </div> */}
-
           <div className="productdetails-right-4">
             <hr className="seperator" />
             <div className="total">

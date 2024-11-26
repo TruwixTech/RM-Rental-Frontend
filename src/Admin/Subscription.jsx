@@ -44,8 +44,6 @@ const Subscription = () => {
   };
 
   const handleUpdate = async (id) => {
-    // console.log(newOrderDate);
-    // console.log(newOrderEndDate);
     try {
       const response = await AXIOS_INSTANCE.put(`/orders/${id}`, {
         orderDate: newOrderDate.toISOString(),
@@ -61,7 +59,6 @@ const Subscription = () => {
       }
     } catch (error) {
       toast.error("Something went wrong");
-      // console.error("Error:", error);
     }
   };
 

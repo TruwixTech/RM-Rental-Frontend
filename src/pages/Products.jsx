@@ -139,13 +139,10 @@ const Products = () => {
                 {[
                   { id: "category-appliance", value: "appliance" },
                   { id: "category-livingroom", value: "livingroom" },
-                  // { id: "category-kitchen", value: "kitchen" },
                   { id: "category-storage", value: "storage" },
                   { id: "category-studryroom", value: "studyroom" },
 
                   { id: "category-bed", value: "bedroom" },
-                  // { id: "category-bath", value: "bath" },
-                  // { id: "category-chair", value: "study room" },
                   { id: "category-table", value: "table" },
                 ].map((category) => (
                   <div className="checkbox flex items-center" key={category.id}>
@@ -227,7 +224,6 @@ const Products = () => {
               <div
                 key={product._id}
                 className="md:max-w-80 bg-white rounded-lg "
-                // border border-gray-100 shadow dark:bg-gray-800 dark:border-gray-700 remove this from above line
               >
                 <div className="image-container p-2 rounded-t-lg">
                   {/* removed bg-gray-100 from this line*/}
@@ -249,9 +245,6 @@ const Products = () => {
                       {product.title}
                     </h3>
                   </a>
-                  {/* <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                    {product.sub_title}
-                  </p> */}
                   <div className="card-rating text-2xl">{"★".repeat(5)}</div>
                   <div className="price-cont flex justify-between items-center">
                     <p className="card-price text-lg font-semibold text-gray-200 mb-0">
