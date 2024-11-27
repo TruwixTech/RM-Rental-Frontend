@@ -38,11 +38,10 @@ gap: 44.267px;
 display: flex;
 padding-bottom: 10.216px;
 align-items: flex-start;
-gap: 55.431px;
 }
 
 .productdetails-left-up .fourimg {
-    width: 250px; /* Default width for larger screens */
+    width: 180px; /* Default width for larger screens */
     height: 380px; /* Default height for larger screens */
     display: flex;
     flex-direction: column;
@@ -636,6 +635,7 @@ line-height: 1.55013rem; /* 150% */
 
     .productdetails-left-up .Product-Images-Container{
         flex-direction: column-reverse;
+        gap: 50px;
     }
 
     .productdetails-left-up .fourimg{

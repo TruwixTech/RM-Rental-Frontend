@@ -52,11 +52,6 @@
    /* Required for dropdown positioning */
 }
 
-.search-icon {
-  margin-right: 10px;
-  font-size: 1.2vw;
-  color: #000;
-}
 
 .search-input {
   border: none;
@@ -107,10 +102,6 @@
   .leftnav-searchbar {
       width: 90vw; /* Adjust width for smaller screens */
       gap: 2vw; /* Increase gap if needed for smaller screen readability */
-  }
-
-  .search-icon {
-      font-size: 4vw; /* Larger font size for icons on mobile */
   }
 
   .search-input {
@@ -216,8 +207,17 @@
   }
   
   
+  @media (min-width: 480px){
+    .rightnav a{
+      width: 118px;
+    }
+  }
   
-  
+  @media (min-width: 768px){
+    .rightnav a{
+      width: auto;
+    }
+  }
   
   
   
@@ -400,13 +400,7 @@
       width: 50%;
       background-color:#F8F8F8;
     }
-    
-    .search-icon {
-      margin-right: 6px;
-      font-size: 10px;
-      font-weight: 400;
-      color: #666;
-    }
+  
     
     .search-input {
       border: none;
@@ -440,7 +434,7 @@
       width: 100%;
       gap: 6px;
     }
-    
+
     .buygroup{
      height: 35px;
      background-color: #F5F5F5;
@@ -499,13 +493,13 @@
       color: #666;
       margin-left: 5px;
     }
-    .login{
+    /* .login{
       position: absolute;
       top:20%;
       right: 2%;
       font-size: 14px;
     }
-  
+   */
     
     
     

@@ -99,7 +99,7 @@ const Navbar = ({ active, userClickHandler }) => {
 
           {/* Search Bar */}
           <div className="leftnav-searchbar">
-            <FaSearch className="search-icon" />
+            <FaSearch size={10} className="text-[#666] md:size-3 xl:size-5" />
             <input
               type="text"
               placeholder="Search Product"
@@ -126,7 +126,7 @@ const Navbar = ({ active, userClickHandler }) => {
 
         <div className="rightnav">
           {!user ? (
-            <Link className="login" to="/login">
+            <Link className="sm:w-[118px] md:w-auto" to="/login">
               Login
             </Link>
           ) : (

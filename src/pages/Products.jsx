@@ -267,7 +267,7 @@ const Products = () => {
                             Number(
                               getLowestRentPrice(product.rentalOptions)
                             ).toFixed(2) +
-                            " onwards"}
+                            " /month"}
                         </h5>
                       ) : (
                         "No rent options"
