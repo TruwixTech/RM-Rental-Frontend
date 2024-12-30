@@ -71,12 +71,12 @@ const Subscription = () => {
   const SubscriptionStatus = ({ startDate, endDate }) => {
     const endDateObj = new Date(endDate);
     const today = new Date();
-  
+
     // Check if the endDate is less than today's date
     const isExpired = endDateObj <= today;
     const status = isExpired ? "Expired" : "Active";
     const statusColor = isExpired ? "text-red-500" : "text-green-500";
-  
+
     return <button className={`status-button ${statusColor}`}>{status}</button>;
   };
 
@@ -153,7 +153,9 @@ const Subscription = () => {
             filteredSubscriptions.map((sub) => {
               return (
                 <tr key={sub._id} className="flex gap-6">
-                  <td className=" text-center w-full">{sub._id}</td>
+                  <td className="text-center w-full">
+                   {sub.orderNumber}
+                  </td>
                   <td className=" text-center w-full">{sub.user.name}</td>
                   <td className=" text-center w-full">{sub.user.email}</td>
                   <td className=" text-center w-full">
