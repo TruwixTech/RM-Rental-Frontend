@@ -114,7 +114,7 @@ const MySubscriptions = () => {
                             className="border-b border-gray-200"
                           >
                             <td className="whitespace-nowrap px-3 py-2">
-                              {order._id}
+                              {order.orderNumber}
                             </td>
                             <td className="whitespace-nowrap px-3 py-2">
                               {new Date(order.orderDate).toDateString()}
