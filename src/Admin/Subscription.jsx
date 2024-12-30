@@ -148,11 +148,11 @@ const Subscription = () => {
             <th className="text-center w-full">Update</th>
           </tr>
         </thead>
-        <tbody className="w-full">
+        <tbody className="w-full mt-2">
           {filteredSubscriptions.length > 0 ? (
             filteredSubscriptions.map((sub) => {
               return (
-                <tr key={sub._id} className="flex gap-6">
+                <tr key={sub._id} className="flex gap-6 text-sm mt-1 items-center ">
                   <td className="text-center w-full">
                    {sub.orderNumber}
                   </td>
@@ -171,7 +171,7 @@ const Subscription = () => {
                     />
                   </td>
                   <td className="w-full text-center ">
-                    <button onClick={() => handleStatusClick(sub)}>Edit</button>
+                    <button className="w-[100px] rounded-full bg-gray-600 text-white py-1" onClick={() => handleStatusClick(sub)}>Edit</button>
                   </td>
                 </tr>
               );

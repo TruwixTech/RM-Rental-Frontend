@@ -23,7 +23,7 @@
 
 .status-button {
   border: none;
-  padding: 8px 12px;
+  /* padding: 8px 12px; */
   color: white;
   cursor: pointer;
   border-radius: 5px;
