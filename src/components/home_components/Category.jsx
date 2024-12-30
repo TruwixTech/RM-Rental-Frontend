@@ -5,8 +5,8 @@ import nightstand from "../../assets/img/nightstand.png";
 import bed from "../../assets/img/bed.png";
 import { FaArrowRight } from "react-icons/fa";
 import "../../assets/csss/category.css";
-import { MdOutlineTableBar } from "react-icons/md";
-import { MdTableRestaurant } from "react-icons/md";
+import { GiTable } from "react-icons/gi";
+import { PiPicnicTable } from "react-icons/pi";
 
 const Categories = () => {
   const navigate = useNavigate(); // Initialize useNavigate
@@ -70,7 +70,7 @@ const Categories = () => {
           onClick={() => handleCategoryClick("studyroom")}
         >
           <div className="ceilinglight">
-            <MdTableRestaurant size={30}/>
+            <PiPicnicTable size={30} />
           </div>
           <div className="appliancegroup">
             <div className="appliancegroup-title">Study Room</div>
@@ -100,7 +100,7 @@ const Categories = () => {
           onClick={() => handleCategoryClick("table")}
         >
           <div className="ceilinglight">
-          <MdOutlineTableBar size={30}/>
+            <GiTable size={30} />
           </div>
           <div className="appliancegroup">
             <div className="appliancegroup-title">Table</div>

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import logo from "../assets/img/Logo.png";
 import { MdShoppingBag } from "react-icons/md";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 import User from "../assets/img/user.png";
 import storageService from "../service/storage.service";
@@ -75,7 +75,7 @@ const Navbar = ({ active, userClickHandler }) => {
       setSuggestionsVisible(false); // Hide the dropdown
     }
   };
-  
+
 
   const handleSuggestionClick = (id) => {
     setSearchTerm("");
@@ -93,7 +93,7 @@ const Navbar = ({ active, userClickHandler }) => {
               <img src={logo} alt="logo" />
             </Link>
             <div className="hidden md:block">
-              <AddressSelect/>
+              <AddressSelect />
             </div>
           </div>
 
@@ -190,37 +190,33 @@ const Navbar = ({ active, userClickHandler }) => {
       <div className="line-56"></div>
       <div className="bottomnav" style={{ paddingBottom: 0 }}>
         <div className="bottomnav-left btmleft">
-          <Link
+          <NavLink
             to="/"
-            className={`text-decoration-none ${
-              activeLink === "home" ? "active" : ""
-            }`}
+            className={({ isActive }) => `${isActive ? 'active' : ''} text-decoration-none`}
             onClick={() => handleLinkClick("home")}
           >
             <div className="home">Home</div>
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/products"
-            className={`text-decoration-none ${
-              activeLink === "products" ? "active" : ""
-            }`}
+            className={({ isActive }) => `${isActive ? 'active' : ''} text-decoration-none`}
             onClick={() => handleLinkClick("products")}
           >
             <div className="product">Products</div>
-          </Link>
+          </NavLink>
         </div>
 
         <div className="bottomnav-right">
-        <div className="absolute -right-[1500px]">
-              <AddressSelect2/>
-            </div>
+          <div className="absolute -right-[1500px]">
+            <AddressSelect2 />
+          </div>
           <Link to="/faq"
             style={{ overflow: "hidden" }}
             className={activeLink === "faqs" ? "active" : ""}
             onClick={() => handleLinkClick("faqs")}
           >
             <span className="renttt text-lg">FAQs</span>
-           
+
           </Link>
         </div>
       </div>

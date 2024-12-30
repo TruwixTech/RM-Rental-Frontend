@@ -94,8 +94,8 @@ const Chairs = () => {
   return (
     <div className="chair-container">
       <div className="chairs-heading">
-        <h1>Our New Products</h1>
-        <p>Check out what is new in the market!</p>
+        <h1 className="font-satoshi">Our New Products</h1>
+        <p className="font-satoshi">Check out what is new in the market!</p>
       </div>
 
       <div className="card-grid w-full">
@@ -116,13 +116,13 @@ const Chairs = () => {
             </div>
             <div className="p-4">
               <Link to={`/product/${product?._id}`}>
-                <h3 className="mb-2 w-[200px] text-base font-bold tracking-tight text-gray-900 overflow-hidden text-ellipsis whitespace-nowrap">
+                <h3 className="mb-2 w-[200px] text-base font-bold tracking-tight font-satoshi text-gray-900 overflow-hidden text-ellipsis whitespace-nowrap">
                   {product.title}
                 </h3>
               </Link>
               <div className="card-rating text-2xl">{"★".repeat(5)}</div>
               <div className="price-cont flex justify-between items-center">
-                <p className="card-price text-lg font-semibold  mb-0">
+                <p className="card-price text-lg font-semibold  mb-0 font-satoshi">
                   {product.rentalOptions &&
                   (product.rentalOptions.rent3Months ||
                     product.rentalOptions.rent6Months ||

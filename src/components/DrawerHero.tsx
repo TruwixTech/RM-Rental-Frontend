@@ -74,14 +74,13 @@ const DrawerHero = () => {
   return (
     <div className="flex justify-center">
       {/* Drawer Trigger */}
-      <div className="md:flex items-center gap-2 hidden">
+      <div onClick={() => setShowDrawer(true)} className="md:flex items-center gap-2 cursor-pointer hidden">
         <CiLocationOn size={30} className="hidden md:block" />
         <div className="flex flex-col">
           <span className="text-[8px] md:text-[14px] text-gray-600 hidden md:block">
             Delivery to
           </span>
           <span
-            onClick={() => setShowDrawer(true)}
             className="text-[8px] md:text-sm font-bold text-gray-600 cursor-pointer"
           >
             {selectedLocation}

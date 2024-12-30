@@ -5,6 +5,9 @@ import guy2 from "../../assets/img/guy2.png";
 import guy3 from "../../assets/img/guy3.png";
 import guy4 from "../../assets/img/guy4.png";
 import guy5 from "../../assets/img/guy5.png";
+import Slide from "../../assets/img/threeslide1.png";
+import { FaStar } from "react-icons/fa6";
+import { useState } from "react";
 
 const data = [
   {
@@ -42,47 +45,44 @@ const data = [
     title: "", // if needed
     image: guy5, // add image path if needed
   },
-  
+
 ];
 
 const Carao = () => {
-  return (
-    <div>
-      <div className="container testimonialCarousel carao-main-con ">
-        <h1 className="text-center acme-regular p-5 carao-h1-title">
-          Our Testimonials
-        </h1>
-        <div id="testimonialCarousel" className="carousel">
-          <div className="carousel-inner overflow-x-auto custom-scrollbar">
-            {data.map((item, index) => (
-              <div
-                className={`carousel-item ${index === 0 ? "active" : ""}`}
-                key={index}
-              >
-                <div className="card-cont">
-                  <div className="Testimonial-Content-Container ">
-                    <div className="Reviewer-Image-Container">
-                       <img src={item.image} alt={item.name} />
-                    </div>
 
-                    <div className="card-cont-review-cont  min-h-[150px]">
-                      <div className="Reviewer-Info-Container">
-                        <div className="text-sm">{item.name}</div>
-                        {item.title && (
-                          <div className="Reviewer-Title">{item.title}</div>
-                        )}
-                        <div className="text-sm text-yellow-400">
-                          {"★".repeat(item.rating)}
-                        </div>
-                      </div>
-                      <div className="text-sm text-justify ">{item.review}</div>
-                    </div>
-                  </div>
+  return (
+    <div className="w-full h-auto flex flex-col bg-[#FAFAFA] gap-6 py-6 lg:gap-10">
+      <div className="w-full h-auto flex flex-col">
+        <h1 className="text-center text-3xl font-bold lg:text-4xl text-[#3E3E3E] font-satoshi">Our Customer Says</h1>
+      </div>
+      <div className="w-full h-auto flex px-4 gap-4 overflow-x-scroll pb-10 xl:pb-14" style={{
+        scrollbarWidth: "none",
+      }}>
+        {
+          data.map((item, index) => (
+            <div key={index}
+              className='min-w-full h-96 flex rounded-xl relative justify-center sm:min-w-[50vw] md:hover:min-w-[60vw] lg:hover:min-w-[50vw] 2xl:hover:min-w-[40vw] md:min-w-[40vw] lg:min-w-[30vw] xl:min-w-[25vw] 2xl:min-w-[20vw] lg:px-10 duration-1000 ease-in-out cursor-pointer shadow-xl md:hover:shadow-2xl'
+              style={{
+                backgroundImage: `url(${Slide})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+              }}>
+              <div className="w-[95%] absolute overflow-visible h-[280px] flex p-4 rounded-xl flex-col bg-white top-16 font-satoshi 2xl:h-[300px]">
+                <div className="w-20 h-20 rounded-full bg-white absolute flex items-center justify-center -top-7 z-50">
+                  <img src={item.image} alt="image" className="w-16 h-16 shadow-md shadow-yellow-200  rounded-full" />
                 </div>
+                <p className="text-lg mt-7">{item.name}</p>
+                <div className="flex gap-1 my-3">
+                  {[...Array(item.rating)].map((_, i) => (
+                    <FaStar className="text-yellow-400" key={i} />
+                  ))}
+                </div>
+                <p className="text-sm text-gray-400">{item.review}</p>
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
+          ))
+        }
       </div>
     </div>
   );

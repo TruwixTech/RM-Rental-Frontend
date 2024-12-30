@@ -9,6 +9,9 @@ export default {
       zIndex: {
         1000: '1000', // Add custom z-index value
       },
+      fontFamily: {
+        satoshi: ['Satoshi', 'sans-serif'], // Custom Satoshi font
+      },
     },
   },
   plugins: [],

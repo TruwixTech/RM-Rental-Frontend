@@ -1,7 +1,7 @@
 import React from 'react'
 import '../../assets/csss/Page6.css'
 import subtract from '../../assets/img/Subtract.webp'
-import subtract2 from '../../assets/img/Subtract2.webp'
+import subtract2 from '../../assets/img/Subtract2.png'
 import { Link } from "react-router-dom"
 
 const Page6 = () => {
@@ -41,7 +41,7 @@ const Page6 = () => {
                         <button style={{ padding: "3px 20px", borderRadius: "50px", backgroundColor: "white", border: "1px solid black" }}>• Interior</button>
                         <button style={{ padding: "3px 20px", borderRadius: "50px", marginLeft: "10px", backgroundColor: "white", border: "1px solid black" }}>• Exterior</button>
                     </div>
-                    <p className='page6-p'>Transform. Style. Inspire.</p>
+                    <p className='page6-p'>Elevate. Design. Indulge.</p>
                 </div>
             </div>
 
