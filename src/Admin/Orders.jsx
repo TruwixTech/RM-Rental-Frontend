@@ -125,7 +125,7 @@ const Orders = () => {
           {currentOrders.length > 0 ? (
             currentOrders.map((order) => (
               <tr key={order._id}>
-                <td>{order._id}</td>
+                <td>{order.orderNumber}</td>
                 <td>{new Date(order.orderDate).toLocaleDateString()}</td>
                 <td>₹ {order.totalPrice.toFixed(2)}</td>
                 <td>

@@ -4,8 +4,51 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import storageService from "../service/storage.service";
 import { AXIOS_INSTANCE } from "../service";
+import { all } from "axios";
+
+const Modal = ({ title, children, onClose }) => (
+  <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-white p-6 rounded-lg shadow-lg w-1/3 flex flex-col items-center">
+      <h2 className="text-lg font-semibold mb-4 text-center">{title}</h2>
+      <p className="text-center my-1">{children}</p>
+
+      <button
+        onClick={onClose}
+        className="mt-4 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+);
+const Modal2 = ({ title, children, onClose2 }) => (
+  <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center   modal2">
+    <div className="bg-white p-6 rounded-lg shadow-lg w-1/3 flex flex-col items-center">
+      <h2 className="text-lg font-semibold mb-4 text-center">{title}</h2>
+      <p className="text-center my-1">{children}</p>
+
+      <button
+        onClick={onClose2}
+        className="mt-4 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+);
 
 export default function AddressPage({ finalPayment }) {
+  const allowedPincodes = ["110001", "122018", "201301", "201001"];
+  const [showPopup, setShowPopup] = useState(false);
+  const [showPopup2, setShowPopup2] = useState(false);
+
+  const [pincode, setPincode] = useState("");
+
+  // Function to extract pincode from address
+  const extractPincode = (address) => {
+    const pincodeMatch = address.match(/\b\d{6}\b/); // Regex to match a 6-digit number
+    return pincodeMatch ? pincodeMatch[0] : null;
+  };
   const location = useLocation();
   const { cartTotal, shippingCost, cartItems, apiFetchedAddress } =
     location.state;
@@ -24,12 +67,20 @@ export default function AddressPage({ finalPayment }) {
   const navigate = useNavigate();
 
   const handlePayment = async () => {
+    console.log(showPopup);
     if (!selectedAddress && !isCustomAddress && !modifyAddress) {
       alert("Please select or enter an address");
       return;
     }
     if (!user) {
       alert("Please login to continue");
+      return;
+    }
+
+    if (!allowedPincodes.includes(modifyAddress.pinCode)) {
+      console.log(showPopup2);
+      setShowPopup2(true);
+      console.log(showPopup2);
       return;
     }
 
@@ -109,7 +160,14 @@ export default function AddressPage({ finalPayment }) {
   };
 
   const handleSelectAddress = () => {
-    setSelectedAddress(apiFetchedAddress); // Set the fetched address string as selected
+    const extractedPincode = extractPincode(apiFetchedAddress);
+
+    if (!extractedPincode || !allowedPincodes.includes(extractedPincode)) {
+      setShowPopup(true); // Show popup if pincode is not allowed
+    } else {
+      setSelectedAddress(apiFetchedAddress);
+    }
+
     setModifyAddress({
       flatNo: "",
       addressLine1: "",
@@ -117,7 +175,7 @@ export default function AddressPage({ finalPayment }) {
       city: "",
       state: "",
       pinCode: "",
-    }); // Clear custom address fields if any
+    });
     setIsCustomAddress(false); // Ensure we're not in custom address mode
   };
 
@@ -141,16 +199,16 @@ export default function AddressPage({ finalPayment }) {
       </h2>
 
       <button
-        className="bg-indigo-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-indigo-700 transition mb-8"
+        className="bg-[#fec500] text-white px-6 py-3 rounded-lg shadow-lg hover:bg-[#e8b942] transition mb-8"
         onClick={toggleCustomAddress}
       >
         {isCustomAddress ? "Use Fetched Address" : "Use Custom Address"}
       </button>
 
-      <div className="flex flex-col items-center w-full max-w-5xl bg-white rounded-lg shadow-lg p-6">
+      <div className="flex flex-col items-center w-full max-w-5xl bg-white rounded-lg shadow-lg p-6 ">
         {isCustomAddress ? (
           <div className="w-full">
-            <h3 className="text-xl font-semibold mb-4 text-indigo-600">
+            <h3 className="text-xl font-semibold mb-4 text-[#fec500]">
               Enter Your New Address
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -281,10 +339,23 @@ export default function AddressPage({ finalPayment }) {
                 />
               </div>
             </div>
+            {showPopup2 && (
+              <Modal2
+                title="Pincode Not Serviceable"
+                onClose2={() => setShowPopup2(false)}
+              >
+                <p>
+                  We currently only serve the following pincodes:{" "}
+                  {allowedPincodes.join(", ")}.
+                </p>
+                {/* <p>Your pincode: {pincode || "Not Found"}</p> */}
+                <p className="mt-2">Please update your address to proceed.</p>
+              </Modal2>
+            )}
           </div>
         ) : (
           <div className="w-full">
-            <h3 className="text-xl font-semibold mb-4 text-indigo-600">
+            <h3 className="text-xl font-semibold mb-4 text-[#fec500]">
               Your Fetched Address
             </h3>
             <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow">
@@ -297,8 +368,8 @@ export default function AddressPage({ finalPayment }) {
                         className={`px-4 py-2 rounded-lg transition ${
                           selectedAddress === apiFetchedAddress
                             ? "bg-green-500 text-white"
-                            : "bg-indigo-600 text-white"
-                        } hover:bg-indigo-700`}
+                            : "bg-[#fec500] text-white"
+                        } hover:bg-[#e8b942]`}
                         onClick={handleSelectAddress}
                       >
                         {selectedAddress === apiFetchedAddress
@@ -310,12 +381,26 @@ export default function AddressPage({ finalPayment }) {
                 )}
               </tbody>
             </table>
+           
+            {showPopup && (
+              <Modal
+                title="Pincode Not Serviceable"
+                onClose={() => setShowPopup(false)}
+              >
+                <p>
+                  We currently only serve the following pincodes:{" "}
+                  {allowedPincodes.join(", ")}.
+                </p>
+                {/* <p>Your pincode: {pincode || "Not Found"}</p> */}
+                <p className="mt-2">Please update your address to proceed.</p>
+              </Modal>
+            )}
           </div>
         )}
       </div>
 
       <button
-        className={`w-full max-w-md bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-green-600 transition mt-6 ${
+        className={`w-full max-w-md bg-[#fec500] text-white px-6 py-3 rounded-lg shadow-lg hover:bg-[#e8b942] transition mt-6 ${
           !(
             isCustomAddress &&
             modifyAddress.flatNo &&

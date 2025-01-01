@@ -168,3 +168,7 @@ h1 {
 .drawer-container-main-z{
   z-index: 50;
 }
+
+.modal2{
+  z-index: 999;
+}
