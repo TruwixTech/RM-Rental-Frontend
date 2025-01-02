@@ -64,7 +64,7 @@ const App = () => {
       <Navbar active={active} userClickHandler={userClickHandler} />
       <div
         className={`${active === false ? "user-slider-off" : "user-slider-on"
-          } absolute top-[14.5%] z-40 rounded-b-xl shadow-md shadow-[#878787] right-0 w-[20vw] h-fit bg-[#fff] text-[#000]`}
+          } absolute top-16 md:top-[14.5%] z-40 rounded-b-xl shadow-md shadow-[#878787] right-0 w-[20vw] h-fit bg-[#fff] text-[#000]`}
       >
         <div className="w-full p-2">
           <ul className="py-1 px-2">

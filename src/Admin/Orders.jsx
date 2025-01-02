@@ -130,7 +130,7 @@ const Orders = () => {
                 <td>₹ {order.totalPrice.toFixed(2)}</td>
                 <td>
                   <button
-                    className={`status-button ${getStatusColor(order.status)}`}
+                    className={`status-button px-2 ${getStatusColor(order.status)}`}
                     onClick={() => handleStatusClick(order)}
                   >
                     {order.status}
