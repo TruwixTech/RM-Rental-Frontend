@@ -355,18 +355,18 @@ const MyCart = () => {
           {products.slice(0, 4).map((product) => (
             <div
               key={product?._id} // Ensure your product object has a unique `id` field
-              className="border px-4  rounded-2xl shadow-md hover:shadow-lg"
+              className="border px-4  rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition duration-500 ease-in-out"
             >
               <div>
                 <img src={product.img[0]} alt="" className="" />
               </div>
-              <h2 className="font-bold text-lg h-40">{product?.title}</h2>
+              <h2 className="font-bold text-lg h-14">{product?.title}</h2>
               <p className="text-sm mt-4">{`${product?.details?.description.substring(
                 0,
                 100
               )}"`}</p>
               <button
-                className="bg-yellow-400 text-black px-4 py-2 mt-4 rounded-lg"
+                className="bg-yellow-400 text-black px-4 py-2 my-4 rounded-lg "
                 onClick={() => myproductAdd(product?._id)}
               >
                 Add to cart
