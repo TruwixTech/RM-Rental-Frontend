@@ -201,9 +201,15 @@ const MyCart = () => {
     const subtotal = calculateSubtotal();
     const gst = calculateGST();
     const deposit = calculateSecurityDeposit();
-    const couponDiscount = (subtotal * discountPercentage) / 100;
     const shippingFee = calculateShippingFee();
-    return (subtotal || 0) + (gst || 0) + (deposit || 0) + (shippingFee || 0) - couponDiscount;
+    return (
+      (
+        (subtotal || 0) + (gst || 0) + (deposit || 0) + (shippingFee || 0)
+      ) *
+      (
+        ((subtotal || 0) + (gst || 0) + (deposit || 0) + (shippingFee || 0)) * (discountPercentage / 100)
+      )
+    );
   };
 
   return (
