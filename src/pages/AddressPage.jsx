@@ -277,6 +277,27 @@ export default function AddressPage({ finalPayment }) {
               </div>
               <div className="form-group">
                 <label
+                  htmlFor="pinCode"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Pin Code
+                </label>
+                <input
+                  type="text"
+                  id="pinCode"
+                  value={modifyAddress.pinCode}
+                  onChange={(e) =>
+                    setModifyAddress((prev) => ({
+                      ...prev,
+                      pinCode: e.target.value,
+                    }))
+                  }
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label
                   htmlFor="city"
                   className="block text-sm font-medium text-gray-700"
                 >
@@ -285,7 +306,7 @@ export default function AddressPage({ finalPayment }) {
                 <input
                   type="text"
                   id="city"
-                  value={modifyAddress.city}
+                  value={modifyAddress.pinCode === '110001' ? 'New Delhi' : modifyAddress.pinCode === '122018' ? 'Gurugram' : modifyAddress.pinCode === '201301' ? 'Noida' : modifyAddress.pinCode === '201001' ? 'Ghaziabad' : modifyAddress.city}
                   onChange={(e) =>
                     setModifyAddress((prev) => ({
                       ...prev,
@@ -306,32 +327,11 @@ export default function AddressPage({ finalPayment }) {
                 <input
                   type="text"
                   id="state"
-                  value={modifyAddress.state}
+                  value={modifyAddress.pinCode === '110001' ? 'New Delhi' : modifyAddress.pinCode === '122018' ? 'Haryana' : modifyAddress.pinCode === '201301' ? 'Uttar Pradesh' : modifyAddress.pinCode === '201001' ? 'Uttar Pradesh' : modifyAddress.state}
                   onChange={(e) =>
                     setModifyAddress((prev) => ({
                       ...prev,
                       state: e.target.value,
-                    }))
-                  }
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500"
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label
-                  htmlFor="pinCode"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Pin Code
-                </label>
-                <input
-                  type="text"
-                  id="pinCode"
-                  value={modifyAddress.pinCode}
-                  onChange={(e) =>
-                    setModifyAddress((prev) => ({
-                      ...prev,
-                      pinCode: e.target.value,
                     }))
                   }
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500"
@@ -365,11 +365,10 @@ export default function AddressPage({ finalPayment }) {
                     <td className="py-4 px-6">{apiFetchedAddress}</td>
                     <td className="py-4 px-6 text-right">
                       <button
-                        className={`px-4 py-2 rounded-lg transition ${
-                          selectedAddress === apiFetchedAddress
+                        className={`px-4 py-2 rounded-lg transition ${selectedAddress === apiFetchedAddress
                             ? "bg-green-500 text-white"
                             : "bg-[#fec500] text-white"
-                        } hover:bg-[#e8b942]`}
+                          } hover:bg-[#e8b942]`}
                         onClick={handleSelectAddress}
                       >
                         {selectedAddress === apiFetchedAddress
@@ -381,7 +380,7 @@ export default function AddressPage({ finalPayment }) {
                 )}
               </tbody>
             </table>
-           
+
             {showPopup && (
               <Modal
                 title="Pincode Not Serviceable"
@@ -400,8 +399,7 @@ export default function AddressPage({ finalPayment }) {
       </div>
 
       <button
-        className={`w-full max-w-md bg-[#fec500] text-white px-6 py-3 rounded-lg shadow-lg hover:bg-[#e8b942] transition mt-6 ${
-          !(
+        className={`w-full max-w-md bg-[#fec500] text-white px-6 py-3 rounded-lg shadow-lg hover:bg-[#e8b942] transition mt-6 ${!(
             isCustomAddress &&
             modifyAddress.flatNo &&
             modifyAddress.addressLine1 &&
@@ -411,7 +409,7 @@ export default function AddressPage({ finalPayment }) {
           ) && !selectedAddress
             ? "cursor-not-allowed opacity-50"
             : ""
-        }`}
+          }`}
         onClick={handlePayment}
         disabled={
           !(

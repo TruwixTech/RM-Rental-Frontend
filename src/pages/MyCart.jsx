@@ -15,6 +15,7 @@ const MyCart = () => {
   const [origins, setOrigins] = useState("");
   const [distanceToShop, setDistanceToShop] = useState(null);
   const [address, setAddress] = useState("");
+  const [onCheck, setOnCheck] = useState(false);
   const GST_RATE = 0.18;
   const currentDate = new Date();
   const deliveryDate = new Date(currentDate.getTime() + 96 * 60 * 60 * 1000);
@@ -194,13 +195,17 @@ const MyCart = () => {
         <div className="cart-overview">
           <div className="cart-header"></div>
           <div className="proceed-container">
+            <div onClick={()=> setOnCheck(!onCheck)} className="w-full h-auto flex gap-2 mb-3">
+              <input type="checkbox" id="termsCheck" checked={onCheck} className="" />
+              <label htmlFor="termsCheck">I have accepted Terms & Conditions</label>
+            </div>
             <button
-              className={`proceed-btn ${userCartData.items.length === 0
+              className={`proceed-btn ${userCartData.items.length === 0 || !onCheck
                 ? "cursor-not-allowed opacity-50"
                 : ""
                 }`}
               onClick={() => {
-                if (userCartData.items.length !== 0) {
+                if (userCartData.items.length !== 0 && onCheck) {
                   navigate("/address/finalPayment", {
                     state: {
                       cartTotal: calculateTotalPrice(), // Sending total price
