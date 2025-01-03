@@ -8,6 +8,7 @@ import userService from "../service/user.service";
 import { getAllProductsAPI } from "../service/products.service";
 import { addToCartAPI } from "../service/cart.service";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 const placeholderImageURL =
   "https://cdn.dribbble.com/users/887568/screenshots/3172047/media/725fca9f20d010f19b3cd5411c50a652.gif";
@@ -23,6 +24,9 @@ const MyCart = () => {
   const GST_RATE = 0.18;
   const [products, setProducts] = useState([]);
   const currentDate = new Date();
+  const [couponCode, setCouponCode] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [discountPercentage, setDiscountPercentage] = useState(0);
   const deliveryDate = new Date(currentDate.getTime() + 96 * 60 * 60 * 1000);
   const navigate = useNavigate();
 
@@ -38,8 +42,6 @@ const MyCart = () => {
     setDistanceToShop(distance.data.distance);
     setAddress(distance.data.address);
   };
-
-  console.log(userCartData?.items?.product?.category);
 
   const fetchProducts = async () => {
     try {
@@ -108,6 +110,24 @@ const MyCart = () => {
   const calculateShippingFee = () => {
     const totalQuantity = calculateTotalQuantity();
     return distanceToShop ? totalQuantity * distanceToShop * 100 : 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(`https://rmrental-backend.vercel.app/api/coupon/validate`, {
+        code: couponCode,
+      });
+      if (response.data.valid) {
+        setDiscountPercentage(response.data.discountPercentage);
+        setErrorMessage('');
+      } else {
+        setErrorMessage('Invalid coupon code.');
+      }
+    } catch (error) {
+      console.error('Error validating coupon:', error);
+      setErrorMessage('Failed to validate coupon.');
+    }
   };
 
   const calculateSecurityDeposit = () => {
@@ -186,7 +206,8 @@ const MyCart = () => {
     const gst = calculateGST();
     const deposit = calculateSecurityDeposit();
     const shippingFee = selectedOption === "cost" ? calculateShippingFee() : 0; // Add shipping fee only if "cost" is selected
-    return (subtotal || 0) + (gst || 0) + (deposit || 0) + shippingFee;
+    const couponDiscount = (subtotal * discountPercentage) / 100;
+    return (subtotal || 0) + (gst || 0) + (deposit || 0) + (shippingFee || 0) - couponDiscount;
   };
 
   return (
@@ -225,12 +246,11 @@ const MyCart = () => {
                     <h3 className="">{item?.product?.title}</h3>
                     <p className="sub-title">{item?.product?.sub_title}</p>
                     <p className="price">
-                      {`₹ ${
-                        getRentMonthsPrice(
-                          item?.rentOptions.rentMonthsCount,
-                          item?.product?.rentalOptions
-                        ) * item?.rentOptions?.quantity
-                      } / ${item?.rentOptions.rentMonthsCount} months on rent`}
+                      {`₹ ${getRentMonthsPrice(
+                        item?.rentOptions.rentMonthsCount,
+                        item?.product?.rentalOptions
+                      ) * item?.rentOptions?.quantity
+                        } / ${item?.rentOptions.rentMonthsCount} months on rent`}
                     </p>
                     <p>
                       Quantity:{" "}
@@ -271,6 +291,26 @@ const MyCart = () => {
                 I have accepted Terms & Conditions
               </label>
             </div>
+            <form className="flex gap-3 mb-4" onSubmit={handleSubmit}>
+              <input
+                className="w-[80%] px-3 py-1 rounded-md border"
+                type="text"
+                placeholder="Discount Voucher"
+                value={couponCode}
+                onChange={(e) => setCouponCode(e.target.value)}
+                required
+              />
+              <input
+                className="px-3 py-1 bg-[#dadada] rounded-md cursor-pointer"
+                type="submit"
+                value="Code"
+              />
+            </form>
+            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+
+            {discountPercentage > 0 && (
+              <p className="text-green-500">You have received a discount of {discountPercentage}%!</p>
+            )}
             <button
               className={`proceed-btn ${
                 userCartData.items.length === 0 || !onCheck
