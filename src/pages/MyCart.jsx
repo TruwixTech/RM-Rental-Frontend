@@ -5,6 +5,9 @@ import "../assets/csss/MyCart.css";
 import { deleteProductFromCartAPI, getCartAPI } from "../service/cart.service";
 import storageService from "../service/storage.service";
 import userService from "../service/user.service";
+import { getAllProductsAPI } from "../service/products.service";
+import { addToCartAPI } from "../service/cart.service";
+import toast from "react-hot-toast";
 
 const placeholderImageURL =
   "https://cdn.dribbble.com/users/887568/screenshots/3172047/media/725fca9f20d010f19b3cd5411c50a652.gif";
@@ -16,6 +19,7 @@ const MyCart = () => {
   const [distanceToShop, setDistanceToShop] = useState(null);
   const [address, setAddress] = useState("");
   const GST_RATE = 0.18;
+  const [products, setProducts] = useState([]);
   const currentDate = new Date();
   const deliveryDate = new Date(currentDate.getTime() + 96 * 60 * 60 * 1000);
   const navigate = useNavigate();
@@ -32,6 +36,25 @@ const MyCart = () => {
     setDistanceToShop(distance.data.distance);
     setAddress(distance.data.address);
   };
+
+  console.log(userCartData?.items?.product?.category);
+
+  const fetchProducts = async () => {
+    try {
+      const { data } = await getAllProductsAPI();
+      const storageProducts = data.filter(
+        (product) =>
+          product.category === userCartData?.items[0]?.product?.category
+      );
+      setProducts(storageProducts);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, [userCartData?.items[0]?.product?.category]);
 
   // Trigger getDistance only after origins is set
   useEffect(() => {
@@ -112,6 +135,30 @@ const MyCart = () => {
     }
   };
 
+  const myproductAdd = async (productId) => {
+    if (!user) {
+      toast.error("You are not logged in!");
+      return;
+    }
+
+    const data = await addToCartAPI({
+      items: {
+        product: productId,
+        quantity: 1,
+        rentMonthsCount: 3, // 3, 6, 9, or 12
+        rentMonths: "rent3Months", // Human-readable months
+      },
+    });
+
+    if (data?.success) {
+      // Show success message when product is added to cart for rent
+      toast.success(`Product added to cart for 3 months rent`);
+      navigate("/mycart");
+    } else {
+      toast.error("Product already in cart");
+    }
+  };
+
   const calculateSubtotal = () => {
     return (
       userCartData?.items?.reduce((acc, curr) => {
@@ -138,9 +185,9 @@ const MyCart = () => {
   };
 
   return (
-    <div className="amazon-cart">
+    <div className="flex flex-col w-full px-4 md:px-10">
       <div className="cart-content flex flex-col md:flex-row">
-        <div className="cart-items">
+        <div className="cart-items w-full">
           <div className="shop-heading">
             <h2 className="cart-heading">Shopping Cart</h2>
           </div>
@@ -163,11 +210,12 @@ const MyCart = () => {
                     <h3 className="">{item?.product?.title}</h3>
                     <p className="sub-title">{item?.product?.sub_title}</p>
                     <p className="price">
-                      {`₹ ${getRentMonthsPrice(
-                        item?.rentOptions.rentMonthsCount,
-                        item?.product?.rentalOptions
-                      ) * item?.rentOptions?.quantity
-                        } / ${item?.rentOptions.rentMonthsCount} months on rent`}
+                      {`₹ ${
+                        getRentMonthsPrice(
+                          item?.rentOptions.rentMonthsCount,
+                          item?.product?.rentalOptions
+                        ) * item?.rentOptions?.quantity
+                      } / ${item?.rentOptions.rentMonthsCount} months on rent`}
                     </p>
                     <p>
                       Quantity:{" "}
@@ -195,10 +243,11 @@ const MyCart = () => {
           <div className="cart-header"></div>
           <div className="proceed-container">
             <button
-              className={`proceed-btn ${userCartData.items.length === 0
-                ? "cursor-not-allowed opacity-50"
-                : ""
-                }`}
+              className={`proceed-btn ${
+                userCartData.items.length === 0
+                  ? "cursor-not-allowed opacity-50"
+                  : ""
+              }`}
               onClick={() => {
                 if (userCartData.items.length !== 0) {
                   navigate("/address/finalPayment", {
@@ -246,6 +295,34 @@ const MyCart = () => {
               <strong>Total:</strong> ₹ {calculateTotalPrice().toFixed(2)}
             </p>
           </div>
+        </div>
+      </div>
+      <div className="flex flex-col mt-20">
+        <h1 className="text-4xl font-bold text-center mb-10">
+          Similar products
+        </h1>
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {products.slice(0, 4).map((product) => (
+            <div
+              key={product?._id} // Ensure your product object has a unique `id` field
+              className="border px-4  rounded-2xl shadow-md hover:shadow-lg"
+            >
+              <div>
+                <img src={product.img[0]} alt="" className="" />
+              </div>
+              <h2 className="font-bold text-lg h-40">{product?.title}</h2>
+              <p className="text-sm mt-4">{`${product?.details?.description.substring(
+                0,
+                100
+              )}"`}</p>
+              <button
+                className="bg-yellow-400 text-black px-4 py-2 mt-4 rounded-lg"
+                onClick={() => myproductAdd(product?._id)}
+              >
+                Add to cart
+              </button>
+            </div>
+          ))}
         </div>
       </div>
     </div>

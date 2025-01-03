@@ -14,17 +14,17 @@
 }
 
 .elem h3 {
-  font-size: 7rem; /* Converted from 100.783px to rem (assuming base font-size is 16px) */
+  font-size: 5rem; /* Converted from 100.783px to rem (assuming base font-size is 16px) */
   color: #696969;
   padding: 0 2rem; /* Converted from 12px to rem */
-  line-height: 10rem;
+  line-height: 8rem;
 }
 
 .elem h3 span {
   color: #F9D96A;
-  font-size: 7rem; /* Converted from 109.783px to rem */
+  font-size: 5rem; /* Converted from 109.783px to rem */
   padding: 0 2rem;
-  line-height: 9rem;
+  line-height: 8rem;
 }
 
 

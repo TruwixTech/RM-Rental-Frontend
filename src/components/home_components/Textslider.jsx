@@ -31,23 +31,28 @@ const Textslider = () => {
       <div id="textslide" ref={textSlideRef}>
         <div className="elem">
           <h3>
-            FAST <span>SERVICE</span>
+            FAST <span>SERVICE</span> FAST<span>DELIVERY</span>
           </h3>
         </div>
         <div className="elem">
           <h3>
-            FAST <span>DELIVERY</span>
+            FAST <span>RETURN</span> FAST <span>SERVICE</span>
           </h3>
         </div>
-       
+        
         <div className="elem">
           <h3>
-            FAST <span>REFUND</span>
+            FAST <span>SERVICE</span> FAST<span>DELIVERY</span>
           </h3>
         </div>
         <div className="elem">
           <h3>
-            STYLE <span>INTERIOR</span> IN <span>STYLE</span>
+            FAST <span>SERVICE</span> FAST<span>DELIVERY</span>
+          </h3>
+        </div>
+        <div className="elem">
+          <h3>
+            FAST <span>RETURN</span> FAST <span>SERVICE</span>
           </h3>
         </div>
       </div>
