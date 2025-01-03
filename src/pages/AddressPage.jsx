@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import storageService from "../service/storage.service";
 import { AXIOS_INSTANCE } from "../service";
@@ -65,6 +65,9 @@ export default function AddressPage({ finalPayment }) {
   const [selectedAddress, setSelectedAddress] = useState(null); // Track whether fetched address is selected
   const user = storageService.get("user");
   const navigate = useNavigate();
+
+  console.log(modifyAddress);
+
 
   const handlePayment = async () => {
     console.log(showPopup);
@@ -191,6 +194,22 @@ export default function AddressPage({ finalPayment }) {
       pinCode: "",
     }); // Reset the custom address fields when switching
   };
+
+  useEffect(() => {
+    if (modifyAddress.pinCode === "110001") {
+      setModifyAddress((prev) => ({ ...prev, city: "New Delhi" }));
+      setModifyAddress((prev) => ({ ...prev, state: "New Delhi" }));
+    } else if (modifyAddress.pinCode === "122018") {
+      setModifyAddress((prev) => ({ ...prev, city: "Gurugram" }));
+      setModifyAddress((prev) => ({ ...prev, state: "Haryana" }));
+    } else if (modifyAddress.pinCode === "201301") {
+      setModifyAddress((prev) => ({ ...prev, city: "Noida" }));
+      setModifyAddress((prev) => ({ ...prev, state: "Uttar Pradesh" }));
+    } else if (modifyAddress.pinCode === "201001") {
+      setModifyAddress((prev) => ({ ...prev, city: "Ghaziabad" }));
+      setModifyAddress((prev) => ({ ...prev, state: "Uttar Pradesh" }));
+    }
+  }, [modifyAddress.pinCode]);
 
   return (
     <div className="container mx-auto my-8 px-4 md:px-8 lg:px-10 flex flex-col items-center">
@@ -366,8 +385,8 @@ export default function AddressPage({ finalPayment }) {
                     <td className="py-4 px-6 text-right">
                       <button
                         className={`px-4 py-2 rounded-lg transition ${selectedAddress === apiFetchedAddress
-                            ? "bg-green-500 text-white"
-                            : "bg-[#fec500] text-white"
+                          ? "bg-green-500 text-white"
+                          : "bg-[#fec500] text-white"
                           } hover:bg-[#e8b942]`}
                         onClick={handleSelectAddress}
                       >
@@ -400,15 +419,15 @@ export default function AddressPage({ finalPayment }) {
 
       <button
         className={`w-full max-w-md bg-[#fec500] text-white px-6 py-3 rounded-lg shadow-lg hover:bg-[#e8b942] transition mt-6 ${!(
-            isCustomAddress &&
-            modifyAddress.flatNo &&
-            modifyAddress.addressLine1 &&
-            modifyAddress.city &&
-            modifyAddress.state &&
-            modifyAddress.pinCode
-          ) && !selectedAddress
-            ? "cursor-not-allowed opacity-50"
-            : ""
+          isCustomAddress &&
+          modifyAddress.flatNo &&
+          modifyAddress.addressLine1 &&
+          modifyAddress.city &&
+          modifyAddress.state &&
+          modifyAddress.pinCode
+        ) && !selectedAddress
+          ? "cursor-not-allowed opacity-50"
+          : ""
           }`}
         onClick={handlePayment}
         disabled={

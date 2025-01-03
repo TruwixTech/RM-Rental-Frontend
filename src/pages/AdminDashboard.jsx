@@ -6,6 +6,7 @@ import SideNavbar from "../Admin/Sidenav";
 import { AXIOS_INSTANCE } from "../service";
 import storageService from "../service/storage.service";
 import Subscription from "../Admin/Subscription";
+import CouponSystem from "../Admin/CouponSystem";
 
 const AdminDashboard = () => {
   const [loading, setLoading] = useState(false);
@@ -85,6 +86,7 @@ const AdminDashboard = () => {
         <SideNavbar className="sidenav" />
         <div className="content">
           <Outlet />
+          <CouponSystem />
           <Subscription/>
         </div>
       </div>
