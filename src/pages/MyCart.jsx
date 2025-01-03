@@ -187,10 +187,16 @@ const MyCart = () => {
 
   return (
     <div className="flex flex-col w-full px-4 md:px-10">
-      <div className="cart-content flex flex-col md:flex-row">
+      <div className="cart-content flex flex-col md:flex-row mt-3">
         <div className="cart-items w-full">
           <div className="shop-heading">
             <h2 className="cart-heading">Shopping Cart</h2>
+          </div>
+          <div className="w-full h-auto flex gap-1 p-2 bg-gray-100 justify-center">
+            <span className="text-red-500">**</span>
+            <span className="font-bold">Note :</span>
+            <p className="text-red-500">KYC verification is mandatory to initiate the delivery process. Please complete the KYC process before the delivery timeline begins.</p>
+            <span className="text-red-500">**</span>
           </div>
           {userCartData.items.length === 0 ? (
             <div className="empty-cart">

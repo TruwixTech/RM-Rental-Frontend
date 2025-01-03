@@ -42,7 +42,10 @@
 
 .cart-border {
   width: 100%;
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px 0px 20px;
+  gap: 5px;
   box-sizing: border-box;
 }
 
