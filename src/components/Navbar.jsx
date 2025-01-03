@@ -188,7 +188,7 @@ const Navbar = ({ active, userClickHandler }) => {
       </div>
 
       <div className="line-56"></div>
-      <div className="bottomnav" style={{ paddingBottom: 0 }}>
+      <div className="bottomnav px-5" style={{ paddingBottom: 0 }}>
         <div className="bottomnav-left btmleft">
           <NavLink
             to="/"

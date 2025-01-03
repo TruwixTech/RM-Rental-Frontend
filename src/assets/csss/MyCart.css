@@ -36,7 +36,7 @@
 }
 
 .cart-overview {
-  padding: 20px;
+  padding: 5px;
   background-color: #f9f9f9;
 }
 
@@ -207,12 +207,14 @@
 
 /* Empty cart styles */
 .empty-cart {
+  width: 50%;
+  margin: auto;
   text-align: center;
   margin-top: 50px;
 }
 
 .empty-cart img {
-  width: 200px;
+  width: 100%;
   margin-bottom: 20px;
 }
 

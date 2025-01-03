@@ -100,9 +100,9 @@ const Chairs = () => {
 
       <div className="card-grid w-full">
         {products.map((product) => (
-          <div key={product?._id} className="card bg-white rounded-lg">
+          <Link to={`/product/${product?._id}`} key={product?._id} className="card bg-white rounded-lg">
             <div className="image-container p-2 rounded-t-lg">
-              <Link to={`/product/${product?._id}`}>
+              <div>
                 <img
                   className="rounded-lg w-full h-64 object-cover"
                   src={product.img[0]}
@@ -112,14 +112,14 @@ const Chairs = () => {
                       "https://5.imimg.com/data5/SELLER/Default/2024/6/429181615/CM/AE/LG/41750052/li4411-home-collection-mechanical-hands-massage-chair-500x500.jpg";
                   }}
                 />
-              </Link>
+              </div>
             </div>
             <div className="p-4">
-              <Link to={`/product/${product?._id}`}>
+              <div>
                 <h3 className="mb-2 w-[200px] text-base font-bold tracking-tight font-satoshi text-gray-900 overflow-hidden text-ellipsis whitespace-nowrap">
                   {product.title}
                 </h3>
-              </Link>
+              </div>
               <div className="card-rating text-2xl">{"★".repeat(5)}</div>
               <div className="price-cont flex justify-between items-center">
                 <p className="card-price text-lg font-semibold  mb-0 font-satoshi">
@@ -157,7 +157,7 @@ const Chairs = () => {
                 </button>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
