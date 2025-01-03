@@ -206,13 +206,9 @@ const MyCart = () => {
     const gst = calculateGST();
     const deposit = calculateSecurityDeposit();
     const shippingFee = calculateShippingFee();
+    const total = (subtotal || 0) + (gst || 0) + (deposit || 0) + (shippingFee || 0)
     return (
-      (
-        (subtotal || 0) + (gst || 0) + (deposit || 0) + (shippingFee || 0)
-      ) *
-      (
-        ((subtotal || 0) + (gst || 0) + (deposit || 0) + (shippingFee || 0)) * (discountPercentage / 100)
-      )
+        total - (total * discountPercentage / 100)
     );
   };
 
