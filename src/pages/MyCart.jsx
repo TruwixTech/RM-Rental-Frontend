@@ -15,6 +15,7 @@ const placeholderImageURL =
 
 const MyCart = () => {
   const user = storageService.get("user");
+  const [selectedOption, setSelectedOption] = useState("cost");
   const [userCartData, setUserCartData] = useState({ items: [] });
   const [origins, setOrigins] = useState("");
   const [distanceToShop, setDistanceToShop] = useState(null);
@@ -179,6 +180,9 @@ const MyCart = () => {
       toast.error("Product already in cart");
     }
   };
+  const handleOptionChange = (e) => {
+    setSelectedOption(e.target.value);
+  };
 
   const calculateSubtotal = () => {
     return (
@@ -222,7 +226,11 @@ const MyCart = () => {
           <div className="w-full h-auto flex gap-1 p-2 bg-gray-100 justify-center">
             <span className="text-red-500">**</span>
             <span className="font-bold">Note :</span>
-            <p className="text-red-500">KYC verification is mandatory to initiate the delivery process. Please complete the KYC process before the delivery timeline begins.</p>
+            <p className="text-red-500">
+              KYC verification is mandatory to initiate the delivery process.
+              Please complete the KYC process before the delivery timeline
+              begins.
+            </p>
             <span className="text-red-500">**</span>
           </div>
           {userCartData.items.length === 0 ? (
@@ -275,9 +283,19 @@ const MyCart = () => {
         <div className="cart-overview">
           <div className="cart-header"></div>
           <div className="proceed-container">
-            <div onClick={() => setOnCheck(!onCheck)} className="w-full h-auto flex gap-2 mb-3">
-              <input type="checkbox" id="termsCheck" checked={onCheck} className="" />
-              <label htmlFor="termsCheck">I have accepted Terms & Conditions</label>
+            <div
+              onClick={() => setOnCheck(!onCheck)}
+              className="w-full h-auto flex gap-2 mb-3"
+            >
+              <input
+                type="checkbox"
+                id="termsCheck"
+                checked={onCheck}
+                className=""
+              />
+              <label htmlFor="termsCheck">
+                I have accepted Terms & Conditions
+              </label>
             </div>
             <form className="flex gap-3 mb-4" onSubmit={handleSubmit}>
               <input
@@ -300,10 +318,11 @@ const MyCart = () => {
               <p className="text-green-500">You have received a discount of {discountPercentage}%!</p>
             )}
             <button
-              className={`proceed-btn ${userCartData.items.length === 0 || !onCheck
-                ? "cursor-not-allowed opacity-50"
-                : ""
-                }`}
+              className={`proceed-btn ${
+                userCartData.items.length === 0 || !onCheck
+                  ? "cursor-not-allowed opacity-50"
+                  : ""
+              }`}
               onClick={() => {
                 if (userCartData.items.length !== 0 && onCheck) {
                   navigate("/address/finalPayment", {
@@ -333,21 +352,50 @@ const MyCart = () => {
               </div>
             ))}
             <hr />
-            <p>
-              <strong>Subtotal:</strong> ₹ {calculateSubtotal().toFixed(2)}
-            </p>
+            <div className="mt-2">
+              <span className="w-full text-base font-bold">Shipping Options:</span>
+              <div className="flex flex-col gap-2">
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    value="free"
+                    checked={selectedOption === "free"}
+                    onChange={handleOptionChange}
+                  />
+                  <span>Free Delivery (10-15 Days)</span>
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    value="cost"
+                    checked={selectedOption === "cost"}
+                    onChange={handleOptionChange}
+                  />
+                  <span>Shipping: ₹ {calculateShippingFee().toFixed(2)}</span>
+                </label>
+              </div>
+
+              <div className="mt-4">
+                <p>
+                  <strong>Selected Shipping:</strong>{" "}
+                  {selectedOption === "free"
+                    ? "Free Delivery"
+                    : `₹ ${calculateShippingFee().toFixed(2)}`}
+                </p>
+              </div>
+            </div>
             <p>
               <strong>GST (18%):</strong> ₹ {calculateGST().toFixed(2)}
             </p>
-            <p>
+            {/* <p>
               <strong>Shipping:</strong> ₹ {calculateShippingFee().toFixed(2)}
-            </p>
+            </p> */}
             <p>
               <strong>Security Deposit:</strong> ₹{" "}
               {calculateSecurityDeposit().toFixed(2)}
             </p>
             <hr />
-            <p>
+            <p className="mt-2">
               <strong>Total:</strong> ₹ {calculateTotalPrice().toFixed(2)}
             </p>
           </div>
@@ -355,7 +403,7 @@ const MyCart = () => {
       </div>
       <div className="flex flex-col mt-20">
         <h1 className="text-4xl font-bold text-center mb-10">
-          Similar products
+          Related Products
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {products.slice(0, 4).map((product) => (
