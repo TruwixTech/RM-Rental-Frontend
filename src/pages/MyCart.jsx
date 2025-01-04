@@ -97,7 +97,7 @@ const MyCart = () => {
 
   useEffect(() => {
     getMyCart();
-  }, []);
+  }, [userCartData]);
 
   // Calculate the total quantity of items in the cart
   const calculateTotalQuantity = () => {
@@ -205,7 +205,7 @@ const MyCart = () => {
     const subtotal = calculateSubtotal();
     const gst = calculateGST();
     const deposit = calculateSecurityDeposit();
-    const shippingFee = calculateShippingFee();
+    const shippingFee = selectedOption === "cost" ? calculateShippingFee() : 0;
     const total = (subtotal || 0) + (gst || 0) + (deposit || 0) + (shippingFee || 0)
     return (
         total - (total * discountPercentage / 100)

@@ -5,36 +5,12 @@ import $ from "jquery"; // Import jQuery
 import { AXIOS_INSTANCE } from "../service";
 import toast from "react-hot-toast";
 
-const Subscription = () => {
-  const [subscriptions, setSubscriptions] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+
+const Modal = ({ title, children, onClose }) => {
   const [editingSubscription, setEditingSubscription] = useState(null);
   const [newStartDate, setNewStartDate] = useState("");
-  const [filter, setFilter] = useState("all");
   const [newOrderDate, setNewOrderDate] = useState(new Date());
   const [newOrderEndDate, setNewOrderEndDate] = useState(new Date());
-
-  const fetchSubscriptions = async () => {
-    try {
-      const response = await AXIOS_INSTANCE.get("/orders");
-      if (response.data && Array.isArray(response.data.data)) {
-        setSubscriptions(response.data.data);
-      } else {
-        console.error("Unexpected response format:", response.data);
-        setError("Unexpected response format");
-      }
-    } catch (err) {
-      console.error("Error fetching subscriptions:", err);
-      setError(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchSubscriptions(); // Initially fetch subscriptions
-  }, []);
 
   const handleStatusClick = (subscription) => {
     setEditingSubscription(subscription);
@@ -52,7 +28,7 @@ const Subscription = () => {
 
       if (response.status === 200) {
         toast.success("Subscription updated successfully");
-        fetchSubscriptions();
+        window.location.reload();
         closeModal(); // Close the modal after successful update
       } else {
         toast.error("Failed to update order");
@@ -69,6 +45,7 @@ const Subscription = () => {
   };
 
   const SubscriptionStatus = ({ startDate, endDate }) => {
+
     const endDateObj = new Date(endDate);
     const today = new Date();
 
@@ -80,163 +57,220 @@ const Subscription = () => {
     return <button className={`status-button ${statusColor}`}>{status}</button>;
   };
 
-  // Filter active and expired subscriptions based on the new criteria
-  const filteredSubscriptions = subscriptions.filter((sub) => {
-    const today = new Date();
-    const startDateObj = new Date(sub.orderDate);
-    const endDateObj = new Date(sub.endDate);
+  console.log(children);
 
-    // Calculate the difference between startDate and endDate in days
-    const timeDifference = Math.abs(endDateObj - startDateObj);
-    const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24)); // Convert time difference to days
+  return (
+    <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-[85%] flex flex-col items-center">
+        <h2 className="text-xl font-semibold mb-4 text-center">{title}</h2>
+        <table className="subscriptions-table w-full mt-6 border-collapse border border-gray-300 shadow-lg rounded-lg">
+          <thead className="bg-gray-200">
+            <tr>
+              <th className="text-center px-4 py-3 text-gray-700 font-semibold">Order ID</th>
+              <th className="text-center px-4 py-3 text-gray-700 font-semibold">User Name</th>
+              <th className="text-center px-4 py-3 text-gray-700 font-semibold">Products</th>
+              <th className="text-center px-4 py-3 text-gray-700 font-semibold">Start Date</th>
+              <th className="text-center px-4 py-3 text-gray-700 font-semibold">End Date</th>
+              <th className="text-center px-4 py-3 text-gray-700 font-semibold">Status</th>
+              <th className="text-center px-4 py-3 text-gray-700 font-semibold">Update</th>
+            </tr>
+          </thead>
+          <tbody>
+            {children.orders.map((sub) => (
+              <tr
+                key={sub.customerId}
+                className="border-b border-gray-300 hover:bg-gray-100 duration-300 ease-in-out"
+              >
+                <td className="text-center px-4 py-3">{sub.orderNumber}</td>
+                <td className="text-center px-4 py-3">{children.name}</td>
+                <td className="text-center px-4 py-3 text-sm">
+                  {sub.products.map((product, index) => (
+                    <div key={product._id || index} className="text-gray-800">
+                      {product.product.title}
+                    </div>
+                  ))}
+                </td>
+                <td className="text-center px-4 py-3">
+                  {new Date(sub.orderDate).toDateString()}
+                </td>
+                <td className="text-center px-4 py-3">
+                  {new Date(sub.endDate).toDateString()}
+                </td>
+                <td className="text-center px-4 py-3 text-green-500 font-semibold">
+                  <SubscriptionStatus
+                    startDate={sub.orderDate}
+                    endDate={sub.endDate}
+                  />
+                </td>
+                <td className="text-center px-4 py-3">
+                  <button
+                    className="w-[100px] rounded-full bg-gray-600 text-white py-2 hover:bg-gray-700 transition duration-200"
+                    onClick={() => handleStatusClick(sub)}
+                  >
+                    Edit
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {/* Modal for editing subscription */}
+        <div
+          className="status-form-overlay"
+          style={{ display: editingSubscription ? "block" : "none" }}
+        >
+          <div className="status-form w-full flex justify-center flex-col items-center">
+            <button className="status-form-close" onClick={closeModal}>
+              &times;
+            </button>
+            <p className="text-2xl my-2">Update Subscription Duration</p>
+            <div>
+              <div className="flex flex-col justify-center items-center">
+                {editingSubscription ? (
+                  <p>{editingSubscription._id}</p>
+                ) : (
+                  <p>Loading...</p>
+                )}
+                <div className="flex items-center gap-4 my-2">
+                  <label htmlFor="startDate" className="flex items-center">
+                    Start Date:
+                  </label>
+                  <input
+                    type="date"
+                    value={newOrderDate.toISOString().substring(0, 10)}
+                    onChange={(e) => setNewOrderDate(new Date(e.target.value))}
+                    className="flex items-center border border-gray-300 rounded-md p-1"
+                  />
+                </div>
+                <div className="flex items-center gap-4 my-2">
+                  <label htmlFor="endDate" className="flex items-center">
+                    End Date:
+                  </label>
+                  <input
+                    type="date"
+                    value={newOrderEndDate.toISOString().substring(0, 10)}
+                    onChange={(e) => setNewOrderEndDate(new Date(e.target.value))}
+                    className="flex items-center border border-gray-300 rounded-md p-1"
+                  />
+                </div>
+              </div>
+              <div
+                className="w-full my-1 bg-green-500 text-white p-2 rounded-md cursor-pointer flex justify-center items-center"
+                onClick={() => handleUpdate(editingSubscription._id)}
+              >
+                Update
+              </div>
+              <button type="button" className="w-full my-1" onClick={closeModal}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
 
-    // Determine if the subscription is expired
-    const isExpired = today >= endDateObj || daysDifference > 30;
+        <button
+          onClick={onClose}
+          className="mt-4 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  )
+}
+const Subscription = () => {
+  const [subscriptions, setSubscriptions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [ordersPopUp, setOrdersPopUp] = useState(false);
+  const [singleCustomer, setSingleCustomer] = useState({});
 
-    if (filter === "active") return !isExpired; // Active subscriptions
-    if (filter === "expired") return isExpired; // Expired subscriptions
-    return true; // If no filter is applied, return all subscriptions
-  });
+  const fetchSubscriptions = async () => {
+    try {
+      const response = await AXIOS_INSTANCE.get("/getCustomerWithOrders");
+      if (response?.data && Array.isArray(response?.data?.custWthOrders)) {
+        // console.log(response.data.custWthOrders);
+        setSubscriptions(response.data.custWthOrders);
+      } else {
+        console.error("Unexpected response format:", response.data);
+        setError("Unexpected response format");
+      }
+    } catch (err) {
+      console.error("Error fetching subscriptions:", err);
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchSubscriptions(); // Initially fetch subscriptions
+  }, []);
+
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="subscriptions-container">
-      <h1 className="text-4xl font-bold text-gray-400">Subscriptions</h1>
+    <>
+      <div className="subscriptions-container">
+        <h1 className="text-4xl font-bold text-gray-400">Subscriptions</h1>
 
-      <div className="subscription-tabs flex gap-20 my-8">
-        <button
-          className={`text-base uppercase ${
-            filter === "all" ? "active text-black font-bold" : "text-gray-400"
-          }`}
-          onClick={() => setFilter("all")}
-        >
-          All Subscriptions
-        </button>
-        <button
-          className={`text-base uppercase ${
-            filter === "active"
-              ? "active text-black font-bold"
-              : "text-gray-400"
-          }`}
-          onClick={() => setFilter("active")}
-        >
-          Active Subscriptions
-        </button>
-        <button
-          className={`text-base uppercase ${
-            filter === "expired"
-              ? "active text-black font-bold"
-              : "text-gray-400"
-          }`}
-          onClick={() => setFilter("expired")}
-        >
-          Expired Subscriptions
-        </button>
-      </div>
-
-      <table className="subscriptions-table w-full flex justify-center flex-col">
-        <thead>
-          <tr className="w-full flex gap-6">
-            <th className="text-center w-full">Order ID</th>
-            <th className="text-center w-full">User Name</th>
-            <th className="text-center w-full">User Email</th>
-            <th className="text-center w-full">Start Date</th>
-            <th className="text-center w-full">End Date</th>
-            <th className="text-center w-full">Status</th>
-            <th className="text-center w-full">Update</th>
-          </tr>
-        </thead>
-        <tbody className="w-full mt-2">
-          {filteredSubscriptions.length > 0 ? (
-            filteredSubscriptions.map((sub) => {
-              return (
-                <tr key={sub._id} className="flex gap-6 text-sm mt-1 items-center ">
-                  <td className="text-center w-full">
-                   {sub.orderNumber}
-                  </td>
-                  <td className=" text-center w-full">{sub.user.name}</td>
-                  <td className=" text-center w-full">{sub.user.email}</td>
-                  <td className=" text-center w-full">
+        <table className="subscriptions-table w-full flex justify-center mt-6 flex-col">
+          <thead>
+            <tr className="w-full flex gap-6">
+              <th className="text-center w-full">Customer ID</th>
+              <th className="text-center w-full">User Name</th>
+              <th className="text-center w-full">User Email</th>
+              {/* <th className="text-center w-full">Start Date</th>
+            <th className="text-center w-full">End Date</th> */}
+              <th className="text-center w-full">Mobile Number</th>
+              {/* <th className="text-center w-full">Update</th> */}
+            </tr>
+          </thead>
+          <tbody className="w-full mt-2">
+            {subscriptions.length > 0 ? (
+              subscriptions.map((sub) => {
+                return (
+                  <tr key={sub._id} onClick={() => { setOrdersPopUp(true), setSingleCustomer(sub) }} className="flex gap-6 md:hover:bg-gray-100 py-2 cursor-pointer duration-300 ease-in-out text-sm mt-1 items-center ">
+                    <td className="text-center w-full">
+                      {sub.customerId}
+                    </td>
+                    <td className=" text-center w-full">{sub.name}</td>
+                    <td className=" text-center w-full">{sub.email}</td>
+                    {/* <td className=" text-center w-full">
                     {new Date(sub.orderDate).toDateString()}
                   </td>
                   <td className=" text-center w-full">
                     {new Date(sub.endDate).toDateString()}
-                  </td>
-                  <td className=" text-center w-full text-red-500">
+                  </td> */}
+                    <td className="text-center w-full">
+                      {sub.mobileNumber}
+                    </td>
+                    {/* <td className=" text-center w-full text-red-500">
                     <SubscriptionStatus
                       startDate={sub.orderDate}
                       endDate={sub.endDate}
                     />
-                  </td>
-                  <td className="w-full text-center ">
+                  </td> */}
+                    {/* <td className="w-full text-center ">
                     <button className="w-[100px] rounded-full bg-gray-600 text-white py-1" onClick={() => handleStatusClick(sub)}>Edit</button>
-                  </td>
-                </tr>
-              );
-            })
-          ) : (
-            <tr>
-              <td colSpan="7">No subscriptions available.</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+                  </td> */}
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan="7">No subscriptions available.</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
 
-      {/* Modal for editing subscription */}
-      <div
-        className="status-form-overlay"
-        style={{ display: editingSubscription ? "block" : "none" }}
-      >
-        <div className="status-form w-full flex justify-center flex-col items-center">
-          <button className="status-form-close" onClick={closeModal}>
-            &times;
-          </button>
-          <p className="text-2xl my-2">Update Subscription Duration</p>
-          <div>
-            <div className="flex flex-col justify-center items-center">
-              {editingSubscription ? (
-                <p>{editingSubscription._id}</p>
-              ) : (
-                <p>Loading...</p>
-              )}
-              <div className="flex items-center gap-4 my-2">
-                <label htmlFor="startDate" className="flex items-center">
-                  Start Date:
-                </label>
-                <input
-                  type="date"
-                  value={newOrderDate.toISOString().substring(0, 10)}
-                  onChange={(e) => setNewOrderDate(new Date(e.target.value))}
-                  className="flex items-center border border-gray-300 rounded-md p-1"
-                />
-              </div>
-              <div className="flex items-center gap-4 my-2">
-                <label htmlFor="endDate" className="flex items-center">
-                  End Date:
-                </label>
-                <input
-                  type="date"
-                  value={newOrderEndDate.toISOString().substring(0, 10)}
-                  onChange={(e) => setNewOrderEndDate(new Date(e.target.value))}
-                  className="flex items-center border border-gray-300 rounded-md p-1"
-                />
-              </div>
-            </div>
-            <div
-              className="w-full my-1 bg-green-500 text-white p-2 rounded-md cursor-pointer flex justify-center items-center"
-              onClick={() => handleUpdate(editingSubscription._id)}
-            >
-              Update
-            </div>
-            <button type="button" className="w-full my-1" onClick={closeModal}>
-              Cancel
-            </button>
-          </div>
-        </div>
       </div>
-    </div>
+      {
+        ordersPopUp && <Modal onClose={() => { setOrdersPopUp(false); setSingleCustomer({}) }} title="Orders" children={singleCustomer} />
+      }
+    </>
   );
 };
 
