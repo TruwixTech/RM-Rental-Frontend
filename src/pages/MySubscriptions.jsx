@@ -6,6 +6,8 @@ import { IoSettings } from "react-icons/io5";
 import { FaShoppingBag, FaIdCard } from "react-icons/fa";
 import storageService from "../service/storage.service";
 import userService from "../service/user.service"; // Import userService for orders
+import { useLocation, useNavigate } from "react-router-dom";
+import { AXIOS_INSTANCE } from "../service";
 
 // SubscriptionStatus Component
 const SubscriptionStatus = ({ startDate, endDate }) => {
@@ -25,14 +27,62 @@ const MySubscriptions = () => {
   const user = storageService.get("user");
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const ClickHandler = (link) => {
     setActiveLink(link);
   };
 
+  const handlePayment = async () => {
+    if (!user) {
+      alert("Please login to continue");
+      return;
+    }
+
+    // Step 2: Trigger Razorpay Payment Gateway
+    const options = {
+      key: "rzp_test_Lx1DFKJyuWRRZG",
+      amount: orders.totalPrice * 100,
+      currency: orderData.currency || "INR",
+      name: "RM RENTAL",
+      description: "Rm Rental Payment",
+      image: "https://your-logo-url.com/logo.png",
+      order_id: orders._id,
+      handler: async (response) => {
+        const paymentData = {
+          order_id: orders._id,
+          payment_id: response.razorpay_payment_id,
+          signature: response.razorpay_signature,
+        };
+
+        const verifyResponse = await AXIOS_INSTANCE.post(
+          "/order/verifyPayment",
+          paymentData
+        );
+        if (verifyResponse?.data?.success) {
+          alert("Payment successful");
+        } else {
+          alert("Payment verification failed");
+        }
+      },
+      prefill: {
+        name: user?.name,
+        email: user?.email,
+        contact: "9999999999",
+      },
+      theme: {
+        color: "#6366F1",
+      },
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  };
+
   const fetchOrders = async () => {
     try {
       const { data } = await userService.getMyOrders(user?._id);
+      console.log(data);
       setOrders(data);
     } catch (error) {
       console.log(error);
