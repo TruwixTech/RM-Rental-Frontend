@@ -57,7 +57,22 @@ const Modal = ({ title, children, onClose }) => {
     return <button className={`status-button ${statusColor}`}>{status}</button>;
   };
 
-  console.log(children);
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "pending":
+        return "text-yellow-500";
+      case "kyc_verified":
+        return "text-blue-500"; // Add color for KYC Verified
+      case "shipped":
+        return "text-orange-500";
+      case "cancelled":
+        return "text-red-500";
+      case "delivered":
+        return "text-green-500"; // Add color for Delivered
+      default:
+        return "text-gray-500"; // Fallback color
+    }
+  };
 
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
@@ -71,7 +86,8 @@ const Modal = ({ title, children, onClose }) => {
               <th className="text-center px-4 py-3 text-gray-700 font-semibold">Products</th>
               <th className="text-center px-4 py-3 text-gray-700 font-semibold">Start Date</th>
               <th className="text-center px-4 py-3 text-gray-700 font-semibold">End Date</th>
-              <th className="text-center px-4 py-3 text-gray-700 font-semibold">Status</th>
+              <th className="text-center px-4 py-3 text-gray-700 font-semibold">Subscription Status</th>
+              <th className="text-center px-4 py-3 text-gray-700 font-semibold">Order Status</th>
               <th className="text-center px-4 py-3 text-gray-700 font-semibold">Update</th>
             </tr>
           </thead>
@@ -102,6 +118,7 @@ const Modal = ({ title, children, onClose }) => {
                     endDate={sub.endDate}
                   />
                 </td>
+                <td className={`${getStatusColor(sub.status)} text-center px-4 py-3`} >{sub.status}</td>
                 <td className="text-center px-4 py-3">
                   <button
                     className="w-[100px] rounded-full bg-gray-600 text-white py-2 hover:bg-gray-700 transition duration-200"
