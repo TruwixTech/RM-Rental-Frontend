@@ -27,7 +27,7 @@ const MyCart = () => {
   const [couponCode, setCouponCode] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [discountPercentage, setDiscountPercentage] = useState(0);
-  const deliveryDate = new Date(currentDate.getTime() + 96 * 60 * 60 * 1000);
+  const deliveryDate = new Date(currentDate.getTime() + 48 * 60 * 60 * 1000);
   const navigate = useNavigate();
 
   const day = deliveryDate.getDate();
