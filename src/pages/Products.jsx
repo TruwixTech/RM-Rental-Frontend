@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "../assets/csss/Products.css";
 import { getAllProductsAPI } from "../service/products.service";
 import { addToCartAPI } from "../service/cart.service";
@@ -221,7 +221,8 @@ const Products = () => {
 
           <div className="grid md:grid-cols-4 gap-4">
             {filteredProducts.map((product) => (
-              <div
+              <Link
+                to={`/product/${product?._id}`}
                 key={product._id}
                 className="md:max-w-80 bg-white rounded-lg "
               >
@@ -249,10 +250,10 @@ const Products = () => {
                   <div className="price-cont flex justify-between items-center">
                     <p className="card-price text-lg font-semibold text-gray-200 mb-0">
                       {product.rentalOptions &&
-                      (product.rentalOptions.rent3Months ||
-                        product.rentalOptions.rent6Months ||
-                        product.rentalOptions.rent9Months ||
-                        product.rentalOptions.rent12Months) ? (
+                        (product.rentalOptions.rent3Months ||
+                          product.rentalOptions.rent6Months ||
+                          product.rentalOptions.rent9Months ||
+                          product.rentalOptions.rent12Months) ? (
                         <h5>
                           <span
                             style={{
@@ -282,7 +283,7 @@ const Products = () => {
                     </button>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 
