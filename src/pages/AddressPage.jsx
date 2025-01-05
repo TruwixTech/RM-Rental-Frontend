@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import storageService from "../service/storage.service";
 import { AXIOS_INSTANCE } from "../service";
 import { all } from "axios";
+import axios from "axios";
 
 const Modal = ({ title, children, onClose }) => (
   <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
@@ -53,6 +54,11 @@ export default function AddressPage({ finalPayment }) {
   const { cartTotal, shippingCost, cartItems, apiFetchedAddress } =
     location.state;
 
+    console.log(cartTotal)
+    console.log(shippingCost)
+    console.log(cartItems)
+    
+
   const [modifyAddress, setModifyAddress] = useState({
     flatNo: "",
     addressLine1: "",
@@ -79,73 +85,79 @@ export default function AddressPage({ finalPayment }) {
       alert("Please login to continue");
       return;
     }
-
+  
     if (!allowedPincodes.includes(modifyAddress.pinCode)) {
       console.log(showPopup2);
       setShowPopup2(true);
       console.log(showPopup2);
       return;
     }
-
+  
     // Concatenate the custom address fields into a single string
     const customAddressString = isCustomAddress
       ? `${modifyAddress.flatNo}, ${modifyAddress.addressLine1}, ${modifyAddress.addressLine2}, ${modifyAddress.city}, ${modifyAddress.state}, ${modifyAddress.pinCode}`
       : null;
-
+  
     // Determine the address to send
-    const addressToSend = isCustomAddress
-      ? customAddressString
-      : selectedAddress;
-
-    // Step 1: Create an order from the backend
-    const orderResponse = await AXIOS_INSTANCE.post("/create/order", {
-      cartTotal,
-      shippingCost,
-      cartItems,
-      address: addressToSend, // Send the selected or custom address
-    });
-
-    const orderData = orderResponse?.data;
-    if (!orderData.success) {
-      alert("Order creation failed. Reason: " + orderData.error);
-      return;
-    }
-
-    // Step 2: Trigger Razorpay Payment Gateway
+    const addressToSend = isCustomAddress ? customAddressString : selectedAddress;
+  
+    // Step 1: Trigger Razorpay Payment Gateway
     const options = {
-      key: "rzp_test_Lx1DFKJyuWRRZG",
+      key: "rzp_test_bPKH4b75rXxBKr",
       amount: cartTotal * 100,
-      currency: orderData.currency || "INR",
+      currency: "INR",
       name: "RM RENTAL",
       description: "Rm Rental Payment",
       image: "https://your-logo-url.com/logo.png",
-      order_id: orderData.id,
       handler: async (response) => {
-        const paymentData = {
-          order_id: orderData._id,
-          payment_id: response.razorpay_payment_id,
-          signature: response.razorpay_signature,
-        };
-
-        const verifyResponse = await AXIOS_INSTANCE.post(
-          "/order/verifyPayment",
-          paymentData
-        );
-        if (verifyResponse?.data?.success) {
-          setModifyAddress({
-            flatNo: "",
-            addressLine1: "",
-            addressLine2: "",
-            city: "",
-            state: "",
-            pinCode: "",
-          }); // Clear fields after payment
-          navigate("/orderconfirm", {
-            state: { orderId: orderData._id },
-          });
-        } else {
-          alert("Payment verification failed");
-          navigate("/orderfailed");
+        try {
+          // Step 2: Verify Payment
+          const paymentData = {
+            payment_id: response.razorpay_payment_id,
+            signature: response.razorpay_signature,
+          };
+  
+          const verifyResponse = await AXIOS_INSTANCE.post(
+            "/order/verifyPayment",
+            paymentData
+          );
+  
+          if (verifyResponse?.data?.success) {
+            // Step 3: Create Order in Backend after Payment Success
+            const orderResponse = await AXIOS_INSTANCE.post("/create/order", {
+              cartTotal,
+              shippingCost,
+              cartItems,
+              address: addressToSend, // Send the selected or custom address
+            });
+  
+            console.log(orderResponse);
+  
+            const orderData = orderResponse?.data;
+            if (orderData.success) {
+              setModifyAddress({
+                flatNo: "",
+                addressLine1: "",
+                addressLine2: "",
+                city: "",
+                state: "",
+                pinCode: "",
+              }); // Clear fields after payment
+              navigate("/orderconfirm", {
+                state: { orderId: orderData._id },
+              });
+            } else {
+              alert("Order creation failed. Reason: " + orderData.error);
+              navigate("/orderfailed");
+            }
+          } else {
+            alert("Payment verification failed");
+            navigate("/orderfailed");
+          }
+        } catch (error) {
+          console.error("Payment verification or order creation failed:", error);
+          alert("An error occurred during the payment process.");
+          // navigate("/orderfailed");
         }
       },
       prefill: {
@@ -157,10 +169,11 @@ export default function AddressPage({ finalPayment }) {
         color: "#6366F1",
       },
     };
-
+  
     const rzp = new window.Razorpay(options);
     rzp.open();
   };
+  
 
   const handleSelectAddress = () => {
     const extractedPincode = extractPincode(apiFetchedAddress);
