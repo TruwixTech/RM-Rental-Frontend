@@ -6,6 +6,7 @@ import { IoSettings } from "react-icons/io5";
 import { FaShoppingBag, FaIdCard } from "react-icons/fa";
 import storageService from "../service/storage.service";
 import userService from "../service/user.service"; // Import userService for orders
+import { AXIOS_INSTANCE } from "../service";
 
 // SubscriptionStatus Component
 const SubscriptionStatus = ({ startDate, endDate }) => {
@@ -45,6 +46,76 @@ const MySubscriptions = () => {
     fetchOrders();
     setActiveLink("My Orders"); // Set active link as "My Orders"
   }, []);
+
+  const handlePayNow = async (orderId, amount, shippingCost) => {
+    if (!user) {
+      alert("Please login to continue");
+      return;
+    }
+  
+    try {
+      // Calculate the amount to be charged
+      const newAmount = ((amount - shippingCost) - 1218) / 1.18;
+      console.log("Amount to be charged:", newAmount);
+  
+      const options = {
+        key: "rzp_test_bPKH4b75rXxBKr",
+        amount: Math.round(newAmount * 100), // Amount in paise
+        currency: "INR",
+        name: "RM RENTAL",
+        description: "Rm Rental Payment",
+        image: "https://your-logo-url.com/logo.png",
+        handler: async (response) => {
+          try {
+            // Step 2: Verify Payment
+            const paymentData = {
+              payment_id: response.razorpay_payment_id,
+              signature: response.razorpay_signature,
+            };
+  
+            const verifyResponse = await AXIOS_INSTANCE.post(
+              "/order/verifyPayment",
+              paymentData
+            );
+  
+            if (verifyResponse?.data?.success) {
+              // Step 3: Update Order Status in backend
+              const updateOrderResponse = await AXIOS_INSTANCE.put(
+                `/order/update/${orderId}`,
+                
+              );
+  
+              if (updateOrderResponse?.data?.success) {
+                alert("Payment successful and order updated.");
+              } else {
+                alert("Payment successful, but failed to update the order.");
+              }
+            } else {
+              alert("Payment verification failed.");
+            }
+          } catch (error) {
+            console.error("Error during payment verification:", error);
+            alert("An error occurred during payment verification.");
+          }
+        },
+        prefill: {
+          name: user.name,
+          email: user.email,
+          contact: user.phone,
+        },
+        theme: {
+          color: "#3399cc",
+        },
+      };
+  
+      const rzp = new Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      console.error("Error during payment process:", error);
+      alert("An error occurred during the payment process.");
+    }
+  };
+  
 
   return (
     <div className="user-profile w-full flex justify-between p-8 bg-[#f1f1f1]">
@@ -139,6 +210,7 @@ const MySubscriptions = () => {
                                     : "bg-gray-400 cursor-not-allowed"
                                 } text-white`}
                                 disabled={endDate > new Date()} // Disable if endDate is greater than today
+                                onClick={() => handlePayNow(order._id,order.totalPrice,order.shippingCost)}
                               >
                                 Pay Now
                               </button>
