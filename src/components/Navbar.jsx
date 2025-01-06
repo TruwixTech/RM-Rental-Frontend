@@ -48,7 +48,7 @@ const Navbar = ({ active, userClickHandler }) => {
     if (user) {
       let interval = setInterval(() => {
         getMyCart();
-      }, 1000);
+      }, 2000);
       return () => clearInterval(interval);
     }
   }, []);
