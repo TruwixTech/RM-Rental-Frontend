@@ -10,6 +10,7 @@ import "../assets/csss/Home.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import emailjs from "emailjs-com";
 
 const Modal = ({ onClose }) => {
 
@@ -48,12 +49,46 @@ const Modal = ({ onClose }) => {
 const Home = () => {
   const [expiredPopup, setExpiredPopup] = useState(false);
 
+  function emailSent(emailId, expiredStatus) {
+    const getEmailSentStatus = JSON.parse(localStorage.getItem("emailSent")) || false
+
+    const isLastDayOfMonth = () => {
+      const today = new Date();
+      const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0); // Last day of the current month
+      return today.getDate() === lastDay.getDate();
+    };
+
+    if (getEmailSentStatus === false && expiredStatus && isLastDayOfMonth()) {
+      emailjs
+        .send(
+          "service_25i2brm", // Replace with your EmailJS service ID
+          "template_gvsuhax", // Replace with your EmailJS template ID
+          {
+            from_name: "RM Furniture",
+            to_email: emailId, // Replace with dynamic user email
+            subject: "Renew Your Subscription",
+            message: "Your subscription has expired. Please renew it to continue using our services.",
+          },
+          "WixpwZRHzPgpBSLUl" // Replace with your EmailJS user ID
+        )
+        .then(
+          (response) => {
+            console.log("Email sent successfully!", response.status, response.text);
+            localStorage.setItem("emailSent", JSON.stringify(true))
+          },
+          (error) => {
+            console.error("Failed to send email:", error);
+          }
+        );
+    }
+
+  }
+
   async function fetchUser() {
     try {
       const xyz = JSON.parse(localStorage.getItem("user"))
       const response = await axios.post("https://rmrental-backend.vercel.app/api/user-details", { id: xyz._id });
       const orders = response.data.user.orders;
-
       // Get today's date (normalized to midnight for accurate comparison)
       const today = new Date();
       today.setHours(0, 0, 0, 0); // Set to midnight
@@ -66,6 +101,7 @@ const Home = () => {
 
       if (expiredPopup) {
         setExpiredPopup(true);
+        emailSent(response.data.user.email, true)
         // Trigger the expiredPopup logic or update state
       } else {
         setExpiredPopup(false);
