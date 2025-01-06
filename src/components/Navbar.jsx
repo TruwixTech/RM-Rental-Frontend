@@ -147,7 +147,7 @@ const Navbar = ({ active, userClickHandler }) => {
                   onClick={() => navigate("/mycart")}
                 >
                   <HiOutlineShoppingBag className="shoping-bag " size={30} />
-                  <span className="absolute -top-1 -right-1 bg-gray-400 text-black rounded-full w-6 h-6 flex justify-center items-center">{cartItems?.length}</span>
+                  <span className="absolute -top-1 -right-1 bg-[#ffd74d] text-black font-bold text-sm border border-black rounded-full w-6 h-6 flex justify-center items-center">{cartItems?.length}</span>
                 </div>
                 {/* <div
                   className="font-semibold flex gap-4"
