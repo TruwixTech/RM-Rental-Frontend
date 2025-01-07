@@ -208,7 +208,7 @@ const MyCart = () => {
     const shippingFee = selectedOption === "cost" ? calculateShippingFee() : 0;
     const total = (subtotal || 0) + (gst || 0) + (deposit || 0) + (shippingFee || 0)
     return (
-        total - (total * discountPercentage / 100)
+      total - (total * discountPercentage / 100)
     );
   };
 
@@ -305,7 +305,7 @@ const MyCart = () => {
               <input
                 className="px-3 py-1 bg-[#dadada] rounded-md cursor-pointer"
                 type="submit"
-                value="Code"
+                value="Add"
               />
             </form>
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}
@@ -314,11 +314,10 @@ const MyCart = () => {
               <p className="text-green-500">You have received a discount of {discountPercentage}%!</p>
             )}
             <button
-              className={`proceed-btn ${
-                userCartData.items.length === 0 || !onCheck
+              className={`proceed-btn ${userCartData.items.length === 0 || !onCheck
                   ? "cursor-not-allowed opacity-50"
                   : ""
-              }`}
+                }`}
               onClick={() => {
                 if (userCartData.items.length !== 0 && onCheck) {
                   navigate("/address/finalPayment", {
