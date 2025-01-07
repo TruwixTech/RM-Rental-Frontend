@@ -118,7 +118,7 @@ export default function AddressPage({ finalPayment }) {
 
     // Step 1: Trigger Razorpay Payment Gateway
     const options = {
-      key: "rzp_test_bPKH4b75rXxBKr",
+      key: "rzp_live_gNLh3zWfj9gj0H",
       amount: cartTotal * 100,
       currency: "INR",
       name: "RM RENTAL",

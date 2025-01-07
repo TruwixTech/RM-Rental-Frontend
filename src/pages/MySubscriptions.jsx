@@ -52,14 +52,14 @@ const MySubscriptions = () => {
       alert("Please login to continue");
       return;
     }
-  
+
     try {
       // Calculate the amount to be charged
-      const newAmount = ((amount - shippingCost) - 1218) / 1.18;
+      const newAmount = (amount - shippingCost - 1218) / 1.18;
       console.log("Amount to be charged:", newAmount);
-  
+
       const options = {
-        key: "rzp_test_bPKH4b75rXxBKr",
+        key: "rzp_live_gNLh3zWfj9gj0H",
         amount: Math.round(newAmount * 100), // Amount in paise
         currency: "INR",
         name: "RM RENTAL",
@@ -72,19 +72,18 @@ const MySubscriptions = () => {
               payment_id: response.razorpay_payment_id,
               signature: response.razorpay_signature,
             };
-  
+
             const verifyResponse = await AXIOS_INSTANCE.post(
               "/order/verifyPayment",
               paymentData
             );
-  
+
             if (verifyResponse?.data?.success) {
               // Step 3: Update Order Status in backend
               const updateOrderResponse = await AXIOS_INSTANCE.put(
-                `/order/update/${orderId}`,
-                
+                `/order/update/${orderId}`
               );
-  
+
               if (updateOrderResponse?.data?.success) {
                 alert("Payment successful and order updated.");
               } else {
@@ -107,7 +106,7 @@ const MySubscriptions = () => {
           color: "#3399cc",
         },
       };
-  
+
       const rzp = new Razorpay(options);
       rzp.open();
     } catch (error) {
@@ -115,7 +114,6 @@ const MySubscriptions = () => {
       alert("An error occurred during the payment process.");
     }
   };
-  
 
   return (
     <div className="user-profile w-full flex justify-between p-8 bg-[#f1f1f1]">
@@ -210,7 +208,13 @@ const MySubscriptions = () => {
                                     : "bg-gray-400 cursor-not-allowed"
                                 } text-white`}
                                 disabled={endDate > new Date()} // Disable if endDate is greater than today
-                                onClick={() => handlePayNow(order._id,order.totalPrice,order.shippingCost)}
+                                onClick={() =>
+                                  handlePayNow(
+                                    order._id,
+                                    order.totalPrice,
+                                    order.shippingCost
+                                  )
+                                }
                               >
                                 Pay Now
                               </button>

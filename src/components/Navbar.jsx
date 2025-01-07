@@ -48,7 +48,7 @@ const Navbar = ({ active, userClickHandler }) => {
     if (user) {
       let interval = setInterval(() => {
         getMyCart();
-      }, 1000);
+      }, 2000);
       return () => clearInterval(interval);
     }
   }, []);
@@ -143,13 +143,13 @@ const Navbar = ({ active, userClickHandler }) => {
                 {user.role === "Admin" ? "|" : ""}
 
                 <div
-                  className="rightnav-cart"
+                  className="rightnav-cart relative"
                   onClick={() => navigate("/mycart")}
                 >
                   <HiOutlineShoppingBag className="shoping-bag " size={30} />
-                  <span className="cart-count"></span>
+                  <span className="absolute -top-1 -right-1 bg-[#ffd74d] text-black font-bold text-sm border border-black rounded-full w-6 h-6 flex justify-center items-center">{cartItems?.length}</span>
                 </div>
-                <div
+                {/* <div
                   className="font-semibold flex gap-4"
                   onClick={() => navigate("/mycart")}
                 >
@@ -157,7 +157,7 @@ const Navbar = ({ active, userClickHandler }) => {
                   <div className="text-lg md:text-xl">
                     CART ({cartItems?.length})
                   </div>
-                </div>
+                </div> */}
               </div>
 
               <div

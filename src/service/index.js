@@ -15,6 +15,7 @@ AXIOS_INSTANCE_WITHOUT_INTERCEPTOR.interceptors.request.use(async (config) => {
   }
   return config;
 });
+
 AXIOS_INSTANCE_WITHOUT_INTERCEPTOR.interceptors.response.use(
   (response) => {
     return response;
