@@ -59,7 +59,7 @@ const MySubscriptions = () => {
       console.log("Amount to be charged:", newAmount);
 
       const options = {
-        key: "rzp_test_bPKH4b75rXxBKr",
+        key: "rzp_live_gNLh3zWfj9gj0H",
         amount: Math.round(newAmount * 100), // Amount in paise
         currency: "INR",
         name: "RM RENTAL",
