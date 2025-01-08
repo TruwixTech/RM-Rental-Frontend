@@ -24,8 +24,8 @@ const MyCart = () => {
   const GST_RATE = 0.18;
   const [products, setProducts] = useState([]);
   const currentDate = new Date();
-  const [couponCode, setCouponCode] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [couponCode, setCouponCode] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [discountPercentage, setDiscountPercentage] = useState(0);
   const deliveryDate = new Date(currentDate.getTime() + 48 * 60 * 60 * 1000);
   const navigate = useNavigate();
@@ -97,7 +97,7 @@ const MyCart = () => {
 
   useEffect(() => {
     getMyCart();
-  }, [userCartData]);
+  }, []);
 
   // Calculate the total quantity of items in the cart
   const calculateTotalQuantity = () => {
@@ -106,27 +106,60 @@ const MyCart = () => {
     }, 0);
   };
 
-  // Calculate the shipping fee based on the distance and total quantity
-  const calculateShippingFee = () => {
-    const totalQuantity = calculateTotalQuantity();
-    return distanceToShop ? totalQuantity * distanceToShop * 100 : 0;
+  const calculateShippingCost = () => {
+    if (!userCartData?.items?.length) {
+      console.error("Cart data is missing or empty.");
+      return 0;
+    }
+    const sizeToSpace = { small: 15, medium: 20, large: 50 };
+    const totalSpace = userCartData.items.reduce((total, cartItem) => {
+      const productSize = cartItem?.product?.size;
+      const space = sizeToSpace[productSize] || 0;
+      const quantity = cartItem?.rentOptions?.quantity - 1;
+
+      return total + space + (quantity * space);
+    }, 0);
+
+    console.log(totalSpace)
+    console.log(distanceToShop)
+    
+    const vehicleCapacity = 100;
+    const vehiclesNeeded = Math.ceil(totalSpace / vehicleCapacity);
+
+    console.log(vehiclesNeeded)
+
+    const fixedCost = 400;
+    const perKmCost = 70;
+    let distanceCost = 0;
+
+    if (distanceToShop <= 5) {
+      distanceCost = fixedCost;
+    } else {
+      distanceCost = fixedCost + (distanceToShop - 5) * perKmCost;
+    }
+    const totalShippingCost = vehiclesNeeded * distanceCost;
+    return totalShippingCost;
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`https://rmrental-backend.vercel.app/api/coupon/validate`, {
-        code: couponCode,
-      });
+      const response = await axios.post(
+        `https://rmrental-backend.vercel.app/api/coupon/validate`,
+        {
+          code: couponCode,
+        }
+      );
       if (response.data.valid) {
         setDiscountPercentage(response.data.discountPercentage);
-        setErrorMessage('');
+        setErrorMessage("");
       } else {
-        setErrorMessage('Invalid coupon code.');
+        setErrorMessage("Invalid coupon code.");
       }
     } catch (error) {
-      console.error('Error validating coupon:', error);
-      setErrorMessage('Failed to validate coupon.');
+      console.error("Error validating coupon:", error);
+      setErrorMessage("Failed to validate coupon.");
     }
   };
 
@@ -205,11 +238,10 @@ const MyCart = () => {
     const subtotal = calculateSubtotal();
     const gst = calculateGST();
     const deposit = calculateSecurityDeposit();
-    const shippingFee = selectedOption === "cost" ? calculateShippingFee() : 0;
-    const total = (subtotal || 0) + (gst || 0) + (deposit || 0) + (shippingFee || 0)
-    return (
-        total - (total * discountPercentage / 100)
-    );
+    const shippingFee = selectedOption === "cost" ? calculateShippingCost() : 0;
+    const total =
+      (subtotal || 0) + (gst || 0) + (deposit || 0) + (shippingFee || 0);
+    return total - (total * discountPercentage) / 100;
   };
 
   return (
@@ -248,11 +280,12 @@ const MyCart = () => {
                     <h3 className="">{item?.product?.title}</h3>
                     <p className="sub-title">{item?.product?.sub_title}</p>
                     <p className="price">
-                      {`₹ ${getRentMonthsPrice(
-                        item?.rentOptions.rentMonthsCount,
-                        item?.product?.rentalOptions
-                      ) * item?.rentOptions?.quantity
-                        } / ${item?.rentOptions.rentMonthsCount} months on rent`}
+                      {`₹ ${
+                        getRentMonthsPrice(
+                          item?.rentOptions.rentMonthsCount,
+                          item?.product?.rentalOptions
+                        ) * item?.rentOptions?.quantity
+                      } / ${item?.rentOptions.rentMonthsCount} months on rent`}
                     </p>
                     <p>
                       Quantity:{" "}
@@ -311,7 +344,9 @@ const MyCart = () => {
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
             {discountPercentage > 0 && (
-              <p className="text-green-500">You have received a discount of {discountPercentage}%!</p>
+              <p className="text-green-500">
+                You have received a discount of {discountPercentage}%!
+              </p>
             )}
             <button
               className={`proceed-btn ${
@@ -324,7 +359,7 @@ const MyCart = () => {
                   navigate("/address/finalPayment", {
                     state: {
                       cartTotal: calculateTotalPrice(), // Sending total price
-                      shippingCost: calculateShippingFee(), // Sending shipping fee
+                      shippingCost: calculateShippingCost(), // Sending shipping fee
                       cartItems: userCartData.items, // Sending cart items
                       apiFetchedAddress: address,
                     },
@@ -333,7 +368,7 @@ const MyCart = () => {
               }}
               disabled={userCartData.items.length === 0}
             >
-              Pay ₹ {calculateTotalPrice().toFixed(2) || ""} Now{" "}
+              Pay ₹ {calculateTotalPrice()?.toFixed(2) || ""} Now{" "}
               <span className="arrow-icon">→</span>
             </button>
           </div>
@@ -349,7 +384,9 @@ const MyCart = () => {
             ))}
             <hr />
             <div className="mt-2">
-              <span className="w-full text-base font-bold">Shipping Options:</span>
+              <span className="w-full text-base font-bold">
+                Shipping Options:
+              </span>
               <div className="flex flex-col gap-2">
                 <label className="flex items-center gap-2">
                   <input
@@ -367,7 +404,7 @@ const MyCart = () => {
                     checked={selectedOption === "cost"}
                     onChange={handleOptionChange}
                   />
-                  <span>Shipping: ₹ {calculateShippingFee().toFixed(2)}</span>
+                  <span>Shipping: ₹ {calculateShippingCost()?.toFixed(2)}</span>
                 </label>
               </div>
 
@@ -376,12 +413,12 @@ const MyCart = () => {
                   <strong>Selected Shipping:</strong>{" "}
                   {selectedOption === "free"
                     ? "Free Delivery"
-                    : `₹ ${calculateShippingFee().toFixed(2)}`}
+                    : `₹ ${calculateShippingCost()?.toFixed(2)}`}
                 </p>
               </div>
             </div>
             <p>
-              <strong>GST (18%):</strong> ₹ {calculateGST().toFixed(2)}
+              <strong>GST (18%):</strong> ₹ {calculateGST()?.toFixed(2)}
             </p>
             {/* <p>
               <strong>Shipping:</strong> ₹ {calculateShippingFee().toFixed(2)}
@@ -392,7 +429,7 @@ const MyCart = () => {
             </p>
             <hr />
             <p className="mt-2">
-              <strong>Total:</strong> ₹ {calculateTotalPrice().toFixed(2)}
+              <strong>Total:</strong> ₹ {calculateTotalPrice()?.toFixed(2)}
             </p>
           </div>
         </div>
