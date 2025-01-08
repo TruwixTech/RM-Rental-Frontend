@@ -39,7 +39,27 @@ const Modal2 = ({ title, children, onClose2 }) => (
 );
 
 export default function AddressPage({ finalPayment }) {
-  const allowedPincodes = ["110001", "122018", "201301", "201001"];
+  // const allowedPincodes = ["110001", "122018", "201301", "201001"];
+  const allowedPincodes = [
+    "201001", "201014", "201007", "201002", "201005", "201011", "201012",
+    "201009", "201005", "201003", "201004", "201010", "201017", "201015",
+    "201016", "122002", "122001", "122009", "122505", "122003", "122017",
+    "122011", "122018", "122004", "122006", "201301", "201303", "201310",
+    "201306", "110018", "110032", "110063", "110006", "110018", "110085",
+    "110024", "110026", "110015", "110010", "110048", "110017", "110085",
+    "110096", "110018", "110015", "110016", "110064", "110085", "110049",
+    "110019", "110051", "110019", "110085", "110085", "110085", "110075",
+    "110085", "110015", "110064", "110060", "110005", "110092", "110054",
+    "110018", "110091", "110006", "110027", "110059", "110027", "110027",
+    "110033", "110048", "110015", "110092", "110041", "110085", "110065",
+    "110001", "110020", "110031", "110002", "110083", "110028", "110048",
+    "110007", "110085", "110022", "110085", "110085", "110092", "110092",
+    "110021", "110019", "110034", "110085", "110091", "110014", "110095",
+    "110001", "110092", "110009", "110035", "110017", "110092", "110053",
+    "110001", "110091", "110096", "110053", "110030", "110091", "110096"
+  ];
+
+
   const [showPopup, setShowPopup] = useState(false);
   const [showPopup2, setShowPopup2] = useState(false);
 
@@ -54,10 +74,6 @@ export default function AddressPage({ finalPayment }) {
   const { cartTotal, shippingCost, cartItems, apiFetchedAddress } =
     location.state;
 
-    console.log(cartTotal)
-    console.log(shippingCost)
-    console.log(cartItems)
-    
 
   const [modifyAddress, setModifyAddress] = useState({
     flatNo: "",
@@ -72,11 +88,9 @@ export default function AddressPage({ finalPayment }) {
   const user = storageService.get("user");
   const navigate = useNavigate();
 
-  console.log(modifyAddress);
 
 
   const handlePayment = async () => {
-    console.log(showPopup);
     if (!selectedAddress && !isCustomAddress && !modifyAddress) {
       alert("Please select or enter an address");
       return;
@@ -85,22 +99,20 @@ export default function AddressPage({ finalPayment }) {
       alert("Please login to continue");
       return;
     }
-  
-    if (!allowedPincodes.includes(modifyAddress.pinCode)) {
-      console.log(showPopup2);
+
+    if (!allowedPincodes.includes(modifyAddress.pinCode || extractPincode(selectedAddress))) {
       setShowPopup2(true);
-      console.log(showPopup2);
       return;
     }
-  
+
     // Concatenate the custom address fields into a single string
     const customAddressString = isCustomAddress
       ? `${modifyAddress.flatNo}, ${modifyAddress.addressLine1}, ${modifyAddress.addressLine2}, ${modifyAddress.city}, ${modifyAddress.state}, ${modifyAddress.pinCode}`
       : null;
-  
+
     // Determine the address to send
     const addressToSend = isCustomAddress ? customAddressString : selectedAddress;
-  
+
     // Step 1: Trigger Razorpay Payment Gateway
     const options = {
       key: "rzp_live_gNLh3zWfj9gj0H",
@@ -116,12 +128,12 @@ export default function AddressPage({ finalPayment }) {
             payment_id: response.razorpay_payment_id,
             signature: response.razorpay_signature,
           };
-  
+
           const verifyResponse = await AXIOS_INSTANCE.post(
             "/order/verifyPayment",
             paymentData
           );
-  
+
           if (verifyResponse?.data?.success) {
             // Step 3: Create Order in Backend after Payment Success
             const orderResponse = await AXIOS_INSTANCE.post("/create/order", {
@@ -130,9 +142,9 @@ export default function AddressPage({ finalPayment }) {
               cartItems,
               address: addressToSend, // Send the selected or custom address
             });
-  
+
             console.log(orderResponse);
-  
+
             const orderData = orderResponse?.data;
             if (orderData.success) {
               setModifyAddress({
@@ -169,11 +181,11 @@ export default function AddressPage({ finalPayment }) {
         color: "#6366F1",
       },
     };
-  
+
     const rzp = new window.Razorpay(options);
     rzp.open();
   };
-  
+
 
   const handleSelectAddress = () => {
     const extractedPincode = extractPincode(apiFetchedAddress);
@@ -209,19 +221,125 @@ export default function AddressPage({ finalPayment }) {
   };
 
   useEffect(() => {
-    if (modifyAddress.pinCode === "110001") {
-      setModifyAddress((prev) => ({ ...prev, city: "New Delhi" }));
-      setModifyAddress((prev) => ({ ...prev, state: "New Delhi" }));
-    } else if (modifyAddress.pinCode === "122018") {
-      setModifyAddress((prev) => ({ ...prev, city: "Gurugram" }));
-      setModifyAddress((prev) => ({ ...prev, state: "Haryana" }));
-    } else if (modifyAddress.pinCode === "201301") {
-      setModifyAddress((prev) => ({ ...prev, city: "Noida" }));
-      setModifyAddress((prev) => ({ ...prev, state: "Uttar Pradesh" }));
-    } else if (modifyAddress.pinCode === "201001") {
-      setModifyAddress((prev) => ({ ...prev, city: "Ghaziabad" }));
-      setModifyAddress((prev) => ({ ...prev, state: "Uttar Pradesh" }));
+    const pinCodeMapping = [
+      { "area": "Ghaziabad", "pincode": "201001", "state": "Uttar Pradesh" },
+      { "area": "Indirapuram", "pincode": "201014", "state": "Uttar Pradesh" },
+      { "area": "Mohan Nagar", "pincode": "201007", "state": "Uttar Pradesh" },
+      { "area": "Kavi Nagar", "pincode": "201002", "state": "Uttar Pradesh" },
+      { "area": "Sahibabad", "pincode": "201005", "state": "Uttar Pradesh" },
+      { "area": "Surya Nagar", "pincode": "201011", "state": "Uttar Pradesh" },
+      { "area": "Nehru Nagar", "pincode": "201001", "state": "Uttar Pradesh" },
+      { "area": "Rajendra Nagar", "pincode": "201005", "state": "Uttar Pradesh" },
+      { "area": "Vasundhara", "pincode": "201012", "state": "Uttar Pradesh" },
+      { "area": "Model Town", "pincode": "201009", "state": "Uttar Pradesh" },
+      { "area": "Kaushambi", "pincode": "201012", "state": "Uttar Pradesh" },
+      { "area": "Bhopura", "pincode": "201005", "state": "Uttar Pradesh" },
+      { "area": "Pratap Vihar", "pincode": "201009", "state": "Uttar Pradesh" },
+      { "area": "Shalimar Garden", "pincode": "201005", "state": "Uttar Pradesh" },
+      { "area": "Kamla Nehru Nagar", "pincode": "201002", "state": "Uttar Pradesh" },
+      { "area": "Chander Nagar", "pincode": "201011", "state": "Uttar Pradesh" },
+      { "area": "Nandgram", "pincode": "201003", "state": "Uttar Pradesh" },
+      { "area": "Hindan Residential Area", "pincode": "201004", "state": "Uttar Pradesh" },
+      { "area": "Sanjay Nagar", "pincode": "201002", "state": "Uttar Pradesh" },
+      { "area": "Vaishali", "pincode": "201010", "state": "Uttar Pradesh" },
+      { "area": "Shastri Nagar", "pincode": "201002", "state": "Uttar Pradesh" },
+      { "area": "Pandav Nagar Industrial Area", "pincode": "201002", "state": "Uttar Pradesh" },
+      { "area": "Harbans Nagar", "pincode": "201001", "state": "Uttar Pradesh" },
+      { "area": "Raj Nagar", "pincode": "201002", "state": "Uttar Pradesh" },
+      { "area": "Chiranjiv Vihar", "pincode": "201002", "state": "Uttar Pradesh" },
+      { "area": "Panchsheel Enclave", "pincode": "201010", "state": "Uttar Pradesh" },
+      { "area": "Govind Puram", "pincode": "201013", "state": "Uttar Pradesh" },
+      { "area": "Raj Nagar Extension", "pincode": "201017", "state": "Uttar Pradesh" },
+      { "area": "Wave City", "pincode": "201015", "state": "Uttar Pradesh" },
+      { "area": "Mahurali", "pincode": "201015", "state": "Uttar Pradesh" },
+      { "area": "Siddharth Vihar", "pincode": "201009", "state": "Uttar Pradesh" },
+      { "area": "Crossing Republik", "pincode": "201016", "state": "Uttar Pradesh" },
+      { "area": "Bahrampur", "pincode": "201003", "state": "Uttar Pradesh" },
+      { "area": "Ramprastha", "pincode": "201011", "state": "Uttar Pradesh" },
+      { "area": "Shalimar Garden Extension 2", "pincode": "201005", "state": "Uttar Pradesh" },
+      { "area": "Shalimar Garden Extension 1", "pincode": "201005", "state": "Uttar Pradesh" },
+      { "area": "Koyal Enclave", "pincode": "201005", "state": "Uttar Pradesh" },
+    
+      { "area": "Sector 26", "pincode": "122002", "state": "Haryana" },
+      { "area": "Sushant Lok I", "pincode": "122002", "state": "Haryana" },
+      { "area": "DLF Phase 2", "pincode": "122002", "state": "Haryana" },
+      { "area": "Sector 6", "pincode": "122001", "state": "Haryana" },
+      { "area": "DLF Phase 4", "pincode": "122009", "state": "Haryana" },
+      { "area": "Sector 95", "pincode": "122505", "state": "Haryana" },
+      { "area": "Sector 52A", "pincode": "122003", "state": "Haryana" },
+      { "area": "Sector 44", "pincode": "122003", "state": "Haryana" },
+      { "area": "Sector 38", "pincode": "122001", "state": "Haryana" },
+      { "area": "Sector 32", "pincode": "122001", "state": "Haryana" },
+      { "area": "DLF Phase 3", "pincode": "122010", "state": "Haryana" },
+      { "area": "Sector 40", "pincode": "122001", "state": "Haryana" },
+      { "area": "Sector 60", "pincode": "122011", "state": "Haryana" },
+      { "area": "Palam Vihar Extension", "pincode": "122017", "state": "Haryana" },
+      { "area": "Sector 26A", "pincode": "122002", "state": "Haryana" },
+      { "area": "Sector 61", "pincode": "122011", "state": "Haryana" },
+      { "area": "Ashok Vihar Phase II", "pincode": "122001", "state": "Haryana" },
+      { "area": "Sector 94", "pincode": "122505", "state": "Haryana" },
+      { "area": "Sector 66", "pincode": "122018", "state": "Haryana" },
+      { "area": "Palam Vihar", "pincode": "122017", "state": "Haryana" },
+      { "area": "Sector 21", "pincode": "122016", "state": "Haryana" },
+      { "area": "Ashok Vihar Phase III", "pincode": "122001", "state": "Haryana" },
+      { "area": "Sector 110", "pincode": "122017", "state": "Haryana" },
+      { "area": "Sector 110A", "pincode": "122017", "state": "Haryana" },
+      { "area": "Sector 106", "pincode": "122017", "state": "Haryana" },
+      { "area": "Sector 3A", "pincode": "122001", "state": "Haryana" },
+      { "area": "Sector 107", "pincode": "122017", "state": "Haryana" },
+      { "area": "Sector 10A", "pincode": "122001", "state": "Haryana" },
+      { "area": "Sector 37A", "pincode": "122004", "state": "Haryana" },
+      { "area": "Sector 37C", "pincode": "122004", "state": "Haryana" },
+      { "area": "Sector 37B", "pincode": "122004", "state": "Haryana" },
+      { "area": "Sector 93", "pincode": "122505", "state": "Haryana" },
+      { "area": "Sector 108", "pincode": "122017", "state": "Haryana" },
+      { "area": "Sector 102", "pincode": "122505", "state": "Haryana" },
+      { "area": "Sector 111", "pincode": "122017", "state": "Haryana" },
+      { "area": "Sector 92", "pincode": "122505", "state": "Haryana" },
+      { "area": "Sector 101", "pincode": "122505", "state": "Haryana" },
+      { "area": "Sector 23A", "pincode": "122017", "state": "Haryana" },
+      { "area": "Sector 68", "pincode": "122018", "state": "Haryana" },
+      { "area": "Sector 96", "pincode": "122505", "state": "Haryana" },
+      { "area": "Sushant Lok Phase 3", "pincode": "122003", "state": "Haryana" },
+      { "area": "Sector 105", "pincode": "122505", "state": "Haryana" },
+      { "area": "Sector 98", "pincode": "122505", "state": "Haryana" },
+      { "area": "Sector-73", "pincode": "122018", "state": "Haryana" },
+      { "area": "Sector-114", "pincode": "122017", "state": "Haryana" },
+      { "area": "Sector-74", "pincode": "122004", "state": "Haryana" },
+      { "area": "Sector-103", "pincode": "122006", "state": "Haryana" },
+      { "area": "Sector-103A", "pincode": "122006", "state": "Haryana" },
+      { "area": "Sector-90", "pincode": "122505", "state": "Haryana" },
+      { "area": "Sector-70A", "pincode": "122018", "state": "Haryana" },
+    
+      { "area": "Sector-12", "pincode": "201301", "state": "Uttar Pradesh" },
+      { "area": "Sector-11", "pincode": "201301", "state": "Uttar Pradesh" },
+      { "area": "Sector-1", "pincode": "201301", "state": "Uttar Pradesh" },
+      { "area": "Sector-12A", "pincode": "201301", "state": "Uttar Pradesh" },
+      { "area": "Sector-36", "pincode": "201303", "state": "Uttar Pradesh" },
+      { "area": "Jaypee Greens", "pincode": "201310", "state": "Uttar Pradesh" },
+      { "area": "Sector-3", "pincode": "201301", "state": "Uttar Pradesh" },
+      { "area": "Sector-16", "pincode": "201301", "state": "Uttar Pradesh" },
+      { "area": "Sector-4", "pincode": "201301", "state": "Uttar Pradesh" },
+      { "area": "Noida Extension", "pincode": "201301", "state": "Uttar Pradesh" },
+      { "area": "Sector-5", "pincode": "201301", "state": "Uttar Pradesh" },
+      { "area": "Sector-10", "pincode": "201301", "state": "Uttar Pradesh" },
+      { "area": "Sector-19", "pincode": "201303", "state": "Uttar Pradesh" },
+      { "area": "Sector-13", "pincode": "201301", "state": "Uttar Pradesh" },
+      { "area": "Sector-29", "pincode": "201301", "state": "Uttar Pradesh" },
+      { "area": "Sector-30", "pincode": "201301", "state": "Uttar Pradesh" },
+      { "area": "Sector-35", "pincode": "201303", "state": "Uttar Pradesh" },
+      { "area": "Sector-15", "pincode": "201301", "state": "Uttar Pradesh" }
+    ];
+    
+
+    const allowedPincodes = pinCodeMapping.filter((pincode) => pincode.pincode === modifyAddress.pinCode);
+
+    if (allowedPincodes.length > 0) {
+      setModifyAddress((prev) => ({ ...prev, city: allowedPincodes[0].area }));
+      setModifyAddress((prev) => ({ ...prev, state: allowedPincodes[0].state }));
     }
+
+
   }, [modifyAddress.pinCode]);
 
   return (
@@ -376,9 +494,8 @@ export default function AddressPage({ finalPayment }) {
                 title="Pincode Not Serviceable"
                 onClose2={() => setShowPopup2(false)}
               >
-                <p>
-                  We currently only serve the following pincodes:{" "}
-                  {allowedPincodes.join(", ")}.
+                <p className="w-[80%] mx-auto">
+                  We currently not Serving in your area please update your pincode !!
                 </p>
                 {/* <p>Your pincode: {pincode || "Not Found"}</p> */}
                 <p className="mt-2">Please update your address to proceed.</p>
@@ -418,9 +535,8 @@ export default function AddressPage({ finalPayment }) {
                 title="Pincode Not Serviceable"
                 onClose={() => setShowPopup(false)}
               >
-                <p>
-                  We currently only serve the following pincodes:{" "}
-                  {allowedPincodes.join(", ")}.
+                <p className="w-[80%] mx-auto">
+                  We currently not Serving in your area please update your pincode !!
                 </p>
                 {/* <p>Your pincode: {pincode || "Not Found"}</p> */}
                 <p className="mt-2">Please update your address to proceed.</p>

@@ -35,6 +35,16 @@ export const updateCartAPI = async (cartData) => {
     return error;
   }
 };
+
+export const updateNewCartAPI = async (cartData) => {
+  try {
+    const { data } = await AXIOS_INSTANCE.put("/order/cart/updateCart", cartData);
+    return data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const deleteProductFromCartAPI = async (user, productId) => {
   try {
     const { data } = await AXIOS_INSTANCE.put("/order/cart/delete", {
