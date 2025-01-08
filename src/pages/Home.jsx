@@ -22,14 +22,14 @@ const Modal = ({ onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-1/3 flex flex-col items-center">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-[80%] md:w-1/3 flex flex-col items-center">
         <h2 className="text-lg font-semibold mb-4 text-center">Subscription Expired</h2>
         <p className="text-center my-1">Your Subscription is Expired Please Renew !!</p>
 
         <div className="w-full h-auto flex justify-center items-center gap-6">
           <button
             onClick={navigateToMySubscriptions}
-            className="mt-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
+            className="mt-4 bg-green-500 text-white py-2 px-2 md:px-4 rounded hover:bg-green-600"
           >
             Activate Now
           </button>
