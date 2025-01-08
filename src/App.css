@@ -315,7 +315,7 @@
   }
   .bottomnav .active {
     border-radius: 10.438px 10.438px 0px 0px;
-    padding: 10px 15px;
+    /* padding: 10px 15px; */
     background: #F8f8f8;
     color: black;
     font-weight: 900;
@@ -333,10 +333,12 @@
   }
   .bottomnav .bottomnav-left .home{
   color: #000;
+  padding: 10px 15px;
   
   }
   .product{
   color: #000;
+  padding: 10px 15px;
   }
   .bottomnav-left-products {
     display: flex;
@@ -608,7 +610,7 @@
     }
     .bottomnav .active {
       border-radius: 10.438px 10.438px 0px 0px;
-      padding: 3px 5px;
+      /* padding: 3px 5px; */
       background: #F8F8f8;
       color: black;
     }

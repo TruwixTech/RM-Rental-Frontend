@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "../assets/csss/MyCart.css";
-import { deleteProductFromCartAPI, getCartAPI } from "../service/cart.service";
+import { deleteProductFromCartAPI, getCartAPI, updateNewCartAPI } from "../service/cart.service";
 import storageService from "../service/storage.service";
 import userService from "../service/user.service";
 import { getAllProductsAPI } from "../service/products.service";
@@ -16,6 +16,7 @@ const placeholderImageURL =
 const MyCart = () => {
   const user = storageService.get("user");
   const [selectedOption, setSelectedOption] = useState("cost");
+  // const [quantity, setQuantity] = useState([])
   const [userCartData, setUserCartData] = useState({ items: [] });
   const [origins, setOrigins] = useState("");
   const [distanceToShop, setDistanceToShop] = useState(null);
@@ -97,7 +98,7 @@ const MyCart = () => {
 
   useEffect(() => {
     getMyCart();
-  }, [userCartData]);
+  }, []);
 
   // Calculate the total quantity of items in the cart
   const calculateTotalQuantity = () => {
@@ -212,6 +213,62 @@ const MyCart = () => {
     );
   };
 
+  function handleIncreaseRentQuantity(productId) {
+    const updatedCartItems = userCartData.items.map((item) => {
+      if (item.product._id === productId) {
+        return {
+          ...item,
+          rentOptions: {
+            ...item.rentOptions,
+            quantity: item.rentOptions.quantity + 1,
+          },
+        };
+      }
+      return item;
+    });
+    setUserCartData({ ...userCartData, items: updatedCartItems });
+  }
+
+  function handleDecreaseRentQuantity(productId) {
+    const updatedCartItems = userCartData.items.map((item) => {
+      if (item.product._id === productId) {
+        return {
+          ...item,
+          rentOptions: {
+            ...item.rentOptions,
+            quantity: item.rentOptions.quantity - 1,
+          },
+        };
+      }
+      return item;
+    });
+    setUserCartData({ ...userCartData, items: updatedCartItems });
+  }
+
+
+  async function handlePay() {
+    try {
+      const data = await updateNewCartAPI({
+        userId: userCartData.user,
+        userCartNewData: userCartData.items
+      });
+
+      if (data?.success) {
+        navigate("/address/finalPayment", {
+          state: {
+            cartTotal: calculateTotalPrice(), // Sending total price
+            shippingCost: calculateShippingFee(), // Sending shipping fee
+            cartItems: userCartData.items, // Sending cart items
+            apiFetchedAddress: address,
+          },
+        });
+      }
+
+    } catch (error) {
+      console.log("Error while updating quantity :", error);
+    }
+  }
+
   return (
     <div className="flex flex-col w-full px-4 md:px-10">
       <div className="cart-content flex flex-col md:flex-row mt-3">
@@ -235,7 +292,7 @@ const MyCart = () => {
               <p>Your Cart is empty.</p>
             </div>
           ) : (
-            userCartData.items.map((item) => (
+            userCartData.items.map((item, index) => (
               <div key={item?.product?._id} className="cart-border">
                 <div className="cart-item">
                   <div className="image-to-left">
@@ -256,9 +313,28 @@ const MyCart = () => {
                     </p>
                     <p>
                       Quantity:{" "}
-                      <span className="border rounded-full px-2 m-2 text-black">
+                      <div className="productdetails-right-3">
+                        <div className="Quantity-Selector">
+                          <div
+                            className="decrease-btn"
+                            onClick={() => handleDecreaseRentQuantity(item?.product?._id)}
+                          >
+                            <i className="ri-subtract-line"></i>
+                          </div>
+                          <div className="current-quantity">
+                            <div className="px16-medium">{item?.rentOptions?.quantity}</div>
+                          </div>
+                          <div
+                            className="increase-btn"
+                            onClick={() => handleIncreaseRentQuantity(item?.product?._id)}
+                          >
+                            <i className="ri-add-line"></i>
+                          </div>
+                        </div>
+                      </div>
+                      {/* <span className="border rounded-full px-2 m-2 text-black">
                         {item?.rentOptions?.quantity}
-                      </span>
+                      </span> */}
                     </p>
                     <p className="delivery">{formattedDeliveryDate}</p>
                   </div>
@@ -280,13 +356,13 @@ const MyCart = () => {
           <div className="cart-header"></div>
           <div className="proceed-container">
             <div
-              onClick={() => setOnCheck(!onCheck)}
               className="w-full h-auto flex gap-2 mb-3"
             >
               <input
                 type="checkbox"
                 id="termsCheck"
                 checked={onCheck}
+                onClick={() => setOnCheck(!onCheck)}
                 className=""
               />
               <label htmlFor="termsCheck">
@@ -305,7 +381,7 @@ const MyCart = () => {
               <input
                 className="px-3 py-1 bg-[#dadada] rounded-md cursor-pointer"
                 type="submit"
-                value="Add"
+                value="Apply"
               />
             </form>
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}
@@ -315,19 +391,20 @@ const MyCart = () => {
             )}
             <button
               className={`proceed-btn ${userCartData.items.length === 0 || !onCheck
-                  ? "cursor-not-allowed opacity-50"
-                  : ""
+                ? "cursor-not-allowed opacity-50"
+                : ""
                 }`}
               onClick={() => {
                 if (userCartData.items.length !== 0 && onCheck) {
-                  navigate("/address/finalPayment", {
-                    state: {
-                      cartTotal: calculateTotalPrice(), // Sending total price
-                      shippingCost: calculateShippingFee(), // Sending shipping fee
-                      cartItems: userCartData.items, // Sending cart items
-                      apiFetchedAddress: address,
-                    },
-                  });
+                  handlePay()
+                  // navigate("/address/finalPayment", {
+                  //   state: {
+                  //     cartTotal: calculateTotalPrice(), // Sending total price
+                  //     shippingCost: calculateShippingFee(), // Sending shipping fee
+                  //     cartItems: userCartData.items, // Sending cart items
+                  //     apiFetchedAddress: address,
+                  //   },
+                  // });
                 }
               }}
               disabled={userCartData.items.length === 0}

@@ -215,7 +215,7 @@ const Navbar = ({ active, userClickHandler }) => {
             className={activeLink === "faqs" ? "active" : ""}
             onClick={() => handleLinkClick("faqs")}
           >
-            <span className="renttt text-lg">FAQs</span>
+            <span className="renttt text-lg py-[10px] px-[15px]">FAQs</span>
 
           </Link>
         </div>

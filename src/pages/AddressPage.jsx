@@ -91,7 +91,6 @@ export default function AddressPage({ finalPayment }) {
 
 
   const handlePayment = async () => {
-    console.log(showPopup);
     if (!selectedAddress && !isCustomAddress && !modifyAddress) {
       alert("Please select or enter an address");
       return;
@@ -101,10 +100,8 @@ export default function AddressPage({ finalPayment }) {
       return;
     }
 
-    if (!allowedPincodes.includes(modifyAddress.pinCode)) {
-      console.log(showPopup2);
+    if (!allowedPincodes.includes(modifyAddress.pinCode || extractPincode(selectedAddress))) {
       setShowPopup2(true);
-      console.log(showPopup2);
       return;
     }
 
