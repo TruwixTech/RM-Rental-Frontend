@@ -312,6 +312,7 @@
   }
   .renttt{
     cursor: pointer;
+    padding: 10px 15px;
   }
   .bottomnav .active {
     border-radius: 10.438px 10.438px 0px 0px;
