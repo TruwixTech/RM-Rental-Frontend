@@ -309,15 +309,16 @@ const MyCart = () => {
           <div className="shop-heading">
             <h2 className="cart-heading">Shopping Cart</h2>
           </div>
-          <div className="w-full h-auto flex gap-1 p-2 bg-gray-100 justify-center">
-            <span className="text-red-500">**</span>
-            <span className="font-bold">Note :</span>
+          <div className="w-full h-auto flex flex-col md:flex-row text-center md:text-start gap-1 p-2 bg-gray-100 justify-center">
+          
+            <span className="font-bold text-center md:text-start md:hidden">Note :</span>
+            <span className="text-red-500 text-center md:text-start">**</span>
             <p className="text-red-500">
               KYC verification is mandatory to initiate the delivery process.
               Please complete the KYC process before the delivery timeline
               begins.
             </p>
-            <span className="text-red-500">**</span>
+            <span className="text-red-500 text-center md:text-start">**</span>
           </div>
           {userCartData.items.length === 0 ? (
             <div className="empty-cart">
@@ -387,10 +388,10 @@ const MyCart = () => {
         </div>
 
         <div className="cart-overview">
-          <div className="cart-header"></div>
-          <div className="proceed-container">
+          {/* <div className="cart-header"></div> */}
+          <div className=" w-full mx-auto">
             <div
-              className="w-full h-auto flex gap-2 mb-3"
+              className=" mx-auto w-full h-auto flex justify-center gap-2 mb-3"
             >
               <input
                 type="checkbox"
@@ -399,11 +400,11 @@ const MyCart = () => {
                 onClick={() => setOnCheck(!onCheck)}
                 className=""
               />
-              <label htmlFor="termsCheck">
+              <label htmlFor="termsCheck ">
                 I have accepted Terms & Conditions
               </label>
             </div>
-            <form className="flex gap-3 mb-4" onSubmit={handleSubmit}>
+            <form className="w-full flex gap-3 mb-4" onSubmit={handleSubmit}>
               <input
                 className="w-[80%] px-3 py-1 rounded-md border"
                 type="text"
@@ -426,8 +427,8 @@ const MyCart = () => {
               </p>
             )}
             <button
-              className={`proceed-btn ${userCartData.items.length === 0 || !onCheck
-                ? "cursor-not-allowed opacity-50"
+              className={`flex justify-center w-full items-center proceed-btn ${userCartData.items.length === 0 || !onCheck
+                ? "flex justify-center w-full items-center cursor-not-allowed opacity-50"
                 : ""
                 }`}
               onClick={() => {
@@ -450,7 +451,7 @@ const MyCart = () => {
             </button>
           </div>
 
-          <div className="summary">
+          <div className="summary w-full">
             <h3>Cost Summary</h3>
             {userCartData.items.map((item) => (
               <div key={item?.product?._id} className="rent-cost-breakup">
