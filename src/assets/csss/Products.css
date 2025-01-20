@@ -1,0 +1,608 @@
+.productpage-left-sidebar-filters {
+  background-color: #ffffff; /* White background for clarity */
+  border: 1px solid #e2e8f0; /* Light gray border for definition */
+  border-radius: 0.375rem; /* Rounded corners (rounded-md) */
+  padding: 1rem; /* Padding for inner spacing */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.filter-title {
+  color: #2d3748; /* Darker color for title */
+  font-size: 1.25rem; /* Larger font size */
+}
+
+.checkboxes {
+  display: flex;
+  flex-direction: column; /* Stack checkboxes vertically */
+}
+
+.checkbox {
+  padding: 0.5rem 0; /* Padding for each checkbox */
+  transition: background-color 0.2s ease; /* Smooth background color transition */
+}
+
+.checkbox:hover {
+  background-color: #ebf8ff; /* Light blue on hover for better visibility */
+  border-radius: 0.375rem; /* Maintain rounded corners on hover */
+}
+
+.checkbox input[type="checkbox"] {
+  appearance: none; /* Remove default checkbox styling */
+  border: 2px solid #4299e1; /* Custom border color */
+  border-radius: 0.25rem; /* Rounded corners for checkboxes */
+  outline: none; /* Remove outline */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.2s ease, transform 0.2s ease; /* Smooth transition */
+}
+
+.checkbox input[type="checkbox"]:checked {
+  background-color: #4299e1; /* Background for checked state */
+  border-color: #4299e1; /* Border color for checked state */
+}
+
+.checkbox label {
+  margin-left: 0.5rem; /* Spacing between checkbox and label */
+  cursor: pointer; /* Pointer cursor for label */
+  color: #4a5568; /* Text color for labels */
+}
+
+
+.productpage{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background-color: #F6F6F6;
+
+}
+
+.productpage-left{
+    width: 25%;
+    height: 100%;
+    padding: 2rem;
+}
+
+
+.filter-title{
+  width: 100%;
+    background-color: #FEC500;
+    border-radius: 5px;
+    padding: 0.4rem 0.6rem;
+    color: #FFF;
+    leading-trim: both;
+    text-edge: cap;
+    
+    font-size: 0.7rem;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    
+}
+
+.filter-title{
+
+}
+
+
+.productpage-left-sidebar-filters{
+    
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+   gap: 0.5rem;
+   padding: 15px;
+}
+
+.productpage-left-sidebar-filters .checkboxes{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+
+}
+
+.checkboxes .checkbox{
+    display: flex;
+    justify-content: space-between;
+}
+
+.checkbox-grp{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkboxes .checkbox input{
+  border-radius: 4px;
+border: 1px solid rgba(64, 64, 64, 0.50);
+}
+
+.checkboxes .checkbox label{
+  color: var(--Default-Black, #000);
+
+font-size: 0.8rem;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+}
+
+.checkboxes .checkbox span{
+  color: #FEC500;
+leading-trim: both;
+text-edge: cap;
+
+font-size: 0.7rem;
+font-style: normal;
+font-weight: 400;
+}
+
+
+.productpage-right{
+    width: 100%;
+    padding: 2rem;
+}
+
+
+.productpage-right .topsection{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.productpage-right .topsection p{
+  color: rgba(0, 0, 0, 0.60);
+leading-trim: both;
+text-edge: cap;
+
+font-size: 1rem;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+}
+
+
+.productpage-right .topsection select{
+    display: flex;
+width: 140px;
+height: 38px;
+padding: 6px;
+justify-content: space-between;
+align-items: center;
+flex-shrink: 0;
+border-radius: 20px;
+border: 2px solid rgba(0, 0, 0, 0.60);
+font-size: 0.9vw;
+}
+
+
+.productpage .productpage-right .productpage-right-card-grid{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  
+  gap: 40px;
+  
+}
+
+.productpage .productpage-right  .productpage-right-card-grid .card{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 482px;
+  border: none;
+  background-color: #fafafa;
+  background-color: #f7f7f7;
+flex-shrink: 0;
+transform: translateY(-5px); /* Slight lift effect */
+
+}
+
+.productpage  .productpage-right-card-grid .card .card-img {
+  position: absolute;
+  top: -50px;
+  width: 100%;
+  z-index: 9999;
+}
+
+
+
+.productpage  .productpage-right-card-grid .card .card-img img{
+  width: 100%;
+  height: 100%;
+}
+
+.productpage  .card-name{
+  color: #0D1B39;
+
+font-size: 1rem;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+text-transform: capitalize;
+}
+
+.productpage  .card-rating{
+  color: #F6B76F;
+}
+
+
+
+
+.productpage  .cardddd {
+  border-radius: 15px;
+  position: relative;
+  width: 85%;
+  height: 70%;
+  
+
+ 
+}
+
+.productpage .productpage-right-card-grid  .card:hover {
+  transform: translateY(-10px); /* Increased lift on hover */
+  
+}
+
+
+.productpage  .card-sqr{
+  width: 100%;
+  height: 40%;
+  
+
+  background-color: #fafafa;
+}
+
+.productpage  .card-details{
+  padding: 0px 10px;
+  height: 40%;
+  background-color: #fff;
+  margin-top: 65px;
+}
+
+.productpage  .card-category{
+  color: #8D8D8D;
+
+
+font-size: 0.7919rem;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+
+.productpage  .price-cont{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.productpage  .card-price{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 7.5px;
+  margin-left: 2px;
+  color: #0D1B39;
+  
+  font-size: 1.05rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.productpage  .card-price span{
+  margin-right: 1.5px;
+  color: #0D1B39;
+
+font-size: 0.78106rem;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+
+.productpage  .card-add-button{
+  background-color: #FEC500;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    color: white;
+    padding-bottom: 2px;
+    margin-bottom: 2px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+}
+
+
+@media (max-width: 480px){
+
+  .productpage{
+    width: 100%;
+    height: 100%;
+    display: flex;
+
+}
+
+.productpage-left{
+    width: 50%;
+    height: 100%;
+    padding: 1rem;
+}
+
+
+.filter-title{
+  width: 100%;
+    background-color: #FEC500;
+    border-radius: 20px;
+    padding: 3px 10px;
+    color: #FFF;
+    leading-trim: both;
+    text-edge: cap;
+    
+    font-size: 0.6rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    
+}
+
+.productpage-left-sidebar-filters{
+    
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+   gap: 0.3rem;
+   padding: 10px;
+}
+
+.productpage-left-sidebar-filters .checkboxes{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 6px;
+
+}
+
+.checkboxes .checkbox{
+    display: flex;
+    justify-content: space-between;
+}
+
+.checkbox-grp{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.checkboxes .checkbox input{
+  border-radius: 4px;
+border: 1px solid rgba(64, 64, 64, 0.50);
+}
+
+.checkboxes .checkbox label{
+  color: var(--Default-Black, #000);
+
+font-size: 0.6rem;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+}
+
+.checkboxes .checkbox span{
+  color: #FEC500;
+leading-trim: both;
+text-edge: cap;
+
+font-size: 0.6rem;
+font-style: normal;
+font-weight: 400;
+}
+
+
+.productpage-right{
+    width: 100%;
+    padding: 1rem;
+}
+
+
+.productpage-right .topsection{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: end;
+    margin-bottom: 10px;
+}
+
+.productpage-right .topsection p{
+  color: rgba(0, 0, 0, 0.60);
+leading-trim: both;
+text-edge: cap;
+
+font-size: 0.7rem;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+}
+
+
+.productpage-right .topsection select{
+    display: flex;
+width: 80px;
+height: 25px;
+padding: 0px 0px;
+padding-left: 5px;
+justify-content: space-between;
+align-items: center;
+flex-shrink: 0;
+border-radius: 20px;
+border: 2px solid rgba(0, 0, 0, 0.60);
+font-size: 1.9vw;
+}
+
+
+.productpage .productpage-right .productpage-right-card-grid{
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  
+  gap: 20px;
+  
+}
+
+.productpage .productpage-right  .productpage-right-card-grid .card{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 482px;
+  border: none;
+flex-shrink: 0;
+transform: translateY(-5px); /* Slight lift effect */
+transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+
+}
+
+.productpage  .productpage-right-card-grid .card .card-img {
+  position: absolute;
+  top: -50px;
+  width: 100%;
+  z-index: 9999;
+}
+
+
+
+.productpage  .productpage-right-card-grid .card .card-img img{
+  width: 100%;
+}
+
+.productpage  .card-name{
+  color: #0D1B39;
+
+font-size: 0.7rem;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+text-transform: capitalize;
+}
+
+.productpage  .card-rating{
+  color: #F6B76F;
+  font-size: 0.7rem;
+}
+
+
+
+
+.productpage  .cardddd {
+  border-radius: 15px;
+  position: relative;
+  width: 85%;
+  height: 70%;
+ 
+ 
+}
+
+.productpage .productpage-right-card-grid  .card:hover {
+  transform: translateY(-10px); /* Increased lift on hover */
+
+}
+
+
+.productpage  .card-sqr{
+  width: 100%;
+  height: 40%;
+  
+
+  background-color: #fafafa;
+}
+
+.productpage  .card-details{
+  padding: 0px 10px;
+  height: 40%;
+  background-color: #fff;
+  margin-top: 65px;
+}
+
+.productpage  .card-category{
+  color: #8D8D8D;
+
+
+font-size: 0.5919rem;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+
+.productpage  .price-cont{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.productpage  .card-price{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4.5px;
+  margin-left: 2px;
+  color: #0D1B39;
+  
+  font-size: 0.6rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.productpage  .card-price span{
+  margin-right: 1.5px;
+  color: #0D1B39;
+
+font-size: 0.68106rem;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+
+.productpage  .card-add-button{
+  background-color: #FEC500;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 0.88106rem;
+    color: white;
+    padding-bottom: 1px;
+    margin-bottom: 1px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+}
+
+}
+/* Products.css */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  border: 1px solid #ddd;
+  padding: 10px 15px;
+  margin: 0 5px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.pagination button.active {
+  background-color: #333;
+  color: #fff;
+}

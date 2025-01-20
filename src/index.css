@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap'); /* Import Roboto */
+
+/* Tailwind CSS Base, Components, Utilities */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Set Roboto Font Globally */
+* {
+  font-family: 'Roboto', sans-serif; /* Apply Roboto to the entire site */
+}
+h1 {
+  overflow: hidden;
+}
+.user-slider-off {
+  display: none;
+}
+.user-slider-on {
+  display: block;
+}
+
+@media only screen and (min-width: 300px) and (max-width: 767px) {
+  .user-profile {
+    flex-direction: column;
+    padding: 2vw;
+  }
+  .user-profile-left {
+    width: 100%;
+    padding-right: 4vw;
+  }
+  .user-profile-right {
+    display: none;
+  }
+  .user-profile-left > div:nth-child(1) h1 {
+    font-size: 6.2vw;
+  }
+  .user-profile-left > div:nth-child(1) p {
+    font-size: 3.5vw;
+  }
+  .user-profile-left .links a {
+    margin-bottom: 7vw;
+    font-size: 6vw;
+    overflow: hidden;
+  }
+  .user-profile-logout {
+    display: flex;
+    justify-content: end;
+    margin: 0;
+    margin-top: 10vw;
+  }
+  .user-profile-logout a {
+    padding: 0;
+    margin: 0;
+    padding: 4vw 6vw;
+    justify-content: center;
+    width: fit-content;
+  }
+  .user-slider-on {
+    border-radius: 0;
+  }
+  .user-slider-on li a {
+    font-size: 4vw;
+  }
+  .user-slider-on .username a {
+    font-size: 5vw;
+  }
+  .order-confirm-left {
+    gap: 5vw;
+  }
+
+  .order-confirm-left-top h1 {
+    font-size: 5vw;
+  }
+  .order-confirm-left-top p {
+    font-size: 3vw;
+  }
+  .order-confirm {
+    flex-direction: column;
+  }
+  .success-icon {
+    font-size: 15vw;
+  }
+  .order-confirm-left-btm {
+    padding: 4vw 4vw;
+  }
+  .order-confirm-left-btm p {
+    font-size: 2.5vw;
+  }
+  .order-confirm-left-btm a {
+    font-size: 2.5vw;
+  }
+
+  .order-confirm > div {
+    width: 100%;
+    padding: 5vw 2vw;
+  }
+  .order-status > div > .order-status-icon {
+    font-size: 6vw;
+  }
+  .order-status > div {
+    gap: 1.4vw;
+  }
+  .order-status > div > h1 {
+    font-size: 2vw;
+    line-height: 1;
+  }
+  .order-confirm-right h1,
+  p a {
+    font-size: 3.5vw;
+  }
+  .invoice > div:nth-last-child(1) a {
+    font-size: 2.3vw;
+    font-weight: 500;
+    padding: 0;
+    /* background-color: red; */
+  }
+  .order-confirm-right div p {
+    font-size: 3vw;
+  }
+  .order-confirm-right div a {
+    font-size: 3.5vw;
+  }
+  .order-confirm-right > div:nth-child(2) a {
+    font-size: 2.5vw;
+  }
+  .thanku-order > div:nth-child(1) {
+    height: 45vh;
+  }
+  .thanku-order > div:nth-child(1) h1 {
+    text-align: center;
+    font-size: 8.3vw;
+  }
+  .thanku-order > div:nth-child(2) {
+    padding: 0;
+  }
+  .thanku-order > div:nth-child(2) > div > div {
+    padding: 4vw;
+  }
+  .thanku-order > div:nth-child(2) > div > div h1 {
+    font-size: 4vw;
+    text-align: center;
+  }
+  .order-reject > .order-confirm-left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+  }
+  .order-pending > .order-confirm-left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    padding: 0 6vw;
+  }
+
+  .order-pending > .order-confirm-left .success-icon {
+    font-size: 20vw;
+  }
+  .order-pending > .order-confirm-left p {
+    font-size: 3.5vw;
+  }
+  .order-pending > .order-confirm-left h1 {
+    font-size: 6vw;
+  }
+}
+
+.drawer-container-main-z{
+  z-index: 50;
+}
+
+.modal2{
+  z-index: 999;
+}

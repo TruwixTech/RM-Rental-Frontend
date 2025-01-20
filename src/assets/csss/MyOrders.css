@@ -1,0 +1,56 @@
+#deleteModal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  #deleteModal .modal-header {
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  #deleteModal button {
+    width: 48%;
+    padding: 10px;
+    margin: 0 1%;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  #deleteModal .confirm-btn {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  #deleteModal .confirm-btn:hover {
+    background-color: #e53935;
+  }
+  
+  #deleteModal .cancel-btn {
+    background-color: #ccc;
+  }
+  
+  #deleteModal .cancel-btn:hover {
+    background-color: #bdbdbd;
+  }
+  
+  /* Overlay background for modals */
+  .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }

@@ -1,0 +1,348 @@
+.page4 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3rem 5rem;
+}
+
+.page4-left {
+  width: 40%;
+  height: 100%;
+}
+
+.page4-left img {
+  width: 80%;
+  height: 80%;
+}
+
+.page4-right {
+  width: 60%;
+  height: 100%;
+  padding-left: 1.5rem;
+  padding-right: 2rem;
+  padding-bottom: 4rem;
+}
+
+.page4-right h1 {
+  margin-bottom: 10px;
+  line-height: 4rem;
+}
+.page4-right p {
+  margin-bottom: 15px;
+  color: #5a5a5a;
+
+  
+  font-style: normal;
+  font-weight: 500;
+  line-height: 160%;
+}
+
+.page4-right-group {
+  padding-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.page4-right-group-contain span {
+  color: #B58C00;
+
+font-size: 1rem;
+font-style: normal;
+font-weight: 700;
+line-height: 160%; /* 2.1895rem */
+}
+
+.page4-right-group-contain p {
+  color: #222528;
+
+font-size: 0.9rem;
+font-style: normal;
+font-weight: 500;
+line-height: 160%; /* 1.75163rem */
+}
+
+.page4 .page4-right button {
+  margin-top: 10px;
+  padding: 10px 32px;
+  font-size: 1rem;
+  
+  font-style: normal;
+  background-color: #fec500;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 50px;
+  font-weight: 600;
+  opacity: 0.8;
+  backdrop-filter: blur(4.379026889801025px);
+}
+
+.page4 .page4-right button:hover {
+  opacity: 1;
+}
+
+@media (max-width: 480px) {
+  .page4 {
+    display: block;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+  }
+  
+  .page4-left {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .page4-left img {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .page4-right {
+    width: 100%;
+    height: 100%;
+    padding-left: 0.5rem;
+    padding-right: 2rem;
+    padding-bottom: 2rem;
+  }
+  
+  .page4-right h1 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    line-height: 2.4rem;
+  }
+  .page4-right p {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    color: #5a5a5a;
+  
+    
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.2rem;
+  }
+  
+  .page4-right-group {
+    padding-top: 0.7rem;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .page4-right-group-contain span {
+    color: #B58C00;
+  
+  font-size: 0.9rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 130%; /* 2.1895rem */
+  }
+  
+  .page4-right-group-contain p {
+    color: #222528;
+  
+  font-size: 0.7rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 130%; /* 1.75163rem */
+  }
+  
+  .page4 .page4-right button {
+    margin-top: 6px;
+    padding: 8px 22px;
+    font-size: 0.6rem;
+    
+    font-style: normal;
+    background-color: #fec500;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 50px;
+    font-weight: 600;
+    opacity: 0.8;
+    backdrop-filter: blur(4.379026889801025px);
+  }
+  
+  .page4 .page4-right button:hover {
+    opacity: 1;
+  }
+}
+
+
+
+@media (min-width: 481px) and (max-width: 767px){
+
+  .page4 {
+    display: block;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+  }
+  
+  .page4-left {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .page4-left img {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .page4-right {
+    width: 100%;
+    height: 100%;
+    padding-left: 0.5rem;
+    padding-right: 2rem;
+    padding-bottom: 2rem;
+  }
+  
+  .page4-right h1 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    line-height: 2.4rem;
+  }
+  .page4-right p {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    color: #5a5a5a;
+  
+    
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.2rem;
+  }
+  
+  .page4-right-group {
+    padding-top: 0.7rem;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .page4-right-group-contain span {
+    color: #B58C00;
+  
+  font-size: 0.9rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 130%; /* 2.1895rem */
+  }
+  
+  .page4-right-group-contain p {
+    color: #222528;
+  
+  font-size: 0.7rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 130%; /* 1.75163rem */
+  }
+  
+  .page4 .page4-right button {
+    margin-top: 6px;
+    padding: 8px 22px;
+    font-size: 0.6rem;
+    
+    font-style: normal;
+    background-color: #fec500;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 50px;
+    font-weight: 600;
+    opacity: 0.8;
+    backdrop-filter: blur(4.379026889801025px);
+  }
+  
+  .page4 .page4-right button:hover {
+    opacity: 1;
+  }
+
+}
+@media (min-width: 768px) and (max-width: 1024px){
+  .page4 {
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+  }
+  
+  .page4-left {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .page4-left img {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .page4-right {
+    width: 100%;
+    height: 100%;
+    padding-left: 0.5rem;
+    padding-right: 2rem;
+    padding-bottom: 2rem;
+  }
+  
+  .page4-right h1 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    line-height: 2.4rem;
+  }
+  .page4-right p {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    color: #5a5a5a;
+  
+    
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.2rem;
+  }
+  
+  .page4-right-group {
+    padding-top: 0.7rem;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .page4-right-group-contain span {
+    color: #B58C00;
+  
+  font-size: 0.9rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 130%; /* 2.1895rem */
+  }
+  
+  .page4-right-group-contain p {
+    color: #222528;
+  
+  font-size: 0.7rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 130%; /* 1.75163rem */
+  }
+  
+  .page4 .page4-right button {
+    margin-top: 6px;
+    padding: 8px 22px;
+    font-size: 0.6rem;
+    
+    font-style: normal;
+    background-color: #fec500;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 50px;
+    font-weight: 600;
+    opacity: 0.8;
+    backdrop-filter: blur(4.379026889801025px);
+  }
+  
+  .page4 .page4-right button:hover {
+    opacity: 1;
+  }
+}

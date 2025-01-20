@@ -1,0 +1,44 @@
+.success-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: fit-content;
+    text-align: center;
+    background-color: #f0f8ff; /* Light background color */
+    color: #4caf50; /* Success color */
+    padding: 5vw 0;
+  }
+  
+  .success-page h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 900;
+  }
+  
+  .success-page p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .success-page a {
+    font-size: 1rem;
+    color: #2196f3;
+    text-decoration: none;
+  }
+  
+  .success-page a:hover {
+    text-decoration: underline;
+  }
+  @media only screen and (min-width: 300px) and (max-width: 767px) {
+    .success-page {
+      padding: 4vw 12vw;
+    }
+    .success-page h1{
+      font-size: 1.7rem;
+    }
+    .success-page p{
+      font-size: 0.8rem;
+    }
+  }
+  

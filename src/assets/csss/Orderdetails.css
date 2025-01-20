@@ -1,0 +1,115 @@
+/* Container for the entire page */
+.order-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: fit-content;
+  padding: 3vw 0;
+}
+.order-details-container {
+    padding: 2rem;
+    width: 70%;
+    height: 50vh;
+    background-color: white;
+    border-radius: 10px;
+
+  }
+  
+  /* Heading styles */
+  .order-details-container h1 {
+    font-size: 2.8rem;
+    color: #4CAF50; /* Green color for a welcoming feel */
+    text-align: center;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+  
+  .order-details-container h2 {
+    font-size: 1.6rem;
+    color: #555;
+    text-align: center;
+    margin-bottom: 2rem;
+    overflow: hidden;
+  }
+  
+  /* Container for order details */
+  .order-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem; /* Increased spacing for better readability */
+  }
+  
+  /* Style for individual order items */
+  .order-item {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem; /* Added padding for a more spacious look */
+    border: 1px solid #ddd;
+    border-radius: 10px; /* Slightly larger border radius */
+    background: #fff; /* White background for items */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Style for product images */
+  .order-item img {
+    max-width: 180px; /* Larger image for better visibility */
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 2px solid #4CAF50; /* Green border for product images */
+  }
+  
+  /* Style for product details */
+  .order-item h3 {
+    font-size: 1.4rem;
+    margin: 0;
+    color: #333;
+  }
+  
+  .order-item p {
+    font-size: 1.1rem;
+    color: #666;
+    margin: 0.5rem 0; /* Spacing between lines */
+  }
+  
+  /* Total price styling */
+  .total-price {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #4CAF50; /* Green color for emphasis */
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .order-details {
+      gap: 1.5rem;
+    }
+  
+    .order-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .order-item img {
+      max-width: 100%;
+    }
+    .order-details-container{
+      padding: 3vw 0;
+      height: fit-content;
+    }
+    .order-details-container h1 {
+      font-size: 1.5rem;
+    }
+    .order-details-container h2 {
+      font-size: 1.2rem;
+    }
+    .order-details-container p{
+      text-align: center;
+      font-size: 0.8rem;
+    }
+  }
+  

@@ -1,0 +1,179 @@
+.orders-container {
+  padding: 20px;
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.orders-table th,
+.orders-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.orders-table th {
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+.status-button {
+  border: none;
+  /* padding: 8px 12px; */
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.status-button.pending {
+  background-color: #ff9800;
+}
+
+.status-button.completed {
+  background-color: #4caf50;
+}
+
+.status-button.shipped {
+  background-color: #2196f3;
+}
+
+.status-button.cancelled {
+  background-color: #f44336;
+}
+
+.status-button:hover {
+  transform: scale(1.05);
+}
+
+.status-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: none; /* Initially hidden */
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Make sure it's above other content */
+}
+
+.status-form {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  position: absolute;
+  left: 34%;
+  top: 36%;
+}
+
+.status-form h2 {
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.status-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.status-form label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #666;
+}
+
+.status-form select {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  color: #333;
+  transition: border-color 0.2s ease;
+}
+
+.status-form select:focus {
+  border-color: #2196f3;
+}
+
+.status-form button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+}
+
+.status-form button[type="submit"] {
+  background-color: #4caf50;
+  margin-right: 10px;
+}
+
+.status-form button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.status-form button[type="button"] {
+  background-color: #f44336;
+}
+
+.status-form button[type="button"]:hover {
+  background-color: #e53935;
+}
+
+.status-form-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #666;
+  cursor: pointer;
+}
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination-controls button {
+  background-color: #2196f3; /* Blue background color */
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  margin: 0 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.pagination-controls button:hover {
+  background-color: #1e88e5; /* Darker blue on hover */
+  transform: scale(1.05);
+}
+
+.pagination-controls button.active {
+  background-color: #1976d2; /* Darker blue for the active page */
+  font-weight: bold;
+}
+
+.pagination-controls button:disabled {
+  background-color: #bdbdbd; /* Gray color for disabled state */
+  cursor: not-allowed;
+}
