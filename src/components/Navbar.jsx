@@ -9,11 +9,14 @@ import User from "../assets/img/user.png";
 import storageService from "../service/storage.service";
 import { getCartAPI } from "../service/cart.service";
 import AddressSelect from "./DrawerHero";
-
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { FaSearch } from "react-icons/fa";
 import { searchProduct } from "../service/products.service";
-
+import Buy_icon from "../assets/img/buy_icon.png";
+import Rent_icon from "../assets/img/rent_icon.png";
+import cart_text from "../assets/img/cart_text.png"
+import bag from "../assets/img/bag.png"
+import heart_icon from "../assets/img/heart_icon.png"
 import AddressSelect2 from "./DrawerHero2";
 
 const Navbar = ({ active, userClickHandler }) => {
@@ -126,9 +129,41 @@ const Navbar = ({ active, userClickHandler }) => {
 
         <div className="rightnav">
           {!user ? (
-            <Link className="sm:w-[118px] md:w-auto" to="/login">
+            <div className="flex items-center gap-4 p-2 rounded-md sm:flex-col sm:gap-2 md:flex-row md:gap-4 lg:gap-6">
+            <button className="flex items-center justify-center w-24 h-10 text-sm font-medium text-gray-700 bg-gray-100 rounded-full hover:bg-gray-200 sm:w-20 sm:h-9 md:w-28 md:h-12">
+              Buy
+            </button>
+          
+            <button className="relative flex items-center justify-center w-20 h-9 text-sm font-medium text-gray-700 bg-gray-100 rounded-full hover:bg-gray-200 sm:w-24 sm:h-10 md:w-28 md:h-12 lg:w-32 lg:h-14">
+              Rent
+            </button>
+            <div className="hidden h-6 bg-gray-300 md:block md:w-px"></div>
+            <button className="flex items-center justify-center w-8 h-8 text-gray-600 rounded-full hover:bg-gray-200 sm:w-10 sm:h-10">
+            <img
+              src={heart_icon}
+              alt="Heart Icon"
+              className="w-6 h-6"
+            />
+            </button>
+            <div className="hidden h-6 bg-gray-300 md:block md:w-px"></div>
+            <button className="flex items-center gap-2 text-sm font-medium text-gray-700 rounded-full hover:text-gray-900 sm:w-full sm:justify-center md:w-auto">
+            <img 
+              src={bag} 
+              alt="Cart Icon" 
+              className="w-6 h-6" 
+            />
+            CART (1)
+          </button>
+
+            <Link
+              className="text-sm font-medium text-gray-700 hover:text-gray-900 sm:text-center"
+              to="/login"
+            >
               Login
             </Link>
+          </div>
+          
+
           ) : (
             <div className="flex gap-3">
               <div className="cartgroup gap-2">

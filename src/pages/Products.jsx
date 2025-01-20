@@ -89,29 +89,23 @@ const Products = () => {
   };
 
   const getLowestRentPrice = (rentalOptions) => {
-    if (!rentalOptions) return "No rent options";
-
-    const { rent12Months, rent9Months, rent6Months, rent3Months } =
-      rentalOptions;
-
-    // Create an array with the rents in the order of preference
+    if (!rentalOptions) 
+      return "No rent options";
+  
+    const { rent12Months, rent9Months, rent6Months, rent3Months } = rentalOptions;
     const rents = [
       { value: rent12Months, label: "12 Months" },
       { value: rent9Months, label: "9 Months" },
       { value: rent6Months, label: "6 Months" },
       { value: rent3Months, label: "3 Months" },
     ];
-
-    // Find the first defined rent value
     for (const rent of rents) {
-      if (rent.value !== null && rent.value !== undefined) {
-        return rent.value; // Return the first available rent
-      }
+      if (!isNaN(rent.value)) 
+        return rent.value; 
     }
-
-    return "No rent options"; // Return this only if no rents are available
+  
+    return "No rent options"; 
   };
-
   // In your Products component
   const filteredProducts = products.filter((product) => {
     const searchLower = searchTerm.toLowerCase().trim();

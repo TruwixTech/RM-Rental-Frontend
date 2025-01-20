@@ -18,6 +18,25 @@ const ProductDetails = () => {
 
   const navigate = useNavigate();
 
+  // const getProductData = async () => {
+  //   try {
+  //     const response = await getProductByIdAPI(id);
+
+  //     // Check if response exists and contains data
+  //     if (response && response.data) {
+  //       setProductData(response.data);
+
+  //       if (response.data.img && response.data.img.length > 0) {
+  //         setSelectedImage(response.data.img[0]);
+  //       }
+  //     } else {
+  //       toast.error("Failed to load product details. Please try again.");
+  //     }
+  //   } catch (error) {
+  //     toast.error("Something went wrong while fetching product details.");
+  //   }
+  // };
+
   const getProductData = async () => {
     try {
       const response = await getProductByIdAPI(id);
@@ -29,6 +48,12 @@ const ProductDetails = () => {
         if (response.data.img && response.data.img.length > 0) {
           setSelectedImage(response.data.img[0]);
         }
+
+        // Automatically select the lowest available month
+        if (response.data.details?.month?.length > 0) {
+          const minMonth = Math.min(...response.data.details.month);
+          setSelectedMonth(minMonth);
+        }
       } else {
         toast.error("Failed to load product details. Please try again.");
       }
@@ -36,33 +61,8 @@ const ProductDetails = () => {
       toast.error("Something went wrong while fetching product details.");
     }
   };
-
+  
   useEffect(() => {
-    const getProductData = async () => {
-      try {
-        const response = await getProductByIdAPI(id);
-
-        // Check if response exists and contains data
-        if (response && response.data) {
-          setProductData(response.data);
-
-          if (response.data.img && response.data.img.length > 0) {
-            setSelectedImage(response.data.img[0]);
-          }
-
-          // Automatically select the lowest available month
-          if (response.data.details?.month?.length > 0) {
-            const minMonth = Math.min(...response.data.details.month);
-            setSelectedMonth(minMonth);
-          }
-        } else {
-          toast.error("Failed to load product details. Please try again.");
-        }
-      } catch (error) {
-        toast.error("Something went wrong while fetching product details.");
-      }
-    };
-
     getProductData();
   }, [id]);
 

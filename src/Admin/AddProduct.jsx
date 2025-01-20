@@ -11,21 +11,16 @@ const AddProduct = () => {
     category: "",
     img: [],
     description: "",
-    month: [],
-    rent3Months: null,
-    rent6Months: null,
-    rent9Months: null,
-    rent12Months: null,
+    month: [], // Will store months only
+    rentalOptions: {}, // Store month-rent mapping here
+    quantity: null, // Include quantity in formData
   });
-  const [newMonth, setNewMonth] = useState(null);
-  const [newRentPrice, setNewRentPrice] = useState(null);
-
+  const [newMonth, setNewMonth] = useState("");
+  const [newRentPrice, setNewRentPrice] = useState("");
   const [submitError, setSubmitError] = useState(null);
   const token = localStorage.getItem("token");
 
   const [loading, setLoading] = useState(false);
-  const [colorOptions, setColorOptions] = useState([]);
-
   const fileInputRef = useRef(null);
 
   const handleChange = (e) => {
@@ -47,62 +42,47 @@ const AddProduct = () => {
   const addMonthAndRent = () => {
     const month = parseInt(newMonth, 10);
 
-    if (!formData.month.includes(month) && newRentPrice) {
+    if (month && !formData.month.includes(month) && newRentPrice) {
       setFormData((prevData) => ({
         ...prevData,
         month: [...prevData.month, month],
+        rentalOptions: {
+          ...prevData.rentalOptions,
+          [month]: newRentPrice, // Add the month and rent price
+        },
       }));
 
-      if (month === 3) {
-        setFormData((prevData) => ({
-          ...prevData,
-          rent3Months: newRentPrice,
-        }));
-      } else if (month === 6) {
-        setFormData((prevData) => ({
-          ...prevData,
-          rent6Months: newRentPrice,
-        }));
-      } else if (month === 9) {
-        setFormData((prevData) => ({
-          ...prevData,
-          rent9Months: newRentPrice,
-        }));
-      } else if (month === 12) {
-        setFormData((prevData) => ({
-          ...prevData,
-          rent12Months: newRentPrice,
-        }));
-      }
-
-      // Reset the input fields to empty strings
       setNewMonth("");
       setNewRentPrice("");
+      toast.success("Month and Rent added successfully!");
+    } else {
+      toast.error("Please enter valid month and rent price!");
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setLoading(true);
-
+  
     const data = new FormData();
     Object.keys(formData).forEach((key) => {
       if (key === "img") {
         for (let i = 0; i < formData.img.length; i++) {
           data.append("img", formData.img[i]);
         }
-      }
-      else if (key === "month") {
+      } else if (key === "month") {
         formData[key].forEach((month) => {
           data.append("month[]", month);
         });
-      }
-      else {
+      } else if (key === "rentalOptions") {
+        Object.entries(formData.rentalOptions).forEach(([month, rent]) => {
+          data.append(`rentalOptions[${month}]`, rent);
+        });
+      } else {
         data.append(key, formData[key]);
       }
     });
-
+  
     try {
       const response = await AXIOS_INSTANCE.post("/products", data, {
         headers: {
@@ -110,40 +90,37 @@ const AddProduct = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      toast.success("Product created!");
-
+  
+      toast.success("Product created successfully!");
       // Reset form data and other states
       setFormData({
         title: "",
         sub_title: "",
         category: "",
-        img: [], // Clear file input
+        img: [],
         description: "",
-        month: [], // Reset month and rent
+        month: [],
+        rentalOptions: {},
+        quantity: null,
       });
-
-      setNewMonth(""); // Reset month input field
-      setNewRentPrice(""); // Reset rent input field
-
-      // Clear the file input field manually using the ref
+  
+      setNewMonth("");
+      setNewRentPrice("");
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
-      setLoading(false);
+      setLoading(false); // Set loading to false after the product is successfully created
     } catch (err) {
       setLoading(false);
       toast.error("Something went wrong! Try again later!");
       setSubmitError(err.response?.data?.error || "An error occurred");
     }
-    setLoading(false);
   };
+  
 
   return (
     <div className="add-product">
-      <h2 className="mb-10 text-center overflow-hidden font-semibold text-2xl">
-        Add Product
-      </h2>
+      <h2 className="mb-10 text-center font-semibold text-2xl">Add Product</h2>
       <form onSubmit={handleSubmit} className="add-product-form">
         <div className="flex gap-8">
           <div>
@@ -176,13 +153,12 @@ const AddProduct = () => {
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
-                className="p-2"
+                className="p-3"
                 required
               >
                 <option value="">Select Category</option>
                 <option value="appliance">Appliance</option>
                 <option value="livingroom">Living Room</option>
-                {/* <option value="kitchen">Kitchen</option> */}
                 <option value="storage">Storage</option>
                 <option value="studyroom">Study Room</option>
                 <option value="bedroom">Bed Room</option>
@@ -197,6 +173,7 @@ const AddProduct = () => {
                 value={formData.description}
                 name="description"
                 required
+                className="form-input"
               />
             </div>
           </div>
@@ -209,7 +186,7 @@ const AddProduct = () => {
                 onChange={handleChange}
                 multiple
                 className="form-input"
-                ref={fileInputRef} //
+                ref={fileInputRef}
                 required
               />
             </div>
@@ -228,27 +205,52 @@ const AddProduct = () => {
                   value={newRentPrice}
                   placeholder="Add rent price"
                   onChange={(e) => setNewRentPrice(e.target.value)}
-                  className="fomr-input"
+                  className="form-input"
                 />
               </div>
               <button
                 type="button"
                 onClick={addMonthAndRent}
-                className="submit-button  text-white bg-[#FFD74D]"
+                className="submit-button text-white bg-[#FFD74D]"
               >
                 Add Month & Rent
               </button>
             </div>
+
+            <div className="form-group">
+              <label>Quantity</label>
+              <input
+                type="number"
+                name="quantity"
+                value={formData.quantity || ""}
+                placeholder="Enter Quantity"
+                onChange={handleChange}
+                min="0"
+                className="form-input"
+                required
+              />
+            </div>
+
             <div className="form-group">
               {formData.month.map((month, index) => (
                 <div key={index} className="flex gap-2">
-                  <label>{month}</label>
+                  <label>
+                    {month} months - ₹{formData.rentalOptions[month]}
+                  </label>
                   <button
                     type="button"
                     onClick={() =>
-                      setFormData({
-                        ...formData,
-                        month: formData.month.filter((m) => m !== month),
+                      setFormData((prevData) => {
+                        const updatedMonths = prevData.month.filter(
+                          (m) => m !== month
+                        );
+                        const { [month]: removed, ...remainingRentalOptions } =
+                          prevData.rentalOptions;
+                        return {
+                          ...prevData,
+                          month: updatedMonths,
+                          rentalOptions: remainingRentalOptions,
+                        };
                       })
                     }
                     className="remove-button text-red-500"

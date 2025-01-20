@@ -1,95 +1,46 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Outlet, Routes, Route } from "react-router-dom"; // Added Routes and Route for routing
 import "../Admin/Csss/AdminLayout.css"; // Import the CSS file
 import SideNavbar from "../Admin/Sidenav";
 import { AXIOS_INSTANCE } from "../service";
 import storageService from "../service/storage.service";
+import AddProduct from "./AddProduct"; // Ensure the AddProduct component is imported
 import Subscription from "../Admin/Subscription";
 
 const AdminDashboard = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [products, setProducts] = useState([]);
-  const [token, setToken] = useState(null);
-  const [role, setRole] = useState(storageService.get("user")?.role);
-  const [formData, setFormData] = useState({
-    title: "",
-    sub_title: "",
-    price: "",
-    category: "",
-    img: [],
-  });
-  const [submitError, setSubmitError] = useState(null);
+  const [role, setRole] = useState(storageService.get("user")?.role || ""); // Role-based access control
+  const token = localStorage.getItem("token"); // Use token from localStorage
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-
-    if (name === "img") {
-      setFormData({
-        ...formData,
-        img: files,
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
+  // Check if the user has admin access
+  useEffect(() => {
+    if (!token || role !== "Admin") {
+      setError("Access denied. You do not have permission to view this page.");
     }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const data = new FormData();
-    Object.keys(formData).forEach((key) => {
-      if (key === "img") {
-        for (let i = 0; i < formData.img.length; i++) {
-          data.append("img", formData.img[i]);
-        }
-      } else {
-        data.append(key, formData[key]);
-      }
-    });
-
-    try {
-      const response = await AXIOS_INSTANCE.post("/products", data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      // console.log("Product created:", response.data);
-      setFormData({
-        title: "",
-        sub_title: "",
-        price: "",
-        category: "",
-        img: [],
-      });
-    } catch (err) {
-      // console.error("Error creating product:", err);
-      setSubmitError(err.response?.data?.error || "An error occurred");
-    }
-  };
+  }, [role, token]);
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (role !== "Admin")
+  if (error)
     return (
-      <div>Access has been denied. You do not have permission to view this page.</div>
+      <div>
+        <h2>{error}</h2>
+      </div>
     );
 
   return (
-    <>
-      <div className="admin-layout">
-        <SideNavbar className="sidenav" />
-        <div className="content">
-          <Outlet />
-          <Subscription/>
-        </div>
+    <div className="admin-layout">
+      <SideNavbar className="sidenav" />
+      <div className="content">
+        <Routes>
+          {/* Route for adding a product */}
+          <Route path="/admindashboard/addproduct" element={<AddProduct />} />
+          <Route path="*" element={<Outlet />} />
+        </Routes>
+        <Subscription />
       </div>
-    </>
+    </div>
   );
 };
 

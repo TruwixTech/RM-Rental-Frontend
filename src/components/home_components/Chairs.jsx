@@ -75,8 +75,11 @@ const Chairs = () => {
 
     // Find the first defined rent value
     for (const rent of rents) {
-      if (rent.value !== null && rent.value !== undefined) {
-        return rent.value; // Return the first available rent
+      // if (rent.value !== null && rent.value !== undefined) {
+      //   return rent.value; // Return the first available rent
+      // }
+      if(!isNaN(rent.value)){
+        return rent.value;
       }
     }
 
