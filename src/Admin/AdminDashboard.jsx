@@ -6,7 +6,7 @@ import SideNavbar from "../Admin/Sidenav";
 import { AXIOS_INSTANCE } from "../service";
 import storageService from "../service/storage.service";
 import AddProduct from "./AddProduct"; // Ensure the AddProduct component is imported
-import Subscription from "../Admin/Subscription";
+import Subscription from "../Admin/Subscription"; 
 
 const AdminDashboard = () => {
   const [loading, setLoading] = useState(false);
@@ -20,7 +20,6 @@ const AdminDashboard = () => {
       setError("Access denied. You do not have permission to view this page.");
     }
   }, [role, token]);
-
   if (loading) return <div>Loading...</div>;
   if (error)
     return (
@@ -33,11 +32,7 @@ const AdminDashboard = () => {
     <div className="admin-layout">
       <SideNavbar className="sidenav" />
       <div className="content">
-        <Routes>
-          {/* Route for adding a product */}
-          <Route path="/admindashboard/addproduct" element={<AddProduct />} />
-          <Route path="*" element={<Outlet />} />
-        </Routes>
+        <Outlet/>
         <Subscription />
       </div>
     </div>

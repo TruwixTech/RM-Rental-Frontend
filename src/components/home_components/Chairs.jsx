@@ -83,7 +83,7 @@ const Chairs = () => {
       }
     }
 
-    return "No rent options"; // Return this only if no rents are available
+    return "priya"; // Return this only if no rents are available
   };
 
   if (loading) {

@@ -17,8 +17,6 @@ const ProductDetails = () => {
   const { id } = useParams();
 
   const navigate = useNavigate();
-
-  // const getProductData = async () => {
   //   try {
   //     const response = await getProductByIdAPI(id);
 
@@ -65,42 +63,49 @@ const ProductDetails = () => {
   useEffect(() => {
     getProductData();
   }, [id]);
-
-  const getRentMonths = (selectedMonth) => {
-    switch (selectedMonth) {
-      case 3:
-        return "rent3Months";
-      case 6:
-        return "rent6Months";
-      case 9:
-        return "rent9Months";
-      case 12:
-        return "rent12Months";
-      default:
-        return null;
+  const getRentMonths = (formData) => {
+    const { month, rentalOptions } = formData;
+    console.log(month);
+    console.log(rentalOptions);
+    // if data format is not valid then enter the null
+    if (!Array.isArray(month) || typeof rentalOptions !== "object") {
+      return null; 
     }
+    // Map the month array with rental options dynamically
+    return month.map((item) => ({
+      month: item,
+      rent: rentalOptions[item] || null, 
+    }));
   };
+  
 
   const myproductAdd = async (type) => {
     if (!user) {
       toast.error("You are not logged in!");
       return;
     }
+  
     let rent_quantity = 1;
-
+  
     switch (type) {
       case "rent":
         rent_quantity = rentQuantity;
+  
         if (productData) {
+          const rentMonths = getRentMonths({
+            month: productData?.month || [], // Pass the available months
+            rentalOptions: productData?.rentalOptions || {}, // Pass the rental options
+          });
+  
           const data = await addToCartAPI({
             items: {
               product: productData?._id,
               quantity: rent_quantity,
               rentMonthsCount: selectedMonth, // 3, 6, 9, or 12
-              rentMonths: getRentMonths(selectedMonth), // Human-readable months
+              rentMonths, // Mapped months with rent options
             },
           });
-
+  
           if (data?.success) {
             // Show success message when product is added to cart for rent
             toast.success(
@@ -112,12 +117,11 @@ const ProductDetails = () => {
           }
         }
         break;
-
+  
       default:
         break;
     }
   };
-
   const handleIncreaseRentQuantity = () => {
     setRentQuantity((prevQuantity) => prevQuantity + 1);
   };
@@ -134,22 +138,16 @@ const ProductDetails = () => {
     setSelectedMonth(month);
   };
 
-  const getRentPrice = () => {
-    if (!selectedMonth || !productData) return null;
-
-    switch (selectedMonth) {
-      case 3:
-        return productData.rentalOptions.rent3Months || "No rent options";
-      case 6:
-        return productData.rentalOptions.rent6Months || "No rent options";
-      case 9:
-        return productData.rentalOptions.rent9Months || "No rent options";
-      case 12:
-        return productData.rentalOptions.rent12Months || "No rent options";
-      default:
-        return "No rent options";
+  const getRentPrice = (formData, details) => {
+    if (!formData || !Array.isArray(formData.month) || typeof formData.rentalOptions !== 'object') {
+        return "data not found"; // Return if data is invalid
     }
+
+    // Check if rentalOptions has the selectedMonth
+    const rent = formData.rentalOptions[details];
+    return rent ? rent : "Individual Data of the cart"; 
   };
+  
 
   return (
     <>

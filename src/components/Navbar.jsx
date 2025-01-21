@@ -95,14 +95,14 @@ const Navbar = ({ active, userClickHandler }) => {
             <Link to="/">
               <img src={logo} alt="logo" />
             </Link>
-            <div className="hidden md:block">
+            {/* <div className="hidden md:block">
               <AddressSelect />
-            </div>
+            </div> */}
           </div>
 
-          {/* Search Bar */}
+          
           <div className="leftnav-searchbar">
-            <FaSearch size={10} className="text-[#666] md:size-3 xl:size-5" />
+            <FaSearch className="text-[#666] md:size-6 xl:size-5" />
             <input
               type="text"
               placeholder="Search Product"
@@ -129,13 +129,16 @@ const Navbar = ({ active, userClickHandler }) => {
 
         <div className="rightnav">
           {!user ? (
+
             <div className="flex items-center gap-4 p-2 rounded-md sm:flex-col sm:gap-2 md:flex-row md:gap-4 lg:gap-6">
-            <button className="flex items-center justify-center w-24 h-10 text-sm font-medium text-gray-700 bg-gray-100 rounded-full hover:bg-gray-200 sm:w-20 sm:h-9 md:w-28 md:h-12">
+            <button className=" relative flex items-center px-4 w-24 h-8 text-sm font-medium text-gray-700 bg-gray-100 rounded-full sm:w-20 sm:h-9 md:w-28 md:h-[52px]">
               Buy
+              <span className=" absolute right-0 w-12 h-12 rounded-full bg-gray-200 border hover:bg-gray-500  border-gray-500"></span>
             </button>
           
-            <button className="relative flex items-center justify-center w-20 h-9 text-sm font-medium text-gray-700 bg-gray-100 rounded-full hover:bg-gray-200 sm:w-24 sm:h-10 md:w-28 md:h-12 lg:w-32 lg:h-14">
+            <button className=" relative flex items-center px-4 w-24 h-8 text-sm font-medium text-gray-700 bg-gray-100 rounded-full sm:w-20 sm:h-9 md:w-28 md:h-[52px]">
               Rent
+              <span className=" absolute right-0 w-12 h-12 rounded-full bg-gray-200 border hover:bg-gray-500  border-gray-500"></span>
             </button>
             <div className="hidden h-6 bg-gray-300 md:block md:w-px"></div>
             <button className="flex items-center justify-center w-8 h-8 text-gray-600 rounded-full hover:bg-gray-200 sm:w-10 sm:h-10">
@@ -144,16 +147,19 @@ const Navbar = ({ active, userClickHandler }) => {
               alt="Heart Icon"
               className="w-6 h-6"
             />
+
             </button>
+          
+            
             <div className="hidden h-6 bg-gray-300 md:block md:w-px"></div>
-            <button className="flex items-center gap-2 text-sm font-medium text-gray-700 rounded-full hover:text-gray-900 sm:w-full sm:justify-center md:w-auto">
+            <button className="flex items-center gap-2 text-sm font-medium text-gray-600 rounded-full hover:text-gray-900  sm:w-full sm:justify-center md:w-auto">
             <img 
               src={bag} 
               alt="Cart Icon" 
-              className="w-6 h-6" 
+              className="w-10 h-10" 
             />
             CART (1)
-          </button>
+            </button>
 
             <Link
               className="text-sm font-medium text-gray-700 hover:text-gray-900 sm:text-center"

@@ -38,20 +38,21 @@ const AddProduct = () => {
       });
     }
   };
-
   const addMonthAndRent = () => {
     const month = parseInt(newMonth, 10);
-
+    console.log(month);
     if (month && !formData.month.includes(month) && newRentPrice) {
+      console.log("New Rent Price:", newRentPrice);
+      const updatedMonths = [...formData.month, month];
+
+      const newRentalOption = { [month]: newRentPrice };
+  
       setFormData((prevData) => ({
         ...prevData,
-        month: [...prevData.month, month],
-        rentalOptions: {
-          ...prevData.rentalOptions,
-          [month]: newRentPrice, // Add the month and rent price
-        },
+        month: updatedMonths, 
+        rentalOptions: { ...prevData.rentalOptions, ...newRentalOption }, // Update the rentalOptions object
       }));
-
+  
       setNewMonth("");
       setNewRentPrice("");
       toast.success("Month and Rent added successfully!");
@@ -59,10 +60,34 @@ const AddProduct = () => {
       toast.error("Please enter valid month and rent price!");
     }
   };
-
+  
+  //   const month = parseInt(newMonth, 10); // Parse newMonth as an integer
+  
+  //   if (month && !formData.month.includes(month) && newRentPrice) {
+  //     console.log(newRentPrice);
+  //     setFormData((prevData) => ({
+  //       ...prevData,
+  //       month: [...prevData.month, month],
+  //       rentalOptions: {
+  //         ...prevData.rentalOptions,
+  //         [month]: newRentPrice, // Add month and rent to rentalOptions
+  //       },
+  //     }));
+  
+  //     // Reset the input fields
+  //     setNewMonth("");
+  //     setNewRentPrice("");
+  //     toast.success("Month and Rent added successfully!");
+  //   } else {
+  //     toast.error("Please enter valid month and rent price!");
+  //   }
+  // };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    console.log(formData);
+    
   
     const data = new FormData();
     Object.keys(formData).forEach((key) => {
@@ -84,14 +109,14 @@ const AddProduct = () => {
     });
   
     try {
-      const response = await AXIOS_INSTANCE.post("/products", data, {
+      const response = await AXIOS_INSTANCE.post("/products/add-product-v2", data, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       });
   
-      toast.success("Product created successfully!");
+      console.log('hello',response);
       // Reset form data and other states
       setFormData({
         title: "",
@@ -109,7 +134,7 @@ const AddProduct = () => {
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
-      setLoading(false); // Set loading to false after the product is successfully created
+      setLoading(false); 
     } catch (err) {
       setLoading(false);
       toast.error("Something went wrong! Try again later!");
