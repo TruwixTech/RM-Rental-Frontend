@@ -17,20 +17,17 @@ const ProductDetails = () => {
   const { id } = useParams();
 
   const navigate = useNavigate();
-  
 
   const getProductData = async () => {
     try {
       const response = await getProductByIdAPI(id);
+
+      // Check if response exists and contains data
       if (response && response.data) {
         setProductData(response.data);
 
         if (response.data.img && response.data.img.length > 0) {
           setSelectedImage(response.data.img[0]);
-        }
-        if (response.data.details?.month?.length > 0) {
-          const minMonth = Math.min(...response.data.details.month);
-          setSelectedMonth(minMonth);
         }
       } else {
         toast.error("Failed to load product details. Please try again.");
@@ -39,47 +36,88 @@ const ProductDetails = () => {
       toast.error("Something went wrong while fetching product details.");
     }
   };
-  
+
   useEffect(() => {
+    const getProductData = async () => {
+      try {
+        const response = await getProductByIdAPI(id);
+
+        // Check if response exists and contains data
+        if (response && response.data) {
+          setProductData(response.data);
+
+          if (response.data.img && response.data.img.length > 0) {
+            setSelectedImage(response.data.img[0]);
+          }
+
+          // Automatically select the lowest available month
+          if (response.data.details?.month?.length > 0) {
+            const minMonth = Math.min(...response.data.details.month);
+            setSelectedMonth(minMonth);
+          }
+        } else {
+          toast.error("Failed to load product details. Please try again.");
+        }
+      } catch (error) {
+        toast.error("Something went wrong while fetching product details.");
+      }
+    };
+
     getProductData();
   }, [id]);
-  const getRentMonths = (formData) => {
-    const { month, rentalOptions } = formData;
-    // if data format is not valid then enter the null
-    if (!Array.isArray(month) || typeof rentalOptions !== "object") {
-      return null; 
-    }
-    // Map the month array with rental options dynamically
-    return month.map((item) => ({
-      month: item,
-      rent: rentalOptions[item] || null, 
-    }));
-  };
-  
 
-  const myproductAdd = async (productId) => {
+  const getRentMonths = (selectedMonth) => {
+    switch (selectedMonth) {
+      case 3:
+        return "rent3Months";
+      case 6:
+        return "rent6Months";
+      case 9:
+        return "rent9Months";
+      case 12:
+        return "rent12Months";
+      default:
+        return null;
+    }
+  };
+
+  const myproductAdd = async (type) => {
     if (!user) {
       toast.error("You are not logged in!");
       return;
     }
+    let rent_quantity = 1;
 
-    const data = await addToCartAPI({
-      items: {
-        product: productId,
-        quantity: 1,
-        rentMonthsCount: 3, // 3, 6, 9, or 12
-        rentMonths: "rent3Months", // Human-readable months
-      },
-    });
+    switch (type) {
+      case "rent":
+        rent_quantity = rentQuantity;
+        if (productData) {
+          const data = await addToCartAPI({
+            items: {
+              product: productData?._id,
+              quantity: rent_quantity,
+              rentMonthsCount: selectedMonth, // 3, 6, 9, or 12
+              rentMonths: getRentMonths(selectedMonth), // Human-readable months
+            },
+          });
 
-    if (data?.success) {
-      // Show success message when product is added to cart for rent
-      toast.success(`Product added to cart for 3 months rent`);
-      navigate("/mycart");
-    } else {
-      toast.error("Product already in cart");
+          if (data?.success) {
+            // Show success message when product is added to cart for rent
+            toast.success(
+              `Product added to cart for ${selectedMonth} months rent`
+            );
+            navigate("/mycart");
+          } else {
+            toast.error("Product already in cart");
+          }
+        }
+        break;
+
+      default:
+        break;
     }
   };
+
   const handleIncreaseRentQuantity = () => {
     setRentQuantity((prevQuantity) => prevQuantity + 1);
   };
@@ -91,18 +129,28 @@ const ProductDetails = () => {
   const handleImageSelect = (imgSrc) => {
     setSelectedImage(imgSrc);
   };
+
   const handleMonthClick = (month) => {
     setSelectedMonth(month);
   };
-  const getRentPrice = (rentalOptions, selectedMonth) => {
-    if (!rentalOptions || !selectedMonth) return "No rent options";
-    const rentPrice = rentalOptions[selectedMonth];
-    
-    return rentPrice ? parseFloat(rentPrice) : "No rent options";
+
+  const getRentPrice = () => {
+    if (!selectedMonth || !productData) return null;
+
+    switch (selectedMonth) {
+      case 3:
+        return productData.rentalOptions.rent3Months || "No rent options";
+      case 6:
+        return productData.rentalOptions.rent6Months || "No rent options";
+      case 9:
+        return productData.rentalOptions.rent9Months || "No rent options";
+      case 12:
+        return productData.rentalOptions.rent12Months || "No rent options";
+      default:
+        return "No rent options";
+    }
   };
-  
-  
-  
+
   return (
     <>
       <div className="productdetails">
@@ -150,66 +198,46 @@ const ProductDetails = () => {
         </div>
 
         <div className="productdetails-right">
-
-<div className="productdetails-right-1">
-  <div className="productdetails-right-1-1">
-    <i className="ri-star-fill"></i>
-    <span>4.5</span>
-    <span>.</span>
-    <span>149 reviews</span>
-  </div>
-  {productData?.details?.month && (
-    <>
-      <div className="month-selector">
-      {Object.keys(productData?.details.month)
-        .filter((monthKey) => !monthKey.includes('0'))
-        .map((monthKey) => {
-          const month = monthKey.replace('rent', '').replace('Months', ''); 
-          return (
-            <button
-              key={month}
-              onClick={() => handleMonthSelect(month)}
-              className={`month-button ${selectedMonth === month ? 'selected' : ''}`}
-            >
-             
-            </button>
-          );
-        })}
-    </div>
-      <div className="price-lg">
-  <span>Rent at</span>
-  <h3>
-    {selectedMonth ? (
-      <div>
-        <span
-          style={{
-            textDecoration: "line-through",
-            marginRight: "8px",
-          }}
-        >
-          {"₹ " +
-            ((Number(getRentPrice(productData?.rentalOptions, selectedMonth)) || 0) * 1.1).toFixed(2)}
-        </span>
-        <span>
-          {"₹ " +
-            (Number(getRentPrice(productData?.rentalOptions, selectedMonth)) || 0).toFixed(2) +
-            " /month"}
-        </span>
-      </div>
-    ) : (
-      "Select month"
-    )}
-  </h3>
-</div>
-
-    </>
-  )}
-</div>
-
+          <div className="productdetails-right-1">
+            <div className="productdetails-right-1-1">
+              <i className="ri-star-fill"></i>
+              <span>4.5</span>
+              <span>.</span>
+              <span>149 reviews</span>
+            </div>
+            {productData?.details?.month && (
+              <div className="price-lg">
+                <span>Rent at</span>
+                <h3>
+                  {selectedMonth ? (
+                    <div>
+                      {" "}
+                      <span
+                        style={{
+                          textDecoration: "line-through",
+                          marginRight: "8px",
+                        }}
+                      >
+                        {"₹ " +
+                          ((Number(getRentPrice()) || 0) * 1.1).toFixed(2)}
+                      </span>
+                      <span>
+                        {"₹ " +
+                          (Number(getRentPrice()) || 0).toFixed(2) +
+                          "/ month"}
+                      </span>
+                    </div>
+                  ) : (
+                    "Select month"
+                  )}
+                </h3>
+              </div>
+            )}
+          </div>
 
           <div className="productdetails-right-2">
             <h5>Months</h5>
-            <div className="flex flex-wrap gap-4">
+            <div className="flex gap-4">
               {productData?.details?.month?.map((month, index) => (
                 <div
                   key={index}
@@ -224,6 +252,8 @@ const ProductDetails = () => {
               ))}
             </div>
           </div>
+
+          {/* Rent Quantity and Add to Cart Button */}
           <div className="productdetails-right-3">
             <div className="Quantity-Selector">
               <div
@@ -247,27 +277,20 @@ const ProductDetails = () => {
               onClick={() => myproductAdd("rent")}
             >
               <i className="ri-shopping-bag-line"></i>
-              <div className="Add-to-Cart-Button">Add to Cart</div>
+              <div className="Add-to-Cart-Button">Add to cart</div>
             </button>
           </div>
           <div className="productdetails-right-4">
-  <hr className="seperator" />
-  <div className="total">
-    <div className="Total-Label">
-      <h5>Total Rent Price</h5>
-    </div>
-    <div className="Total-Amount">
-      <h5>
-        ₹
-        {selectedMonth && !isNaN(getRentPrice(productData?.rentalOptions, selectedMonth))
-          ? (getRentPrice(productData?.rentalOptions, selectedMonth) * rentQuantity).toFixed(2)
-          : "0.00"}
-      </h5>
-    </div>
-  </div>
-</div>
-
-
+            <hr className="seperator" />
+            <div className="total">
+              <div className="Total-Label">
+                <h5>Total Rent Price</h5>
+              </div>
+              <div className="Total-Amount">
+                <h5>₹{getRentPrice() * rentQuantity}</h5>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>

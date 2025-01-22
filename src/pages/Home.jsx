@@ -73,7 +73,7 @@ const Home = () => {
         )
         .then(
           (response) => {
-            
+            console.log("Email sent successfully!", response.status, response.text);
             localStorage.setItem("emailSent", JSON.stringify(true))
           },
           (error) => {
@@ -107,7 +107,7 @@ const Home = () => {
         setExpiredPopup(false);
       }
     } catch (error) {
-      
+      console.log("Error while fetching user details:", error);
     }
   }
 

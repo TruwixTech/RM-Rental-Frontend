@@ -30,7 +30,6 @@ const Products = () => {
       productFilter.limit,
       productFilter.size
     );
-  
 
     const filtered = selectedCategories.size
       ? data.filter((product) => selectedCategories.has(product.category))
@@ -90,21 +89,43 @@ const Products = () => {
   };
 
   const getLowestRentPrice = (rentalOptions) => {
-    if (!rentalOptions) 
-      return "No rent options"; 
+    if (!rentalOptions) return "No rent options";
 
-    const rentPrices = Object.values(rentalOptions)
-      .filter((value) => !isNaN(value)) 
-      .map((value) => parseFloat(value))
-      .sort((a, b) => a - b); // Sort in ascending order
-    return rentPrices.length > 0 ? rentPrices[0] : "No rent options";
+    const { rent12Months, rent9Months, rent6Months, rent3Months } =
+      rentalOptions;
+
+    // Create an array with the rents in the order of preference
+    const rents = [
+      { value: rent12Months, label: "12 Months" },
+      { value: rent9Months, label: "9 Months" },
+      { value: rent6Months, label: "6 Months" },
+      { value: rent3Months, label: "3 Months" },
+    ];
+
+    // Find the first defined rent value
+    for (const rent of rents) {
+      if (rent.value !== null && rent.value !== undefined) {
+        return rent.value; // Return the first available rent
+      }
+    }
+
+    return "No rent options"; // Return this only if no rents are available
   };
+
+  // In your Products component
   const filteredProducts = products.filter((product) => {
     const searchLower = searchTerm.toLowerCase().trim();
+
+    // Ensure both name and desc exist and are converted to lower case
     const productName = product.title ? product.title.toLowerCase() : "";
+
+    // Log comparison
     const matchFound = productName.includes(searchLower);
+
+    // Return match based on search term
     return matchFound;
   });
+
   return (
     <div>
       <div className="productpage">
@@ -227,39 +248,40 @@ const Products = () => {
                   </a>
                   <div className="card-rating text-2xl">{"★".repeat(5)}</div>
                   <div className="price-cont flex justify-between items-center">
-  <p className="card-price text-lg font-semibold text-gray-200 mb-0">
-  
-    {product.rentalOptions && Object.keys(product.rentalOptions).length > 0 ? (
-      
-      <h5>
-        <span
-          style={{
-            textDecoration: "line-through",
-            marginRight: "8px",
-          }}
-        >
-          {/* You can uncomment this if you want to show the crossed-out price */}
-          {/* {"₹ " + (Number(getLowestRentPrice(product.rentalOptions)) * 1.1).toFixed(2)} */}
-        </span>
-        {"₹" +
-          Number(getLowestRentPrice(product.rentalOptions)).toFixed(2) +
-          " /month"}
-      </h5>
-    ) : (
-      "No rent Options"
-    )}
-  </p>
+                    <p className="card-price text-lg font-semibold text-gray-200 mb-0">
+                      {product.rentalOptions &&
+                        (product.rentalOptions.rent3Months ||
+                          product.rentalOptions.rent6Months ||
+                          product.rentalOptions.rent9Months ||
+                          product.rentalOptions.rent12Months) ? (
+                        <h5>
+                          <span
+                            style={{
+                              textDecoration: "line-through",
+                              marginRight: "8px",
+                            }}
+                          >
+                            {/* You can uncomment this if you want to show the crossed-out price */}
+                            {/* {"₹ " + (Number(getLowestRentPrice(product.rentalOptions)) * 1.1).toFixed(2)} */}
+                          </span>
+                          {"₹" +
+                            Number(
+                              getLowestRentPrice(product.rentalOptions)
+                            ).toFixed(2) +
+                            " /month"}
+                        </h5>
+                      ) : (
+                        "No rent options"
+                      )}
+                    </p>
 
-  <button
-    className="card-add-button"
-    onClick={() => myproductAdd(product?._id)}
-  >
-    +
-  </button>
-</div>
-
-
-
+                    <button
+                      className="card-add-button"
+                      onClick={() => myproductAdd(product?._id)}
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
               </Link>
             ))}

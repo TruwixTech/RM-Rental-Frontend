@@ -33,20 +33,20 @@ const SignUp = () => {
   };
 
   const responseMessage = async (response) => {
-  
+    console.log("Google response:", response);
 
     try {
       const { credential } = response;
       const idToken = credential;
 
       const credentials = jwtDecode(idToken);
-      
+      console.log("Decoded credentials:", credentials);
 
       const res = await userService.googleOAuth(idToken);
 
       if (res.status === 200) {
         const { token } = res.data;
-   
+        console.log("data", res.data);
         localStorage.setItem("authToken", token);
         storageService.save("token", res.data.token);
         storageService.save("user", res.data.user);
@@ -70,7 +70,7 @@ const SignUp = () => {
 
     try {
       const verifyOTP = await userService.verifyOTP(mobileNumber, inputOTP);
-  
+      console.log(verifyOTP);
 
       if (verifyOTP.success) {
         const data = await userService.registerAPI(

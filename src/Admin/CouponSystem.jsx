@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import { AXIOS_INSTANCE } from '../service';
-import toast, { Toaster } from 'react-hot-toast'; // Import Toaster to display toast
 
 function CouponSystem() {
     const [code, setCode] = useState('');
@@ -10,20 +9,14 @@ function CouponSystem() {
 
     const handleCreateCoupon = async (e) => {
         e.preventDefault();
-        // Check if the expiryDate is in the past
-        const today = new Date();
-        const selectedDate = new Date(expiryDate);
-
-        if (selectedDate < today) {
-            toast.error('The expiry date cannot be in the past. Please select a valid future date.');
-            return;
-        }
 
         const couponData = { code, discountPercentage, expiryDate };
-    
+
+        console.log('Creating coupon:', couponData);
 
         try {
             const response = await fetch(`https://rmrental-backend.vercel.app/api/coupon/create-coupon`, {
+                // const response = await fetch(`${backend}/api/v1/coupons/create-coupon`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -31,22 +24,21 @@ function CouponSystem() {
                 body: JSON.stringify(couponData),
             });
 
-            
+            console.log('Coupon response:', response);
 
             const data = await response.json();
             if (response.status === 201) {
-                toast.success('Coupon created successfully');
+                alert('Coupon created successfully');
                 // Reset the form
                 setCode('');
                 setDiscountPercentage('');
                 setExpiryDate('');
                 fetchCoupons(); // Fetch updated coupons list
             } else {
-                toast.error(data.message); // Show error message from API response
+                alert(data.message);
             }
         } catch (error) {
             console.error('Error creating coupon:', error);
-            toast.error('An error occurred while creating the coupon.');
         }
     };
 
@@ -58,7 +50,6 @@ function CouponSystem() {
             setCoupons(data.coupons);
         } catch (error) {
             console.error('Error fetching coupons:', error);
-            toast.error('An error occurred while fetching the coupons.');
         }
     };
 
@@ -150,11 +141,8 @@ function CouponSystem() {
                     })}
                 </tbody>
             </table>
-
-            {/* ToastContainer to show toast notifications */}
-            <Toaster />
         </div>
-    );
+    )
 }
 
-export default CouponSystem;
+export default CouponSystem

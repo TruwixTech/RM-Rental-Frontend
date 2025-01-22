@@ -82,7 +82,7 @@ const api = {
   },
 
   getOrderProducts: async (id) => {
-   
+    console.log(id);
     try {
       const data = await AXIOS_INSTANCE.get(`/order/orders/${id}`);
 
@@ -93,6 +93,7 @@ const api = {
   },
 
   cancelOrder: async (id) => {
+    console.log(id);
     try {
       const data = await AXIOS_INSTANCE.put(`/order/cancel/${id}`);
 

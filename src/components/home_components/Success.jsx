@@ -7,7 +7,7 @@ import { AXIOS_INSTANCE } from "../../service";
 const Success = () => {
   const [order, setOrder] = useState(null);
   const { id } = useParams(); 
- 
+  console.log(id);
   
 
   useEffect(() => {

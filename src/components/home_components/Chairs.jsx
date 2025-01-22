@@ -60,14 +60,27 @@ const Chairs = () => {
   };
 
   const getLowestRentPrice = (rentalOptions) => {
-    if (!rentalOptions) 
-      return "No rent options"; 
+    if (!rentalOptions) return "No rent options";
 
-    const rentPrices = Object.values(rentalOptions)
-      .filter((value) => !isNaN(value)) 
-      .map((value) => parseFloat(value))
-      .sort((a, b) => a - b); // Sort in ascending order
-    return rentPrices.length > 0 ? rentPrices[0] : "No rent options";
+    const { rent12Months, rent9Months, rent6Months, rent3Months } =
+      rentalOptions;
+
+    // Create an array with the rents in the order of preference
+    const rents = [
+      { value: rent12Months, label: "12 Months" },
+      { value: rent9Months, label: "9 Months" },
+      { value: rent6Months, label: "6 Months" },
+      { value: rent3Months, label: "3 Months" },
+    ];
+
+    // Find the first defined rent value
+    for (const rent of rents) {
+      if (rent.value !== null && rent.value !== undefined) {
+        return rent.value; // Return the first available rent
+      }
+    }
+
+    return "No rent options"; // Return this only if no rents are available
   };
 
   if (loading) {
@@ -88,11 +101,10 @@ const Chairs = () => {
       <div className="card-grid w-full">
         {products.map((product) => (
           <Link to={`/product/${product?._id}`} key={product?._id} className="card bg-white rounded-lg">
-            <div className="image-container ">
+            <div className="image-container p-2 rounded-t-lg">
               <div>
                 <img
-                  // className="rounded-lg w-full h-64 object-cover"
-                  className="bg-cover  rounded-lg w-full"
+                  className="rounded-lg w-full h-64 object-cover"
                   src={product.img[0]}
                   alt="Product image Not Found"
                   onError={(e) => {
@@ -102,33 +114,40 @@ const Chairs = () => {
                 />
               </div>
             </div>
-            <div className="p-[42px]">
+            <div className="p-4">
               <div>
-                <h3 className="mt-2 w-[200px] text-base font-bold tracking-tight font-satoshi text-gray-900 overflow-hidden text-ellipsis whitespace-nowrap">
+                <h3 className="mb-2 w-[200px] text-base font-bold tracking-tight font-satoshi text-gray-900 overflow-hidden text-ellipsis whitespace-nowrap">
                   {product.title}
                 </h3>
               </div>
               <div className="card-rating text-2xl">{"★".repeat(5)}</div>
               <div className="price-cont flex justify-between items-center">
-              <p className="card-price text-lg font-semibold mb-4 font-satoshi">
-              {product.rentalOptions && Object.keys(product.rentalOptions).length > 0 ? (
-              <h5>
-              <span
-                style={{
-                textDecoration: "line-through",
-                marginRight: "1px",
-              }}
-            >
-        </span>
-        {"₹" +
-        Number(getLowestRentPrice(product.rentalOptions)).toFixed(2) +
-        " /month"}
-      </h5>
-    ) : (
-    "No rent options"
-    )}
-  </p>
-
+                <p className="card-price text-lg font-semibold  mb-0 font-satoshi">
+                  {product.rentalOptions &&
+                  (product.rentalOptions.rent3Months ||
+                    product.rentalOptions.rent6Months ||
+                    product.rentalOptions.rent9Months ||
+                    product.rentalOptions.rent12Months) ? (
+                    <h5>
+                      <span
+                        style={{
+                          textDecoration: "line-through",
+                          marginRight: "8px",
+                        }}
+                      >
+                        {/* You can uncomment this if you want to show the crossed-out price */}
+                        {/* {"₹ " + (Number(getLowestRentPrice(product.rentalOptions)) * 1.1).toFixed(2)} */}
+                      </span>
+                      {"₹" +
+                        Number(
+                          getLowestRentPrice(product.rentalOptions)
+                        ).toFixed(2) +
+                        " /month"}
+                    </h5>
+                  ) : (
+                    "No rent options"
+                  )}
+                </p>
 
                 <button
                   className="card-add-button"

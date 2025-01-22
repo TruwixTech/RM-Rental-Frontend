@@ -9,7 +9,7 @@ import { getAllProductsAPI } from "../service/products.service";
 import { addToCartAPI } from "../service/cart.service";
 import toast from "react-hot-toast";
 import axios from "axios";
-import {Link} from "react-router-dom";
+
 const placeholderImageURL =
   "https://cdn.dribbble.com/users/887568/screenshots/3172047/media/725fca9f20d010f19b3cd5411c50a652.gif";
 
@@ -59,7 +59,7 @@ const MyCart = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, [userCartData]);
+  }, [userCartData?.items[0]?.product?.category]);
 
   // Trigger getDistance only after origins is set
   useEffect(() => {
@@ -95,16 +95,10 @@ const MyCart = () => {
       setUserCartData(data);
     }
   };
-  // useEffect(() => {
-  //   getMyCart();
-  // }, [userCartData]);
 
-  // make some changes to the code to fix the bug 
   useEffect(() => {
     getMyCart();
-  }, [userCartData._id]);
-
-
+  }, []);
 
   // Calculate the total quantity of items in the cart
   const calculateTotalQuantity = () => {
@@ -127,12 +121,13 @@ const MyCart = () => {
       return total + space + (quantity * space);
     }, 0);
 
-   
+    console.log(totalSpace)
+    console.log(distanceToShop)
     
     const vehicleCapacity = 100;
     const vehiclesNeeded = Math.ceil(totalSpace / vehicleCapacity);
 
-    
+    console.log(vehiclesNeeded)
 
     const fixedCost = 400;
     const perKmCost = 70;
@@ -303,7 +298,7 @@ const MyCart = () => {
       }
 
     } catch (error) {
-     
+      console.log("Error while updating quantity :", error);
     }
   }
 
@@ -405,15 +400,8 @@ const MyCart = () => {
                 onClick={() => setOnCheck(!onCheck)}
                 className=""
               />
-              {/* Add Pdf file if user click in text */}
               <label htmlFor="termsCheck ">
-                <Link 
-                to={"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"} 
-                target="_blank"
-                rel="noopener noreferrer"
-                >
-                  I have accepted <span class="text-blue-500 border-b border-blue-500">Terms & Conditions</span>
-                </Link>
+                I have accepted Terms & Conditions
               </label>
             </div>
             <form className="w-full flex gap-3 mb-4" onSubmit={handleSubmit}>
@@ -425,7 +413,6 @@ const MyCart = () => {
                 onChange={(e) => setCouponCode(e.target.value)}
                 required
               />
-
               <input
                 className="px-3 py-1 bg-[#dadada] rounded-md cursor-pointer"
                 type="submit"
@@ -433,14 +420,15 @@ const MyCart = () => {
               />
             </form>
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+
             {discountPercentage > 0 && (
               <p className="text-green-500">
                 You have received a discount of {discountPercentage}%!
               </p>
             )}
             <button
-              className={`flex justify-center w-full items-center proceed-btn py-0 ${userCartData.items.length === 0 || !onCheck
-                ? "flex justify-center items-center w-full  cursor-not-allowed opacity-50"
+              className={`flex justify-center w-full items-center proceed-btn ${userCartData.items.length === 0 || !onCheck
+                ? "flex justify-center w-full items-center cursor-not-allowed opacity-50"
                 : ""
                 }`}
               onClick={() => {
@@ -459,9 +447,8 @@ const MyCart = () => {
               disabled={userCartData.items.length === 0}
             >
               Pay ₹ {calculateTotalPrice()?.toFixed(2) || ""} Now{" "}
-              <span className="arrow-icon mt-2 pt-1">→</span>
+              <span className="arrow-icon">→</span>
             </button>
-
           </div>
 
           <div className="summary w-full">
