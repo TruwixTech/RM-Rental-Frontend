@@ -38,7 +38,7 @@ const MyOrders = () => {
       const { data } = await userService.getMyOrders(user?._id);
       setOrders(data);
     } catch (error) {
-      console.log(error);
+      
     }
     setLoading(false);
   };
@@ -72,13 +72,12 @@ const MyOrders = () => {
   };
 
   const fetchProductsForOrder = async (orderId) => {
-    console.log(orderId);
     try {
       const data = await userService.getOrderProducts(orderId);
-      console.log(data); // Fetch products for the order
+     
       setProducts(data.data); // Assuming the API returns a list of product names
     } catch (error) {
-      console.log(error);
+    
       toast.error("Failed to fetch products");
     }
   };
@@ -92,7 +91,7 @@ const MyOrders = () => {
       setDeleteOrderId();
       fetchOrders();
     } catch (error) {
-      console.log(error);
+      
       toast.error("Failed to cancel order");
     }
   };

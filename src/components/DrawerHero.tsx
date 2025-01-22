@@ -7,7 +7,6 @@ import Delhi from "../assets/img/Delhi.png";
 import Gurugram from "../assets/img/Gurugram.png";
 import Noida from "../assets/img/Noida.png";
 import Ghaziabad from "../assets/img/Ghaziabad.png";
-
 import { useLocation } from "react-router-dom";
 
 // Define a mapping of cities to their pincodes
