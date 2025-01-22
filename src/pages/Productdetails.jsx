@@ -17,37 +17,17 @@ const ProductDetails = () => {
   const { id } = useParams();
 
   const navigate = useNavigate();
-  //   try {
-  //     const response = await getProductByIdAPI(id);
-
-  //     // Check if response exists and contains data
-  //     if (response && response.data) {
-  //       setProductData(response.data);
-
-  //       if (response.data.img && response.data.img.length > 0) {
-  //         setSelectedImage(response.data.img[0]);
-  //       }
-  //     } else {
-  //       toast.error("Failed to load product details. Please try again.");
-  //     }
-  //   } catch (error) {
-  //     toast.error("Something went wrong while fetching product details.");
-  //   }
-  // };
+  
 
   const getProductData = async () => {
     try {
       const response = await getProductByIdAPI(id);
-
-      // Check if response exists and contains data
       if (response && response.data) {
         setProductData(response.data);
 
         if (response.data.img && response.data.img.length > 0) {
           setSelectedImage(response.data.img[0]);
         }
-
-        // Automatically select the lowest available month
         if (response.data.details?.month?.length > 0) {
           const minMonth = Math.min(...response.data.details.month);
           setSelectedMonth(minMonth);
@@ -79,47 +59,27 @@ const ProductDetails = () => {
   };
   
 
-  const myproductAdd = async (type) => {
+  const myproductAdd = async (productId) => {
     if (!user) {
       toast.error("You are not logged in!");
       return;
     }
-  
-    let rent_quantity = 1;
-  
-    switch (type) {
-      case "rent":
-        rent_quantity = rentQuantity;
-  
-        if (productData) {
-          const rentMonths = getRentMonths({
-            month: productData?.month || [], // Pass the available months
-            rentalOptions: productData?.rentalOptions || {}, // Pass the rental options
-          });
-  
-          const data = await addToCartAPI({
-            items: {
-              product: productData?._id,
-              quantity: rent_quantity,
-              rentMonthsCount: selectedMonth, // 3, 6, 9, or 12
-              rentMonths, // Mapped months with rent options
-            },
-          });
-  
-          if (data?.success) {
-            // Show success message when product is added to cart for rent
-            toast.success(
-              `Product added to cart for ${selectedMonth} months rent`
-            );
-            navigate("/mycart");
-          } else {
-            toast.error("Product already in cart");
-          }
-        }
-        break;
-  
-      default:
-        break;
+
+    const data = await addToCartAPI({
+      items: {
+        product: productId,
+        quantity: 1,
+        rentMonthsCount: 3, // 3, 6, 9, or 12
+        rentMonths: "rent3Months", // Human-readable months
+      },
+    });
+
+    if (data?.success) {
+      // Show success message when product is added to cart for rent
+      toast.success(`Product added to cart for 3 months rent`);
+      navigate("/mycart");
+    } else {
+      toast.error("Product already in cart");
     }
   };
   const handleIncreaseRentQuantity = () => {
@@ -133,22 +93,29 @@ const ProductDetails = () => {
   const handleImageSelect = (imgSrc) => {
     setSelectedImage(imgSrc);
   };
-
+  // const getTotalRentPrice = (rentalOptions) => {
+  //   if (!rentalOptions) return 0; // Default to 0 if no rental options
+  
+  //   const rentPrices = Object.values(rentalOptions)
+  //     .filter((value) => !isNaN(value)) // Ensure the value is a number
+  //     .map((value) => parseFloat(value))
+  //     .sort((a, b) => a - b); // Sort in ascending order
+    
+  //   return rentPrices.length > 0 ? rentPrices[0] : 0; // Return the minimum price
+  // };
+  
   const handleMonthClick = (month) => {
     setSelectedMonth(month);
   };
-
-  const getRentPrice = (formData, details) => {
-    if (!formData || !Array.isArray(formData.month) || typeof formData.rentalOptions !== 'object') {
-        return "data not found"; // Return if data is invalid
-    }
-
-    // Check if rentalOptions has the selectedMonth
-    const rent = formData.rentalOptions[details];
-    return rent ? rent : "Individual Data of the cart"; 
+  const getRentPrice = (rentalOptions, selectedMonth) => {
+    if (!rentalOptions || !selectedMonth) return "No rent options";
+    const rentPrice = rentalOptions[selectedMonth];
+    
+    return rentPrice ? parseFloat(rentPrice) : "No rent options";
   };
   
-
+  
+  
   return (
     <>
       <div className="productdetails">
@@ -196,7 +163,7 @@ const ProductDetails = () => {
         </div>
 
         <div className="productdetails-right">
-          <div className="productdetails-right-1">
+          {/* <div className="productdetails-right-1">
             <div className="productdetails-right-1-1">
               <i className="ri-star-fill"></i>
               <span>4.5</span>
@@ -204,38 +171,120 @@ const ProductDetails = () => {
               <span>149 reviews</span>
             </div>
             {productData?.details?.month && (
+              // <div className="price-lg">
+              //   <span>Rent at</span>
+              //   <h3>
+              //     {selectedMonth ? (
+              //       <div>
+              //         {" "}
+              //         <span
+              //           style={{
+              //             textDecoration: "line-through",
+              //             marginRight: "8px",
+              //           }}
+              //         >
+              //           {"₹ " +
+              //             ((Number(getRentPrice()) || 0) * 1.1).toFixed(2)}
+              //         </span>
+              //         <span>
+              //           {"₹ " +
+              //             (Number(getRentPrice()) || 0).toFixed(2) +
+              //             "/ month"}
+              //         </span>
+              //       </div>
+              //     ) : (
+              //       "Select month"
+              //     )}
+              //   </h3>
+              // </div>
               <div className="price-lg">
-                <span>Rent at</span>
-                <h3>
-                  {selectedMonth ? (
-                    <div>
-                      {" "}
-                      <span
-                        style={{
-                          textDecoration: "line-through",
-                          marginRight: "8px",
-                        }}
-                      >
-                        {"₹ " +
-                          ((Number(getRentPrice()) || 0) * 1.1).toFixed(2)}
-                      </span>
-                      <span>
-                        {"₹ " +
-                          (Number(getRentPrice()) || 0).toFixed(2) +
-                          "/ month"}
-                      </span>
-                    </div>
-                  ) : (
-                    "Select month"
-                  )}
-                </h3>
-              </div>
+  <span>Rent at</span>
+  <h3>
+    {selectedMonth ? (
+      <div>
+        <span
+          style={{
+            textDecoration: "line-through",
+            marginRight: "8px",
+          }}
+        >
+          {"₹ " +
+            ((Number(getRentPrice()) || 0) * 1.1).toFixed(2)}
+        </span>
+        <span>
+          {"₹ " +
+            (Number(getRentPrice()) || 0).toFixed(2) +
+            " /month"}
+        </span>
+      </div>
+    ) : (
+      "Select month"
+    )}
+  </h3>
+</div>
+
             )}
-          </div>
+          </div> */}
+
+<div className="productdetails-right-1">
+  <div className="productdetails-right-1-1">
+    <i className="ri-star-fill"></i>
+    <span>4.5</span>
+    <span>.</span>
+    <span>149 reviews</span>
+  </div>
+  {productData?.details?.month && (
+    <>
+      <div className="month-selector">
+      {Object.keys(productData?.details.month)
+        .filter((monthKey) => !monthKey.includes('0'))
+        .map((monthKey) => {
+          const month = monthKey.replace('rent', '').replace('Months', ''); 
+          return (
+            <button
+              key={month}
+              onClick={() => handleMonthSelect(month)}
+              className={`month-button ${selectedMonth === month ? 'selected' : ''}`}
+            >
+             
+            </button>
+          );
+        })}
+    </div>
+      <div className="price-lg">
+  <span>Rent at</span>
+  <h3>
+    {selectedMonth ? (
+      <div>
+        <span
+          style={{
+            textDecoration: "line-through",
+            marginRight: "8px",
+          }}
+        >
+          {"₹ " +
+            ((Number(getRentPrice(productData?.rentalOptions, selectedMonth)) || 0) * 1.1).toFixed(2)}
+        </span>
+        <span>
+          {"₹ " +
+            (Number(getRentPrice(productData?.rentalOptions, selectedMonth)) || 0).toFixed(2) +
+            " /month"}
+        </span>
+      </div>
+    ) : (
+      "Select month"
+    )}
+  </h3>
+</div>
+
+    </>
+  )}
+</div>
+
 
           <div className="productdetails-right-2">
             <h5>Months</h5>
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-4">
               {productData?.details?.month?.map((month, index) => (
                 <div
                   key={index}
@@ -275,10 +324,10 @@ const ProductDetails = () => {
               onClick={() => myproductAdd("rent")}
             >
               <i className="ri-shopping-bag-line"></i>
-              <div className="Add-to-Cart-Button">Add to cart</div>
+              <div className="Add-to-Cart-Button">Add to Cart</div>
             </button>
           </div>
-          <div className="productdetails-right-4">
+          {/* <div className="productdetails-right-4">
             <hr className="seperator" />
             <div className="total">
               <div className="Total-Label">
@@ -288,7 +337,25 @@ const ProductDetails = () => {
                 <h5>₹{getRentPrice() * rentQuantity}</h5>
               </div>
             </div>
-          </div>
+          </div> */}
+          <div className="productdetails-right-4">
+  <hr className="seperator" />
+  <div className="total">
+    <div className="Total-Label">
+      <h5>Total Rent Price</h5>
+    </div>
+    <div className="Total-Amount">
+      <h5>
+        ₹
+        {selectedMonth && !isNaN(getRentPrice(productData?.rentalOptions, selectedMonth))
+          ? (getRentPrice(productData?.rentalOptions, selectedMonth) * rentQuantity).toFixed(2)
+          : "0.00"}
+      </h5>
+    </div>
+  </div>
+</div>
+
+
         </div>
       </div>
     </>

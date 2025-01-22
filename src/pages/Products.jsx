@@ -99,37 +99,12 @@ const Products = () => {
       .sort((a, b) => a - b); // Sort in ascending order
     return rentPrices.length > 0 ? rentPrices[0] : "No rent options";
   };
-  
-  //   if (!rentalOptions) 
-  //     return "utsav";
-   
-  //   const { rent12Months, rent9Months, rent6Months, rent3Months } = rentalOptions;
-  //   const rents = [
-  //     { value: rent12Months, label: "12 Months" },
-  //     { value: rent9Months, label: "9 Months" },
-  //     { value: rent6Months, label: "6 Months" },
-  //     { value: rent3Months, label: "3 Months" },
-  //   ];
-
-  //   for (const rent of rents) {
-  //     if (!isNaN(rent.value)) 
-  //       return rent.value; 
-  //   }
-  
-  //   return "anmol"; 
-  // };
-  // In your Products component
   const filteredProducts = products.filter((product) => {
     const searchLower = searchTerm.toLowerCase().trim();
     const productName = product.title ? product.title.toLowerCase() : "";
-
-    // Log comparison
     const matchFound = productName.includes(searchLower);
-
-    // Return match based on search term
     return matchFound;
   });
-  // console.log(products)
   return (
     <div>
       <div className="productpage">

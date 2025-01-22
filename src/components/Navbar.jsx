@@ -100,7 +100,7 @@ const Navbar = ({ active, userClickHandler }) => {
             </div> */}
           </div>
 
-          
+          {/* Search Bar */}
           <div className="leftnav-searchbar">
             <FaSearch className="text-[#666] md:size-6 xl:size-5" />
             <input
@@ -152,7 +152,7 @@ const Navbar = ({ active, userClickHandler }) => {
           
             
             <div className="hidden h-6 bg-gray-300 md:block md:w-px"></div>
-            <button className="flex items-center gap-2 text-sm font-medium text-gray-600 rounded-full hover:text-gray-900  sm:w-full sm:justify-center md:w-auto">
+            <button className="flex items-center gap-2 text-sm font-medium text-gray-600 rounded-full hover:text-gray-900 sm:w-full sm:justify-center md:w-auto">
             <img 
               src={bag} 
               alt="Cart Icon" 
@@ -238,19 +238,253 @@ const Navbar = ({ active, userClickHandler }) => {
           >
             <div className="home">Home</div>
           </NavLink>
-          <NavLink
+          {/* <NavLink
             to="/products"
-            className={({ isActive }) => `${isActive ? 'active' : ''} text-decoration-none`}
+            className={({ isActive }) => `${isActive ? 'active' : ''} text-decoration-none `}
             onClick={() => handleLinkClick("products")}
           >
-            <div className="product">Products</div>
+            <div className="product">Products
+          </div>
+          </NavLink> */}
+
+          {/* product dropdown  */}
+          <div className="relative group inline-block text-left">
+          <NavLink
+            to="/products"
+            className={({ isActive }) =>
+            `${isActive ? 'active' : ''} text-black font-medium rounded-full text-sm px-3 py-2.5 text-center inline-flex items-center`
+          }
+          onClick={() => handleLinkClick('products')}
+          >
+          Products
+          <svg
+          className="w-2.5 h-2.5 ms-1"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 10 6"
+          >
+        <path
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="m1 1 4 4 4-4"
+        />
+      </svg>
+    </NavLink>
+  <div
+    id="dropdown"
+    className="absolute z-10 hidden group-hover:block bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+  >
+    <ul
+      className="py-2 text-sm text-gray-700 dark:text-gray-200"
+      aria-labelledby="dropdownDefaultButton"
+    >
+      <li>
+        <a
+          href="#"
+          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+        >
+          Product 1
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+        >
+          Product 2
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+        >
+          Product 3
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+        >
+          Product 4
+        </a>
+      </li>
+    </ul>
+  </div>
+          </div>
+          {/* Catalog */}
+          <div className="relative group inline-block text-left">
+          <NavLink
+            to="/catalogs"
+            className={({ isActive }) =>
+            `${isActive ? 'active' : ''} text-black font-medium rounded-full text-sm px-3 py-2.5 text-center inline-flex items-center`
+          }
+          onClick={() => handleLinkClick('catalog')}
+          >
+          Catalogs
+          <svg
+          className="w-2.5 h-2.5 ms-1"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 10 6"
+          >
+        <path
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="m1 1 4 4 4-4"
+        />
+      </svg>
+    </NavLink>
+  <div
+    id="dropdown"
+    className="absolute z-10 hidden group-hover:block bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+  >
+    <ul
+      className="py-2 text-sm text-gray-700 dark:text-gray-200"
+      aria-labelledby="dropdownDefaultButton"
+    >
+      <li>
+        <a
+          href="#"
+          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+        >
+          Catalog1
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+        >
+          Catalog2
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+        >
+          Catalog 3
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+        >
+          Catalog 4
+        </a>
+      </li>
+    </ul>
+  </div>
+          </div>
+
+          {/* Popular Items */}
+          <div className="relative group inline-block text-left">
+          <NavLink
+            to="/popularItems"
+            className={({ isActive }) =>
+            `${isActive ? 'active' : ''} text-black font-medium rounded-full text-sm px-3 py-2.5 text-center inline-flex items-center`
+          }
+          onClick={() => handleLinkClick('Popular Items')}
+          >
+          Popular Items
+          <svg
+          className="w-2.5 h-2.5 ms-1"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 10 6"
+          >
+        <path
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="m1 1 4 4 4-4"
+        />
+      </svg>
+    </NavLink>
+  <div
+    id="dropdown"
+    className="absolute z-10 hidden group-hover:block bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+  >
+    <ul
+      className="py-2 text-sm text-gray-700 dark:text-gray-200"
+      aria-labelledby="dropdownDefaultButton"
+    >
+      <li>
+        <a
+          href="#"
+          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+        >
+          Item1
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+        >
+          Item2
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+        >
+          Item 3
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+        >
+          Item 4
+        </a>
+      </li>
+    </ul>
+  </div>
+          </div>
+          {/* Rent Furnitures */}
+          <NavLink
+            to="/rentFurnitures"
+            className={({ isActive }) => `${isActive ? 'active' : ''} text-black font-medium rounded-full text-sm px-3 py-2.5 text-center inline-flex items-center`}
+            onClick={() => handleLinkClick("Rent Furnitures")}
+          >
+            <div className="rent-furnitures">Rent Furnitures</div>
           </NavLink>
         </div>
-
+      
         <div className="bottomnav-right">
           <div className="absolute -right-[1500px]">
             <AddressSelect2 />
           </div>
+          <Link to="/shipping"
+            style={{ overflow: "hidden" }}
+            className={activeLink === "shipping" ? "active" : ""}
+            onClick={() => handleLinkClick("shipping")}
+          >
+            <span className="renttt text-lg">Shipping</span>
+
+          </Link>
+          <Link to="/returns"
+            style={{ overflow: "hidden" }}
+            className={activeLink === "returns" ? "active" : ""}
+            onClick={() => handleLinkClick("returns")}
+          >
+            <span className="renttt text-lg">Returns</span>
+
+          </Link>
           <Link to="/faq"
             style={{ overflow: "hidden" }}
             className={activeLink === "faqs" ? "active" : ""}
