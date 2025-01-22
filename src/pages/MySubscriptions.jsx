@@ -36,7 +36,7 @@ const MySubscriptions = () => {
       const { data } = await userService.getMyOrders(user?._id);
       setOrders(data);
     } catch (error) {
-      console.log(error);
+      
     }
     setLoading(false);
   };
@@ -56,7 +56,7 @@ const MySubscriptions = () => {
     try {
       // Calculate the amount to be charged
       const newAmount = (amount - shippingCost - 1218) / 1.18;
-      console.log("Amount to be charged:", newAmount);
+      
 
       const options = {
         key: "rzp_live_gNLh3zWfj9gj0H",
