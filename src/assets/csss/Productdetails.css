@@ -15,6 +15,7 @@ width: 100%;
 height: 100%;
 padding: 8px 58px 10px 130px;
 display: flex;
+
 background-color: #FAFAFA;
 }
 
@@ -23,6 +24,7 @@ background-color: #FAFAFA;
 .productdetails-left{
     width: 50%;
     padding:0rem 4.5rem 5rem 0rem;
+   
 }
 
 
@@ -31,13 +33,16 @@ background-color: #FAFAFA;
 flex-direction: column;
 justify-content: center;
 align-items: flex-start;
-gap: 44.267px;
+gap: 47.267px;
+
 }
 
 .productdetails-left-up .Product-Images-Container{
 display: flex;
 padding-bottom: 10.216px;
 align-items: flex-start;
+gap: 20px;
+border-radius: 2px solid aqua;
 }
 
 .productdetails-left-up .fourimg {
@@ -55,6 +60,7 @@ align-items: flex-start;
     width: 100%;
     height: 33%;
     border-radius: 10px;
+
 }
 
 

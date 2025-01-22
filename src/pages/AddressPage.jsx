@@ -143,7 +143,7 @@ export default function AddressPage({ finalPayment }) {
               address: addressToSend, // Send the selected or custom address
             });
 
-            console.log(orderResponse);
+          
 
             const orderData = orderResponse?.data;
             if (orderData.success) {
