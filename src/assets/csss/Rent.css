@@ -3,9 +3,6 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 40px;
   padding: 20px 150px;
-  background-color:rgba(250, 250, 250, 1);
-  ;
- 
 }
 
 .rent-title h1{
@@ -20,18 +17,18 @@ letter-spacing: -0.16931rem;
 }
 
 .feature-box {
-  background-color: white;
+  background-color: #fafafa;
   border-radius: 10px;
   padding: 20px;
 
-  /* transition: transform 0.3s ease, box-shadow 0.3s ease; */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* .feature-box:hover {
+.feature-box:hover {
   background-color: #fff;
   transform: translateY(-10px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-} */
+}
 
 .icon, .arrow-icon {
   font-size: 25px;

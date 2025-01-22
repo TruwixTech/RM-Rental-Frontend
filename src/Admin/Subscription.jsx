@@ -206,7 +206,7 @@ const Subscription = () => {
     try {
       const response = await AXIOS_INSTANCE.get("/getCustomerWithOrders");
       if (response?.data && Array.isArray(response?.data?.custWthOrders)) {
-       
+        // console.log(response.data.custWthOrders);
         setSubscriptions(response.data.custWthOrders);
       } else {
         console.error("Unexpected response format:", response.data);

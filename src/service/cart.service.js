@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { AXIOS_INSTANCE } from ".";
 
 export const addToCartAPI = async (cartData) => {

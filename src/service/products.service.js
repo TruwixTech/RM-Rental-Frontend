@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { AXIOS_INSTANCE } from ".";
 
 export const getAllProductsAPI = async (page, limit, size) => {
@@ -24,7 +23,6 @@ export const getProductByIdAPI = async (id) => {
     return error;
   }
 };
-
 
 export const updateCartAPI = async (payload) => {
   try {

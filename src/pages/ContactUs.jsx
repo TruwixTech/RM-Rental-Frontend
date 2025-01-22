@@ -16,12 +16,12 @@ const ContactUS = () => {
 
     emailjs.sendForm('service_4ef1465', 'template_66816f6', form.current, 'kjKv0FoUnqquZpgTb')
       .then((result) => {
-         
+          console.log(result.text);
           toast.success("Message Sent Successfully!");
           setButtonText("SEND");
           form.current.reset();
       }, (error) => {
-         
+          console.log(error.text);
           toast.error("Something Went Wrong!");
           setButtonText("SEND");
       });
