@@ -15,7 +15,7 @@ const Subscription = () => {
     const fetchSubscriptions = async () => {
       try {
         const response = await AXIOS_INSTANCE.get("/orders");
-        console.log("API Response:", response.data);
+        
         if (response.data && Array.isArray(response.data.data)) {
           setSubscriptions(response.data.data);
         } else {
@@ -46,7 +46,6 @@ const Subscription = () => {
   };
 
 
-  console.log(editingSubscription);
  
 
   const handleUpdate = async (id) => {
@@ -62,7 +61,7 @@ const Subscription = () => {
 
       if (response.ok) {
         const updatedOrder = await response.json();
-        console.log("Order date updated:", updatedOrder);
+        
       } else {
         console.error("Failed to update order date");
       }

@@ -40,9 +40,9 @@ const AddProduct = () => {
   };
   const addMonthAndRent = () => {
     const month = parseInt(newMonth, 10);
-    console.log(month);
+    
     if (month && !formData.month.includes(month) && newRentPrice) {
-      console.log("New Rent Price:", newRentPrice);
+     
       const updatedMonths = [...formData.month, month];
 
       const newRentalOption = { [month]: newRentPrice };
@@ -60,33 +60,12 @@ const AddProduct = () => {
       toast.error("Please enter valid month and rent price!");
     }
   };
-  
-  //   const month = parseInt(newMonth, 10); // Parse newMonth as an integer
-  
-  //   if (month && !formData.month.includes(month) && newRentPrice) {
-  //     console.log(newRentPrice);
-  //     setFormData((prevData) => ({
-  //       ...prevData,
-  //       month: [...prevData.month, month],
-  //       rentalOptions: {
-  //         ...prevData.rentalOptions,
-  //         [month]: newRentPrice, // Add month and rent to rentalOptions
-  //       },
-  //     }));
-  
-  //     // Reset the input fields
-  //     setNewMonth("");
-  //     setNewRentPrice("");
-  //     toast.success("Month and Rent added successfully!");
-  //   } else {
-  //     toast.error("Please enter valid month and rent price!");
-  //   }
-  // };
+
   
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log(formData);
+   
     
   
     const data = new FormData();
@@ -115,8 +94,6 @@ const AddProduct = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-  
-      console.log('hello',response);
       // Reset form data and other states
       setFormData({
         title: "",

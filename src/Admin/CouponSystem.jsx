@@ -20,7 +20,7 @@ function CouponSystem() {
         }
 
         const couponData = { code, discountPercentage, expiryDate };
-        console.log('Creating coupon:', couponData);
+    
 
         try {
             const response = await fetch(`https://rmrental-backend.vercel.app/api/coupon/create-coupon`, {
@@ -31,7 +31,7 @@ function CouponSystem() {
                 body: JSON.stringify(couponData),
             });
 
-            console.log('Coupon response:', response);
+            
 
             const data = await response.json();
             if (response.status === 201) {

@@ -45,8 +45,6 @@ const ProductDetails = () => {
   }, [id]);
   const getRentMonths = (formData) => {
     const { month, rentalOptions } = formData;
-    console.log(month);
-    console.log(rentalOptions);
     // if data format is not valid then enter the null
     if (!Array.isArray(month) || typeof rentalOptions !== "object") {
       return null; 
@@ -93,17 +91,6 @@ const ProductDetails = () => {
   const handleImageSelect = (imgSrc) => {
     setSelectedImage(imgSrc);
   };
-  // const getTotalRentPrice = (rentalOptions) => {
-  //   if (!rentalOptions) return 0; // Default to 0 if no rental options
-  
-  //   const rentPrices = Object.values(rentalOptions)
-  //     .filter((value) => !isNaN(value)) // Ensure the value is a number
-  //     .map((value) => parseFloat(value))
-  //     .sort((a, b) => a - b); // Sort in ascending order
-    
-  //   return rentPrices.length > 0 ? rentPrices[0] : 0; // Return the minimum price
-  // };
-  
   const handleMonthClick = (month) => {
     setSelectedMonth(month);
   };
@@ -163,68 +150,6 @@ const ProductDetails = () => {
         </div>
 
         <div className="productdetails-right">
-          {/* <div className="productdetails-right-1">
-            <div className="productdetails-right-1-1">
-              <i className="ri-star-fill"></i>
-              <span>4.5</span>
-              <span>.</span>
-              <span>149 reviews</span>
-            </div>
-            {productData?.details?.month && (
-              // <div className="price-lg">
-              //   <span>Rent at</span>
-              //   <h3>
-              //     {selectedMonth ? (
-              //       <div>
-              //         {" "}
-              //         <span
-              //           style={{
-              //             textDecoration: "line-through",
-              //             marginRight: "8px",
-              //           }}
-              //         >
-              //           {"₹ " +
-              //             ((Number(getRentPrice()) || 0) * 1.1).toFixed(2)}
-              //         </span>
-              //         <span>
-              //           {"₹ " +
-              //             (Number(getRentPrice()) || 0).toFixed(2) +
-              //             "/ month"}
-              //         </span>
-              //       </div>
-              //     ) : (
-              //       "Select month"
-              //     )}
-              //   </h3>
-              // </div>
-              <div className="price-lg">
-  <span>Rent at</span>
-  <h3>
-    {selectedMonth ? (
-      <div>
-        <span
-          style={{
-            textDecoration: "line-through",
-            marginRight: "8px",
-          }}
-        >
-          {"₹ " +
-            ((Number(getRentPrice()) || 0) * 1.1).toFixed(2)}
-        </span>
-        <span>
-          {"₹ " +
-            (Number(getRentPrice()) || 0).toFixed(2) +
-            " /month"}
-        </span>
-      </div>
-    ) : (
-      "Select month"
-    )}
-  </h3>
-</div>
-
-            )}
-          </div> */}
 
 <div className="productdetails-right-1">
   <div className="productdetails-right-1-1">
@@ -299,8 +224,6 @@ const ProductDetails = () => {
               ))}
             </div>
           </div>
-
-          {/* Rent Quantity and Add to Cart Button */}
           <div className="productdetails-right-3">
             <div className="Quantity-Selector">
               <div
@@ -327,17 +250,6 @@ const ProductDetails = () => {
               <div className="Add-to-Cart-Button">Add to Cart</div>
             </button>
           </div>
-          {/* <div className="productdetails-right-4">
-            <hr className="seperator" />
-            <div className="total">
-              <div className="Total-Label">
-                <h5>Total Rent Price</h5>
-              </div>
-              <div className="Total-Amount">
-                <h5>₹{getRentPrice() * rentQuantity}</h5>
-              </div>
-            </div>
-          </div> */}
           <div className="productdetails-right-4">
   <hr className="seperator" />
   <div className="total">

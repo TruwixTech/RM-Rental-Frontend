@@ -30,7 +30,7 @@ const Products = () => {
       productFilter.limit,
       productFilter.size
     );
-    console.log(data)
+  
 
     const filtered = selectedCategories.size
       ? data.filter((product) => selectedCategories.has(product.category))

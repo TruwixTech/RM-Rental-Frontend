@@ -12,7 +12,7 @@ const OrderConfirm = () => {
       const { data } = await AXIOS_INSTANCE.get(`/orders/${orderId}`);
       setOrderData(data?.data);
     } catch (error) {
-      console.log(error);
+      
     }
   };
   useEffect(() => {

@@ -127,13 +127,12 @@ const MyCart = () => {
       return total + space + (quantity * space);
     }, 0);
 
-    console.log(totalSpace)
-    console.log(distanceToShop)
+   
     
     const vehicleCapacity = 100;
     const vehiclesNeeded = Math.ceil(totalSpace / vehicleCapacity);
 
-    console.log(vehiclesNeeded)
+    
 
     const fixedCost = 400;
     const perKmCost = 70;
@@ -304,7 +303,7 @@ const MyCart = () => {
       }
 
     } catch (error) {
-      console.log("Error while updating quantity :", error);
+     
     }
   }
 
