@@ -10,6 +10,7 @@ import { addToCartAPI } from "../service/cart.service";
 import toast from "react-hot-toast";
 import axios from "axios";
 import {Link} from "react-router-dom";
+import { AXIOS_INSTANCE } from "../service";
 const placeholderImageURL =
   "https://cdn.dribbble.com/users/887568/screenshots/3172047/media/725fca9f20d010f19b3cd5411c50a652.gif";
 
@@ -151,8 +152,8 @@ const MyCart = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        `https://rmrental-backend.vercel.app/api/coupon/validate`,
+      const response = await AXIOS_INSTANCE(
+        `coupon/validate`,
         {
           code: couponCode,
         }
@@ -173,29 +174,28 @@ const MyCart = () => {
     return (
       userCartData?.items?.reduce((acc, curr) => {
         const rentPrice = getRentMonthsPrice(
+          curr.product.rentalOptions,
           curr.rentOptions.rentMonthsCount,
-          curr.product.rentalOptions
         );
         return acc + (rentPrice || 0) * 2 * curr.rentOptions.quantity; // 2x rent price for security deposit
       }, 0) || 0
     );
   };
 
-  const getRentMonthsPrice = (rentMonthsCount, rentalOptions) => {
-    switch (rentMonthsCount) {
-      case 3:
-        return rentalOptions.rent3Months;
-      case 6:
-        return rentalOptions.rent6Months;
-      case 9:
-        return rentalOptions.rent9Months;
-      case 12:
-        return rentalOptions.rent12Months;
-      default:
-        return 0; // Return 0 for unrecognized rent months
-    }
+  const getRentMonthsPrice = (rentalOptions, selectedMonth) => {
+    if (!rentalOptions || !selectedMonth) return "No rent options";
+  
+    // Check if the selectedMonth exists in rentalOptions
+    const rentPriceKey = `rent${selectedMonth}Months`; // Create the key like rent3Months, rent6Months, etc.
+    const rentPrice = rentalOptions[selectedMonth];
+  
+    
+    // If the rentPrice is found, return it as a float, else return "No rent options"
+    return rentPrice ? parseFloat(rentPrice) : "No rent options";
   };
-
+  
+  
+  
   const myproductAdd = async (productId) => {
     if (!user) {
       toast.error("You are not logged in!");
@@ -206,8 +206,8 @@ const MyCart = () => {
       items: {
         product: productId,
         quantity: 1,
-        rentMonthsCount: 3, // 3, 6, 9, or 12
-        rentMonths: "rent3Months", // Human-readable months
+        rentMonthsCount: rentMonthsData,
+        rentMonths: `rent${rentMonthsData}months`,
       },
     });
 
@@ -227,8 +227,9 @@ const MyCart = () => {
     return (
       userCartData?.items?.reduce((acc, curr) => {
         const rentPrice = getRentMonthsPrice(
-          curr.rentOptions.rentMonthsCount,
-          curr.product.rentalOptions
+        curr.product.rentalOptions,
+        curr.rentOptions.rentMonthsCount
+          
         );
         return acc + (rentPrice || 0) * curr.rentOptions.quantity;
       }, 0) || 0
@@ -346,8 +347,9 @@ const MyCart = () => {
                     <p className="price">
                       {`₹ ${
                         getRentMonthsPrice(
+                          
+                          item?.product?.rentalOptions,
                           item?.rentOptions.rentMonthsCount,
-                          item?.product?.rentalOptions
                         ) * item?.rentOptions?.quantity
                       } / ${item?.rentOptions.rentMonthsCount} months on rent`}
                     </p>
@@ -446,14 +448,14 @@ const MyCart = () => {
               onClick={() => {
                 if (userCartData.items.length !== 0 && onCheck) {
                   handlePay()
-                  // navigate("/address/finalPayment", {
-                  //   state: {
-                  //     cartTotal: calculateTotalPrice(), // Sending total price
-                  //     shippingCost: calculateShippingFee(), // Sending shipping fee
-                  //     cartItems: userCartData.items, // Sending cart items
-                  //     apiFetchedAddress: address,
-                  //   },
-                  // });
+                  navigate("/address/finalPayment", {
+                    state: {
+                      cartTotal: calculateTotalPrice(), // Sending total price
+                      shippingCost: calculateShippingFee(), // Sending shipping fee
+                      cartItems: userCartData.items, // Sending cart items
+                      apiFetchedAddress: address,
+                    },
+                  });
                 }
               }}
               disabled={userCartData.items.length === 0}

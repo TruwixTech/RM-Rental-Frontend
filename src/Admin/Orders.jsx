@@ -1,25 +1,34 @@
+
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import axios from "axios";
 import $ from "jquery"; // Import jQuery
 import "../Admin/Csss/Orders.css";
 import { AXIOS_INSTANCE } from "../service";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
+  const [invoices, setInvoices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [editingOrder, setEditingOrder] = useState(null); // State to track the order being edited
-  const [newStatus, setNewStatus] = useState(""); // State to store new status
-  const [currentPage, setCurrentPage] = useState(1); // State to manage the current page
-  const [ordersPerPage] = useState(5); // Number of orders to display per page
+  const [editingOrder, setEditingOrder] = useState(null);
+  // const [token, setToken] = useState(null);
+  const [newStatus, setNewStatus] = useState("");
+  const [currentPageOrders, setCurrentPageOrders] = useState(1);
+  const [currentPageInvoices, setCurrentPageInvoices] = useState(1);
+  const ordersPerPage = 5;
+  const itemsPerPage = 50;
+  const token = localStorage.getItem("token");
+
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
         const response = await AXIOS_INSTANCE.get("/orders");
-        
         if (response.data && Array.isArray(response.data.data)) {
+          console.log(response.data);
+          
           setOrders(response.data.data);
         } else {
           console.error("Unexpected response format:", response.data);
@@ -33,9 +42,65 @@ const Orders = () => {
       }
     };
 
+    const fetchInvoices = async () => {
+      try {
+        
+    
+        if (!token) {
+          throw new Error("Authentication token not found. Please log in.");
+        }
+    
+        // API endpoint for fetching user invoices
+        const apiUrl = 'invoice/user-invoices'; // Ensure the endpoint is correct
+        console.log(apiUrl)
+        // Fetch invoices using AXIOS_INSTANCE
+        const response = await AXIOS_INSTANCE.get(apiUrl,{
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+    
+        // Check if response contains data
+        if (response.data && Array.isArray(response.data.invoices)) {
+          setInvoices(response.data.invoices); // Properly set invoices
+        } else {
+          console.error("Unexpected invoices format:", response.data);
+          setInvoices([]); // Default to empty array
+        }
+      } catch (error) {
+        console.error("Error fetching invoices:", error.message);
+        setInvoices([]);
+        setError(error.message || "An error occurred while fetching invoices"); // Set error for UI handling
+      } finally {
+        setLoading(false); // End loading state
+      }
+    };
+    
+    
+    
+
+    
     fetchOrders();
+    fetchInvoices();
   }, []);
 
+    const getStatusColor = (status) => {
+    switch (status) {
+      case "pending":
+        return "bg-yellow-500";
+      case "kyc_verified":
+        return "bg-blue-500"; // Add color for KYC Verified
+      case "shipped":
+        return "bg-orange-500";
+      case "cancelled":
+        return "bg-red-500";
+      case "delivered":
+        return "bg-green-500"; // Add color for Delivered
+      default:
+        return "bg-gray-500"; // Fallback color
+    }
+  };
   const handleStatusClick = (order) => {
     setEditingOrder(order);
     setNewStatus(order.status);
@@ -52,12 +117,11 @@ const Orders = () => {
 
     try {
       await AXIOS_INSTANCE.put(`/admin/orders/update`, {
-        orderId: editingOrder._id, // Send the order ID
-        newStatus: newStatus.trim(), // Send the new status
+        orderId: editingOrder._id,
+        newStatus: newStatus.trim(),
       });
 
       toast.success("Order status updated successfully");
-
       setOrders(
         orders.map((order) =>
           order._id === editingOrder._id
@@ -74,44 +138,144 @@ const Orders = () => {
     }
   };
 
-  const closeModal = () => {
-    setEditingOrder(null);
-    setNewStatus("");
-    $(".status-form-update").hide();
-  };
+// Assuming you have AXIOS_INSTANCE properly configured
 
-  const indexOfLastOrder = currentPage * ordersPerPage;
+// const handleDownloadPDF = async (invoiceId) => {
+//   try {
+//     // Retrieve the token from localStorage
+//     const token = localStorage.getItem("token");
+
+//     if (!token) {
+//       throw new Error("Authentication token not found. Please log in.");
+//     }
+
+//     // Full API endpoint for downloading the invoice PDF (with dynamic invoiceId)
+//     const apiUrl = `invoice/${invoiceId}/download-invoice`;
+    
+//     // Send POST request using AXIOS_INSTANCE
+//     const response = await AXIOS_INSTANCE.post(`invoice/${invoiceId}/download-invoice`,{},{
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+//     });
+//     console.log("pdf download",response);
+
+
+//     // Check if the response is successful
+//     if (response.status === 200) {
+//       const { pdfUrl } = response.data;
+
+//       if (pdfUrl) {
+//         // Create an anchor element to trigger the PDF download
+//         const link = document.createElement("a");
+//         link.href = pdfUrl; // PDF URL received from the server
+//         link.download = `invoice-${invoiceId}.pdf`; // File name for download
+//         link.click(); // Trigger download
+
+//         toast.success("PDF is being downloaded!"); // Show success toast
+//       } else {
+//         throw new Error("PDF URL not found in the response");
+//       }
+//     } else {
+//       throw new Error("Failed to download invoice");
+//     }
+//   } catch (error) {
+//     console.error("Error downloading PDF:", error);
+//     toast.error("An error occurred while downloading the PDF.");
+//   }
+// };
+
+// const handleDownloadPDF = async (invoiceId) => {
+//   try {
+//     // Retrieve the token from localStorage
+//     const token = localStorage.getItem('token'); // Make sure token is stored correctly
+
+//     if (!token) {
+//       throw new Error("Authentication token not found. Please log in.");
+//     }
+
+   
+
+//     // API endpoint for downloading the invoice PDF
+//     const apiUrl = `https://truwix-rm-rental-backend-dev.vercel.app/api/invoice/${invoiceId}/download-invoice`;
+
+    
+
+// //     // Send POST request with Authorization header
+//     const response = await fetch(apiUrl, {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+//     });
+//     console.log("my url:", response);
+//     // Check if the response is successful
+//     if (!response.ok) {
+//       throw new Error("Failed to download invoice");
+//     }
+
+//     // Assuming the response contains a direct URL to the PDF
+//     const { pdfUrl } = await response.json();
+
+//     if (pdfUrl) {
+//       // Create an anchor element to trigger the PDF download
+//       const link = document.createElement("a");
+//       link.href = pdfUrl; // PDF URL received from the server
+//       link.download = `invoice-${invoiceId}.pdf`; // Set the file name for download
+//       link.click(); // Trigger download
+
+//       toast.success("PDF is being downloaded!"); // Show success toast
+//     } else {
+//       throw new Error("PDF URL not found in the response");
+//     }
+//   } catch (error) {
+//     console.error("Error downloading PDF:", error);
+//     toast.error("An error occurred while downloading the PDF.");
+//   }
+// };
+// const handleDownloadPDF = async (invoiceId) => {
+//   try {
+//     const response = await AXIOS_INSTANCE(`invoice/${invoiceId}/download-invoice`, {
+//       responseType: 'blob', // Important to handle binary data
+//     });
+
+//     // Create a Blob from the response data
+//     const url = window.URL.createObjectURL(new Blob([response.data]));
+      
+//     // Create a temporary link to trigger the download
+//     const link = document.createElement('a');
+//     link.href = pdfUrl;
+//     link.download = `invoice-${invoiceId}.pdf`; // Default file name
+//     link.click();
+
+//     // Clean up the temporary URL
+//     window.URL.revokeObjectURL(url);
+//   } catch (error) {
+//     console.error('Error downloading invoice:', error);
+//   }
+// };
+  
+  const indexOfLastOrder = currentPageOrders * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
   const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
-  const totalPages = Math.ceil(orders.length / ordersPerPage);
+  const totalOrderPages = Math.ceil(orders.length / ordersPerPage);
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
+  const paginatedInvoices = invoices.slice(
+    (currentPageInvoices - 1) * itemsPerPage,
+    currentPageInvoices * itemsPerPage
+  );
+  const totalInvoicePages = Math.ceil(invoices.length / itemsPerPage);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "pending":
-        return "bg-yellow-500";
-      case "kyc_verified":
-        return "bg-blue-500"; // Add color for KYC Verified
-      case "shipped":
-        return "bg-orange-500";
-      case "cancelled":
-        return "bg-red-500";
-      case "delivered":
-        return "bg-green-500"; // Add color for Delivered
-      default:
-        return "bg-gray-500"; // Fallback color
-    }
-  };
-
   return (
-    <div className="orders-container">
+    <div>
+      <div className="orders-container">
       <h1>Orders</h1>
+     
       <table className="orders-table">
         <thead>
           <tr>
@@ -122,95 +286,71 @@ const Orders = () => {
           </tr>
         </thead>
         <tbody>
-          {currentOrders.length > 0 ? (
-            currentOrders.map((order) => (
-              <tr key={order._id}>
-                <td>{order.orderNumber}</td>
-                <td>{new Date(order.orderDate).toLocaleDateString()}</td>
-                <td>₹ {order.totalPrice.toFixed(2)}</td>
-                <td>
-                  <button
-                    className={`status-button px-2 ${getStatusColor(order.status)}`}
-                    onClick={() => handleStatusClick(order)}
-                  >
-                    {order.status}
-                  </button>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="4">No orders available.</td>
+          {currentOrders.map((order) => (
+            <tr key={order._id}>
+              <td>{order.orderNumber}</td>
+              <td>{new Date(order.orderDate).toLocaleDateString()}</td>
+              <td>₹ {order.totalPrice.toFixed(2)}</td>
+              <td>
+                <button
+                  className={`status-button px-2 ${getStatusColor(order.status)}`}
+                  onClick={() => handleStatusClick(order)}
+                >
+                  {order.status}
+                </button>
+              </td>
             </tr>
-          )}
+          ))}
         </tbody>
       </table>
 
-      {/* Status Update Modal */}
-      <div
-        className={`fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center ${
-          editingOrder ? "block" : "hidden"
-        }`}
-      >
-        <div className="bg-white p-6 rounded-md shadow-lg w-full max-w-lg">
+
+      <div className="pagination">
+        {Array.from({ length: totalOrderPages }, (_, index) => (
           <button
-            className="absolute top-4 right-4 text-2xl font-bold text-gray-700"
-            onClick={closeModal}
+            key={index}
+            onClick={() => setCurrentPageOrders(index + 1)}
+            className={`page-button ${
+              currentPageOrders === index + 1 ? "active" : ""
+            }`}
           >
-            &times;
+            {index + 1}
           </button>
-          <p className="text-2xl font-semibold mb-4">Update Order Status</p>
-          <form onSubmit={handleFormSubmit}>
-            <div className="flex flex-col space-y-2">
-              {editingOrder ? (
-                <p className="text-gray-700">Order ID: {editingOrder._id}</p>
-              ) : (
-                <p>Loading...</p>
-              )}
-              <label htmlFor="status" className="font-medium">
-                Status:
-              </label>
-              <select
-                id="status"
-                value={newStatus}
-                onChange={handleStatusChange}
-                className="border border-gray-300 p-2 rounded-md"
-              >
-                <option value="pending">Pending</option>
-                <option value="kyc_verified">KYC Verified</option>
-                <option value="shipped">Shipped</option>
-                <option value="cancelled">Cancelled</option>
-                <option value="delivered">Delivered</option>
-              </select>
-              <button
-                type="submit"
-                className="mt-4 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md"
-                onClick={handleFormSubmit}
-              >
-                Update Status
-              </button>
-              <button
-                type="button"
-                className="mt-2 bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded-md"
-                onClick={closeModal}
-              >
-                Cancel
-              </button>
-            </div>
-          </form>
-        </div>
+        ))}
       </div>
 
-      {/* Pagination Controls */}
-      <div className="flex justify-center mt-4 space-x-2">
-        {Array.from({ length: totalPages }, (_, index) => (
+      <h1>Invoices</h1>
+
+      <table className="invoices-table">
+        <thead>
+          <tr>
+            <th>Invoice ID</th>
+            <th>User ID</th>
+            <th>Amount</th>
+            <th>Payment ID</th>
+            <th>Created At</th>
+          </tr>
+        </thead>
+        <tbody>
+          {paginatedInvoices.map((invoice, index) => (
+            <tr key={index}>
+              <td>{invoice._id}</td>
+              <td>{invoice.userId}</td>
+              <td>₹{invoice.amount.toFixed(2)}</td>
+              <td>{invoice.paymentId}</td>
+              <td>{new Date(invoice.createdAt).toLocaleDateString()}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <div className="pagination">
+        {Array.from({ length: totalInvoicePages }, (_, index) => (
           <button
-            key={index + 1}
-            onClick={() => handlePageChange(index + 1)}
-            className={`px-4 py-2 rounded-md ${
-              currentPage === index + 1
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 text-gray-800"
+            key={index}
+            onClick={() => setCurrentPageInvoices(index + 1)}
+            className={`page-button ${
+              currentPageInvoices === index + 1 ? "active" : ""
             }`}
           >
             {index + 1}
@@ -218,7 +358,126 @@ const Orders = () => {
         ))}
       </div>
     </div>
+
+    <div className="orders-container p-5">
+  <h1 className="text-2xl font-bold mb-5">Orders</h1>
+
+  <div className="overflow-x-auto shadow-md sm:rounded-lg">
+    <table className="min-w-full text-sm text-left text-gray-500 dark:text-gray-400 border">
+      <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th scope="col" className="px-6 py-3">Order ID</th>
+          <th scope="col" className="px-6 py-3">Order Date</th>
+          <th scope="col" className="px-6 py-3">Total Price</th>
+          <th scope="col" className="px-6 py-3">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {currentOrders.map((order) => (
+          <tr
+            key={order._id}
+            className="bg-white border-b hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600"
+          >
+            <td className="px-6 py-4">{order.orderNumber}</td>
+            <td className="px-6 py-4">{new Date(order.orderDate).toLocaleDateString()}</td>
+            <td className="px-6 py-4">₹ {order.totalPrice.toFixed(2)}</td>
+            <td className="px-6 py-4">
+              <button
+                className={`px-3 py-1 text-white rounded-full ${getStatusColor(order.status)}`}
+                onClick={() => handleStatusClick(order)}
+              >
+                {order.status}
+              </button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div className="flex justify-center mt-5">
+    {Array.from({ length: totalOrderPages }, (_, index) => (
+      <button
+        key={index}
+        onClick={() => setCurrentPageOrders(index + 1)}
+        className={`px-4 py-2 mx-1 border rounded ${
+          currentPageOrders === index + 1
+            ? "bg-blue-500 text-white"
+            : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+        }`}
+      >
+        {index + 1}
+      </button>
+    ))}
+  </div>
+
+  <h1 className="text-2xl font-bold mt-10 mb-5">Invoices</h1>
+
+  <div className="overflow-x-auto shadow-md sm:rounded-lg">
+  <table className="min-w-full text-sm text-left text-gray-500 dark:text-gray-400 border">
+    <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" className="px-6 py-3">Invoice ID</th>
+        <th scope="col" className="px-6 py-3">User ID</th>
+        <th scope="col" className="px-6 py-3">Amount</th>
+        <th scope="col" className="px-6 py-3">Payment ID</th>
+        <th scope="col" className="px-6 py-3">Status</th>
+        <th scope="col" className="px-6 py-3">Item Count</th>
+        <th scope="col" className="px-6 py-3">Created At</th>
+        <th scope="col" className="px-6 py-3">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {paginatedInvoices.map((invoice, index) => (
+        <tr
+          key={index}
+          className="bg-white border-b hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600"
+        >
+          <td className="px-6 py-4">{invoice._id || "N/A"}</td>
+          <td className="px-6 py-4">{invoice.userId || "N/A"}</td>
+          <td className="px-6 py-4">₹{invoice.amount ? invoice.amount.toFixed(2) : "0.00"}</td>
+          <td className="px-6 py-4">{invoice.paymentId || "N/A"}</td>
+          <td className="px-6 py-4">{invoice.status || "N/A"}</td>
+          <td className="px-6 py-4">{invoice.items ? invoice.items.length : 0}</td>
+          <td className="px-6 py-4">
+            {invoice.createdAt ? new Date(invoice.createdAt).toLocaleDateString() : "N/A"}
+          </td>
+          <td className="px-6 py-4">
+          <button
+  onClick={() => handleDownloadPDF(invoice._id)}
+  className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-600"
+>
+  Download PDF
+</button>
+
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  </div>
+
+
+  <div className="flex justify-center mt-5">
+    {Array.from({ length: totalInvoicePages }, (_, index) => (
+      <button
+        key={index}
+        onClick={() => setCurrentPageInvoices(index + 1)}
+        className={`px-4 py-2 mx-1 border rounded ${
+          currentPageInvoices === index + 1
+            ? "bg-blue-500 text-white"
+            : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+        }`}
+      >
+        {index + 1}
+      </button>
+    ))}
+  </div>
+</div>
+    </div>
+
   );
 };
 
 export default Orders;
+

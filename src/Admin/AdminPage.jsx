@@ -14,7 +14,7 @@ const AdminPage = () => {
         const response = await AXIOS_INSTANCE.get("/products/count");
         setProductCount(response.data.count);
       } catch (error) {
-        // console.error('Error fetching product count:', error);
+       
       }
     };
     const fetchUserCount = async () => {

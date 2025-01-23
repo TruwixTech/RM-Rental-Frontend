@@ -23,15 +23,13 @@ function CouponSystem() {
     
 
         try {
-            const response = await fetch(`https://rmrental-backend.vercel.app/api/coupon/create-coupon`, {
+            const response = await AXIOS_INSTANCE(`coupon/create-coupon`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(couponData),
             });
-
-            
 
             const data = await response.json();
             if (response.status === 201) {
@@ -53,8 +51,8 @@ function CouponSystem() {
     // Function to fetch existing coupons
     const fetchCoupons = async () => {
         try {
-            const response = await fetch(`https://rmrental-backend.vercel.app/api/coupon/get-coupons`);
-            const data = await response.json();
+            const response = await AXIOS_INSTANCE(`coupon/get-coupons`);
+            const data = await response.data
             setCoupons(data.coupons);
         } catch (error) {
             console.error('Error fetching coupons:', error);
