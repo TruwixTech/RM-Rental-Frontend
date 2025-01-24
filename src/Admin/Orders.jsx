@@ -27,7 +27,7 @@ const Orders = () => {
       try {
         const response = await AXIOS_INSTANCE.get("/orders");
         if (response.data && Array.isArray(response.data.data)) {
-          console.log(response.data);
+       
           
           setOrders(response.data.data);
         } else {
@@ -52,7 +52,7 @@ const Orders = () => {
     
         // API endpoint for fetching user invoices
         const apiUrl = 'invoice/user-invoices'; // Ensure the endpoint is correct
-        console.log(apiUrl)
+       
         // Fetch invoices using AXIOS_INSTANCE
         const response = await AXIOS_INSTANCE.get(apiUrl,{
           headers: {
@@ -149,7 +149,7 @@ const handleDownloadPDF = async (invoiceId) => {
 
     // API URL for downloading the invoice
     const apiUrl = `https://truwix-rm-rental-backend-dev.vercel.app/api/invoice/${invoiceId}/download-invoice`;
-    console.log("Api Url",apiUrl);
+  
     // Send GET request to download the file
     const response = await axios.get(apiUrl, {
       headers: {
@@ -171,7 +171,7 @@ const handleDownloadPDF = async (invoiceId) => {
     // Clean up the temporary Blob URL
     window.URL.revokeObjectURL(url);
 
-    console.log("Invoice downloaded successfully.");
+
   } catch (error) {
     console.error("Error downloading invoice:", error);
     toast.error("An error occurred while downloading the invoice.");
