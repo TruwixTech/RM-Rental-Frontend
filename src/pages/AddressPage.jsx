@@ -89,7 +89,6 @@ export default function AddressPage({ finalPayment }) {
   const navigate = useNavigate();
 
 
-
   const handlePayment = async () => {
     if (!selectedAddress && !isCustomAddress && !modifyAddress) {
       alert("Please select or enter an address");
@@ -99,20 +98,20 @@ export default function AddressPage({ finalPayment }) {
       alert("Please login to continue");
       return;
     }
-
+  
     if (!allowedPincodes.includes(modifyAddress.pinCode || extractPincode(selectedAddress))) {
       setShowPopup2(true);
       return;
     }
-
+  
     // Concatenate the custom address fields into a single string
     const customAddressString = isCustomAddress
       ? `${modifyAddress.flatNo}, ${modifyAddress.addressLine1}, ${modifyAddress.addressLine2}, ${modifyAddress.city}, ${modifyAddress.state}, ${modifyAddress.pinCode}`
       : null;
-
+  
     // Determine the address to send
     const addressToSend = isCustomAddress ? customAddressString : selectedAddress;
-
+  
     // Step 1: Trigger Razorpay Payment Gateway
     const options = {
       key: "rzp_live_gNLh3zWfj9gj0H",
@@ -128,12 +127,9 @@ export default function AddressPage({ finalPayment }) {
             payment_id: response.razorpay_payment_id,
             signature: response.razorpay_signature,
           };
-
-          const verifyResponse = await AXIOS_INSTANCE.post(
-            "/order/verifyPayment",
-            paymentData
-          );
-
+  
+          const verifyResponse = await AXIOS_INSTANCE.post("/order/verifyPayment", paymentData);
+  
           if (verifyResponse?.data?.success) {
             // Step 3: Create Order in Backend after Payment Success
             const orderResponse = await AXIOS_INSTANCE.post("/create/order", {
@@ -143,10 +139,10 @@ export default function AddressPage({ finalPayment }) {
               address: addressToSend, // Send the selected or custom address
             });
 
-          
-
+  
             const orderData = orderResponse?.data;
             if (orderData.success) {
+              // Clear fields after successful payment
               setModifyAddress({
                 flatNo: "",
                 addressLine1: "",
@@ -154,10 +150,34 @@ export default function AddressPage({ finalPayment }) {
                 city: "",
                 state: "",
                 pinCode: "",
-              }); // Clear fields after payment
-              navigate("/orderconfirm", {
-                state: { orderId: orderData._id },
               });
+  
+              // Step 4: Create Invoice
+              const invoiceData = {
+                userId: user?.userId,  // Use the logged-in user's ID
+                paymentId: response.razorpay_payment_id,  // Use Razorpay payment ID
+                amount: cartTotal,  // Use cart total as the invoice amount
+                items: cartItems.map(item => ({
+                  name: item.name,
+                  quantity: item.quantity,
+                  price: item.price,
+                }))
+              };
+  
+              const invoiceResponse = await AXIOS_INSTANCE.post(
+                "invoice/create-invoice",
+                invoiceData
+              );
+  
+              if (invoiceResponse?.data?.success) {
+                // Navigate to the order confirmation page
+                navigate("/orderconfirm", {
+                  state: { orderId: orderData._id },
+                });
+              } else {
+                alert("Invoice creation failed. Reason: " + invoiceResponse?.data?.error);
+                navigate("/orderfailed");
+              }
             } else {
               alert("Order creation failed. Reason: " + orderData.error);
               navigate("/orderfailed");
@@ -181,10 +201,106 @@ export default function AddressPage({ finalPayment }) {
         color: "#6366F1",
       },
     };
-
+  
     const rzp = new window.Razorpay(options);
     rzp.open();
   };
+  
+  // const handlePayment = async () => {
+  //   if (!selectedAddress && !isCustomAddress && !modifyAddress) {
+  //     alert("Please select or enter an address");
+  //     return;
+  //   }
+  //   if (!user) {
+  //     alert("Please login to continue");
+  //     return;
+  //   }
+
+  //   if (!allowedPincodes.includes(modifyAddress.pinCode || extractPincode(selectedAddress))) {
+  //     setShowPopup2(true);
+  //     return;
+  //   }
+
+  //   // Concatenate the custom address fields into a single string
+  //   const customAddressString = isCustomAddress
+  //     ? `${modifyAddress.flatNo}, ${modifyAddress.addressLine1}, ${modifyAddress.addressLine2}, ${modifyAddress.city}, ${modifyAddress.state}, ${modifyAddress.pinCode}`
+  //     : null;
+
+  //   // Determine the address to send
+  //   const addressToSend = isCustomAddress ? customAddressString : selectedAddress;
+
+  //   // Step 1: Trigger Razorpay Payment Gateway
+  //   const options = {
+  //     key: "rzp_live_gNLh3zWfj9gj0H",
+  //     amount: cartTotal * 100,
+  //     currency: "INR",
+  //     name: "RM RENTAL",
+  //     description: "Rm Rental Payment",
+  //     image: "https://your-logo-url.com/logo.png",
+  //     handler: async (response) => {
+  //       try {
+  //         // Step 2: Verify Payment
+  //         const paymentData = {
+  //           payment_id: response.razorpay_payment_id,
+  //           signature: response.razorpay_signature,
+  //         };
+
+  //         const verifyResponse = await AXIOS_INSTANCE.post(
+  //           "/order/verifyPayment",
+  //           paymentData
+  //         );
+
+  //         if (verifyResponse?.data?.success) {
+  //           // Step 3: Create Order in Backend after Payment Success
+  //           const orderResponse = await AXIOS_INSTANCE.post("/create/order", {
+  //             cartTotal,
+  //             shippingCost,
+  //             cartItems,
+  //             address: addressToSend, // Send the selected or custom address
+  //           });
+
+
+
+  //           const orderData = orderResponse?.data;
+  //           if (orderData.success) {
+  //             setModifyAddress({
+  //               flatNo: "",
+  //               addressLine1: "",
+  //               addressLine2: "",
+  //               city: "",
+  //               state: "",
+  //               pinCode: "",
+  //             }); // Clear fields after payment
+  //             navigate("/orderconfirm", {
+  //               state: { orderId: orderData._id },
+  //             });
+  //           } else {
+  //             alert("Order creation failed. Reason: " + orderData.error);
+  //             navigate("/orderfailed");
+  //           }
+  //         } else {
+  //           alert("Payment verification failed");
+  //           navigate("/orderfailed");
+  //         }
+  //       } catch (error) {
+  //         console.error("Payment verification or order creation failed:", error);
+  //         alert("An error occurred during the payment process.");
+  //         // navigate("/orderfailed");
+  //       }
+  //     },
+  //     prefill: {
+  //       name: user?.name,
+  //       email: user?.email,
+  //       contact: "9999999999",
+  //     },
+  //     theme: {
+  //       color: "#6366F1",
+  //     },
+  //   };
+
+  //   const rzp = new window.Razorpay(options);
+  //   rzp.open();
+  // };
 
 
   const handleSelectAddress = () => {

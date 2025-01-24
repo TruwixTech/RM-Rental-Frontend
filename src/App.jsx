@@ -36,6 +36,8 @@ import Contact from "./components/Contact";
 import MySubscriptions from "./pages/MySubscriptions";
 import ForgotPassword from "./pages/ForgotPassword";
 import ContactUS from "./pages/ContactUs";
+import ShippingPolicy from "./pages/ShippingPolicy";
+import Returns from "./pages/Returns";
 
 const App = () => {
   const navigate = useNavigate();
@@ -124,6 +126,8 @@ const App = () => {
           <Route path="/contactus" element={<ContactUS />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/shipping" element={<ShippingPolicy />} />
+          <Route path="/returns" element={<Returns />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/mycart" element={<MyCart />} />
           <Route

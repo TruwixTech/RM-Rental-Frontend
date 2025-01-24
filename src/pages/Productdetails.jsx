@@ -12,7 +12,7 @@ const ProductDetails = () => {
   const user = storageService.get("user");
   const [productData, setProductData] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
-  const [selectedMonth, setSelectedMonth] = useState(3);
+  const [selectedMonth, setSelectedMonth] = useState(1);
   const [rentQuantity, setRentQuantity] = useState(1); // Separate state for rent quantity
   const { id } = useParams();
 
@@ -43,41 +43,92 @@ const ProductDetails = () => {
   useEffect(() => {
     getProductData();
   }, [id]);
+  // const getRentMonths = (formData) => {
+  //   const { month, rentalOptions } = formData;
+  //   // if data format is not valid then enter the null
+  //   if (!Array.isArray(month) || typeof rentalOptions !== "object") {
+  //     return null; 
+  //   }
+  //   // Map the month array with rental options dynamically
+  //   return month.map((item) => ({
+  //     month: item,
+  //     rent: rentalOptions[item] || null, 
+  //   }));
+  // };
   const getRentMonths = (formData) => {
-    const { month, rentalOptions } = formData;
-    // if data format is not valid then enter the null
-    if (!Array.isArray(month) || typeof rentalOptions !== "object") {
-      return null; 
+    if (!formData || typeof formData !== "object") {
+      console.error("formData is invalid:", formData);
+      return null;
     }
-    // Map the month array with rental options dynamically
-    return month.map((item) => ({
-      month: item,
-      rent: rentalOptions[item] || null, 
-    }));
+    if (!Array.isArray(month)) {
+      console.error("month is not an array:", month);
+      return null;
+    }
+    
+    if (!Array.isArray(rentalOptions)) {
+      console.error("rentalOptions is not an array of objects:", rentalOptions);
+      return null;
+    }
+  
+    // Map months to their corresponding rents from rentalOptions
+    return month.map((item) => {
+      const rentOption = rentalOptions.find(
+        (option) => option.month === String(item) || option.month === item // Match month as string or number
+      );
+      return {
+        month: item,
+        rent: rentOption ? rentOption.rent : null, // If no match, set rent as null
+      };
+    });
   };
   
+  
+  
 
-  const myproductAdd = async (productId) => {
-    if (!user) {
-      toast.error("You are not logged in!");
-      return;
-    }
+  const myproductAdd = async (productData, formData) => {
 
-    const data = await addToCartAPI({
-      items: {
-        product: productId,
-        quantity: 1,
-        rentMonthsCount: 3, // 3, 6, 9, or 12
-        rentMonths: "rent3Months", // Human-readable months
-      },
-    });
+    try {
+      if (!user) {
+        toast.error("You are not logged in!");
+        return;
+      }
+  
+      // Validate that formData is an object and not an empty one
+      if (!formData || typeof formData !== "object" || Object.keys(formData).length === 0) {
+        toast.error("Invalid rental options. Please provide valid data.");
+        console.error("formData is invalid:", formData);
+        return;
+      }
+  
+      // Extract rent months data from formData
+      const rentMonthsData = selectedMonth;
 
-    if (data?.success) {
-      // Show success message when product is added to cart for rent
-      toast.success(`Product added to cart for 3 months rent`);
-      navigate("/mycart");
-    } else {
-      toast.error("Product already in cart");
+      if (!rentMonthsData || rentMonthsData.length === 0) {
+        toast.error("Invalid rental options. Please check your selection.");
+        return;
+      }
+  
+      // Send data to the API
+      const data = await addToCartAPI({
+        items: {
+          product: productData,
+          quantity: 1,
+          rentMonthsCount: rentMonthsData,
+          rentMonths: `rent${rentMonthsData}months`,
+        },
+      });
+  
+      if (data?.success) {
+        toast.success("Product added to cart for rent successfully!");
+        navigate("/mycart");
+      } else if (data?.error) {
+        toast.error(data.error.message || "Product already in cart");
+      } else {
+        toast.error("Something went wrong while adding the product to the cart");
+      }
+    } catch (error) {
+      console.error("Error adding product to cart:", error);
+      toast.error("An unexpected error occurred. Please try again later.");
     }
   };
   const handleIncreaseRentQuantity = () => {
@@ -87,7 +138,7 @@ const ProductDetails = () => {
   const handleDecreaseRentQuantity = () => {
     setRentQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
   };
-
+ 
   const handleImageSelect = (imgSrc) => {
     setSelectedImage(imgSrc);
   };
@@ -100,8 +151,6 @@ const ProductDetails = () => {
     
     return rentPrice ? parseFloat(rentPrice) : "No rent options";
   };
-  
-  
   
   return (
     <>
@@ -243,12 +292,14 @@ const ProductDetails = () => {
               </div>
             </div>
             <button
-              className="cart-button py-2 px-4"
-              onClick={() => myproductAdd("rent")}
-            >
-              <i className="ri-shopping-bag-line"></i>
-              <div className="Add-to-Cart-Button">Add to Cart</div>
-            </button>
+  className="cart-button py-2 px-4"
+  onClick={() => myproductAdd(productData, productData?.rentalOptions)}
+
+>
+  <i className="ri-shopping-bag-line"></i>
+  <div className="Add-to-Cart-Button">Add to Cart</div>
+</button>
+
           </div>
           <div className="productdetails-right-4">
   <hr className="seperator" />
