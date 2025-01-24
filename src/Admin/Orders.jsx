@@ -138,124 +138,46 @@ const Orders = () => {
     }
   };
 
-// Assuming you have AXIOS_INSTANCE properly configured
+const handleDownloadPDF = async (invoiceId) => {
+  try {
+    // Retrieve the token from localStorage
+    const token = localStorage.getItem("token");
 
-// const handleDownloadPDF = async (invoiceId) => {
-//   try {
-//     // Retrieve the token from localStorage
-//     const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("Authentication token not found. Please log in.");
+    }
 
-//     if (!token) {
-//       throw new Error("Authentication token not found. Please log in.");
-//     }
+    // API URL for downloading the invoice
+    const apiUrl = `https://truwix-rm-rental-backend-dev.vercel.app/api/invoice/${invoiceId}/download-invoice`;
+    console.log("Api Url",apiUrl);
+    // Send GET request to download the file
+    const response = await axios.get(apiUrl, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      responseType: "blob", // Important to handle binary data
+    });
 
-//     // Full API endpoint for downloading the invoice PDF (with dynamic invoiceId)
-//     const apiUrl = `invoice/${invoiceId}/download-invoice`;
-    
-//     // Send POST request using AXIOS_INSTANCE
-//     const response = await AXIOS_INSTANCE.post(`invoice/${invoiceId}/download-invoice`,{},{
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//     console.log("pdf download",response);
+    // Create a Blob URL from the response data
+    const blob = new Blob([response.data], { type: "application/pdf" });
+    const url = window.URL.createObjectURL(blob);
 
+    // Create a temporary link to trigger the download
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `invoice-${invoiceId}.pdf`; // Default file name
+    link.click();
 
-//     // Check if the response is successful
-//     if (response.status === 200) {
-//       const { pdfUrl } = response.data;
+    // Clean up the temporary Blob URL
+    window.URL.revokeObjectURL(url);
 
-//       if (pdfUrl) {
-//         // Create an anchor element to trigger the PDF download
-//         const link = document.createElement("a");
-//         link.href = pdfUrl; // PDF URL received from the server
-//         link.download = `invoice-${invoiceId}.pdf`; // File name for download
-//         link.click(); // Trigger download
+    console.log("Invoice downloaded successfully.");
+  } catch (error) {
+    console.error("Error downloading invoice:", error);
+    toast.error("An error occurred while downloading the invoice.");
+  }
+};
 
-//         toast.success("PDF is being downloaded!"); // Show success toast
-//       } else {
-//         throw new Error("PDF URL not found in the response");
-//       }
-//     } else {
-//       throw new Error("Failed to download invoice");
-//     }
-//   } catch (error) {
-//     console.error("Error downloading PDF:", error);
-//     toast.error("An error occurred while downloading the PDF.");
-//   }
-// };
-
-// const handleDownloadPDF = async (invoiceId) => {
-//   try {
-//     // Retrieve the token from localStorage
-//     const token = localStorage.getItem('token'); // Make sure token is stored correctly
-
-//     if (!token) {
-//       throw new Error("Authentication token not found. Please log in.");
-//     }
-
-   
-
-//     // API endpoint for downloading the invoice PDF
-//     const apiUrl = `https://truwix-rm-rental-backend-dev.vercel.app/api/invoice/${invoiceId}/download-invoice`;
-
-    
-
-// //     // Send POST request with Authorization header
-//     const response = await fetch(apiUrl, {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//     console.log("my url:", response);
-//     // Check if the response is successful
-//     if (!response.ok) {
-//       throw new Error("Failed to download invoice");
-//     }
-
-//     // Assuming the response contains a direct URL to the PDF
-//     const { pdfUrl } = await response.json();
-
-//     if (pdfUrl) {
-//       // Create an anchor element to trigger the PDF download
-//       const link = document.createElement("a");
-//       link.href = pdfUrl; // PDF URL received from the server
-//       link.download = `invoice-${invoiceId}.pdf`; // Set the file name for download
-//       link.click(); // Trigger download
-
-//       toast.success("PDF is being downloaded!"); // Show success toast
-//     } else {
-//       throw new Error("PDF URL not found in the response");
-//     }
-//   } catch (error) {
-//     console.error("Error downloading PDF:", error);
-//     toast.error("An error occurred while downloading the PDF.");
-//   }
-// };
-// const handleDownloadPDF = async (invoiceId) => {
-//   try {
-//     const response = await AXIOS_INSTANCE(`invoice/${invoiceId}/download-invoice`, {
-//       responseType: 'blob', // Important to handle binary data
-//     });
-
-//     // Create a Blob from the response data
-//     const url = window.URL.createObjectURL(new Blob([response.data]));
-      
-//     // Create a temporary link to trigger the download
-//     const link = document.createElement('a');
-//     link.href = pdfUrl;
-//     link.download = `invoice-${invoiceId}.pdf`; // Default file name
-//     link.click();
-
-//     // Clean up the temporary URL
-//     window.URL.revokeObjectURL(url);
-//   } catch (error) {
-//     console.error('Error downloading invoice:', error);
-//   }
-// };
   
   const indexOfLastOrder = currentPageOrders * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
@@ -273,7 +195,7 @@ const Orders = () => {
 
   return (
     <div>
-      <div className="orders-container">
+      {/* <div className="orders-container">
       <h1>Orders</h1>
      
       <table className="orders-table">
@@ -357,7 +279,7 @@ const Orders = () => {
           </button>
         ))}
       </div>
-    </div>
+    </div> */}
 
     <div className="orders-container p-5">
   <h1 className="text-2xl font-bold mb-5">Orders</h1>
@@ -372,6 +294,7 @@ const Orders = () => {
           <th scope="col" className="px-6 py-3">Status</th>
         </tr>
       </thead>
+     
       <tbody>
         {currentOrders.map((order) => (
           <tr
@@ -449,6 +372,7 @@ const Orders = () => {
 >
   Download PDF
 </button>
+
 
           </td>
         </tr>

@@ -30,8 +30,8 @@ const Page6 = () => {
                     <div id='det-sec' style={{ position: 'absolute', top: '10%', right: "15%", backgroundColor: "#fff", display: "flex", flexDirection: "column", gap: '4px', fontSize: '15px', borderRadius: "20px", padding: "8px 15px" }}>
                         <p style={{ marginBottom: "0", color: "grey" }}>CHAIRS & TOOLS</p>
                         <Link style={{ color: "#000" }}>Field Armchair</Link>
-                        <p style={{ margin: 0, color: "grey", textDecoration: "line-through" }}>£80</p>
-                        <p style={{ margin: "0", width: 'fit-content', borderBottom: "3px solid yellow" }}>£56</p>
+                        <p style={{ margin: 0, color: "grey", textDecoration: "line-through" }}>₹8000</p>
+                        <p style={{ margin: "0", width: 'fit-content', borderBottom: "3px solid yellow" }}>₹5600</p>
                     </div>
                     <div className='page6-p'>Transform. Style. Inspire.</div>
                 </div>

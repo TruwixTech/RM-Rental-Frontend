@@ -414,7 +414,7 @@ const MyCart = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 >
-                  I have accepted <span class="text-blue-500 border-b border-blue-500">Terms & Conditions</span>
+                  I have accepted <span class="text-blue-500 border-b border-blue-500"> & Conditions</span>
                 </Link>
               </label>
             </div>

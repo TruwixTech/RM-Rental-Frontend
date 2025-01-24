@@ -88,11 +88,11 @@ const Chairs = () => {
       <div className="card-grid w-full">
         {products.map((product) => (
           <Link to={`/product/${product?._id}`} key={product?._id} className="card bg-white rounded-lg">
-            <div className="image-container ">
+            <div className="bg-gray-500">
               <div>
                 <img
                   // className="rounded-lg w-full h-64 object-cover"
-                  className="bg-cover  rounded-lg w-full"
+                  className="bg-cover  rounded-lg w-full object-cover"
                   src={product.img[0]}
                   alt="Product image Not Found"
                   onError={(e) => {
@@ -104,12 +104,14 @@ const Chairs = () => {
             </div>
             <div className="p-[42px]">
               <div>
+              <p className="text-base">Chair</p>
                 <h3 className="mt-2 w-[200px] text-base font-bold tracking-tight font-satoshi text-gray-900 overflow-hidden text-ellipsis whitespace-nowrap">
                   {product.title}
                 </h3>
               </div>
               <div className="card-rating text-2xl">{"★".repeat(5)}</div>
               <div className="price-cont flex justify-between items-center">
+              
               <p className="card-price text-lg font-semibold mb-4 font-satoshi">
               {product.rentalOptions && Object.keys(product.rentalOptions).length > 0 ? (
               <h5>
