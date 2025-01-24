@@ -37,7 +37,6 @@ const Login = () => {
 
       if (res.status === 200) {
         const { token } = res.data;
-        localStorage.setItem("authToken", token);
         storageService.save("token", res.data.token);
         storageService.save("user", res.data.user);
         toast.success("Login successful");

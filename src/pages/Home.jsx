@@ -87,7 +87,7 @@ const Home = () => {
   async function fetchUser() {
     try {
       const xyz = JSON.parse(localStorage.getItem("user"))
-      const response = await axios.post("https://rmrental-backend.vercel.app/api/user-details", { id: xyz._id });
+      const response = await axios.AXIOS_INSTANCE("api/user-details", { id: xyz._id });
       const orders = response.data.user.orders;
       // Get today's date (normalized to midnight for accurate comparison)
       const today = new Date();

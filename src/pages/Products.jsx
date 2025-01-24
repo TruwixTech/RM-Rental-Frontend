@@ -65,6 +65,8 @@ const Products = () => {
     getProducts();
   }, [selectedCategories, sortOption]);
 
+ 
+  
   const myproductAdd = async (productId) => {
     if (!user) {
       toast.error("You are not logged in!");
@@ -73,10 +75,14 @@ const Products = () => {
 
     const data = await addToCartAPI({
       items: {
-        product: productId,
-        quantity: 1,
-        rentMonthsCount: 3, // 3, 6, 9, or 12
-        rentMonths: "rent3Months", // Human-readable months
+        // product: productId,
+        // quantity: 1,
+        // rentMonthsCount: rentMonthsData.length,
+        // rentMonths: rentMonthsData,
+        product: productData,
+          quantity: 1,
+          rentMonthsCount: rentMonthsData,
+          rentMonths: `rent${rentMonthsData}months`,
       },
     });
 

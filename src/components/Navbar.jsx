@@ -152,14 +152,14 @@ const Navbar = ({ active, userClickHandler }) => {
           
             
             <div className="hidden h-6 bg-gray-300 md:block md:w-px"></div>
-            <button className="flex items-center gap-2 text-sm font-medium text-gray-600 rounded-full hover:text-gray-900 sm:w-full sm:justify-center md:w-auto">
+            {/* <button className="flex items-center gap-2 text-sm font-medium text-gray-600 rounded-full hover:text-gray-900 sm:w-full sm:justify-center md:w-auto">
             <img 
               src={bag} 
               alt="Cart Icon" 
               className="w-10 h-10" 
             />
             CART (1)
-            </button>
+            </button> */}
 
             <Link
               className="text-sm font-medium text-gray-700 hover:text-gray-900 sm:text-center"
