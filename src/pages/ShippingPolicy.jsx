@@ -3,7 +3,7 @@ import React from 'react';
 const ShippingPolicy = () => {
   return (
     <div className="container mx-auto py-12 px-4">
-      <h1 className="text-4xl font-bold mb-8 text-[#ffd74d] text-center ">Shipping Policy</h1>
+      <h1 className="text-3xl font-bold mb-8">Shipping Policy</h1>
       <section className="mb-8">
         <h2 className="text-xl font-semibold mb-2">When and where do you usually deliver?</h2>
         <p className="text-gray-700">
