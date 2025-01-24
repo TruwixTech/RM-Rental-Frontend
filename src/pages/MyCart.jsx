@@ -151,38 +151,31 @@ const MyCart = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-        const response = await AXIOS_INSTANCE.post(
-            `coupon/validate`,
-            { code: couponCode }, // Pass the data object here
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        );
-
-        if (response?.data?.valid) {
-            setDiscountPercentage(response.data.discountPercentage);
-            setErrorMessage(""); // Clear any previous error message
-        } else {
-            setErrorMessage("Invalid coupon code.");
+      const response = await AXIOS_INSTANCE(
+        `coupon/validate`,
+        {
+          code: couponCode,
         }
+      );
+      if (response.data.valid) {
+        setDiscountPercentage(response.data.discountPercentage);
+        setErrorMessage("");
+      } else {
+        setErrorMessage("Invalid coupon code.");
+      }
     } catch (error) {
-        console.error("Error validating coupon:", error);
-        const errorMessage = error.response?.data?.message || "Failed to validate coupon.";
-        setErrorMessage(errorMessage);
+      console.error("Error validating coupon:", error);
+      setErrorMessage("Failed to validate coupon.");
     }
-};
-
+  };
 
   const calculateSecurityDeposit = () => {
     return (
       userCartData?.items?.reduce((acc, curr) => {
         const rentPrice = getRentMonthsPrice(
-          curr?.product?.rentalOptions,
-          curr?.rentOptions?.rentMonthsCount,
+          curr.product.rentalOptions,
+          curr.rentOptions.rentMonthsCount,
         );
         return acc + (rentPrice || 0) * 2 * curr.rentOptions.quantity; // 2x rent price for security deposit
       }, 0) || 0
@@ -221,7 +214,7 @@ const MyCart = () => {
     if (data?.success) {
       // Show success message when product is added to cart for rent
       toast.success(`Product added to cart for 3 months rent`);
-      // navigate("/mycart");
+      navigate("/mycart");
     } else {
       toast.error("Product already in cart");
     }
@@ -234,12 +227,10 @@ const MyCart = () => {
     return (
       userCartData?.items?.reduce((acc, curr) => {
         const rentPrice = getRentMonthsPrice(
-        curr?.product?.rentalOptions,
-        curr?.rentOptions?.rentMonthsCount
+        curr.product.rentalOptions,
+        curr.rentOptions.rentMonthsCount
           
         );
-       
-        
         return acc + (rentPrice || 0) * curr.rentOptions.quantity;
       }, 0) || 0
     );
@@ -340,7 +331,6 @@ const MyCart = () => {
               <img src={placeholderImageURL} alt="Empty Cart" />
               <p>Your Cart is empty.</p>
             </div>
-          
           ) : (
             userCartData.items.map((item, index) => (
               <div key={item?.product?._id} className="cart-border">

@@ -130,8 +130,7 @@ const Navbar = ({ active, userClickHandler }) => {
         <div className="rightnav">
           {!user ? (
 
-            <div>
-              <div className="flex items-center gap-4 p-2 rounded-md sm:flex-col sm:gap-2 md:flex-row md:gap-4 lg:gap-6">
+            <div className="flex items-center gap-4 p-2 rounded-md sm:flex-col sm:gap-2 md:flex-row md:gap-4 lg:gap-6">
             <button className=" relative flex items-center px-4 w-24 h-8 text-sm font-medium text-gray-700 bg-gray-100 rounded-full sm:w-20 sm:h-9 md:w-28 md:h-[52px]">
               Buy
               <span className=" absolute right-0 w-12 h-12 rounded-full bg-gray-200 border hover:bg-gray-500  border-gray-500"></span>
@@ -150,7 +149,7 @@ const Navbar = ({ active, userClickHandler }) => {
             />
 
             </button>
-            
+          
             
             <div className="hidden h-6 bg-gray-300 md:block md:w-px"></div>
             {/* <button className="flex items-center gap-2 text-sm font-medium text-gray-600 rounded-full hover:text-gray-900 sm:w-full sm:justify-center md:w-auto">
@@ -168,11 +167,7 @@ const Navbar = ({ active, userClickHandler }) => {
             >
               Login
             </Link>
-
-            
-            </div>
-            </div>
-          
+          </div>
           
 
           ) : (
