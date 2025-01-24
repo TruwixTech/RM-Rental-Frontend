@@ -2,7 +2,7 @@
 import "../assets/csss/Footer.css";
 import logo1 from "../assets/img/logo1.png";
 import { Link } from "react-router-dom";
-
+import image from "../assets/img/image.png"
 const Footer = () => {
   // const handleOpenPdf1 = () => {
   //   // Replace the URL below with the path to your PDF file
@@ -17,9 +17,11 @@ const Footer = () => {
     "https://truwix1-my.sharepoint.com/:b:/g/personal/ujjwalk_truwix_com/EUmgUcrOpztPuvCdJ2Jr4awBTg3MaUODY2j6Vz44rfZ0gg?e=gfh8Bt";
   return (
     <div>
-      <footer className="w-full flex flex-col">
+      <footer className="w-full flex flex-col bg-[#f7f1db]">
+        
         <div className="w-full flex flex-col items-center md:mt-20 md:items-start md:gap-20 md:flex-row md:justify-between md:px-20 mt-10">
           <div className="w-[90%] md:w-[30%] flex flex-col items-center ">
+          {/* <img className="w-full" src={image} alt="footer-img"/> */}
             <img src={logo1} alt="Logo" className="footer-logo" />
 
             <p className="mt-4 md:mt-8 text-gray-500 text-center md:text-start">
@@ -40,21 +42,24 @@ const Footer = () => {
               <Link className="text-gray-500 my-1 text-decoration-none">
                 Stores
               </Link>
+              <Link className="text-gray-500 my-1 text-decoration-none md:items-start">
+                Trade program
+              </Link>
             </div>
             <div className="w-full md:w-1/3 flex flex-col items-center md:items-start ">
               <div className="text-black font-bold">ABOUT</div>
               <Link
                 className="text-gray-500 my-1 text-decoration-none"
                 href
-                to={"/aboutus"}
+                to={"/reviews"}
               >
-                About Us
+                Reviews
               </Link>
               <Link
-                to="/faq"
+                to="/careers"
                 className="text-gray-500 my-1 text-decoration-none"
               >
-                FAQs
+                Careers
               </Link>
               <Link
                 to={"https://g.page/r/Cc3q4p7qCMi3EAI/review"}
@@ -62,13 +67,19 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="text-gray-500 my-1 text-decoration-none"
               >
-                Reviews
+                Financing
               </Link>
               <Link
                 to="/contactus"
                 className="text-gray-500 my-1 text-decoration-none"
               >
-                Contact Us
+               Patents
+              </Link>
+              <Link
+                to="/ourblogs"
+                className="text-gray-500 my-1 text-decoration-none"
+              >
+               Our Blogs
               </Link>
             </div>
             <div className="w-full md:w-1/3 flex flex-col items-center md:items-start ">
