@@ -86,7 +86,9 @@ const ProductDetails = () => {
   
 
   const myproductAdd = async (productData, formData) => {
-
+    console.log("productData", productData);
+    console.log("formData", formData);
+    
     try {
       if (!user) {
         toast.error("You are not logged in!");

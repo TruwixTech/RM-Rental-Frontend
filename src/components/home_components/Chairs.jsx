@@ -60,11 +60,11 @@ const Chairs = () => {
   };
 
   const getLowestRentPrice = (rentalOptions) => {
-    if (!rentalOptions) 
-      return "No rent options"; 
+    if (!rentalOptions)
+      return "No rent options";
 
     const rentPrices = Object.values(rentalOptions)
-      .filter((value) => !isNaN(value)) 
+      .filter((value) => !isNaN(value))
       .map((value) => parseFloat(value))
       .sort((a, b) => a - b); // Sort in ascending order
     return rentPrices.length > 0 ? rentPrices[0] : "No rent options";
@@ -85,14 +85,14 @@ const Chairs = () => {
         <p className="font-satoshi">Check out what is new in the market!</p>
       </div>
 
-      <div className="card-grid w-full">
+      <div className="card-grid w-full mt-10">
         {products.map((product) => (
-          <Link to={`/product/${product?._id}`} key={product?._id} className="card bg-white rounded-lg">
+          <Link to={`/product/${product?._id}`} key={product?._id} className="bg-white rounded-lg">
             <div className="bg-gray-500">
               <div>
                 <img
                   // className="rounded-lg w-full h-64 object-cover"
-                  className="bg-cover  rounded-lg w-full object-cover"
+                  className="rounded-lg w-full h-72 object-cover"
                   src={product.img[0]}
                   alt="Product image Not Found"
                   onError={(e) => {
@@ -102,36 +102,33 @@ const Chairs = () => {
                 />
               </div>
             </div>
-            <div className="p-[42px]">
+            <div className="p-7">
               <div>
-              <p className="text-base">Chair</p>
+                <p className="text-base">Chair</p>
                 <h3 className="mt-2 w-[200px] text-base font-bold tracking-tight font-satoshi text-gray-900 overflow-hidden text-ellipsis whitespace-nowrap">
                   {product.title}
                 </h3>
               </div>
               <div className="card-rating text-2xl">{"★".repeat(5)}</div>
               <div className="price-cont flex justify-between items-center">
-              
-              <p className="card-price text-lg font-semibold mb-4 font-satoshi">
-              {product.rentalOptions && Object.keys(product.rentalOptions).length > 0 ? (
-              <h5>
-              <span
-                style={{
-                textDecoration: "line-through",
-                marginRight: "1px",
-              }}
-            >
-        </span>
-        {"₹" +
-        Number(getLowestRentPrice(product.rentalOptions)).toFixed(2) +
-        " /month"}
-      </h5>
-    ) : (
-    "No rent options"
-    )}
-  </p>
-
-
+                <p className="card-price text-lg font-semibold font-satoshi flex">
+                  {product.rentalOptions && Object.keys(product.rentalOptions).length > 0 ? (
+                    <h5>
+                      <span
+                        style={{
+                          textDecoration: "line-through",
+                          marginRight: "1px",
+                        }}
+                      >
+                      </span>
+                      {"₹" +
+                        Number(getLowestRentPrice(product.rentalOptions)).toFixed(2) +
+                        " /month"}
+                    </h5>
+                  ) : (
+                    "No rent options"
+                  )}
+                </p>
                 <button
                   className="card-add-button"
                   onClick={() => myproductAdd(product?._id)}

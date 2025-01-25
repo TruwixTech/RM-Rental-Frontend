@@ -17,7 +17,7 @@ const Returns = () => {
       <section className="mb-8">
         <h2 className="text-2xl font-semibold mb-4">Exceptions / Non-returnable / Non-replaceable Products</h2>
         <p className="text-gray-700 mb-2">The following items are not eligible for return, refund, or replacement:</p>
-        <ul className="list-disc pl-6 text-gray-700">
+        <ul className="list-disc list-inside text-gray-700">
           <li>Products damaged or missing parts due to customer handling.</li>
           <li>Products received in good condition but are no longer wanted or are deemed unsatisfactory by the customer.</li>
           <li>Items that stopped working due to misuse or improper handling after delivery.</li>

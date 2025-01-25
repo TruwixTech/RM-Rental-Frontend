@@ -9,7 +9,7 @@ import { getAllProductsAPI } from "../service/products.service";
 import { addToCartAPI } from "../service/cart.service";
 import toast from "react-hot-toast";
 import axios from "axios";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AXIOS_INSTANCE } from "../service";
 const placeholderImageURL =
   "https://cdn.dribbble.com/users/887568/screenshots/3172047/media/725fca9f20d010f19b3cd5411c50a652.gif";
@@ -128,12 +128,10 @@ const MyCart = () => {
       return total + space + (quantity * space);
     }, 0);
 
-   
-    
+
+
     const vehicleCapacity = 100;
     const vehiclesNeeded = Math.ceil(totalSpace / vehicleCapacity);
-
-    
 
     const fixedCost = 400;
     const perKmCost = 70;
@@ -184,27 +182,29 @@ const MyCart = () => {
 
   const getRentMonthsPrice = (rentalOptions, selectedMonth) => {
     if (!rentalOptions || !selectedMonth) return "No rent options";
-  
+
     // Check if the selectedMonth exists in rentalOptions
     const rentPriceKey = `rent${selectedMonth}Months`; // Create the key like rent3Months, rent6Months, etc.
     const rentPrice = rentalOptions[selectedMonth];
-  
-    
+
+
     // If the rentPrice is found, return it as a float, else return "No rent options"
     return rentPrice ? parseFloat(rentPrice) : "No rent options";
   };
-  
-  
-  
-  const myproductAdd = async (productId) => {
+
+
+
+  const myproductAdd = async (product) => {
+    console.log("productId", product);
+    
     if (!user) {
       toast.error("You are not logged in!");
       return;
-    }
+    }    
 
     const data = await addToCartAPI({
       items: {
-        product: productId,
+        product: product._id,
         quantity: 1,
         rentMonthsCount: rentMonthsData,
         rentMonths: `rent${rentMonthsData}months`,
@@ -219,6 +219,7 @@ const MyCart = () => {
       toast.error("Product already in cart");
     }
   };
+
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
   };
@@ -227,9 +228,8 @@ const MyCart = () => {
     return (
       userCartData?.items?.reduce((acc, curr) => {
         const rentPrice = getRentMonthsPrice(
-        curr.product.rentalOptions,
-        curr.rentOptions.rentMonthsCount
-          
+          curr.product.rentalOptions,
+          curr.rentOptions.rentMonthsCount
         );
         return acc + (rentPrice || 0) * curr.rentOptions.quantity;
       }, 0) || 0
@@ -296,7 +296,7 @@ const MyCart = () => {
         navigate("/address/finalPayment", {
           state: {
             cartTotal: calculateTotalPrice(), // Sending total price
-            shippingCost: calculateShippingFee(), // Sending shipping fee
+            shippingCost: calculateShippingCost(), // Sending shipping fee
             cartItems: userCartData.items, // Sending cart items
             apiFetchedAddress: address,
           },
@@ -304,7 +304,7 @@ const MyCart = () => {
       }
 
     } catch (error) {
-     
+      console.error("Error updating cart:", error);
     }
   }
 
@@ -316,7 +316,7 @@ const MyCart = () => {
             <h2 className="cart-heading">Shopping Cart</h2>
           </div>
           <div className="w-full h-auto flex flex-col md:flex-row text-center md:text-start gap-1 p-2 bg-gray-100 justify-center">
-          
+
             <span className="font-bold text-center md:text-start md:hidden">Note :</span>
             <span className="text-red-500 text-center md:text-start">**</span>
             <p className="text-red-500">
@@ -345,13 +345,12 @@ const MyCart = () => {
                     <h3 className="">{item?.product?.title}</h3>
                     <p className="sub-title">{item?.product?.sub_title}</p>
                     <p className="price">
-                      {`₹ ${
-                        getRentMonthsPrice(
-                          
-                          item?.product?.rentalOptions,
-                          item?.rentOptions.rentMonthsCount,
-                        ) * item?.rentOptions?.quantity
-                      } / ${item?.rentOptions.rentMonthsCount} months on rent`}
+                      {`₹ ${getRentMonthsPrice(
+
+                        item?.product?.rentalOptions,
+                        item?.rentOptions.rentMonthsCount,
+                      ) * item?.rentOptions?.quantity
+                        } / ${item?.rentOptions.rentMonthsCount} months on rent`}
                     </p>
                     <p>
                       Quantity:{" "}
@@ -408,14 +407,10 @@ const MyCart = () => {
                 className=""
               />
               {/* Add Pdf file if user click in text */}
-              <label htmlFor="termsCheck ">
-                <Link 
-                to={"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"} 
-                target="_blank"
-                rel="noopener noreferrer"
-                >
-                  I have accepted <span class="text-blue-500 border-b border-blue-500"> & Conditions</span>
-                </Link>
+              <label htmlFor="termsCheck">
+                <span>
+                  I have accepted <Link to={"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"} target="_blank" rel="noopener noreferrer" class="text-blue-500 border-b border-blue-500">Terms & Conditions</Link>
+                </span>
               </label>
             </div>
             <form className="w-full flex gap-3 mb-4" onSubmit={handleSubmit}>
@@ -533,25 +528,31 @@ const MyCart = () => {
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {products.slice(0, 4).map((product) => (
-            <div
+            <Link
+              // to={`/product/${product?._id}`}
               key={product?._id} // Ensure your product object has a unique `id` field
-              className="border px-4  rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition duration-500 ease-in-out"
+              className="border px-4 flex flex-col justify-between rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition duration-500 ease-in-out"
             >
-              <div>
-                <img src={product.img[0]} alt="" className="" />
+              <div className="w-full h-auto">
+                <div>
+                  <img src={product.img[0]} alt="product image" className="h-80 object-cover" />
+                </div>
+                <h2 className="font-bold text-lg h-14 mt-2">{product?.title?.substring(0, 40)}</h2>
+                <p className="text-sm mt-2">{`${product?.details?.description.substring(
+                  0,
+                  100
+                )}"`}</p>
               </div>
-              <h2 className="font-bold text-lg h-14">{product?.title}</h2>
-              <p className="text-sm mt-4">{`${product?.details?.description.substring(
-                0,
-                100
-              )}"`}</p>
               <button
                 className="bg-yellow-400 text-black px-4 py-2 my-4 rounded-lg "
-                onClick={() => myproductAdd(product?._id)}
+                onClick={(e) => {
+                  // e.stopPropagation();
+                  myproductAdd(product)
+                }}
               >
                 Add to cart
               </button>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
