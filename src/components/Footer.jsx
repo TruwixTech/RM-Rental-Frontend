@@ -71,9 +71,9 @@ const Footer = () => {
                 Contact Us
               </Link>
             </div>
-            <div className="w-full md:w-1/3 flex flex-col items-center md:items-start ">
+            <div className="w-full md:w-1/3 lg:w-[50%] flex flex-col items-center md:items-start ">
               <div className="text-gray-500 font-bold">CONTACT</div>
-              <div className="flex flex-col items-center md:items-start">
+              <div className="flex flex-col items-center md:items-start lg:text-sm xl:text-base">
                 <span className="text-black font-semibold mt-4">
                   Email: rmfurniture2020@gmail.com
                 </span>
