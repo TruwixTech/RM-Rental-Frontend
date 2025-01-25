@@ -43,7 +43,7 @@ const MyCart = () => {
 
   const getDistance = async () => {
     const distance = await userService.getLocation(origins, destinations);
-
+    // console.log(distance)
     setDistanceToShop(distance.data.distance);
     setAddress(distance.data.address);
   };
@@ -198,34 +198,6 @@ const MyCart = () => {
     // If the rentPrice is found, return it as a float, else return "No rent options"
     return rentPrice ? parseFloat(rentPrice) : "No rent options";
   };
-
-
-
-  // const myproductAdd = async (product) => {
-  //   console.log("productId", product);
-
-  //   if (!user) {
-  //     toast.error("You are not logged in!");
-  //     return;
-  //   }
-
-  //   const data = await addToCartAPI({
-  //     items: {
-  //       product: product._id,
-  //       quantity: 1,
-  //       rentMonthsCount: rentMonthsData,
-  //       rentMonths: `rent${rentMonthsData}months`,
-  //     },
-  //   });
-
-  //   if (data?.success) {
-  //     // Show success message when product is added to cart for rent
-  //     toast.success(`Product added to cart for 3 months rent`);
-  //     navigate("/mycart");
-  //   } else {
-  //     toast.error("Product already in cart");
-  //   }
-  // };
 
   const myproductAdd = async (productData, alertShow) => {
     try {
@@ -562,7 +534,7 @@ const MyCart = () => {
                   navigate("/address/finalPayment", {
                     state: {
                       cartTotal: calculateTotalPrice(), // Sending total price
-                      shippingCost: calculateShippingFee(), // Sending shipping fee
+                      shippingCost: calculateShippingCost(), // Sending shipping fee
                       cartItems: userCartData.items, // Sending cart items
                       apiFetchedAddress: address,
                     },
