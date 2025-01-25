@@ -10,44 +10,43 @@ function CouponSystem() {
 
     const handleCreateCoupon = async (e) => {
         e.preventDefault();
-    
         // Check if the expiryDate is in the past
         const today = new Date();
-        today.setHours(0, 0, 0, 0); // Reset time to compare only dates
         const selectedDate = new Date(expiryDate);
-    
+
         if (selectedDate < today) {
             toast.error('The expiry date cannot be in the past. Please select a valid future date.');
             return;
         }
-    
+
         const couponData = { code, discountPercentage, expiryDate };
     
+
         try {
-            const response = await AXIOS_INSTANCE.post(`coupon/create-coupon`, couponData, {
+            const response = await AXIOS_INSTANCE(`coupon/create-coupon`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                body: JSON.stringify(couponData),
             });
-    
+
+            const data = await response.json();
             if (response.status === 201) {
                 toast.success('Coupon created successfully');
                 // Reset the form
                 setCode('');
-                setDiscountPercentage(''); // Use empty string for text input or 0 for numeric input
+                setDiscountPercentage('');
                 setExpiryDate('');
                 fetchCoupons(); // Fetch updated coupons list
             } else {
-                const errorMessage = response.data?.message || 'Failed to create coupon';
-                toast.error(errorMessage);
+                toast.error(data.message); // Show error message from API response
             }
         } catch (error) {
             console.error('Error creating coupon:', error);
-            const errorMessage = error.response?.data?.message || 'An error occurred while creating the coupon.';
-            toast.error(errorMessage);
+            toast.error('An error occurred while creating the coupon.');
         }
     };
-    
 
     // Function to fetch existing coupons
     const fetchCoupons = async () => {
@@ -151,7 +150,7 @@ function CouponSystem() {
             </table>
 
             {/* ToastContainer to show toast notifications */}
-            <Toaster />
+            <Toaster position="top-right" reverseOrder={false}  />
         </div>
     );
 }

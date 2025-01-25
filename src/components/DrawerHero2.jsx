@@ -130,7 +130,7 @@ const DrawerHero2 = () => {
       )}
 
       {/* Toast Container */}
-      <Toaster />
+      <Toaster position="top-right" reverseOrder={false}  />
     </div>
   );
 };

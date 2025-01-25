@@ -130,30 +130,29 @@ const Navbar = ({ active, userClickHandler }) => {
         <div className="rightnav">
           {!user ? (
 
-            <div>
-              <div className="flex items-center gap-4 p-2 rounded-md sm:flex-col sm:gap-2 md:flex-row md:gap-4 lg:gap-6">
-            <button className=" relative flex items-center px-4 w-24 h-8 text-sm font-medium text-gray-700 bg-gray-100 rounded-full sm:w-20 sm:h-9 md:w-28 md:h-[52px]">
-              Buy
-              <span className=" absolute right-0 w-12 h-12 rounded-full bg-gray-200 border hover:bg-gray-500  border-gray-500"></span>
-            </button>
-          
-            <button className=" relative flex items-center px-4 w-24 h-8 text-sm font-medium text-gray-700 bg-gray-100 rounded-full sm:w-20 sm:h-9 md:w-28 md:h-[52px]">
-              Rent
-              <span className=" absolute right-0 w-12 h-12 rounded-full bg-gray-200 border hover:bg-gray-500  border-gray-500"></span>
-            </button>
-            <div className="hidden h-6 bg-gray-300 md:block md:w-px"></div>
-            <button className="flex items-center justify-center w-8 h-8 text-gray-600 rounded-full hover:bg-gray-200 sm:w-10 sm:h-10">
-            <img
-              src={heart_icon}
-              alt="Heart Icon"
-              className="w-6 h-6"
-            />
+            <div className="flex items-center gap-4 p-2 rounded-md sm:flex-col sm:gap-2 md:flex-row md:gap-4 lg:gap-6">
+              <button className=" relative flex items-center px-4 w-24 h-8 text-sm font-medium text-gray-700 bg-gray-100 rounded-full sm:w-20 sm:h-9 md:w-28 md:h-[52px]">
+                Buy
+                <span className=" absolute right-0 w-12 h-12 rounded-full bg-gray-200 border hover:bg-gray-500  border-gray-500"></span>
+              </button>
 
-            </button>
-            
-            
-            <div className="hidden h-6 bg-gray-300 md:block md:w-px"></div>
-            {/* <button className="flex items-center gap-2 text-sm font-medium text-gray-600 rounded-full hover:text-gray-900 sm:w-full sm:justify-center md:w-auto">
+              <button className=" relative flex items-center px-4 w-24 h-8 text-sm font-medium text-gray-700 bg-gray-100 rounded-full sm:w-20 sm:h-9 md:w-28 md:h-[52px]">
+                Rent
+                <span className=" absolute right-0 w-12 h-12 rounded-full bg-gray-200 border hover:bg-gray-500  border-gray-500"></span>
+              </button>
+              <div className="hidden h-6 bg-gray-300 md:block md:w-px"></div>
+              <button className="flex items-center justify-center w-8 h-8 text-gray-600 rounded-full hover:bg-gray-200 sm:w-10 sm:h-10">
+                <img
+                  src={heart_icon}
+                  alt="Heart Icon"
+                  className="w-6 h-6"
+                />
+
+              </button>
+
+
+              <div className="hidden h-6 bg-gray-300 md:block md:w-px"></div>
+              {/* <button className="flex items-center gap-2 text-sm font-medium text-gray-600 rounded-full hover:text-gray-900 sm:w-full sm:justify-center md:w-auto">
             <img 
               src={bag} 
               alt="Cart Icon" 
@@ -162,18 +161,14 @@ const Navbar = ({ active, userClickHandler }) => {
             CART (1)
             </button> */}
 
-            <Link
-              className="text-sm font-medium text-gray-700 hover:text-gray-900 sm:text-center"
-              to="/login"
-            >
-              Login
-            </Link>
+              <Link
+                className="text-sm font-medium text-gray-700 hover:text-gray-900 sm:text-center"
+                to="/login"
+              >
+                Login
+              </Link>
+            </div>
 
-            
-            </div>
-            </div>
-          
-          
 
           ) : (
             <div className="flex gap-3">
@@ -254,211 +249,211 @@ const Navbar = ({ active, userClickHandler }) => {
 
           {/* product dropdown  */}
           <div className="relative group inline-block text-left">
-          <NavLink
-            to="/products"
-            className={({ isActive }) =>
-            `${isActive ? 'active' : ''} text-black font-medium rounded-full text-sm px-3 py-2.5 text-center inline-flex items-center`
-          }
-          onClick={() => handleLinkClick('products')}
-          >
-          Products
-          <svg
-          className="w-2.5 h-2.5 ms-1"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 10 6"
-          >
-        <path
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="m1 1 4 4 4-4"
-        />
-      </svg>
-    </NavLink>
-  <div
-    id="dropdown"
-    className="absolute z-10 hidden group-hover:block bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-  >
-    <ul
-      className="py-2 text-sm text-gray-700 dark:text-gray-200"
-      aria-labelledby="dropdownDefaultButton"
-    >
-      <li>
-        <a
-          href="#"
-          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-        >
-          Product 1
-        </a>
-      </li>
-      <li>
-        <a
-          href="#"
-          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-        >
-          Product 2
-        </a>
-      </li>
-      <li>
-        <a
-          href="#"
-          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-        >
-          Product 3
-        </a>
-      </li>
-      <li>
-        <a
-          href="#"
-          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-        >
-          Product 4
-        </a>
-      </li>
-    </ul>
-  </div>
+            <NavLink
+              to="/products"
+              className={({ isActive }) =>
+                `${isActive ? 'active' : ''} text-black font-medium rounded-full text-sm px-3 py-2.5 text-center inline-flex items-center`
+              }
+              onClick={() => handleLinkClick('products')}
+            >
+              Products
+              <svg
+                className="w-2.5 h-2.5 ms-1"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 10 6"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="m1 1 4 4 4-4"
+                />
+              </svg>
+            </NavLink>
+            <div
+              id="dropdown"
+              className="absolute z-10 hidden group-hover:block bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+            >
+              <ul
+                className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                aria-labelledby="dropdownDefaultButton"
+              >
+                <li>
+                  <a
+                    href="#"
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >
+                    Product 1
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >
+                    Product 2
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >
+                    Product 3
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >
+                    Product 4
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
           {/* Catalog */}
           <div className="relative group inline-block text-left">
-          <NavLink
-            to="/catalogs"
-            className={({ isActive }) =>
-            `${isActive ? 'active' : ''} text-black font-medium rounded-full text-sm px-3 py-2.5 text-center inline-flex items-center`
-          }
-          onClick={() => handleLinkClick('catalog')}
-          >
-          Catalogs
-          <svg
-          className="w-2.5 h-2.5 ms-1"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 10 6"
-          >
-        <path
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="m1 1 4 4 4-4"
-        />
-      </svg>
-    </NavLink>
-  <div
-    id="dropdown"
-    className="absolute z-10 hidden group-hover:block bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-  >
-    <ul
-      className="py-2 text-sm text-gray-700 dark:text-gray-200"
-      aria-labelledby="dropdownDefaultButton"
-    >
-      <li>
-        <a
-          href="#"
-          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-        >
-          Catalog1
-        </a>
-      </li>
-      <li>
-        <a
-          href="#"
-          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-        >
-          Catalog2
-        </a>
-      </li>
-      <li>
-        <a
-          href="#"
-          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-        >
-          Catalog 3
-        </a>
-      </li>
-      <li>
-        <a
-          href="#"
-          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-        >
-          Catalog 4
-        </a>
-      </li>
-    </ul>
-  </div>
+            <NavLink
+              to="/catalogs"
+              className={({ isActive }) =>
+                `${isActive ? 'active' : ''} text-black font-medium rounded-full text-sm px-3 py-2.5 text-center inline-flex items-center`
+              }
+              onClick={() => handleLinkClick('catalog')}
+            >
+              Catalogs
+              <svg
+                className="w-2.5 h-2.5 ms-1"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 10 6"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="m1 1 4 4 4-4"
+                />
+              </svg>
+            </NavLink>
+            <div
+              id="dropdown"
+              className="absolute z-10 hidden group-hover:block bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+            >
+              <ul
+                className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                aria-labelledby="dropdownDefaultButton"
+              >
+                <li>
+                  <a
+                    href="#"
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >
+                    Catalog1
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >
+                    Catalog2
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >
+                    Catalog 3
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >
+                    Catalog 4
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
 
           {/* Popular Items */}
           <div className="relative group inline-block text-left">
-          <NavLink
-            to="/popularItems"
-            className={({ isActive }) =>
-            `${isActive ? 'active' : ''} text-black font-medium rounded-full text-sm px-3 py-2.5 text-center inline-flex items-center`
-          }
-          onClick={() => handleLinkClick('Popular Items')}
-          >
-          Popular Items
-          <svg
-          className="w-2.5 h-2.5 ms-1"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 10 6"
-          >
-        <path
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="m1 1 4 4 4-4"
-        />
-      </svg>
-    </NavLink>
-  <div
-    id="dropdown"
-    className="absolute z-10 hidden group-hover:block bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-  >
-    <ul
-      className="py-2 text-sm text-gray-700 dark:text-gray-200"
-      aria-labelledby="dropdownDefaultButton"
-    >
-      <li>
-        <a
-          href="#"
-          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-        >
-          Item1
-        </a>
-      </li>
-      <li>
-        <a
-          href="#"
-          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-        >
-          Item2
-        </a>
-      </li>
-      <li>
-        <a
-          href="#"
-          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-        >
-          Item 3
-        </a>
-      </li>
-      <li>
-        <a
-          href="#"
-          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-        >
-          Item 4
-        </a>
-      </li>
-    </ul>
-  </div>
+            <NavLink
+              to="/popularItems"
+              className={({ isActive }) =>
+                `${isActive ? 'active' : ''} text-black font-medium rounded-full text-sm px-3 py-2.5 text-center inline-flex items-center`
+              }
+              onClick={() => handleLinkClick('Popular Items')}
+            >
+              Popular Items
+              <svg
+                className="w-2.5 h-2.5 ms-1"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 10 6"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="m1 1 4 4 4-4"
+                />
+              </svg>
+            </NavLink>
+            <div
+              id="dropdown"
+              className="absolute z-10 hidden group-hover:block bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+            >
+              <ul
+                className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                aria-labelledby="dropdownDefaultButton"
+              >
+                <li>
+                  <a
+                    href="#"
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >
+                    Item1
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >
+                    Item2
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >
+                    Item 3
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >
+                    Item 4
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
           {/* Rent Furnitures */}
           <NavLink
@@ -469,27 +464,33 @@ const Navbar = ({ active, userClickHandler }) => {
             <div className="rent-furnitures">Rent Furnitures</div>
           </NavLink>
         </div>
-      
+
         <div className="bottomnav-right">
           <div className="absolute -right-[1500px]">
             <AddressSelect2 />
           </div>
-          <Link to="/shipping"
-            style={{ overflow: "hidden" }}
-            className={activeLink === "shipping" ? "active" : ""}
+          <NavLink
+            to="/shipping"
+            // style={{ overflow: "hidden" }}
+            // className={activeLink === "shipping" ? "active" : ""}
+            // onClick={() => handleLinkClick("shipping")}
+            className={({ isActive }) => `${isActive ? 'active' : ''} text-decoration-none`}
             onClick={() => handleLinkClick("shipping")}
+
           >
             <span className="renttt text-lg">Shipping</span>
 
-          </Link>
-          <Link to="/returns"
-            style={{ overflow: "hidden" }}
-            className={activeLink === "returns" ? "active" : ""}
+          </NavLink>
+          <NavLink to="/returns"
+            // style={{ overflow: "hidden" }}
+            // className={activeLink === "returns" ? "active" : ""}
+            // onClick={() => handleLinkClick("returns")}
+            className={({ isActive }) => `${isActive ? 'active' : ''} text-decoration-none`}
             onClick={() => handleLinkClick("returns")}
           >
             <span className="renttt text-lg">Returns</span>
 
-          </Link>
+          </NavLink>
           <Link to="/faq"
             style={{ overflow: "hidden" }}
             className={activeLink === "faqs" ? "active" : ""}

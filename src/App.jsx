@@ -124,10 +124,10 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactUS />} />
-          <Route path="/shipping" element={<ShippingPolicy />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/products" element={<Products />} />
           <Route path="/returns" element={<Returns />} />
+          <Route path="/shipping" element={<ShippingPolicy />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/mycart" element={<MyCart />} />
           <Route
@@ -156,15 +156,14 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/shipping" element={<ShippingPolicy />} />
-          <Route path="/faq" element={<FAQ />} />
           <Route path="/password" element={<ForgotPassword />} />
-          <Route path="/returns" element={<Returns />} />
           <Route path="/products" element={<Products />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactUS />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/shipping" element={<ShippingPolicy />} />
+          <Route path="/returns" element={<Returns />} />
         </Routes>
       )}
       <Routes>
