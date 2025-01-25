@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { AXIOS_INSTANCE } from "../service";
+import { RotatingLines } from 'react-loader-spinner'
 const placeholderImageURL =
   "https://cdn.dribbble.com/users/887568/screenshots/3172047/media/725fca9f20d010f19b3cd5411c50a652.gif";
 
@@ -29,6 +30,8 @@ const MyCart = () => {
   const [couponCode, setCouponCode] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [discountPercentage, setDiscountPercentage] = useState(0);
+  const [loading, setLoading] = useState(false)
+  const [addQuantity, setAddQuantity] = useState('')
   const deliveryDate = new Date(currentDate.getTime() + 48 * 60 * 60 * 1000);
   const navigate = useNavigate();
 
@@ -52,7 +55,11 @@ const MyCart = () => {
         (product) =>
           product.category === userCartData?.items[0]?.product?.category
       );
-      setProducts(storageProducts);
+      const productWithIds = userCartData.items.map((item) => item.product._id);
+      const filteredProducts = storageProducts.filter((product) => {
+        return !productWithIds.includes(product._id)
+      })
+      setProducts(filteredProducts);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -220,8 +227,10 @@ const MyCart = () => {
   //   }
   // };
 
-  const myproductAdd = async (productData) => {
+  const myproductAdd = async (productData, alertShow) => {
     try {
+      setAddQuantity(productData._id)
+      setLoading(true)
       let formData = productData.rentalOptions
       const selectedMonth = Object.keys(productData.rentalOptions)[0]
       if (!user) {
@@ -254,9 +263,13 @@ const MyCart = () => {
         },
       });
       if (data.success) {
+        setLoading(false)
+        setAddQuantity('')
         getMyCart()
         navigate("/mycart");
-        alert("Product added to cart for rent successfully!");
+        if (alertShow) {
+          alert("Product added to cart for rent successfully!");
+        }
         toast.success("Product added to cart for rent successfully!");
       } else if (data?.error) {
         toast.error(data.error.message || "Product already in cart");
@@ -264,6 +277,8 @@ const MyCart = () => {
         toast.error("Something went wrong while adding the product to the cart");
       }
     } catch (error) {
+      setLoading(false)
+      setAddQuantity('')
       console.error("Error adding product to cart:", error);
       toast.error("An unexpected error occurred. Please try again later.");
     }
@@ -302,8 +317,9 @@ const MyCart = () => {
   };
 
   function handleIncreaseRentQuantity(productId) {
+    myproductAdd(productId, false)
     const updatedCartItems = userCartData.items.map((item) => {
-      if (item.product._id === productId) {
+      if (item.product._id === productId._id) {
         return {
           ...item,
           rentOptions: {
@@ -318,8 +334,9 @@ const MyCart = () => {
   }
 
   function handleDecreaseRentQuantity(productId) {
+    subtractQuantity(productId)
     const updatedCartItems = userCartData.items.map((item) => {
-      if (item.product._id === productId) {
+      if (item.product._id === productId._id) {
         return {
           ...item,
           rentOptions: {
@@ -333,6 +350,38 @@ const MyCart = () => {
     setUserCartData({ ...userCartData, items: updatedCartItems });
   }
 
+  async function subtractQuantity(product) {
+    try {
+      setLoading(true)
+      const updatedCartItems = userCartData.items.map((item) => {
+        if (item.product._id === product._id) {
+          return {
+            ...item,
+            rentOptions: {
+              ...item.rentOptions,
+              quantity: item.rentOptions.quantity - 1,
+            },
+          };
+        }
+        return item;
+      });
+      setUserCartData({ ...userCartData, items: updatedCartItems });
+
+      const data = await updateNewCartAPI({
+        userId: userCartData.user,
+        userCartNewData: updatedCartItems
+      });
+
+      if (data?.success) {
+        setLoading(false)
+        getMyCart()
+      }
+
+    } catch (error) {
+      setLoading(false)
+      console.error("Error subtracting quantity:", error);
+    }
+  }
 
   async function handlePay() {
     try {
@@ -406,17 +455,35 @@ const MyCart = () => {
                       <div className="productdetails-right-3">
                         <div className="Quantity-Selector">
                           <div
-                            className="decrease-btn"
-                            onClick={() => handleDecreaseRentQuantity(item?.product?._id)}
+                            className={item?.rentOptions?.quantity === 1 ? "cursor-not-allowed bg-gray-200 rounded-full w-6 flex justify-center items-center" : "decrease-btn"}
+                            onClick={() => {
+                              if (item?.rentOptions?.quantity > 1) {
+                                handleDecreaseRentQuantity(item?.product)
+                              }
+                            }}
                           >
                             <i className="ri-subtract-line"></i>
                           </div>
                           <div className="current-quantity">
-                            <div className="px16-medium">{item?.rentOptions?.quantity}</div>
+                            {
+                              loading && addQuantity === item?.product?._id
+                                ? <RotatingLines
+                                  visible={true}
+                                  height="40"
+                                  width="40"
+                                  strokeColor="#ffd74d"
+                                  strokeWidth="5"
+                                  animationDuration="0.75"
+                                  ariaLabel="rotating-lines-loading"
+                                  wrapperStyle={{}}
+                                  wrapperClass=""
+                                />
+                                : <div className="px16-medium">{item?.rentOptions?.quantity}</div>
+                            }
                           </div>
                           <div
                             className="increase-btn"
-                            onClick={() => handleIncreaseRentQuantity(item?.product?._id)}
+                            onClick={() => handleIncreaseRentQuantity(item?.product)}
                           >
                             <i className="ri-add-line"></i>
                           </div>
@@ -595,7 +662,7 @@ const MyCart = () => {
               <button
                 className="bg-yellow-400 text-black px-4 py-2 my-4 rounded-lg "
                 onClick={(e) => {
-                  myproductAdd(product)
+                  myproductAdd(product, true)
                 }}
               >
                 Add to cart
