@@ -56,6 +56,12 @@ const Navbar = ({ active, userClickHandler }) => {
     }
   }, []);
 
+  const handleCategoryClick = (category) => {
+    navigate("/products", {
+      state: { selectedCategory: category },
+    });
+  };
+
   // Search functionality states
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -86,6 +92,29 @@ const Navbar = ({ active, userClickHandler }) => {
     // Navigate to the product page with the product id
     navigate(`/product/${id}`);
   };
+
+  const popularProducts = [
+    {
+      _id: "67934c26ea9050f6b42114cf",
+      title: "BED SIDE TABLE",
+    },
+    {
+      _id: "67934c26ea9050f6b42114cc",
+      title: "Sofa",
+    },
+    {
+      _id: "67934c26ea9050f6b42114c5",
+      title: "Single door refrigerator 190 ltrs",
+    },
+    {
+      _id: "67934c26ea9050f6b42114c3",
+      title: "Double Door Fridge [240 Litre]",
+    },
+    {
+      _id: "67934c26ea9050f6b42114bc",
+      title: "STUDY CHAIR",
+    },
+  ]
 
   return (
     <div className="mainnavbar">
@@ -183,13 +212,14 @@ const Navbar = ({ active, userClickHandler }) => {
                 )}
                 {user.role === "Admin" ? "|" : ""}
 
-                <div
+                <NavLink
+                  to="/mycart"
                   className="rightnav-cart relative"
                   onClick={() => navigate("/mycart")}
                 >
                   <HiOutlineShoppingBag className="shoping-bag " size={30} />
                   <span className="absolute -top-1 -right-1 bg-[#ffd74d] text-black font-bold text-sm border border-black rounded-full w-6 h-6 flex justify-center items-center">{cartItems?.length}</span>
-                </div>
+                </NavLink>
                 {/* <div
                   className="font-semibold flex gap-4"
                   onClick={() => navigate("/mycart")}
@@ -281,119 +311,21 @@ const Navbar = ({ active, userClickHandler }) => {
                 className="py-2 text-sm text-gray-700 dark:text-gray-200"
                 aria-labelledby="dropdownDefaultButton"
               >
-                <li>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    Product 1
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    Product 2
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    Product 3
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    Product 4
-                  </a>
-                </li>
+                {
+                  ["appliance", "livingroom", "storage", "studyroom", "bedroom", "table"].map((category, index) => (
+                    <li className="py-2 px-4 hover:bg-gray-100 cursor-pointer" onClick={() => {
+                      handleCategoryClick(category)
+                      setDropdownVisible(false)
+                    }} key={index}>{category.toLocaleUpperCase()}</li>
+                  ))
+                }
               </ul>
             </div>
           </div>
-          {/* Catalog */}
-          <div className="relative group inline-block text-left">
-            <NavLink
-              to="/catalogs"
-              className={({ isActive }) =>
-                `${isActive ? 'active' : ''} text-black font-medium rounded-full text-sm px-3 py-2.5 text-center inline-flex items-center`
-              }
-              onClick={() => handleLinkClick('catalog')}
-            >
-              Catalogs
-              <svg
-                className="w-2.5 h-2.5 ms-1"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 10 6"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="m1 1 4 4 4-4"
-                />
-              </svg>
-            </NavLink>
-            <div
-              id="dropdown"
-              className="absolute z-10 hidden group-hover:block bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-            >
-              <ul
-                className="py-2 text-sm text-gray-700 dark:text-gray-200"
-                aria-labelledby="dropdownDefaultButton"
-              >
-                <li>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    Catalog1
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    Catalog2
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    Catalog 3
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    Catalog 4
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-
           {/* Popular Items */}
-          <div className="relative group inline-block text-left">
-            <NavLink
-              to="/popularItems"
-              className={({ isActive }) =>
-                `${isActive ? 'active' : ''} text-black font-medium rounded-full text-sm px-3 py-2.5 text-center inline-flex items-center`
-              }
-              onClick={() => handleLinkClick('Popular Items')}
+          <div className="relative group inline-block text-left cursor-pointer">
+            <div
+              className='text-black font-medium rounded-full text-sm px-3 py-2.5 text-center inline-flex items-center'
             >
               Popular Items
               <svg
@@ -411,7 +343,7 @@ const Navbar = ({ active, userClickHandler }) => {
                   d="m1 1 4 4 4-4"
                 />
               </svg>
-            </NavLink>
+            </div>
             <div
               id="dropdown"
               className="absolute z-10 hidden group-hover:block bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
@@ -420,49 +352,23 @@ const Navbar = ({ active, userClickHandler }) => {
                 className="py-2 text-sm text-gray-700 dark:text-gray-200"
                 aria-labelledby="dropdownDefaultButton"
               >
-                <li>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    Item1
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    Item2
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    Item 3
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    Item 4
-                  </a>
-                </li>
+                {
+                  popularProducts.map((product, index) => (
+                    <li title={product.title} className="py-2 px-4 hover:bg-gray-100 cursor-pointer" key={index}>
+                      <Link
+                      className="w-full"
+                        to={`/product/${product._id}`}
+                      >
+                        {
+                          product.title.length > 17 ? product.title.slice(0, 17) + "..." : product.title
+                        }
+                      </Link>
+                    </li>
+                  ))
+                }
               </ul>
             </div>
           </div>
-          {/* Rent Furnitures */}
-          <NavLink
-            to="/rentFurnitures"
-            className={({ isActive }) => `${isActive ? 'active' : ''} text-black font-medium rounded-full text-sm px-3 py-2.5 text-center inline-flex items-center`}
-            onClick={() => handleLinkClick("Rent Furnitures")}
-          >
-            <div className="rent-furnitures">Rent Furnitures</div>
-          </NavLink>
         </div>
 
         <div className="bottomnav-right">

@@ -97,9 +97,9 @@ letter-spacing: 0rem;
   }
   
   .feature-box:hover {
-    background-color: #fff;
-    transform: translateY(-10px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    /* background-color: #fff; */
+    /* transform: translateY(-10px); */
+    /* box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); */
   }
   
   .icon, .arrow-icon {
@@ -166,9 +166,9 @@ letter-spacing: 0rem;
 }
 
 .feature-box:hover {
-  background-color: #fff;
-  transform: translateY(-10px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  /* background-color: #fff; */
+  /* transform: translateY(-10px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); */
 }
 
 .icon, .arrow-icon {
@@ -233,9 +233,9 @@ letter-spacing: 0rem;
 }
 
 .feature-box:hover {
-  background-color: #fff;
-  transform: translateY(-10px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  /* background-color: #fff; */
+  /* transform: translateY(-10px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); */
 }
 
 .icon, .arrow-icon {
@@ -304,9 +304,9 @@ letter-spacing: 0rem;
 }
 
 .feature-box:hover {
-  background-color: #fff;
-  transform: translateY(-10px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  /* background-color: #fff; */
+  /* transform: translateY(-10px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); */
 }
 
 .icon, .arrow-icon {

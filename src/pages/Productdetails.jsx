@@ -118,7 +118,7 @@ const ProductDetails = () => {
       const data = await addToCartAPI({
         items: {
           product: productData,
-          quantity: 1,
+          quantity: rentQuantity,
           rentMonthsCount: rentMonthsData,
           rentMonths: `rent${rentMonthsData}months`,
         },
@@ -297,7 +297,34 @@ const ProductDetails = () => {
                 <i className="ri-add-line"></i>
               </div>
             </div>
-            <button
+            {
+              user ? (
+                <button
+                  className="cart-button py-2 px-4"
+                  onClick={() => myproductAdd(productData, productData?.rentalOptions)}
+                >
+                  <i className="ri-shopping-bag-line"></i>
+                  <div className="Add-to-Cart-Button">
+                    Add to Cart
+                  </div>
+                </button>
+              ) :
+                (
+                  <button
+                    className="cart-button py-2 px-4"
+                    onClick={() => {
+                      alert("Please login first for Add to Cart Functionality");
+                      navigate("/login");
+                    }}
+                  >
+                    <i className="ri-shopping-bag-line"></i>
+                    <div className="Add-to-Cart-Button">
+                      Add to Cart
+                    </div>
+                  </button>
+                )
+            }
+            {/* <button
               className="cart-button py-2 px-4"
               onClick={() => isItemAlreadyInCart ? toast.error("Product already in cart") : myproductAdd(productData, productData?.rentalOptions)}
 
@@ -308,7 +335,7 @@ const ProductDetails = () => {
                   isItemAlreadyInCart ? "Added to cart" : "Add to Cart"
                 }
               </div>
-            </button>
+            </button> */}
 
           </div>
           <div className="productdetails-right-4">
