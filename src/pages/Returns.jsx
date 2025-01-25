@@ -3,7 +3,7 @@ import React from 'react';
 const Returns = () => {
   return (
     <div className="container mx-auto py-12 px-4">
-      <h1 className="text-3xl font-bold mb-8">Cancellation, Return & Replacement Policy</h1>
+      <h1 className="text-3xl font-bold mb-8 text-center text-[#ffd74d]">Cancellation, Return & Replacement Policy</h1>
 
       <section className="mb-8">
         <h2 className="text-2xl font-semibold mb-4">Replacement</h2>
@@ -17,7 +17,7 @@ const Returns = () => {
       <section className="mb-8">
         <h2 className="text-2xl font-semibold mb-4">Exceptions / Non-returnable / Non-replaceable Products</h2>
         <p className="text-gray-700 mb-2">The following items are not eligible for return, refund, or replacement:</p>
-        <ul className="list-disc pl-6 text-gray-700">
+        <ul className="list-disc list-inside text-gray-700">
           <li>Products damaged or missing parts due to customer handling.</li>
           <li>Products received in good condition but are no longer wanted or are deemed unsatisfactory by the customer.</li>
           <li>Items that stopped working due to misuse or improper handling after delivery.</li>

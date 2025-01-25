@@ -9,8 +9,9 @@ import { getAllProductsAPI } from "../service/products.service";
 import { addToCartAPI } from "../service/cart.service";
 import toast from "react-hot-toast";
 import axios from "axios";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AXIOS_INSTANCE } from "../service";
+import { RotatingLines } from 'react-loader-spinner'
 const placeholderImageURL =
   "https://cdn.dribbble.com/users/887568/screenshots/3172047/media/725fca9f20d010f19b3cd5411c50a652.gif";
 
@@ -29,6 +30,8 @@ const MyCart = () => {
   const [couponCode, setCouponCode] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [discountPercentage, setDiscountPercentage] = useState(0);
+  const [loading, setLoading] = useState(false)
+  const [addQuantity, setAddQuantity] = useState('')
   const deliveryDate = new Date(currentDate.getTime() + 48 * 60 * 60 * 1000);
   const navigate = useNavigate();
 
@@ -52,7 +55,11 @@ const MyCart = () => {
         (product) =>
           product.category === userCartData?.items[0]?.product?.category
       );
-      setProducts(storageProducts);
+      const productWithIds = userCartData.items.map((item) => item.product._id);
+      const filteredProducts = storageProducts.filter((product) => {
+        return !productWithIds.includes(product._id)
+      })
+      setProducts(filteredProducts);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -128,12 +135,10 @@ const MyCart = () => {
       return total + space + (quantity * space);
     }, 0);
 
-   
-    
+
+
     const vehicleCapacity = 100;
     const vehiclesNeeded = Math.ceil(totalSpace / vehicleCapacity);
-
-    
 
     const fixedCost = 400;
     const perKmCost = 70;
@@ -184,41 +189,101 @@ const MyCart = () => {
 
   const getRentMonthsPrice = (rentalOptions, selectedMonth) => {
     if (!rentalOptions || !selectedMonth) return "No rent options";
-  
+
     // Check if the selectedMonth exists in rentalOptions
     const rentPriceKey = `rent${selectedMonth}Months`; // Create the key like rent3Months, rent6Months, etc.
     const rentPrice = rentalOptions[selectedMonth];
-  
-    
+
+
     // If the rentPrice is found, return it as a float, else return "No rent options"
     return rentPrice ? parseFloat(rentPrice) : "No rent options";
   };
-  
-  
-  
-  const myproductAdd = async (productId) => {
-    if (!user) {
-      toast.error("You are not logged in!");
-      return;
-    }
 
-    const data = await addToCartAPI({
-      items: {
-        product: productId,
-        quantity: 1,
-        rentMonthsCount: rentMonthsData,
-        rentMonths: `rent${rentMonthsData}months`,
-      },
-    });
 
-    if (data?.success) {
-      // Show success message when product is added to cart for rent
-      toast.success(`Product added to cart for 3 months rent`);
-      navigate("/mycart");
-    } else {
-      toast.error("Product already in cart");
+
+  // const myproductAdd = async (product) => {
+  //   console.log("productId", product);
+
+  //   if (!user) {
+  //     toast.error("You are not logged in!");
+  //     return;
+  //   }
+
+  //   const data = await addToCartAPI({
+  //     items: {
+  //       product: product._id,
+  //       quantity: 1,
+  //       rentMonthsCount: rentMonthsData,
+  //       rentMonths: `rent${rentMonthsData}months`,
+  //     },
+  //   });
+
+  //   if (data?.success) {
+  //     // Show success message when product is added to cart for rent
+  //     toast.success(`Product added to cart for 3 months rent`);
+  //     navigate("/mycart");
+  //   } else {
+  //     toast.error("Product already in cart");
+  //   }
+  // };
+
+  const myproductAdd = async (productData, alertShow) => {
+    try {
+      setAddQuantity(productData._id)
+      setLoading(true)
+      let formData = productData.rentalOptions
+      const selectedMonth = Object.keys(productData.rentalOptions)[0]
+      if (!user) {
+        toast.error("You are not logged in!");
+        return;
+      }
+
+      // Validate that formData is an object and not an empty one
+      if (!formData || typeof formData !== "object" || Object.keys(formData).length === 0) {
+        toast.error("Invalid rental options. Please provide valid data.");
+        console.error("formData is invalid:", formData);
+        return;
+      }
+
+      // Extract rent months data from formData
+      const rentMonthsData = selectedMonth;
+
+      if (!rentMonthsData || rentMonthsData.length === 0) {
+        toast.error("Invalid rental options. Please check your selection.");
+        return;
+      }
+
+      // Send data to the API
+      const data = await addToCartAPI({
+        items: {
+          product: productData,
+          quantity: 1,
+          rentMonthsCount: rentMonthsData,
+          rentMonths: `rent${rentMonthsData}months`,
+        },
+      });
+      if (data.success) {
+        setLoading(false)
+        setAddQuantity('')
+        getMyCart()
+        navigate("/mycart");
+        if (alertShow) {
+          alert("Product added to cart for rent successfully!");
+        }
+        toast.success("Product added to cart for rent successfully!");
+      } else if (data?.error) {
+        toast.error(data.error.message || "Product already in cart");
+      } else {
+        toast.error("Something went wrong while adding the product to the cart");
+      }
+    } catch (error) {
+      setLoading(false)
+      setAddQuantity('')
+      console.error("Error adding product to cart:", error);
+      toast.error("An unexpected error occurred. Please try again later.");
     }
   };
+
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
   };
@@ -227,9 +292,8 @@ const MyCart = () => {
     return (
       userCartData?.items?.reduce((acc, curr) => {
         const rentPrice = getRentMonthsPrice(
-        curr.product.rentalOptions,
-        curr.rentOptions.rentMonthsCount
-          
+          curr.product.rentalOptions,
+          curr.rentOptions.rentMonthsCount
         );
         return acc + (rentPrice || 0) * curr.rentOptions.quantity;
       }, 0) || 0
@@ -253,8 +317,9 @@ const MyCart = () => {
   };
 
   function handleIncreaseRentQuantity(productId) {
+    myproductAdd(productId, false)
     const updatedCartItems = userCartData.items.map((item) => {
-      if (item.product._id === productId) {
+      if (item.product._id === productId._id) {
         return {
           ...item,
           rentOptions: {
@@ -269,8 +334,9 @@ const MyCart = () => {
   }
 
   function handleDecreaseRentQuantity(productId) {
+    subtractQuantity(productId)
     const updatedCartItems = userCartData.items.map((item) => {
-      if (item.product._id === productId) {
+      if (item.product._id === productId._id) {
         return {
           ...item,
           rentOptions: {
@@ -284,6 +350,38 @@ const MyCart = () => {
     setUserCartData({ ...userCartData, items: updatedCartItems });
   }
 
+  async function subtractQuantity(product) {
+    try {
+      setLoading(true)
+      const updatedCartItems = userCartData.items.map((item) => {
+        if (item.product._id === product._id) {
+          return {
+            ...item,
+            rentOptions: {
+              ...item.rentOptions,
+              quantity: item.rentOptions.quantity - 1,
+            },
+          };
+        }
+        return item;
+      });
+      setUserCartData({ ...userCartData, items: updatedCartItems });
+
+      const data = await updateNewCartAPI({
+        userId: userCartData.user,
+        userCartNewData: updatedCartItems
+      });
+
+      if (data?.success) {
+        setLoading(false)
+        getMyCart()
+      }
+
+    } catch (error) {
+      setLoading(false)
+      console.error("Error subtracting quantity:", error);
+    }
+  }
 
   async function handlePay() {
     try {
@@ -296,7 +394,7 @@ const MyCart = () => {
         navigate("/address/finalPayment", {
           state: {
             cartTotal: calculateTotalPrice(), // Sending total price
-            shippingCost: calculateShippingFee(), // Sending shipping fee
+            shippingCost: calculateShippingCost(), // Sending shipping fee
             cartItems: userCartData.items, // Sending cart items
             apiFetchedAddress: address,
           },
@@ -304,19 +402,19 @@ const MyCart = () => {
       }
 
     } catch (error) {
-     
+      console.error("Error updating cart:", error);
     }
   }
 
   return (
     <div className="flex flex-col w-full px-4 md:px-10">
       <div className="cart-content flex flex-col md:flex-row mt-3">
-        <div className="cart-items w-full">
+        <div className="cart-items w-full 2xl:w-3/4">
           <div className="shop-heading">
             <h2 className="cart-heading">Shopping Cart</h2>
           </div>
           <div className="w-full h-auto flex flex-col md:flex-row text-center md:text-start gap-1 p-2 bg-gray-100 justify-center">
-          
+
             <span className="font-bold text-center md:text-start md:hidden">Note :</span>
             <span className="text-red-500 text-center md:text-start">**</span>
             <p className="text-red-500">
@@ -345,30 +443,47 @@ const MyCart = () => {
                     <h3 className="">{item?.product?.title}</h3>
                     <p className="sub-title">{item?.product?.sub_title}</p>
                     <p className="price">
-                      {`₹ ${
-                        getRentMonthsPrice(
-                          
-                          item?.product?.rentalOptions,
-                          item?.rentOptions.rentMonthsCount,
-                        ) * item?.rentOptions?.quantity
-                      } / ${item?.rentOptions.rentMonthsCount} months on rent`}
+                      {`₹ ${getRentMonthsPrice(
+
+                        item?.product?.rentalOptions,
+                        item?.rentOptions.rentMonthsCount,
+                      ) * item?.rentOptions?.quantity
+                        } / ${item?.rentOptions.rentMonthsCount} months on rent`}
                     </p>
                     <p>
                       Quantity:{" "}
                       <div className="productdetails-right-3">
                         <div className="Quantity-Selector">
                           <div
-                            className="decrease-btn"
-                            onClick={() => handleDecreaseRentQuantity(item?.product?._id)}
+                            className={item?.rentOptions?.quantity === 1 ? "cursor-not-allowed bg-gray-200 rounded-full w-6 flex justify-center items-center" : "decrease-btn"}
+                            onClick={() => {
+                              if (item?.rentOptions?.quantity > 1) {
+                                handleDecreaseRentQuantity(item?.product)
+                              }
+                            }}
                           >
                             <i className="ri-subtract-line"></i>
                           </div>
                           <div className="current-quantity">
-                            <div className="px16-medium">{item?.rentOptions?.quantity}</div>
+                            {
+                              loading && addQuantity === item?.product?._id
+                                ? <RotatingLines
+                                  visible={true}
+                                  height="40"
+                                  width="40"
+                                  strokeColor="#ffd74d"
+                                  strokeWidth="5"
+                                  animationDuration="0.75"
+                                  ariaLabel="rotating-lines-loading"
+                                  wrapperStyle={{}}
+                                  wrapperClass=""
+                                />
+                                : <div className="px16-medium">{item?.rentOptions?.quantity}</div>
+                            }
                           </div>
                           <div
                             className="increase-btn"
-                            onClick={() => handleIncreaseRentQuantity(item?.product?._id)}
+                            onClick={() => handleIncreaseRentQuantity(item?.product)}
                           >
                             <i className="ri-add-line"></i>
                           </div>
@@ -394,7 +509,7 @@ const MyCart = () => {
           )}
         </div>
 
-        <div className="cart-overview">
+        <div className="cart-overview 2xl:w-1/4">
           {/* <div className="cart-header"></div> */}
           <div className=" w-full mx-auto">
             <div
@@ -408,14 +523,10 @@ const MyCart = () => {
                 className=""
               />
               {/* Add Pdf file if user click in text */}
-              <label htmlFor="termsCheck ">
-                <Link 
-                to={"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"} 
-                target="_blank"
-                rel="noopener noreferrer"
-                >
-                  I have accepted <span class="text-blue-500 border-b border-blue-500"> & Conditions</span>
-                </Link>
+              <label htmlFor="termsCheck">
+                <span>
+                  I have accepted <Link to={"https://truwix1-my.sharepoint.com/:b:/g/personal/ujjwalk_truwix_com/ET2ucxAijj9IqtsyCStV39kBDqQCP1xDK3wUNyTpZe7sHg?e=4GxTVK"} target="_blank" rel="noopener noreferrer" class="text-blue-500 border-b border-blue-500">Terms & Conditions</Link>
+                </span>
               </label>
             </div>
             <form className="w-full flex gap-3 mb-4" onSubmit={handleSubmit}>
@@ -527,7 +638,7 @@ const MyCart = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col mt-20">
+      <div className="flex flex-col my-20">
         <h1 className="text-4xl font-bold text-center mb-10">
           Related Products
         </h1>
@@ -535,19 +646,24 @@ const MyCart = () => {
           {products.slice(0, 4).map((product) => (
             <div
               key={product?._id} // Ensure your product object has a unique `id` field
-              className="border px-4  rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition duration-500 ease-in-out"
+              className="border px-4 flex flex-col justify-between rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition duration-500 ease-in-out"
             >
-              <div>
-                <img src={product.img[0]} alt="" className="" />
-              </div>
-              <h2 className="font-bold text-lg h-14">{product?.title}</h2>
-              <p className="text-sm mt-4">{`${product?.details?.description.substring(
-                0,
-                100
-              )}"`}</p>
+              <Link
+                to={`/product/${product?._id}`} className="w-full h-auto">
+                <div>
+                  <img src={product.img[0]} alt="product image" className="h-80 object-cover" />
+                </div>
+                <h2 className="font-bold text-lg h-14 mt-2">{product?.title?.substring(0, 40)}</h2>
+                <p className="text-sm mt-2">{`${product?.details?.description.substring(
+                  0,
+                  100
+                )}"`}</p>
+              </Link>
               <button
                 className="bg-yellow-400 text-black px-4 py-2 my-4 rounded-lg "
-                onClick={() => myproductAdd(product?._id)}
+                onClick={(e) => {
+                  myproductAdd(product, true)
+                }}
               >
                 Add to cart
               </button>
