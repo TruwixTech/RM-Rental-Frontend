@@ -215,7 +215,6 @@ const Navbar = ({ active, userClickHandler }) => {
                 <NavLink
                   to="/mycart"
                   className="rightnav-cart relative"
-                  onClick={() => navigate("/mycart")}
                 >
                   <HiOutlineShoppingBag className="shoping-bag " size={30} />
                   <span className="absolute -top-1 -right-1 bg-[#ffd74d] text-black font-bold text-sm border border-black rounded-full w-6 h-6 flex justify-center items-center">{cartItems?.length}</span>
@@ -308,7 +307,7 @@ const Navbar = ({ active, userClickHandler }) => {
               className="absolute z-10 hidden group-hover:block bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
             >
               <ul
-                className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                className="py-2 text-sm text-black dark:text-gray-200"
                 aria-labelledby="dropdownDefaultButton"
               >
                 {
