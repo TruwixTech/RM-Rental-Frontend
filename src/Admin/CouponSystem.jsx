@@ -150,7 +150,7 @@ function CouponSystem() {
             </table>
 
             {/* ToastContainer to show toast notifications */}
-            <Toaster />
+            <Toaster position="top-right" reverseOrder={false}  />
         </div>
     );
 }

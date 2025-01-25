@@ -11,7 +11,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 createRoot(document.getElementById("root")).render(
   <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
     <BrowserRouter>
-      <Toaster />
+      <Toaster position="top-right" reverseOrder={false}  />
       <App />
     </BrowserRouter>
   </GoogleOAuthProvider>

@@ -194,29 +194,78 @@ const MyCart = () => {
 
 
 
-  const myproductAdd = async (product) => {
-    console.log("productId", product);
-    
-    if (!user) {
-      toast.error("You are not logged in!");
-      return;
-    }    
+  // const myproductAdd = async (product) => {
+  //   console.log("productId", product);
 
-    const data = await addToCartAPI({
-      items: {
-        product: product._id,
-        quantity: 1,
-        rentMonthsCount: rentMonthsData,
-        rentMonths: `rent${rentMonthsData}months`,
-      },
-    });
+  //   if (!user) {
+  //     toast.error("You are not logged in!");
+  //     return;
+  //   }
 
-    if (data?.success) {
-      // Show success message when product is added to cart for rent
-      toast.success(`Product added to cart for 3 months rent`);
-      navigate("/mycart");
-    } else {
-      toast.error("Product already in cart");
+  //   const data = await addToCartAPI({
+  //     items: {
+  //       product: product._id,
+  //       quantity: 1,
+  //       rentMonthsCount: rentMonthsData,
+  //       rentMonths: `rent${rentMonthsData}months`,
+  //     },
+  //   });
+
+  //   if (data?.success) {
+  //     // Show success message when product is added to cart for rent
+  //     toast.success(`Product added to cart for 3 months rent`);
+  //     navigate("/mycart");
+  //   } else {
+  //     toast.error("Product already in cart");
+  //   }
+  // };
+
+  const myproductAdd = async (productData) => {
+    try {
+      let formData = productData.rentalOptions
+      const selectedMonth = Object.keys(productData.rentalOptions)[0]
+      if (!user) {
+        toast.error("You are not logged in!");
+        return;
+      }
+
+      // Validate that formData is an object and not an empty one
+      if (!formData || typeof formData !== "object" || Object.keys(formData).length === 0) {
+        toast.error("Invalid rental options. Please provide valid data.");
+        console.error("formData is invalid:", formData);
+        return;
+      }
+
+      // Extract rent months data from formData
+      const rentMonthsData = selectedMonth;
+
+      if (!rentMonthsData || rentMonthsData.length === 0) {
+        toast.error("Invalid rental options. Please check your selection.");
+        return;
+      }
+
+      // Send data to the API
+      const data = await addToCartAPI({
+        items: {
+          product: productData,
+          quantity: 1,
+          rentMonthsCount: rentMonthsData,
+          rentMonths: `rent${rentMonthsData}months`,
+        },
+      });
+      if (data.success) {
+        getMyCart()
+        navigate("/mycart");
+        alert("Product added to cart for rent successfully!");
+        toast.success("Product added to cart for rent successfully!");
+      } else if (data?.error) {
+        toast.error(data.error.message || "Product already in cart");
+      } else {
+        toast.error("Something went wrong while adding the product to the cart");
+      }
+    } catch (error) {
+      console.error("Error adding product to cart:", error);
+      toast.error("An unexpected error occurred. Please try again later.");
     }
   };
 
@@ -311,7 +360,7 @@ const MyCart = () => {
   return (
     <div className="flex flex-col w-full px-4 md:px-10">
       <div className="cart-content flex flex-col md:flex-row mt-3">
-        <div className="cart-items w-full">
+        <div className="cart-items w-full 2xl:w-3/4">
           <div className="shop-heading">
             <h2 className="cart-heading">Shopping Cart</h2>
           </div>
@@ -393,7 +442,7 @@ const MyCart = () => {
           )}
         </div>
 
-        <div className="cart-overview">
+        <div className="cart-overview 2xl:w-1/4">
           {/* <div className="cart-header"></div> */}
           <div className=" w-full mx-auto">
             <div
@@ -409,7 +458,7 @@ const MyCart = () => {
               {/* Add Pdf file if user click in text */}
               <label htmlFor="termsCheck">
                 <span>
-                  I have accepted <Link to={"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"} target="_blank" rel="noopener noreferrer" class="text-blue-500 border-b border-blue-500">Terms & Conditions</Link>
+                  I have accepted <Link to={"https://truwix1-my.sharepoint.com/:b:/g/personal/ujjwalk_truwix_com/ET2ucxAijj9IqtsyCStV39kBDqQCP1xDK3wUNyTpZe7sHg?e=4GxTVK"} target="_blank" rel="noopener noreferrer" class="text-blue-500 border-b border-blue-500">Terms & Conditions</Link>
                 </span>
               </label>
             </div>
@@ -522,18 +571,18 @@ const MyCart = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col mt-20">
+      <div className="flex flex-col my-20">
         <h1 className="text-4xl font-bold text-center mb-10">
           Related Products
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {products.slice(0, 4).map((product) => (
-            <Link
-              // to={`/product/${product?._id}`}
+            <div
               key={product?._id} // Ensure your product object has a unique `id` field
               className="border px-4 flex flex-col justify-between rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition duration-500 ease-in-out"
             >
-              <div className="w-full h-auto">
+              <Link
+                to={`/product/${product?._id}`} className="w-full h-auto">
                 <div>
                   <img src={product.img[0]} alt="product image" className="h-80 object-cover" />
                 </div>
@@ -542,17 +591,16 @@ const MyCart = () => {
                   0,
                   100
                 )}"`}</p>
-              </div>
+              </Link>
               <button
                 className="bg-yellow-400 text-black px-4 py-2 my-4 rounded-lg "
                 onClick={(e) => {
-                  // e.stopPropagation();
                   myproductAdd(product)
                 }}
               >
                 Add to cart
               </button>
-            </Link>
+            </div>
           ))}
         </div>
       </div>

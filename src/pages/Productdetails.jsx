@@ -2,9 +2,9 @@
 import { useEffect, useState } from "react";
 import "../assets/csss/Productdetails.css";
 import { useParams } from "react-router-dom";
-import { addToCartAPI } from "../service/cart.service";
+import { addToCartAPI, getCartAPI } from "../service/cart.service";
 import { getProductByIdAPI } from "../service/products.service";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import storageService from "../service/storage.service";
 
@@ -13,11 +13,12 @@ const ProductDetails = () => {
   const [productData, setProductData] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
   const [selectedMonth, setSelectedMonth] = useState(1);
+  const [isItemAlreadyInCart, setIsItemAlreadyInCart] = useState(false);
   const [rentQuantity, setRentQuantity] = useState(1); // Separate state for rent quantity
   const { id } = useParams();
 
   const navigate = useNavigate();
-  
+
 
   const getProductData = async () => {
     try {
@@ -39,9 +40,10 @@ const ProductDetails = () => {
       toast.error("Something went wrong while fetching product details.");
     }
   };
-  
+
   useEffect(() => {
     getProductData();
+    getMyCart()
   }, [id]);
   // const getRentMonths = (formData) => {
   //   const { month, rentalOptions } = formData;
@@ -64,12 +66,12 @@ const ProductDetails = () => {
       console.error("month is not an array:", month);
       return null;
     }
-    
+
     if (!Array.isArray(rentalOptions)) {
       console.error("rentalOptions is not an array of objects:", rentalOptions);
       return null;
     }
-  
+
     // Map months to their corresponding rents from rentalOptions
     return month.map((item) => {
       const rentOption = rentalOptions.find(
@@ -81,27 +83,29 @@ const ProductDetails = () => {
       };
     });
   };
-  
-  
-  
+
+  const getMyCart = async () => {
+    const { data } = await getCartAPI(user?._id);
+    if (data && data.items) {
+      setIsItemAlreadyInCart(data.items.some((item) => item.product._id === id));
+    }
+  };
+
 
   const myproductAdd = async (productData, formData) => {
-    console.log("productData", productData);
-    console.log("formData", formData);
-    
     try {
       if (!user) {
         toast.error("You are not logged in!");
         return;
       }
-  
+
       // Validate that formData is an object and not an empty one
       if (!formData || typeof formData !== "object" || Object.keys(formData).length === 0) {
         toast.error("Invalid rental options. Please provide valid data.");
         console.error("formData is invalid:", formData);
         return;
       }
-  
+
       // Extract rent months data from formData
       const rentMonthsData = selectedMonth;
 
@@ -109,7 +113,7 @@ const ProductDetails = () => {
         toast.error("Invalid rental options. Please check your selection.");
         return;
       }
-  
+
       // Send data to the API
       const data = await addToCartAPI({
         items: {
@@ -119,10 +123,10 @@ const ProductDetails = () => {
           rentMonths: `rent${rentMonthsData}months`,
         },
       });
-  
-      if (data?.success) {
+      if (data.success) {
+        getMyCart()
+        alert("Product added to cart for rent successfully!");
         toast.success("Product added to cart for rent successfully!");
-        navigate("/mycart");
       } else if (data?.error) {
         toast.error(data.error.message || "Product already in cart");
       } else {
@@ -140,7 +144,7 @@ const ProductDetails = () => {
   const handleDecreaseRentQuantity = () => {
     setRentQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
   };
- 
+
   const handleImageSelect = (imgSrc) => {
     setSelectedImage(imgSrc);
   };
@@ -150,10 +154,10 @@ const ProductDetails = () => {
   const getRentPrice = (rentalOptions, selectedMonth) => {
     if (!rentalOptions || !selectedMonth) return "No rent options";
     const rentPrice = rentalOptions[selectedMonth];
-    
+
     return rentPrice ? parseFloat(rentPrice) : "No rent options";
   };
-  
+
   return (
     <>
       <div className="productdetails">
@@ -202,60 +206,60 @@ const ProductDetails = () => {
 
         <div className="productdetails-right">
 
-<div className="productdetails-right-1">
-  <div className="productdetails-right-1-1">
-    <i className="ri-star-fill"></i>
-    <span>4.5</span>
-    <span>.</span>
-    <span>149 reviews</span>
-  </div>
-  {productData?.details?.month && (
-    <>
-      <div className="month-selector">
-      {Object.keys(productData?.details.month)
-        .filter((monthKey) => !monthKey.includes('0'))
-        .map((monthKey) => {
-          const month = monthKey.replace('rent', '').replace('Months', ''); 
-          return (
-            <button
-              key={month}
-              onClick={() => handleMonthSelect(month)}
-              className={`month-button ${selectedMonth === month ? 'selected' : ''}`}
-            >
-             
-            </button>
-          );
-        })}
-    </div>
-      <div className="price-lg">
-  <span>Rent at</span>
-  <h3>
-    {selectedMonth ? (
-      <div>
-        <span
-          style={{
-            textDecoration: "line-through",
-            marginRight: "8px",
-          }}
-        >
-          {"₹ " +
-            ((Number(getRentPrice(productData?.rentalOptions, selectedMonth)) || 0) * 1.1).toFixed(2)}
-        </span>
-        <span>
-          {"₹ " +
-            (Number(getRentPrice(productData?.rentalOptions, selectedMonth)) || 0).toFixed(2) +
-            " /month"}
-        </span>
-      </div>
-    ) : (
-      "Select month"
-    )}
-  </h3>
-</div>
+          <div className="productdetails-right-1">
+            <div className="productdetails-right-1-1">
+              <i className="ri-star-fill"></i>
+              <span>4.5</span>
+              <span>.</span>
+              <span>149 reviews</span>
+            </div>
+            {productData?.details?.month && (
+              <>
+                <div className="month-selector">
+                  {Object.keys(productData?.details.month)
+                    .filter((monthKey) => !monthKey.includes('0'))
+                    .map((monthKey) => {
+                      const month = monthKey.replace('rent', '').replace('Months', '');
+                      return (
+                        <button
+                          key={month}
+                          onClick={() => handleMonthSelect(month)}
+                          className={`month-button ${selectedMonth === month ? 'selected' : ''}`}
+                        >
 
-    </>
-  )}
-</div>
+                        </button>
+                      );
+                    })}
+                </div>
+                <div className="price-lg">
+                  <span>Rent at</span>
+                  <h3>
+                    {selectedMonth ? (
+                      <div>
+                        <span
+                          style={{
+                            textDecoration: "line-through",
+                            marginRight: "8px",
+                          }}
+                        >
+                          {"₹ " +
+                            ((Number(getRentPrice(productData?.rentalOptions, selectedMonth)) || 0) * 1.1).toFixed(2)}
+                        </span>
+                        <span>
+                          {"₹ " +
+                            (Number(getRentPrice(productData?.rentalOptions, selectedMonth)) || 0).toFixed(2) +
+                            " /month"}
+                        </span>
+                      </div>
+                    ) : (
+                      "Select month"
+                    )}
+                  </h3>
+                </div>
+
+              </>
+            )}
+          </div>
 
 
           <div className="productdetails-right-2">
@@ -265,8 +269,8 @@ const ProductDetails = () => {
                 <div
                   key={index}
                   className={`px-3 py-2 cursor-pointer rounded-xl ${selectedMonth === month
-                      ? "bg-gray-400 text-white border-none"
-                      : "bg-light border border-gray-900 text-black"
+                    ? "bg-gray-400 text-white border-none"
+                    : "bg-light border border-gray-900 text-black"
                     }`}
                   onClick={() => handleMonthClick(month)}
                 >
@@ -294,31 +298,35 @@ const ProductDetails = () => {
               </div>
             </div>
             <button
-  className="cart-button py-2 px-4"
-  onClick={() => myproductAdd(productData, productData?.rentalOptions)}
+              className="cart-button py-2 px-4"
+              onClick={() => isItemAlreadyInCart ? toast.error("Product already in cart") : myproductAdd(productData, productData?.rentalOptions)}
 
->
-  <i className="ri-shopping-bag-line"></i>
-  <div className="Add-to-Cart-Button">Add to Cart</div>
-</button>
+            >
+              <i className="ri-shopping-bag-line"></i>
+              <div className="Add-to-Cart-Button">
+                {
+                  isItemAlreadyInCart ? "Added to cart" : "Add to Cart"
+                }
+              </div>
+            </button>
 
           </div>
           <div className="productdetails-right-4">
-  <hr className="seperator" />
-  <div className="total">
-    <div className="Total-Label">
-      <h5>Total Rent Price</h5>
-    </div>
-    <div className="Total-Amount">
-      <h5>
-        ₹
-        {selectedMonth && !isNaN(getRentPrice(productData?.rentalOptions, selectedMonth))
-          ? (getRentPrice(productData?.rentalOptions, selectedMonth) * rentQuantity).toFixed(2)
-          : "0.00"}
-      </h5>
-    </div>
-  </div>
-</div>
+            <hr className="seperator" />
+            <div className="total">
+              <div className="Total-Label">
+                <h5>Total Rent Price</h5>
+              </div>
+              <div className="Total-Amount">
+                <h5>
+                  ₹
+                  {selectedMonth && !isNaN(getRentPrice(productData?.rentalOptions, selectedMonth))
+                    ? (getRentPrice(productData?.rentalOptions, selectedMonth) * rentQuantity).toFixed(2)
+                    : "0.00"}
+                </h5>
+              </div>
+            </div>
+          </div>
 
 
         </div>
