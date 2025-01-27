@@ -4,7 +4,7 @@ const Returns = () => {
   return (
     <div className="container mx-auto py-12 px-4">
       <h1 className="text-3xl font-bold mb-8 text-center text-[#ffd74d]">Cancellation, Return & Replacement Policy</h1>
-
+      <p className='text-gray-700 mb-4 text-lg'>Once the refund is approved it will take 3-5 days to credit to the original payment method.</p>
       <section className="mb-8">
         <h2 className="text-2xl font-semibold mb-4">Replacement</h2>
         <p className="text-gray-700 mb-2">We are happy to offer a replacement if:</p>
