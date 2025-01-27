@@ -17,6 +17,10 @@ const AllProducts = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(5); // Set the number of products per page
   // const token = useSelector((state) => state.auth.token);
+  const [newSize, setNewSize] = useState("");
+  const [rentalOptions, setRentalOptions] = useState({});
+  const [newMonth, setNewMonth] = useState("");
+  const [newRentPrice, setNewRentPrice] = useState("");
 
   const [currentImages, setCurrentImages] = useState([]); // Existing images
   const [newImages, setNewImages] = useState([]); // New images to be added
@@ -35,6 +39,8 @@ const AllProducts = () => {
   }, []);
 
   const openEditForm = (product, img) => {
+    setRentalOptions(product?.rentalOptions || {});
+    setNewSize(product?.size || "");
     setCurrentImages(img || []);
     setSelectedProduct(product);
     setMonths(product?.details?.month || []);
@@ -45,6 +51,8 @@ const AllProducts = () => {
   const closeEditForm = () => {
     $("#editForm").fadeOut();
     $(".overlay").fadeOut();
+    setRentalOptions({});
+    setNewSize("");
   };
 
   const openDeleteModal = (product) => {
@@ -80,6 +88,23 @@ const AllProducts = () => {
     }
   };
 
+  const addMonthAndRent = () => {
+    const month = parseInt(newMonth, 10);
+
+    if (month && newRentPrice) {
+      setMonths([...months, month]);
+      setRentalOptions((prevRentalOptions) => ({
+        ...prevRentalOptions,
+        [month]: newRentPrice,
+      }));
+      setNewMonth("");
+      setNewRentPrice("");
+      toast.success("Month and Rent added successfully!");
+    } else {
+      toast.error("Please enter valid month and rent price!");
+    }
+  };
+
   // Handle form submission
   const handleEditSubmit = (event) => {
     event.preventDefault();
@@ -93,6 +118,8 @@ const AllProducts = () => {
     formData.append("sub_title", event.target.sub_title.value);
     formData.append("category", event.target.category.value);
     formData.append("description", event.target.description.value);
+    formData.append("size", newSize);
+    formData.append("rentalOptions", JSON.stringify(rentalOptions));
 
     // Append current images (URLs)
     currentImages.forEach((image) => {
@@ -112,25 +139,6 @@ const AllProducts = () => {
       JSON.stringify({
         description: event.target.description.value,
         month: months,
-      })
-    );
-
-    // Append rental options
-    formData.append(
-      "rentalOptions",
-      JSON.stringify({
-        rent3Months: months.includes(3)
-          ? event.target["rentalOptions.rent3Months"].value
-          : null,
-        rent6Months: months.includes(6)
-          ? event.target["rentalOptions.rent6Months"].value
-          : null,
-        rent9Months: months.includes(9)
-          ? event.target["rentalOptions.rent9Months"].value
-          : null,
-        rent12Months: months.includes(12)
-          ? event.target["rentalOptions.rent12Months"].value
-          : null,
       })
     );
 
@@ -197,6 +205,15 @@ const AllProducts = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
+  function removeMonthAndRent(month) {
+    setMonths(months.filter((m) => m !== month));
+    setRentalOptions((prevRentalOptions) => {
+      const updatedRentalOptions = { ...prevRentalOptions };
+      delete updatedRentalOptions[month];
+      return updatedRentalOptions;
+    });
+  }
+
   return (
     <div>
       <div className="header-container">
@@ -208,7 +225,7 @@ const AllProducts = () => {
             <tr>
               <th>Title</th>
               <th>Subtitle</th>
-              {/* <th>Price</th> */}
+              <th>Size</th>
               <th>Category</th>
               <th>Image</th>
               <th>Edit</th>
@@ -220,7 +237,7 @@ const AllProducts = () => {
               <tr key={product._id}>
                 <td>{product.title}</td>
                 <td>{product.sub_title}</td>
-                {/* <td>${product.price.toFixed(2)}</td> */}
+                <td>{product.size}</td>
                 <td>{product.category}</td>
                 <td>
                   {product.img.length > 0 && (
@@ -362,7 +379,7 @@ const AllProducts = () => {
               <label>Current Images</label>
               <div className="">
                 {currentImages.map((img, index) => (
-                  <div key={index} className="image-item flex gap-4">
+                  <div key={index} className="image-item flex gap-2 flex-col overflow-hidden">
                     <a
                       href={img}
                       alt="product image"
@@ -392,6 +409,21 @@ const AllProducts = () => {
                 onChange={handleImageUpload}
                 multiple
               />
+              <div className="flex-col w-full gap-2 flex">
+                <label>Size</label>
+                <select
+                  name="size"
+                  value={newSize}
+                  onChange={(e) => setNewSize(e.target.value)}
+                  className="p-3 border rounded-lg"
+                  required
+                >
+                  <option value="">Select Size</option>
+                  <option value="small">Small</option>
+                  <option value="medium">Medium</option>
+                  <option value="large">Large</option>
+                </select>
+              </div>
               {/* <div className="image-preview-container">
                 {img.map((image, index) => (
                   <img
@@ -404,95 +436,55 @@ const AllProducts = () => {
               </div> */}
             </div>
             <div className="md:w-[50%]">
-              <div className="flex space-x-2">
+              <div className="flex space-x-2 flex-col">
                 <label>Select Months:</label>
                 <br />
-                <label>
+                <div className="flex gap-3 flex-col">
                   <input
-                    type="checkbox"
-                    value="3"
-                    checked={months.includes(3)}
-                    onChange={handleMonthsChange}
+                    type="number"
+                    value={newMonth}
+                    placeholder="Add a month"
+                    onChange={(e) => setNewMonth(e.target.value)}
+                    className="form-input"
                   />
-                  3 Months
-                </label>
+                  <input
+                    type="text"
+                    value={newRentPrice}
+                    placeholder="Add rent price"
+                    onChange={(e) => setNewRentPrice(e.target.value)}
+                    className="form-input"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={addMonthAndRent}
+                  className="submit-button text-white bg-[#FFD74D]"
+                >
+                  Add Month & Rent
+                </button>
                 <br />
-                <label>
-                  <input
-                    type="checkbox"
-                    value="6"
-                    checked={months.includes(6)}
-                    onChange={handleMonthsChange}
-                  />
-                  6 Months
-                </label>
-                <br />
-                <label>
-                  <input
-                    type="checkbox"
-                    value="9"
-                    checked={months.includes(9)}
-                    onChange={handleMonthsChange}
-                  />
-                  9 Months
-                </label>
-                <br />
-                <label>
-                  <input
-                    type="checkbox"
-                    value="12"
-                    checked={months.includes(12)}
-                    onChange={handleMonthsChange}
-                  />
-                  12 Months
-                </label>
+                <div className="">
+                  {
+                    selectedProduct && (
+                      Object.entries(rentalOptions).map(
+                        ([month, rentPrice], index) => (
+                          <div key={index} className="flex justify-between items-center gap-4 my-2">
+                            <label className="w-[50%]">
+                              {month} months - ₹{rentPrice}
+                            </label>
+                            <span
+                              onClick={() => removeMonthAndRent(month)}
+                              className=" bg-red-500 cursor-pointer w-[40%] text-white flex justify-center rounded-md items-center font-semibold py-2"
+                            >
+                              Remove
+                            </span>
+                          </div>
+                        )
+                      )
+                    )
+                  }
+                </div>
               </div>
-              <label>Rent for 3 Months</label>
-              <input
-                type="number"
-                name="rentalOptions.rent3Months"
-                disabled={!months.includes(3)}
-                defaultValue={
-                  months.includes(3)
-                    ? selectedProduct?.rentalOptions?.rent3Months
-                    : ""
-                }
-              />
-              <label>Rent for 6 Months</label>
-              <input
-                type="number"
-                name="rentalOptions.rent6Months"
-                disabled={!months.includes(6)}
-                defaultValue={
-                  months.includes(6)
-                    ? selectedProduct?.rentalOptions?.rent6Months
-                    : ""
-                }
-              />
-
-              <label>Rent for 9 Months</label>
-              <input
-                type="number"
-                name="rentalOptions.rent9Months"
-                disabled={!months.includes(9)}
-                defaultValue={
-                  months.includes(9)
-                    ? selectedProduct?.rentalOptions?.rent9Months
-                    : ""
-                }
-              />
-
-              <label>Rent for 12 Months</label>
-              <input
-                type="number"
-                name="rentalOptions.rent12Months"
-                disabled={!months.includes(12)}
-                defaultValue={
-                  months.includes(12)
-                    ? selectedProduct?.rentalOptions?.rent12Months
-                    : ""
-                }
-              />
             </div>
           </div>
 

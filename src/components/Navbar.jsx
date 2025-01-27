@@ -191,7 +191,7 @@ const Navbar = ({ active, userClickHandler }) => {
             </button> */}
 
               <Link
-                className="text-sm font-medium text-gray-700 hover:text-gray-900 sm:text-center"
+                className="text-sm font-medium bg-[#ffd74d] p-3 px-4 text-gray-700 hover:text-gray-900 sm:text-center"
                 to="/login"
               >
                 Login

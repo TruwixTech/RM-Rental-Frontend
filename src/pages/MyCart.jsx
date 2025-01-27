@@ -43,7 +43,7 @@ const MyCart = () => {
 
   const getDistance = async () => {
     const distance = await userService.getLocation(origins, destinations);
-    // console.log(distance)
+    console.log(distance)
     setDistanceToShop(distance.data.distance);
     setAddress(distance.data.address);
   };
@@ -127,6 +127,8 @@ const MyCart = () => {
       return 0;
     }
     const sizeToSpace = { small: 15, medium: 20, large: 50 };
+    console.log(userCartData.items);
+    
     const totalSpace = userCartData.items.reduce((total, cartItem) => {
       const productSize = cartItem?.product?.size;
       const space = sizeToSpace[productSize] || 0;
@@ -134,6 +136,9 @@ const MyCart = () => {
 
       return total + space + (quantity * space);
     }, 0);
+
+    // console.log(totalSpace);
+    
 
 
 
@@ -150,6 +155,8 @@ const MyCart = () => {
       distanceCost = fixedCost + (distanceToShop - 5) * perKmCost;
     }
     const totalShippingCost = vehiclesNeeded * distanceCost;
+    // console.log(totalShippingCost);
+
     return totalShippingCost;
   };
 
