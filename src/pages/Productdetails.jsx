@@ -126,7 +126,7 @@ const ProductDetails = () => {
       if (data.success) {
         getMyCart()
         alert("Product added to cart for rent successfully!");
-        toast.success("Product added to cart for rent successfully!");
+        // toast.success("Product added to cart for rent successfully!");
       } else if (data?.error) {
         toast.error(data.error.message || "Product already in cart");
       } else {
