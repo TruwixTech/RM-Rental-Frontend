@@ -4,6 +4,7 @@ const ShippingPolicy = () => {
   return (
     <div className="container mx-auto py-12 px-4">
       <h1 className="text-3xl font-bold mb-8 text-center text-[#ffd74d]">Shipping Policy</h1>
+      <p className='text-gray-700 mb-4 text-lg'>Once the order is placed for rental it will take 1 day to deliver to the given address.</p>
       <section className="mb-8">
         <h2 className="text-xl font-semibold mb-2">When and where do you usually deliver?</h2>
         <p className="text-gray-700">
