@@ -10,6 +10,7 @@ const AddProduct = () => {
     sub_title: "",
     category: "",
     img: [],
+    size: "",
     description: "",
     month: [], // Will store months only
     rentalOptions: {}, // Store month-rent mapping here
@@ -40,19 +41,19 @@ const AddProduct = () => {
   };
   const addMonthAndRent = () => {
     const month = parseInt(newMonth, 10);
-    
+
     if (month && !formData.month.includes(month) && newRentPrice) {
-     
+
       const updatedMonths = [...formData.month, month];
 
       const newRentalOption = { [month]: newRentPrice };
-  
+
       setFormData((prevData) => ({
         ...prevData,
-        month: updatedMonths, 
+        month: updatedMonths,
         rentalOptions: { ...prevData.rentalOptions, ...newRentalOption }, // Update the rentalOptions object
       }));
-  
+
       setNewMonth("");
       setNewRentPrice("");
       toast.success("Month and Rent added successfully!");
@@ -61,13 +62,13 @@ const AddProduct = () => {
     }
   };
 
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-   
-    
-  
+
+
+
     const data = new FormData();
     Object.keys(formData).forEach((key) => {
       if (key === "img") {
@@ -86,7 +87,7 @@ const AddProduct = () => {
         data.append(key, formData[key]);
       }
     });
-  
+
     try {
       const response = await AXIOS_INSTANCE.post("/products/add-product-v2", data, {
         headers: {
@@ -104,21 +105,21 @@ const AddProduct = () => {
         month: [],
         rentalOptions: {},
         quantity: null,
+        size: "",
       });
-  
+
       setNewMonth("");
       setNewRentPrice("");
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
-      setLoading(false); 
+      setLoading(false);
     } catch (err) {
       setLoading(false);
       toast.error("Something went wrong! Try again later!");
       setSubmitError(err.response?.data?.error || "An error occurred");
     }
   };
-  
 
   return (
     <div className="add-product">
@@ -177,6 +178,21 @@ const AddProduct = () => {
                 required
                 className="form-input"
               />
+            </div>
+            <div className="flex-col w-full gap-2 flex">
+              <label>Size</label>
+              <select
+                name="size"
+                value={formData.size || ""}
+                onChange={handleChange}
+                className="p-3 border rounded-lg"
+                required
+              >
+                <option value="">Select Size</option>
+                <option value="small">Small</option>
+                <option value="medium">Medium</option>
+                <option value="large">Large</option>
+              </select>
             </div>
           </div>
           <div>
