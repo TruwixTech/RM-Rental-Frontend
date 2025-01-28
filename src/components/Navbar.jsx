@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import logo from "../assets/img/Logo.png";
 import { MdShoppingBag } from "react-icons/md";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 import User from "../assets/img/user.png";
 import storageService from "../service/storage.service";
@@ -25,6 +25,7 @@ const Navbar = ({ active, userClickHandler }) => {
   const user = storageService.get("user");
   const [showPopup, setShowPopup] = useState(false);
 
+  const location = useLocation()
   // Show popup every time the page reloads
   useEffect(() => {
     setShowPopup(true);
@@ -277,7 +278,8 @@ const Navbar = ({ active, userClickHandler }) => {
           </NavLink> */}
 
           {/* product dropdown  */}
-          <div className="relative group inline-block text-left">
+          <div className={`${location.pathname === '/products' ? '' : 'group'} relative inline-block text-left`}
+          >
             <NavLink
               to="/products"
               className={({ isActive }) =>
@@ -286,21 +288,27 @@ const Navbar = ({ active, userClickHandler }) => {
               onClick={() => handleLinkClick('products')}
             >
               Products
-              <svg
-                className="w-2.5 h-2.5 ms-1"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 10 6"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="m1 1 4 4 4-4"
-                />
-              </svg>
+              {
+                location.pathname === '/products'
+                  ? null
+                  : <svg
+                    className="w-2.5 h-2.5 ms-1"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 10 6"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m1 1 4 4 4-4"
+                    />
+                  </svg>
+              }
+
+
             </NavLink>
             <div
               id="dropdown"
