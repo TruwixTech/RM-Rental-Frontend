@@ -355,7 +355,7 @@ const Navbar = ({ active, userClickHandler }) => {
                   popularProducts.map((product, index) => (
                     <li title={product.title} className="py-2 px-4 hover:bg-gray-100 cursor-pointer" key={index}>
                       <Link
-                      className="w-full"
+                        className="w-full"
                         to={`/product/${product._id}`}
                       >
                         {
@@ -374,6 +374,30 @@ const Navbar = ({ active, userClickHandler }) => {
           <div className="absolute -right-[1500px]">
             <AddressSelect2 />
           </div>
+          <NavLink
+            to="/termscondition"
+            // style={{ overflow: "hidden" }}
+            // className={activeLink === "shipping" ? "active" : ""}
+            // onClick={() => handleLinkClick("shipping")}
+            className={({ isActive }) => `${isActive ? 'active' : ''} text-decoration-none`}
+            onClick={() => handleLinkClick("termscondition")}
+
+          >
+            <span className="renttt text-lg">Terms & Condition</span>
+
+          </NavLink>
+          <NavLink
+            to="/privacyPolicy"
+            // style={{ overflow: "hidden" }}
+            // className={activeLink === "shipping" ? "active" : ""}
+            // onClick={() => handleLinkClick("shipping")}
+            className={({ isActive }) => `${isActive ? 'active' : ''} text-decoration-none`}
+            onClick={() => handleLinkClick("privacyPolicy")}
+
+          >
+            <span className="renttt text-lg">Privacy & Policy</span>
+
+          </NavLink>
           <NavLink
             to="/shipping"
             // style={{ overflow: "hidden" }}
