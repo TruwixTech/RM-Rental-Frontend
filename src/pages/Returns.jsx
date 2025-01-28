@@ -11,6 +11,7 @@ const Returns = () => {
         <ul className="list-disc pl-6 text-gray-700">
           <li>You received a damaged or defective item.</li>
           <li>You received an incorrect item.</li>
+          <li>Replacement will be done within 5 days after delivery.</li>
         </ul>
       </section>
 
