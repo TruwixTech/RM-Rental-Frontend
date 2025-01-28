@@ -38,6 +38,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ContactUS from "./pages/ContactUs";
 import ShippingPolicy from "./pages/ShippingPolicy";
 import Returns from "./pages/Returns";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 const App = () => {
   const navigate = useNavigate();
@@ -126,6 +128,8 @@ const App = () => {
           <Route path="/contactus" element={<ContactUS />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/termscondition" element={<TermsAndConditions />} />
+          <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
           <Route path="/returns" element={<Returns />} />
           <Route path="/shipping" element={<ShippingPolicy />} />
           <Route path="/product/:id" element={<ProductDetails />} />
@@ -155,6 +159,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/termscondition" element={<TermsAndConditions />} />
+          <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/password" element={<ForgotPassword />} />
           <Route path="/products" element={<Products />} />
