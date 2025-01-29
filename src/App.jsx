@@ -140,10 +140,10 @@ const App = () => {
           />
           <Route path="/myorders" element={<MyOrders />} />
           <Route path="/userdashboard" element={<UserDashboard />} />
-          <Route path="/orderconfirm" element={<OrderConfirm />} />
+          <Route path="/orderconfirm/:transactionId" element={<OrderConfirm />} />
           <Route path="/address" element={<AddressPage />} />
           <Route path="/kyc" element={<KYCPage />}></Route>
-          <Route path="/payment" element={<MySubscriptions />}></Route>
+          <Route path="/payment/:transactionId?" element={<MySubscriptions />}></Route>
           <Route path="/admindashboard" element={<AdminDashboard />}>
             <Route index element={<AdminPage />} />
             <Route path="allproduct" element={<AllProducts />} />

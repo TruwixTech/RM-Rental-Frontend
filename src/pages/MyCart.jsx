@@ -43,7 +43,7 @@ const MyCart = () => {
 
   const getDistance = async () => {
     const distance = await userService.getLocation(origins, destinations);
-    console.log(distance)
+    // console.log(distance)
     setDistanceToShop(distance.data.distance);
     setAddress(distance.data.address);
   };
@@ -127,7 +127,7 @@ const MyCart = () => {
       return 0;
     }
     const sizeToSpace = { small: 15, medium: 20, large: 50 };
-    console.log(userCartData.items);
+    // console.log(userCartData.items);
     
     const totalSpace = userCartData.items.reduce((total, cartItem) => {
       const productSize = cartItem?.product?.size;

@@ -1,12 +1,14 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
 import { RiMoneyRupeeCircleFill } from "react-icons/ri";
 import { IoSettings } from "react-icons/io5";
 import { FaShoppingBag, FaIdCard } from "react-icons/fa";
 import storageService from "../service/storage.service";
 import userService from "../service/user.service"; // Import userService for orders
 import { AXIOS_INSTANCE } from "../service";
+
+const backend = 'http://localhost:4000/api'
 
 // SubscriptionStatus Component
 const SubscriptionStatus = ({ startDate, endDate }) => {
@@ -26,9 +28,17 @@ const MySubscriptions = () => {
   const user = storageService.get("user");
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedOrderId, setSelectedOrderId] = useState('');
+  const { transactionId } = useParams()
+  const navigate = useNavigate()
 
   const ClickHandler = (link) => {
     setActiveLink(link);
+  };
+
+  const removeTransactionIdFromUrl = () => {
+    // Use navigate with the `replace` option to remove the `transactionId` from the URL
+    navigate('/payment', { replace: true }); // `.` indicates the current route, `replace` prevents adding a new history entry
   };
 
   const fetchOrders = async () => {
@@ -36,9 +46,31 @@ const MySubscriptions = () => {
       const { data } = await userService.getMyOrders(user?._id);
       setOrders(data);
     } catch (error) {
-      
+
     }
     setLoading(false);
+  };
+
+  const fetchPaymentStatus = async () => {
+    try {
+      if (transactionId) {
+        console.log(transactionId);
+        console.log(selectedOrderId);
+
+        // Fetch the payment status from the backend
+        const transactionresponse = await AXIOS_INSTANCE.get(`${backend}/order/update-status`, {
+          params: { id: transactionId }, // Send transactionId as query parameter
+        }, {
+          data: { orderId: selectedOrderId }, // Send orderId in the request body
+        });
+        setSelectedOrderId(null)
+        alert("Payment successful and order updated.");
+      }
+    } catch (error) {
+      console.error("Error fetching payment status:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Set active link to "My Orders" when component mounts
@@ -48,72 +80,48 @@ const MySubscriptions = () => {
   }, []);
 
   const handlePayNow = async (orderId, amount, shippingCost) => {
+    setSelectedOrderId(orderId)
+    console.log(orderId)
     if (!user) {
       alert("Please login to continue");
       return;
     }
-
     try {
       // Calculate the amount to be charged
       const newAmount = (amount - shippingCost - 1218) / 1.18;
-      
-
-      const options = {
-        key: "rzp_live_gNLh3zWfj9gj0H",
-        amount: Math.round(newAmount * 100), // Amount in paise
-        currency: "INR",
-        name: "RM RENTAL",
-        description: "Rm Rental Payment",
-        image: "https://your-logo-url.com/logo.png",
-        handler: async (response) => {
-          try {
-            // Step 2: Verify Payment
-            const paymentData = {
-              payment_id: response.razorpay_payment_id,
-              signature: response.razorpay_signature,
-            };
-
-            const verifyResponse = await AXIOS_INSTANCE.post(
-              "/order/verifyPayment",
-              paymentData
-            );
-
-            if (verifyResponse?.data?.success) {
-              // Step 3: Update Order Status in backend
-              const updateOrderResponse = await AXIOS_INSTANCE.put(
-                `/order/update/${orderId}`
-              );
-
-              if (updateOrderResponse?.data?.success) {
-                alert("Payment successful and order updated.");
-              } else {
-                alert("Payment successful, but failed to update the order.");
-              }
-            } else {
-              alert("Payment verification failed.");
-            }
-          } catch (error) {
-            console.error("Error during payment verification:", error);
-            alert("An error occurred during payment verification.");
-          }
-        },
-        prefill: {
-          name: user.name,
-          email: user.email,
-          contact: user.phone,
-        },
-        theme: {
-          color: "#3399cc",
-        },
+      const orderDetails = {
+        totalPrice: newAmount.toFixed(0), // The total amount from your payment route
+        MUID: "M" + Date.now(),
+        transactionId: "T" + Date.now(),
       };
 
-      const rzp = new Razorpay(options);
-      rzp.open();
+      // const response = await AXIOS_INSTANCE.put(`${backend}/order/update/${orderId}`, orderDetails);
+      // if (response.data && response.data.data && response.data.data.instrumentResponse) {
+      //   const redirectInfo = response.data.data.instrumentResponse.redirectInfo;
+
+      //   if (redirectInfo && redirectInfo.url) {
+      //     // Redirect the user to the payment gateway URL
+      //     window.location.href = redirectInfo.url;
+      //   } else {
+      //     console.log("Redirect URL not found in the response");
+      //     // Optionally, notify the user that payment initiation failed.
+      //   }
+      // } else {
+      //   console.log("Invalid response structure from payment gateway");
+      //   // Optionally, notify the user of an error with payment initiation.
+      // }
     } catch (error) {
       console.error("Error during payment process:", error);
       alert("An error occurred during the payment process.");
     }
   };
+
+  useEffect(() => {
+    if (transactionId) {
+      removeTransactionIdFromUrl()
+      fetchPaymentStatus()
+    }
+  }, [transactionId])
 
   return (
     <div className="user-profile w-full flex justify-between p-8 bg-[#f1f1f1]">
@@ -135,19 +143,20 @@ const MySubscriptions = () => {
               },
               // { icon: <IoSettings />, name: "Setting", url: "/setting" },
             ].map((item, index) => (
-              <Link
+              <NavLink
                 to={item.url}
                 key={index}
                 onClick={() => ClickHandler(item.name)}
-                className={`${
-                  activeLink === item.name
+                className={({ isActive }) =>
+                  `flex items-center gap-3 text-xl w-full ${isActive
                     ? "text-black font-semibold"
                     : "text-[grey]"
-                } flex items-center gap-3 text-xl`}
+                  }`
+                }
               >
                 {item.icon}
                 {item.name}
-              </Link>
+              </NavLink>
             ))}
           </div>
         </div>
@@ -158,7 +167,7 @@ const MySubscriptions = () => {
         ) : (
           <div className="flex flex-col items-start w-full">
             <div className="text-2xl font-semibold mb-4">My Subscriptions</div>
-            {orders.length > 0 ? (
+            {orders?.length > 0 ? (
               <div className="order-list w-full">
                 <div className="overflow-x-auto">
                   <table className="table-auto w-full mb-6">
@@ -173,7 +182,7 @@ const MySubscriptions = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {orders.map((order) => {
+                      {orders?.map((order) => {
                         const startDate = new Date(order.orderDate); // Use the correct start date (orderDate)
                         const endDate = new Date(order.endDate);
 
@@ -192,7 +201,7 @@ const MySubscriptions = () => {
                               {new Date(order.endDate).toDateString()}
                             </td>
                             <td className="whitespace-nowrap px-3 py-2">
-                              Rs. {order.totalPrice.toFixed(2)}
+                              Rs. {order.totalPrice}
                             </td>
                             <td className="whitespace-nowrap px-3 py-2">
                               <SubscriptionStatus
@@ -202,11 +211,10 @@ const MySubscriptions = () => {
                             </td>
                             <td className="whitespace-nowrap px-3 py-2">
                               <button
-                                className={`rounded-lg py-2 px-2 ${
-                                  endDate <= new Date()
-                                    ? "bg-green-600"
-                                    : "bg-gray-400 cursor-not-allowed"
-                                } text-white`}
+                                className={`rounded-lg py-2 px-2 ${endDate <= new Date()
+                                  ? "bg-green-600"
+                                  : "bg-gray-400 cursor-not-allowed"
+                                  } text-white`}
                                 disabled={endDate > new Date()} // Disable if endDate is greater than today
                                 onClick={() =>
                                   handlePayNow(

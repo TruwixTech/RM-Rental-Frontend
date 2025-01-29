@@ -7,6 +7,8 @@ import { AXIOS_INSTANCE } from "../service";
 import { all } from "axios";
 import axios from "axios";
 
+const backend = 'http://localhost:4000/api'
+
 const Modal = ({ title, children, onClose }) => (
   <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
     <div className="bg-white p-6 rounded-lg shadow-lg w-1/3 flex flex-col items-center">
@@ -71,8 +73,7 @@ export default function AddressPage({ finalPayment }) {
     return pincodeMatch ? pincodeMatch[0] : null;
   };
   const location = useLocation();
-  const { cartTotal, shippingCost, cartItems, apiFetchedAddress } =
-    location.state;
+  const { cartTotal, shippingCost, cartItems, apiFetchedAddress } = location.state;
 
 
   const [modifyAddress, setModifyAddress] = useState({
@@ -98,210 +99,55 @@ export default function AddressPage({ finalPayment }) {
       alert("Please login to continue");
       return;
     }
-  
+
     if (!allowedPincodes.includes(modifyAddress.pinCode || extractPincode(selectedAddress))) {
       setShowPopup2(true);
       return;
     }
-  
+
     // Concatenate the custom address fields into a single string
     const customAddressString = isCustomAddress
       ? `${modifyAddress.flatNo}, ${modifyAddress.addressLine1}, ${modifyAddress.addressLine2}, ${modifyAddress.city}, ${modifyAddress.state}, ${modifyAddress.pinCode}`
       : null;
-  
+
     // Determine the address to send
     const addressToSend = isCustomAddress ? customAddressString : selectedAddress;
-  
-    // Step 1: Trigger Razorpay Payment Gateway
-    alert("Payment will be enabled in some time.");
-    // const options = {
-    //   key: "rzp_live_gNLh3zWfj9gj0H",
-    //   amount: cartTotal * 100,
-    //   currency: "INR",
-    //   name: "RM RENTAL",
-    //   description: "Rm Rental Payment",
-    //   image: "https://your-logo-url.com/logo.png",
-    //   handler: async (response) => {
-    //     try {
-    //       // Step 2: Verify Payment
-    //       const paymentData = {
-    //         payment_id: response.razorpay_payment_id,
-    //         signature: response.razorpay_signature,
-    //       };
-  
-    //       const verifyResponse = await AXIOS_INSTANCE.post("/order/verifyPayment", paymentData);
-  
-    //       if (verifyResponse?.data?.success) {
-    //         // Step 3: Create Order in Backend after Payment Success
-    //         const orderResponse = await AXIOS_INSTANCE.post("/create/order", {
-    //           cartTotal,
-    //           shippingCost,
-    //           cartItems,
-    //           address: addressToSend, // Send the selected or custom address
-    //         });
 
-  
-    //         const orderData = orderResponse?.data;
-    //         if (orderData.success) {
-    //           // Clear fields after successful payment
-    //           setModifyAddress({
-    //             flatNo: "",
-    //             addressLine1: "",
-    //             addressLine2: "",
-    //             city: "",
-    //             state: "",
-    //             pinCode: "",
-    //           });
-  
-    //           // Step 4: Create Invoice
-    //           const invoiceData = {
-    //             userId: user?.userId,  // Use the logged-in user's ID
-    //             paymentId: response.razorpay_payment_id,  // Use Razorpay payment ID
-    //             amount: cartTotal,  // Use cart total as the invoice amount
-    //             items: cartItems.map(item => ({
-    //               name: item.name,
-    //               quantity: item.quantity,
-    //               price: item.price,
-    //             }))
-    //           };
-  
-    //           const invoiceResponse = await AXIOS_INSTANCE.post(
-    //             "invoice/create-invoice",
-    //             invoiceData
-    //           );
-  
-    //           if (invoiceResponse?.data?.success) {
-    //             // Navigate to the order confirmation page
-    //             navigate("/orderconfirm", {
-    //               state: { orderId: orderData._id },
-    //             });
-    //           } else {
-    //             alert("Invoice creation failed. Reason: " + invoiceResponse?.data?.error);
-    //             navigate("/orderfailed");
-    //           }
-    //         } else {
-    //           alert("Order creation failed. Reason: " + orderData.error);
-    //           navigate("/orderfailed");
-    //         }
-    //       } else {
-    //         alert("Payment verification failed");
-    //         navigate("/orderfailed");
-    //       }
-    //     } catch (error) {
-    //       console.error("Payment verification or order creation failed:", error);
-    //       alert("An error occurred during the payment process.");
-    //       // navigate("/orderfailed");
-    //     }
-    //   },
-    //   prefill: {
-    //     name: user?.name,
-    //     email: user?.email,
-    //     contact: "9999999999",
-    //   },
-    //   theme: {
-    //     color: "#6366F1",
-    //   },
-    // };
-  
-    // const rzp = new window.Razorpay(options);
-    // rzp.open();
+    const orderDetails = {
+      cartItems,
+      totalPrice: cartTotal.toFixed(0), // The total amount from your payment route
+      shippingCost: shippingCost.toFixed(0),
+      shippingAddress: addressToSend,
+      MUID: "M" + Date.now(),
+      transactionId: "T" + Date.now(),
+    };
+
+    try {
+      // Make a POST request to create the order
+      const response = await AXIOS_INSTANCE.post(`${backend}/create/order`, orderDetails);
+      if (response.data && response.data.data && response.data.data.instrumentResponse) {
+        const redirectInfo = response.data.data.instrumentResponse.redirectInfo;
+
+        if (redirectInfo && redirectInfo.url) {
+          // Redirect the user to the payment gateway URL
+          window.location.href = redirectInfo.url;
+        } else {
+          console.log("Redirect URL not found in the response");
+          // Optionally, notify the user that payment initiation failed.
+        }
+      } else {
+        console.log("Invalid response structure from payment gateway");
+        // Optionally, notify the user of an error with payment initiation.
+      }
+      console.log(response.data);
+    } catch (error) {
+      console.error("Payment failed:", error);
+      // setError("Payment failed. Please try again later.");
+    } finally {
+      // setLoading(false);
+    }
+
   };
-  
-  // const handlePayment = async () => {
-  //   if (!selectedAddress && !isCustomAddress && !modifyAddress) {
-  //     alert("Please select or enter an address");
-  //     return;
-  //   }
-  //   if (!user) {
-  //     alert("Please login to continue");
-  //     return;
-  //   }
-
-  //   if (!allowedPincodes.includes(modifyAddress.pinCode || extractPincode(selectedAddress))) {
-  //     setShowPopup2(true);
-  //     return;
-  //   }
-
-  //   // Concatenate the custom address fields into a single string
-  //   const customAddressString = isCustomAddress
-  //     ? `${modifyAddress.flatNo}, ${modifyAddress.addressLine1}, ${modifyAddress.addressLine2}, ${modifyAddress.city}, ${modifyAddress.state}, ${modifyAddress.pinCode}`
-  //     : null;
-
-  //   // Determine the address to send
-  //   const addressToSend = isCustomAddress ? customAddressString : selectedAddress;
-
-  //   // Step 1: Trigger Razorpay Payment Gateway
-  //   const options = {
-  //     key: "rzp_live_gNLh3zWfj9gj0H",
-  //     amount: cartTotal * 100,
-  //     currency: "INR",
-  //     name: "RM RENTAL",
-  //     description: "Rm Rental Payment",
-  //     image: "https://your-logo-url.com/logo.png",
-  //     handler: async (response) => {
-  //       try {
-  //         // Step 2: Verify Payment
-  //         const paymentData = {
-  //           payment_id: response.razorpay_payment_id,
-  //           signature: response.razorpay_signature,
-  //         };
-
-  //         const verifyResponse = await AXIOS_INSTANCE.post(
-  //           "/order/verifyPayment",
-  //           paymentData
-  //         );
-
-  //         if (verifyResponse?.data?.success) {
-  //           // Step 3: Create Order in Backend after Payment Success
-  //           const orderResponse = await AXIOS_INSTANCE.post("/create/order", {
-  //             cartTotal,
-  //             shippingCost,
-  //             cartItems,
-  //             address: addressToSend, // Send the selected or custom address
-  //           });
-
-
-
-  //           const orderData = orderResponse?.data;
-  //           if (orderData.success) {
-  //             setModifyAddress({
-  //               flatNo: "",
-  //               addressLine1: "",
-  //               addressLine2: "",
-  //               city: "",
-  //               state: "",
-  //               pinCode: "",
-  //             }); // Clear fields after payment
-  //             navigate("/orderconfirm", {
-  //               state: { orderId: orderData._id },
-  //             });
-  //           } else {
-  //             alert("Order creation failed. Reason: " + orderData.error);
-  //             navigate("/orderfailed");
-  //           }
-  //         } else {
-  //           alert("Payment verification failed");
-  //           navigate("/orderfailed");
-  //         }
-  //       } catch (error) {
-  //         console.error("Payment verification or order creation failed:", error);
-  //         alert("An error occurred during the payment process.");
-  //         // navigate("/orderfailed");
-  //       }
-  //     },
-  //     prefill: {
-  //       name: user?.name,
-  //       email: user?.email,
-  //       contact: "9999999999",
-  //     },
-  //     theme: {
-  //       color: "#6366F1",
-  //     },
-  //   };
-
-  //   const rzp = new window.Razorpay(options);
-  //   rzp.open();
-  // };
 
 
   const handleSelectAddress = () => {
@@ -376,7 +222,7 @@ export default function AddressPage({ finalPayment }) {
       { "area": "Shalimar Garden Extension 2", "pincode": "201005", "state": "Uttar Pradesh" },
       { "area": "Shalimar Garden Extension 1", "pincode": "201005", "state": "Uttar Pradesh" },
       { "area": "Koyal Enclave", "pincode": "201005", "state": "Uttar Pradesh" },
-    
+
       { "area": "Sector 26", "pincode": "122002", "state": "Haryana" },
       { "area": "Sushant Lok I", "pincode": "122002", "state": "Haryana" },
       { "area": "DLF Phase 2", "pincode": "122002", "state": "Haryana" },
@@ -427,7 +273,7 @@ export default function AddressPage({ finalPayment }) {
       { "area": "Sector-103A", "pincode": "122006", "state": "Haryana" },
       { "area": "Sector-90", "pincode": "122505", "state": "Haryana" },
       { "area": "Sector-70A", "pincode": "122018", "state": "Haryana" },
-    
+
       { "area": "Sector-12", "pincode": "201301", "state": "Uttar Pradesh" },
       { "area": "Sector-11", "pincode": "201301", "state": "Uttar Pradesh" },
       { "area": "Sector-1", "pincode": "201301", "state": "Uttar Pradesh" },
@@ -447,7 +293,7 @@ export default function AddressPage({ finalPayment }) {
       { "area": "Sector-35", "pincode": "201303", "state": "Uttar Pradesh" },
       { "area": "Sector-15", "pincode": "201301", "state": "Uttar Pradesh" }
     ];
-    
+
 
     const allowedPincodes = pinCodeMapping.filter((pincode) => pincode.pincode === modifyAddress.pinCode);
 
