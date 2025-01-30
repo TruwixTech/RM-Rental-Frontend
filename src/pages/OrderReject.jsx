@@ -9,10 +9,10 @@ const OrderReject = () => {
        <FaRegTimesCircle  className='success-icon text-[10vw] text-white' />
         <div className='order-confirm-left-top text-center text-white'>
        <p className='text-lg'>SORRY</p>
-       <h1 className='text-5xl font-bold my-2'>YOUR ORDER IS REJECT</h1>
+       <h1 className='text-5xl font-bold my-2'>YOUR PAYMENT IS FAILED</h1>
        <p className=''>Oops! Something went terribly wrong here</p>
        </div>
-       <Link className="text-[red] font-semibold shadow-md shadow-[#464646] bg-[#fff] px-4 py-2 rounded-full">Please try again</Link>
+       <Link to='/mycart' className="text-[red] font-semibold shadow-md shadow-[#464646] bg-[#fff] px-4 py-2 rounded-full">Please try again</Link>
        </div>
     </div>
   )
