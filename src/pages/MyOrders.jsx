@@ -36,7 +36,9 @@ const MyOrders = () => {
   const fetchOrders = async () => {
     try {
       const { data } = await userService.getMyOrders(user?._id);
-      setOrders(data);
+      const filteredOrders = data.filter((order) => order.paymentStatus === "PAID");
+      setOrders(filteredOrders);
+      // setOrders(data);
     } catch (error) {
       
     }
