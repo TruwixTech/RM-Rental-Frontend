@@ -8,7 +8,7 @@ import storageService from "../service/storage.service";
 import userService from "../service/user.service"; // Import userService for orders
 import { AXIOS_INSTANCE } from "../service";
 
-const backend = 'http://localhost:4000/api'
+const backend = "https://truwix-rm-rental-backend-dev.vercel.app/api"
 
 // SubscriptionStatus Component
 const SubscriptionStatus = ({ startDate, endDate }) => {

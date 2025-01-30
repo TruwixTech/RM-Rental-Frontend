@@ -3,7 +3,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { AXIOS_INSTANCE } from "../service";
 
-const backend = 'http://localhost:4000'
+const backend = "https://truwix-rm-rental-backend-dev.vercel.app"
 
 const OrderConfirm = () => {
   const [orderData, setOrderData] = useState({});
@@ -17,7 +17,7 @@ const OrderConfirm = () => {
         const transactionresponse = await AXIOS_INSTANCE.get(`${backend}/api/order/status`, {
           params: { id: transactionId },
         });
-        
+
         setOrderData(transactionresponse.data.data);
       }
     } catch (error) {

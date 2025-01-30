@@ -7,7 +7,7 @@ import { AXIOS_INSTANCE } from "../service";
 import { all } from "axios";
 import axios from "axios";
 
-const backend = 'http://localhost:4000/api'
+const backend = "https://truwix-rm-rental-backend-dev.vercel.app/api"
 
 const Modal = ({ title, children, onClose }) => (
   <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
