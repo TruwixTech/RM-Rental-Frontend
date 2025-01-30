@@ -27,9 +27,8 @@ const Orders = () => {
       try {
         const response = await AXIOS_INSTANCE.get("/orders");
         if (response.data && Array.isArray(response.data.data)) {
-
-
-          setOrders(response.data.data);
+          const filteredOrders = response.data.data.filter((order) => order.paymentStatus === "PAID");
+          setOrders(filteredOrders);
         } else {
           console.error("Unexpected response format:", response.data);
           setError("Unexpected response format");

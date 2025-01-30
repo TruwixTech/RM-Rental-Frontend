@@ -44,7 +44,8 @@ const MySubscriptions = () => {
   const fetchOrders = async () => {
     try {
       const { data } = await userService.getMyOrders(user?._id);
-      setOrders(data);
+      const filteredOrders = data.filter((order) => order.paymentStatus === "PAID");
+      setOrders(filteredOrders);
     } catch (error) {
 
     }
@@ -54,8 +55,8 @@ const MySubscriptions = () => {
   const fetchPaymentStatus = async () => {
     try {
       if (transactionId) {
-        console.log(transactionId);
-        console.log(selectedOrderId);
+        // console.log(transactionId);
+        // console.log(selectedOrderId);
 
         // Fetch the payment status from the backend
         const transactionresponse = await AXIOS_INSTANCE.get(`${backend}/order/update-status`, {
@@ -81,7 +82,6 @@ const MySubscriptions = () => {
 
   const handlePayNow = async (orderId, amount, shippingCost) => {
     setSelectedOrderId(orderId)
-    console.log(orderId)
     if (!user) {
       alert("Please login to continue");
       return;
@@ -95,21 +95,21 @@ const MySubscriptions = () => {
         transactionId: "T" + Date.now(),
       };
 
-      // const response = await AXIOS_INSTANCE.put(`${backend}/order/update/${orderId}`, orderDetails);
-      // if (response.data && response.data.data && response.data.data.instrumentResponse) {
-      //   const redirectInfo = response.data.data.instrumentResponse.redirectInfo;
+      const response = await AXIOS_INSTANCE.put(`${backend}/order/update/${orderId}`, orderDetails);
+      if (response.data && response.data.data && response.data.data.instrumentResponse) {
+        const redirectInfo = response.data.data.instrumentResponse.redirectInfo;
 
-      //   if (redirectInfo && redirectInfo.url) {
-      //     // Redirect the user to the payment gateway URL
-      //     window.location.href = redirectInfo.url;
-      //   } else {
-      //     console.log("Redirect URL not found in the response");
-      //     // Optionally, notify the user that payment initiation failed.
-      //   }
-      // } else {
-      //   console.log("Invalid response structure from payment gateway");
-      //   // Optionally, notify the user of an error with payment initiation.
-      // }
+        if (redirectInfo && redirectInfo.url) {
+          // Redirect the user to the payment gateway URL
+          window.location.href = redirectInfo.url;
+        } else {
+          console.log("Redirect URL not found in the response");
+          // Optionally, notify the user that payment initiation failed.
+        }
+      } else {
+        console.log("Invalid response structure from payment gateway");
+        // Optionally, notify the user of an error with payment initiation.
+      }
     } catch (error) {
       console.error("Error during payment process:", error);
       alert("An error occurred during the payment process.");
