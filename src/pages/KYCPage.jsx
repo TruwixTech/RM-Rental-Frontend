@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { RiMoneyRupeeCircleFill } from "react-icons/ri";
 import { FaShoppingBag, FaIdCard } from "react-icons/fa";
 import storageService from "../service/storage.service";
@@ -132,19 +132,20 @@ const KYCPage = () => {
                 url: "/payment",
               },
             ].map((item, index) => (
-              <Link
+              <NavLink
                 to={item.url}
                 key={index}
                 onClick={() => ClickHandler(item.name)}
-                className={`${
-                  activeLink === item.name
+                className={({ isActive }) =>
+                  `flex items-center gap-3 text-xl w-full ${isActive
                     ? "text-black font-semibold"
                     : "text-[grey]"
-                } flex items-center gap-3 text-xl`}
+                  }`
+                }
               >
                 {item.icon}
                 {item.name}
-              </Link>
+              </NavLink>
             ))}
           </div>
         </div>

@@ -93,41 +93,43 @@ const Modal = ({ title, children, onClose }) => {
           </thead>
           <tbody>
             {children.orders.map((sub) => (
-              <tr
-                key={sub.customerId}
-                className="border-b border-gray-300 hover:bg-gray-100 duration-300 ease-in-out"
-              >
-                <td className="text-center px-4 py-3">{sub.orderNumber}</td>
-                <td className="text-center px-4 py-3">{children.name}</td>
-                <td className="text-center px-4 py-3 text-sm">
-                  {sub.products.map((product, index) => (
-                    <div key={product._id || index} className="text-gray-800">
-                      {product.product.title}
-                    </div>
-                  ))}
-                </td>
-                <td className="text-center px-4 py-3">
-                  {new Date(sub.orderDate).toDateString()}
-                </td>
-                <td className="text-center px-4 py-3">
-                  {new Date(sub.endDate).toDateString()}
-                </td>
-                <td className="text-center px-4 py-3 text-green-500 font-semibold">
-                  <SubscriptionStatus
-                    startDate={sub.orderDate}
-                    endDate={sub.endDate}
-                  />
-                </td>
-                <td className={`${getStatusColor(sub.status)} text-center px-4 py-3`} >{sub.status}</td>
-                <td className="text-center px-4 py-3">
-                  <button
-                    className="w-[100px] rounded-full bg-gray-600 text-white py-2 hover:bg-gray-700 transition duration-200"
-                    onClick={() => handleStatusClick(sub)}
-                  >
-                    Edit
-                  </button>
-                </td>
-              </tr>
+              sub.paymentStatus === "PAID" && (
+                <tr
+                  key={sub.customerId}
+                  className="border-b border-gray-300 hover:bg-gray-100 duration-300 ease-in-out"
+                >
+                  <td className="text-center px-4 py-3">{sub.orderNumber}</td>
+                  <td className="text-center px-4 py-3">{children.name}</td>
+                  <td className="text-center px-4 py-3 text-sm">
+                    {sub.products.map((product, index) => (
+                      <div key={product._id || index} className="text-gray-800">
+                        {product.product.title}
+                      </div>
+                    ))}
+                  </td>
+                  <td className="text-center px-4 py-3">
+                    {new Date(sub.orderDate).toDateString()}
+                  </td>
+                  <td className="text-center px-4 py-3">
+                    {new Date(sub.endDate).toDateString()}
+                  </td>
+                  <td className="text-center px-4 py-3 text-green-500 font-semibold">
+                    <SubscriptionStatus
+                      startDate={sub.orderDate}
+                      endDate={sub.endDate}
+                    />
+                  </td>
+                  <td className={`${getStatusColor(sub.status)} text-center px-4 py-3`} >{sub.status}</td>
+                  <td className="text-center px-4 py-3">
+                    <button
+                      className="w-[100px] rounded-full bg-gray-600 text-white py-2 hover:bg-gray-700 transition duration-200"
+                      onClick={() => handleStatusClick(sub)}
+                    >
+                      Edit
+                    </button>
+                  </td>
+                </tr>
+              )
             ))}
           </tbody>
         </table>
@@ -190,7 +192,7 @@ const Modal = ({ title, children, onClose }) => {
         >
           Close
         </button>
-        
+
       </div>
     </div>
   )
@@ -206,7 +208,6 @@ const Subscription = () => {
     try {
       const response = await AXIOS_INSTANCE.get("/getCustomerWithOrders");
       if (response?.data && Array.isArray(response?.data?.custWthOrders)) {
-       
         setSubscriptions(response.data.custWthOrders);
       } else {
         console.error("Unexpected response format:", response.data);
