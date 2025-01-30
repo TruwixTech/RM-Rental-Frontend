@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { AXIOS_INSTANCE } from "../service";
+import OrderReject from "./OrderReject";
 
 const backend = "https://truwix-rm-rental-backend-dev.vercel.app"
 
 const OrderConfirm = () => {
   const [orderData, setOrderData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [successStatus, setSuccessStatus] = useState(false);
   const { transactionId } = useParams(); // Extract the id from the query params
 
   const fetchPaymentStatus = async () => {
@@ -17,8 +19,12 @@ const OrderConfirm = () => {
         const transactionresponse = await AXIOS_INSTANCE.get(`${backend}/api/order/status`, {
           params: { id: transactionId },
         });
-
-        setOrderData(transactionresponse.data.data);
+        if (transactionresponse.data.success) {
+          setSuccessStatus(true)
+          setOrderData(transactionresponse.data.data);
+        }else{
+          setSuccessStatus(false)
+        }
       }
     } catch (error) {
       console.error("Error fetching payment status:", error);
@@ -35,7 +41,9 @@ const OrderConfirm = () => {
 
   return (
     <div className="order-confirm w-full flex">
-      <div className="order-confirm-left flex flex-col items-center gap-12 py-20  w-full px-8 h-full bg-[#31c07e]">
+      {
+        successStatus
+        ? <div className="order-confirm-left flex flex-col items-center gap-12 py-20  w-full px-8 h-full bg-[#31c07e]">
         <IoIosCheckmarkCircle className="success-icon text-[10vw] text-white" />
         <div className="order-confirm-left-top text-center text-white">
           <p className="text-lg">THANK YOU</p>
@@ -89,6 +97,8 @@ const OrderConfirm = () => {
           </div>
         </div>
       </div>
+        : <OrderReject />
+      }
     </div>
   );
 };
