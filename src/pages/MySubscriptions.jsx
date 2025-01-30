@@ -64,8 +64,13 @@ const MySubscriptions = () => {
         }, {
           data: { orderId: selectedOrderId }, // Send orderId in the request body
         });
-        setSelectedOrderId(null)
-        alert("Payment successful and order updated.");
+        if (transactionresponse.data.success) {
+          setSelectedOrderId(null)
+          alert("Payment successful and order updated.")
+        }else{
+          setSelectedOrderId(null)
+          alert("Payment failed and order not updated.")
+        }
       }
     } catch (error) {
       console.error("Error fetching payment status:", error);
