@@ -139,7 +139,7 @@ export default function AddressPage({ finalPayment }) {
         console.log("Invalid response structure from payment gateway");
         // Optionally, notify the user of an error with payment initiation.
       }
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
       console.error("Payment failed:", error);
       // setError("Payment failed. Please try again later.");

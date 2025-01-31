@@ -16,7 +16,7 @@ function CouponSystem() {
         // console.log('Creating coupon:', couponData);
 
         try {
-            const response = await fetch(`https://rmrental-backend.vercel.app/api/coupon/create-coupon`, {
+            const response = await fetch(`https://truwix-rm-rental-backend-dev.vercel.app/api/coupon/create-coupon`, {
                 // const response = await fetch(`${backend}/api/v1/coupons/create-coupon`, {
                 method: 'POST',
                 headers: {

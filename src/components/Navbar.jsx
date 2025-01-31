@@ -157,7 +157,7 @@ const Navbar = ({ active, userClickHandler }) => {
           </div>
         </div>
 
-        <div className="rightnav">
+        <div className="w-full flex gap-6 h-16 md:w-auto">
           {!user ? (
 
             <div className="flex items-center gap-4 p-2 rounded-md sm:flex-col sm:gap-2 md:flex-row md:gap-4 lg:gap-6">
@@ -192,7 +192,7 @@ const Navbar = ({ active, userClickHandler }) => {
             </button> */}
 
               <Link
-                className="text-sm font-medium bg-[#ffd74d] p-3 px-4 text-gray-700 hover:text-gray-900 sm:text-center"
+                className="text-sm rounded-full font-medium bg-[#ffd74d] p-3 px-4 text-gray-700 hover:text-gray-900 sm:text-center"
                 to="/login"
               >
                 Login
@@ -201,8 +201,8 @@ const Navbar = ({ active, userClickHandler }) => {
 
 
           ) : (
-            <div className="flex gap-3">
-              <div className="cartgroup gap-2">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-48 h-full gap-2">
                 {user?.role === "Admin" && (
                   <Link
                     to="/admindashboard"
@@ -215,9 +215,9 @@ const Navbar = ({ active, userClickHandler }) => {
 
                 <NavLink
                   to="/mycart"
-                  className="rightnav-cart relative"
+                  className="p-2 bg-gray-100 rounded-full overflow-visible relative"
                 >
-                  <HiOutlineShoppingBag className="shoping-bag " size={30} />
+                  <HiOutlineShoppingBag className="" size={30} />
                   <span className="absolute -top-1 -right-1 bg-[#ffd74d] text-black font-bold text-sm border border-black rounded-full w-6 h-6 flex justify-center items-center">{cartItems?.length}</span>
                 </NavLink>
                 {/* <div
@@ -233,16 +233,14 @@ const Navbar = ({ active, userClickHandler }) => {
 
               <div
                 onClick={userClickHandler}
-                className=""
-                id="user"
+                className="w-10 h-10"
+                id=""
                 style={{
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   backgroundColor: "#FEC500",
                   cursor: "pointer",
-                  width: "3.5vw",
-                  height: "3.5vw",
                   borderRadius: "50%",
                   overflow: "hidden",
                 }}
