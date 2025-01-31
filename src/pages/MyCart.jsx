@@ -127,8 +127,6 @@ const MyCart = () => {
       return 0;
     }
     const sizeToSpace = { small: 15, medium: 20, large: 50 };
-    // console.log(userCartData.items);
-    
     const totalSpace = userCartData.items.reduce((total, cartItem) => {
       const productSize = cartItem?.product?.size;
       const space = sizeToSpace[productSize] || 0;
@@ -136,10 +134,6 @@ const MyCart = () => {
 
       return total + space + (quantity * space);
     }, 0);
-
-    // console.log(totalSpace);
-    
-
 
 
     const vehicleCapacity = 100;
@@ -164,8 +158,8 @@ const MyCart = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await AXIOS_INSTANCE(
-        `coupon/validate`,
+      const response = await axios.post(
+        `https://truwix-rm-rental-backend-dev.vercel.app/api/coupon/validate`,
         {
           code: couponCode,
         }
