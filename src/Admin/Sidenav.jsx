@@ -33,7 +33,7 @@ const SideNavbar = () => {
                     <Link to="orderdetails" onClick={closeNav}>OrderDetails</Link> */}
                 </nav>
             </div>
-            <button className="open-btn absolute md:top-24 text-2xl top-28 ml-0 bg-yellow-400 p-2" onClick={toggleNav}>☰</button>
+            <button className="open-btn absolute md:top-28 text-2xl top-28 ml-0 bg-yellow-400 p-2" onClick={toggleNav}>☰</button>
         </>
     );
 };

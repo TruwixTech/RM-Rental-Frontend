@@ -121,16 +121,16 @@ const AllProducts = () => {
     formData.append("size", newSize);
     formData.append("rentalOptions", JSON.stringify(rentalOptions));
 
-    // Append current images (URLs)
+    // Append current images (URLs) from the `currentImages` array
     currentImages.forEach((image) => {
       if (typeof image === "string" && !image.startsWith("blob:")) {
-        formData.append("img", image);
+        formData.append("img", image); // Ensure the key is "img"
       }
     });
 
-    // Append new images as file objects
+    // Append new images (as file objects) from the `newImages` array
     newImages.forEach((file) => {
-      formData.append("newImages", file);
+      formData.append("img", file); // Use the same key "img"
     });
 
     // Append details object
@@ -159,9 +159,9 @@ const AllProducts = () => {
 
         // Reset the form and state after successful update
         setSelectedProduct(null);
-        setCurrentImages([]);
-        setNewImages([]);
-        setMonths([]);
+        setCurrentImages([]); // Reset current images
+        setNewImages([]); // Reset new images
+        setMonths([]); // Reset month selection
 
         // Only close the form after the product has been updated successfully
         closeEditForm();
@@ -175,6 +175,7 @@ const AllProducts = () => {
         setLoading(false);
       });
   };
+
 
   const handleDelete = () => {
     AXIOS_INSTANCE.delete(`/products/${selectedProduct._id}`)
@@ -286,7 +287,9 @@ const AllProducts = () => {
       </div>
 
       {/* Edit Product Form */}
-      <div id="editForm">
+      <div id="editForm" className="overflow-y-scroll h-screen" style={{
+        scrollbarWidth: "none",
+      }}>
         <form onSubmit={handleEditSubmit}>
           <div className="form-header">Edit Product</div>
           <br />
