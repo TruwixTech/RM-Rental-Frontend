@@ -157,16 +157,16 @@ const Navbar = ({ active, userClickHandler }) => {
           </div>
         </div>
 
-        <div className="w-full flex gap-6 h-16 md:w-auto">
+        <div className="w-full flex gap-6 h-16 lg:w-auto">
           {!user ? (
 
             <div className="flex items-center gap-4 p-2 rounded-md sm:flex-col sm:gap-2 md:flex-row md:gap-4 lg:gap-6">
-              <button className=" relative flex items-center px-4 w-24 h-8 text-sm font-medium text-gray-700 bg-gray-100 rounded-full sm:w-20 sm:h-9 md:w-28 md:h-[52px]">
+              <button className=" relative flex items-center px-4 w-24 h-12 text-sm font-medium text-gray-700 bg-gray-100 rounded-full sm:w-20 md:w-28 md:h-[52px]">
                 Buy
                 <span className=" absolute right-0 w-12 h-12 rounded-full bg-gray-200 border hover:bg-gray-500  border-gray-500"></span>
               </button>
 
-              <button className=" relative flex items-center px-4 w-24 h-8 text-sm font-medium text-gray-700 bg-gray-100 rounded-full sm:w-20 sm:h-9 md:w-28 md:h-[52px]">
+              <button className=" relative flex items-center px-4 w-24 h-12 text-sm font-medium text-gray-700 bg-gray-100 rounded-full sm:w-20 sm:h-9 md:w-28 md:h-[52px]">
                 Rent
                 <span className=" absolute right-0 w-12 h-12 rounded-full bg-gray-200 border hover:bg-gray-500  border-gray-500"></span>
               </button>
@@ -192,7 +192,7 @@ const Navbar = ({ active, userClickHandler }) => {
             </button> */}
 
               <Link
-                className="text-sm rounded-full font-medium bg-[#ffd74d] p-3 px-4 text-gray-700 hover:text-gray-900 sm:text-center"
+                className="text-sm rounded-full font-medium bg-[#ffd74d] p-3 px-4 text-gray-700 hover:text-gray-900 text-center"
                 to="/login"
               >
                 Login
@@ -385,8 +385,11 @@ const Navbar = ({ active, userClickHandler }) => {
             // style={{ overflow: "hidden" }}
             // className={activeLink === "shipping" ? "active" : ""}
             // onClick={() => handleLinkClick("shipping")}
-            className={({ isActive }) => `${isActive ? 'active' : ''} text-decoration-none`}
+            className={({ isActive }) => `${isActive ? 'active' : ''} text-decoration-none overflow-hidden`}
             onClick={() => handleLinkClick("termscondition")}
+            style={{
+              scrollbarWidth: "none",
+            }}
 
           >
             <span className="renttt text-lg">Terms & Condition</span>
@@ -397,9 +400,11 @@ const Navbar = ({ active, userClickHandler }) => {
             // style={{ overflow: "hidden" }}
             // className={activeLink === "shipping" ? "active" : ""}
             // onClick={() => handleLinkClick("shipping")}
-            className={({ isActive }) => `${isActive ? 'active' : ''} text-decoration-none`}
+            className={({ isActive }) => `${isActive ? 'active' : ''} text-decoration-none overflow-hidden`}
             onClick={() => handleLinkClick("privacyPolicy")}
-
+            style={{
+              scrollbarWidth: "none",
+            }}
           >
             <span className="renttt text-lg">Privacy & Policy</span>
 
@@ -409,9 +414,11 @@ const Navbar = ({ active, userClickHandler }) => {
             // style={{ overflow: "hidden" }}
             // className={activeLink === "shipping" ? "active" : ""}
             // onClick={() => handleLinkClick("shipping")}
-            className={({ isActive }) => `${isActive ? 'active' : ''} text-decoration-none`}
+            className={({ isActive }) => `${isActive ? 'active' : ''} text-decoration-none overflow-hidden`}
             onClick={() => handleLinkClick("shipping")}
-
+            style={{
+              scrollbarWidth: "none",
+            }}
           >
             <span className="renttt text-lg">Shipping</span>
 
@@ -420,14 +427,17 @@ const Navbar = ({ active, userClickHandler }) => {
             // style={{ overflow: "hidden" }}
             // className={activeLink === "returns" ? "active" : ""}
             // onClick={() => handleLinkClick("returns")}
-            className={({ isActive }) => `${isActive ? 'active' : ''} text-decoration-none`}
+            className={({ isActive }) => `${isActive ? 'active' : ''} text-decoration-none overflow-hidden`}
             onClick={() => handleLinkClick("returns")}
+            style={{
+              scrollbarWidth: "none",
+            }}
           >
             <span className="renttt text-lg">Returns</span>
 
           </NavLink>
           <Link to="/faq"
-            style={{ overflow: "hidden" }}
+            style={{ overflow: "hidden", scrollbarWidth: "none", }}
             className={activeLink === "faqs" ? "active" : ""}
             onClick={() => handleLinkClick("faqs")}
           >
