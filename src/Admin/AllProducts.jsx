@@ -124,7 +124,7 @@ const AllProducts = () => {
     // Append current images (URLs) from the `currentImages` array
     currentImages.forEach((image) => {
       if (typeof image === "string" && !image.startsWith("blob:")) {
-        formData.append("img", image); // Ensure the key is "img"
+        formData.append("existingImages", image); // Use a separate field for URLs
       }
     });
 
