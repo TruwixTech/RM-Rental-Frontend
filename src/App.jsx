@@ -40,6 +40,7 @@ import ShippingPolicy from "./pages/ShippingPolicy";
 import Returns from "./pages/Returns";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import MyInvoices from "./pages/MyInvoices";
 
 const App = () => {
   const navigate = useNavigate();
@@ -143,6 +144,7 @@ const App = () => {
           <Route path="/orderconfirm/:transactionId" element={<OrderConfirm />} />
           <Route path="/address" element={<AddressPage />} />
           <Route path="/kyc" element={<KYCPage />}></Route>
+          <Route path="/my-invoices" element={<MyInvoices />}></Route>
           <Route path="/payment/:transactionId?" element={<MySubscriptions />}></Route>
           <Route path="/admindashboard" element={<AdminDashboard />}>
             <Route index element={<AdminPage />} />

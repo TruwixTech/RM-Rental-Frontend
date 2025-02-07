@@ -128,7 +128,9 @@ const Products = () => {
                   { id: "category-studryroom", value: "studyroom" },
 
                   { id: "category-bed", value: "bedroom" },
-                  { id: "category-table", value: "table" },
+                  // { id: "category-table", value: "table" },
+                  { id: "category-table", value: "package" },
+                  { id: "category-table", value: "dinningroom" },
                 ].map((category) => (
                   <div className="checkbox flex items-center" key={category.id}>
                     <div className="checkbox-grp flex items-center">

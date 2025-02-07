@@ -8,6 +8,7 @@ import { getKYCStatusAPI, uploadKYCAPI } from "../service/kyc.service"; // Servi
 import toast from "react-hot-toast";
 import { FaUpload } from "react-icons/fa"; // Import upload icon
 import { MdDeleteOutline } from "react-icons/md";
+import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
 
 const KYCPage = () => {
   const [activeLink, setActiveLink] = useState("");
@@ -131,6 +132,7 @@ const KYCPage = () => {
                 name: "Payment",
                 url: "/payment",
               },
+              { icon: <LiaFileInvoiceDollarSolid />, name: "Invoices", url: "/my-invoices" },
             ].map((item, index) => (
               <NavLink
                 to={item.url}
@@ -186,6 +188,7 @@ const KYCPage = () => {
                 <h2 className="text-2xl font-semibold mb-4">
                   Upload KYC Documents
                 </h2>
+                <p className="mb-3 font-semibold text-gray-500"><span className="text-black">Note : </span>KYC Approve within 4 to 6 Working hrs.</p>
                 <form
                   onSubmit={handleSubmitKYC}
                   className="flex flex-col gap-4 w-full"

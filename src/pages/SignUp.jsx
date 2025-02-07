@@ -13,6 +13,8 @@ const SignUp = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [termsCondition, setTermsCondition] = useState(false)
+
 
   const [mobileNumber, setMobileNumber] = useState("");
   const [inputOTP, setInputOTP] = useState("");
@@ -33,20 +35,20 @@ const SignUp = () => {
   };
 
   const responseMessage = async (response) => {
-  
+
 
     try {
       const { credential } = response;
       const idToken = credential;
 
       const credentials = jwtDecode(idToken);
-      
+
 
       const res = await userService.googleOAuth(idToken);
 
       if (res.status === 200) {
         const { token } = res.data;
-   
+
         localStorage.setItem("authToken", token);
         storageService.save("token", res.data.token);
         storageService.save("user", res.data.user);
@@ -70,7 +72,7 @@ const SignUp = () => {
 
     try {
       const verifyOTP = await userService.verifyOTP(mobileNumber, inputOTP);
-  
+
 
       if (verifyOTP.success) {
         const data = await userService.registerAPI(
@@ -233,11 +235,10 @@ const SignUp = () => {
                   placeholder="Enter 6-digit OTP"
                 />
                 <button
-                  className={`border rounded-md max-w-24 w-24 border-gray-400 font-lg hover:bg-blue-500 hover:text-white ${
-                    mobileNumber.length === 10 && otpTimer === 0
+                  className={`border rounded-md max-w-24 w-24 border-gray-400 font-lg hover:bg-blue-500 hover:text-white ${mobileNumber.length === 10 && otpTimer === 0
                       ? "cursor-pointer"
                       : "cursor-not-allowed"
-                  }`}
+                    }`}
                   disabled={mobileNumber.length !== 10 || otpTimer > 0} // Button disabled if mobileNumber is not 10 digits or timer is active
                   onClick={handleGetOTP}
                 >
@@ -247,15 +248,24 @@ const SignUp = () => {
             </div>
           )}
 
+          <div className="w-full h-auto flex gap-2 items-center">
+            <input type="checkbox" id="terms" value={termsCondition} onChange={() => setTermsCondition(!termsCondition)} className="" />
+            <label htmlFor="terms">
+              I agree to the{" "}
+              <Link to="/termscondition" className="text-[#FFD74D]">
+                Terms and Conditions
+              </Link>
+            </label>
+          </div>
+
           <button
             onClick={handleSubmit}
             type="submit"
-            disabled={loading || !isFormValid()} // Disable button if loading or form is not valid
-            className={`submit-button ${
-              loading || !isFormValid()
+            disabled={loading || !isFormValid() || !termsCondition} // Disable button if loading or form is not valid
+            className={`submit-button ${loading || !isFormValid()
                 ? "cursor-not-allowed"
                 : "cursor-pointer"
-            }`}
+              }`}
           >
             {loading ? "Signing up..." : "Sign Up"}
           </button>

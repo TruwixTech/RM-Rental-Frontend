@@ -165,7 +165,9 @@ const AddProduct = () => {
                 <option value="storage">Storage</option>
                 <option value="studyroom">Study Room</option>
                 <option value="bedroom">Bed Room</option>
-                <option value="table">Table</option>
+                {/* <option value="table">Table</option> */}
+                <option value="package">Package</option>
+                <option value="dinningroom">Dinning Room</option>
               </select>
             </div>
             <div className="form-group">

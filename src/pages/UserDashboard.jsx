@@ -5,8 +5,9 @@ import { IoCall } from "react-icons/io5";
 import { IoMail } from "react-icons/io5";
 import { FaShoppingBag, FaIdCard } from "react-icons/fa";
 import default_profile from "../assets/img/default_profile.webp";
-
+import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
 import storageService from "../service/storage.service";
+
 const UserDashboard = () => {
   const [activeLink, setActiveLink] = useState("");
   const user = storageService.get("user");
@@ -36,6 +37,7 @@ const UserDashboard = () => {
                 name: "Payment",
                 url: "/payment",
               },
+              { icon: <LiaFileInvoiceDollarSolid />, name: "Invoices", url: "/my-invoices" },
             ].map((item, index) => (
               <Link
                 to={item.url}

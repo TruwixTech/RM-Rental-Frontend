@@ -50,7 +50,7 @@ const Orders = () => {
         }
 
         // API endpoint for fetching user invoices
-        const apiUrl = 'invoice/user-invoices'; // Ensure the endpoint is correct
+        const apiUrl = 'invoice/get-all-invoices'; // Ensure the endpoint is correct
 
         // Fetch invoices using AXIOS_INSTANCE
         const response = await AXIOS_INSTANCE.get(apiUrl, {
@@ -59,7 +59,6 @@ const Orders = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-
         // Check if response contains data
         if (response.data && Array.isArray(response.data.invoices)) {
           setInvoices(response.data.invoices); // Properly set invoices
@@ -115,10 +114,15 @@ const Orders = () => {
     if (!editingOrder) return;
 
     try {
-      await AXIOS_INSTANCE.put(`/admin/orders/update`, {
+      const order = await AXIOS_INSTANCE.put(`/admin/orders/update`, {
         orderId: editingOrder._id,
         newStatus: newStatus.trim(),
       });
+
+      const updatedOrder = order.data.data
+      if (newStatus === 'delivered') {
+        await AXIOS_INSTANCE.post(`invoice/create-invoice`, updatedOrder)
+      }
 
       toast.success("Order status updated successfully");
       setOrders(
@@ -394,16 +398,19 @@ const Orders = () => {
 
         <h1 className="text-2xl font-bold mt-10 mb-5">Invoices</h1>
 
-        <div className="overflow-x-auto shadow-md sm:rounded-lg">
+        <div className="shadow-md sm:rounded-lg overflow-x-scroll">
           <table className="min-w-full text-sm text-left text-gray-500 dark:text-gray-400 border">
             <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-6 py-3">Invoice ID</th>
-                <th scope="col" className="px-6 py-3">User ID</th>
+                <th scope="col" className="px-6 py-3">Order Id</th>
+                <th scope="col" className="px-6 py-3">Contact No.</th>
+                <th scope="col" className="px-6 py-3">Email Id</th>
                 <th scope="col" className="px-6 py-3">Amount</th>
                 <th scope="col" className="px-6 py-3">Payment ID</th>
                 <th scope="col" className="px-6 py-3">Status</th>
                 <th scope="col" className="px-6 py-3">Item Count</th>
+                <th scope="col" className="px-6 py-3">Send To Email</th>
                 <th scope="col" className="px-6 py-3">Created At</th>
                 <th scope="col" className="px-6 py-3">Actions</th>
               </tr>
@@ -415,11 +422,18 @@ const Orders = () => {
                   className="bg-white border-b hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600"
                 >
                   <td className="px-6 py-4">{invoice._id || "N/A"}</td>
-                  <td className="px-6 py-4">{invoice.userId || "N/A"}</td>
+                  <td className="px-6 py-4">{invoice.userId.name || "N/A"}</td>
+                  <td className="px-6 py-4">{invoice.userId.mobileNumber || "N/A"}</td>
+                  <td className="px-6 py-4">{invoice.userId.email || "N/A"}</td>
                   <td className="px-6 py-4">₹{invoice.amount ? invoice.amount.toFixed(2) : "0.00"}</td>
                   <td className="px-6 py-4">{invoice.paymentId || "N/A"}</td>
                   <td className="px-6 py-4">{invoice.status || "N/A"}</td>
                   <td className="px-6 py-4">{invoice.items ? invoice.items.length : 0}</td>
+                  <th className="px-6 py-4">
+                    <button className="px-4 py-2 bg-[#fec500] font-semibold rounded-md text-white">
+                      Send
+                    </button>
+                  </th>
                   <td className="px-6 py-4">
                     {invoice.createdAt ? new Date(invoice.createdAt).toLocaleDateString() : "N/A"}
                   </td>
