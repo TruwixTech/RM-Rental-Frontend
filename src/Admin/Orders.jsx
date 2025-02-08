@@ -29,7 +29,6 @@ const Orders = () => {
         if (response.data && Array.isArray(response.data.data)) {
           const filteredOrders = response.data.data.filter((order) => order.paymentStatus === "PAID");
           setOrders(filteredOrders);
-          console.log(filteredOrders)
         } else {
           console.error("Unexpected response format:", response.data);
           setError("Unexpected response format");
@@ -96,6 +95,8 @@ const Orders = () => {
         return "bg-red-500";
       case "delivered":
         return "bg-green-500"; // Add color for Delivered
+      case "returned":
+        return "bg-green-500"; // Add color for retuned
       default:
         return "bg-gray-500"; // Fallback color
     }
@@ -381,6 +382,7 @@ const Orders = () => {
                   <option value="shipped">Shipped</option>
                   <option value="cancelled">Cancelled</option>
                   <option value="delivered">Delivered</option>
+                  <option value="returned">Returned</option>
                 </select>
                 <button
                   type="submit"

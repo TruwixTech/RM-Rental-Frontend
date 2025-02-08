@@ -41,7 +41,7 @@ const MyOrders = () => {
       setOrders(filteredOrders);
       // setOrders(data);
     } catch (error) {
-      
+
     }
     setLoading(false);
   };
@@ -77,10 +77,10 @@ const MyOrders = () => {
   const fetchProductsForOrder = async (orderId) => {
     try {
       const data = await userService.getOrderProducts(orderId);
-     
+
       setProducts(data.data); // Assuming the API returns a list of product names
     } catch (error) {
-    
+
       toast.error("Failed to fetch products");
     }
   };
@@ -94,7 +94,7 @@ const MyOrders = () => {
       setDeleteOrderId();
       fetchOrders();
     } catch (error) {
-      
+
       toast.error("Failed to cancel order");
     }
   };
@@ -167,11 +167,10 @@ const MyOrders = () => {
                 to={item.url}
                 key={index}
                 onClick={() => ClickHandler(item.name)}
-                className={`${
-                  activeLink === item.name
-                    ? "text-black font-semibold"
-                    : "text-[grey]"
-                } flex items-center gap-3 text-xl`}
+                className={`${activeLink === item.name
+                  ? "text-black font-semibold"
+                  : "text-[grey]"
+                  } flex items-center gap-3 text-xl`}
               >
                 {item.icon}
                 {item.name}
@@ -230,7 +229,8 @@ const MyOrders = () => {
                               </button>
                             )}
                             {order.status !== "delivered" &&
-                              order.status !== "cancelled" && (
+                              order.status !== "cancelled" &&
+                              order.status !== 'returned' && (
                                 <button
                                   onClick={() => openDeleteModal(order?._id)}
                                   className="rounded-lg py-2 px-2 bg-gray-400 text-white my-1"
@@ -238,6 +238,13 @@ const MyOrders = () => {
                                   Cancel
                                 </button>
                               )}
+                            {order.status === "returned" && (
+                              <button
+                                className="rounded-lg py-2 px-2 bg-green-600 text-white my-1"
+                              >
+                                Close Subscription
+                              </button>
+                            )}
                           </td>
                         </tr>
                       ))}
@@ -415,9 +422,8 @@ const MyOrders = () => {
               </div>
 
               <button
-                className={`bg-green-500 text-white rounded-md py-2 ${
-                  loading ? "cursor-not-allowed" : "cursor-pointer"
-                }`}
+                className={`bg-green-500 text-white rounded-md py-2 ${loading ? "cursor-not-allowed" : "cursor-pointer"
+                  }`}
                 disabled={loading}
               >
                 {loading ? <div>Sending...</div> : <div>Send</div>}
