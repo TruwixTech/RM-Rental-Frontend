@@ -41,6 +41,7 @@ import Returns from "./pages/Returns";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import MyInvoices from "./pages/MyInvoices";
+import EditProfile from "./pages/EditProfile";
 
 const App = () => {
   const navigate = useNavigate();
@@ -90,7 +91,7 @@ const App = () => {
                 <RiEdit2Fill />
               </div>
               <Link
-                to="/userdashboard"
+                to="/edit-profile"
                 onClick={() => setActive(false)}
                 className="block px-4 py-2"
               >
@@ -124,6 +125,7 @@ const App = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/" element={<Home />} />
           <Route path="/password" element={<ForgotPassword />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contactus" element={<ContactUS />} />
