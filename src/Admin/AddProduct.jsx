@@ -238,12 +238,12 @@ const AddProduct = () => {
             </div>
 
             <div className="form-group">
-              <label>Quantity</label>
+              <label>Stock</label>
               <input
                 type="number"
                 name="quantity"
                 value={formData.quantity || ""}
-                placeholder="Enter Quantity"
+                placeholder="Enter Stock"
                 onChange={handleChange}
                 min="0"
                 className="form-input"

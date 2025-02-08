@@ -44,7 +44,11 @@ const Products = () => {
       }
     });
 
-    setProducts(sortedProducts);
+    const productInStock = sortedProducts.filter(
+      (product) => product.quantity > 0
+    );
+
+    setProducts(productInStock);
   };
 
   const handleCategoryChange = (event) => {

@@ -29,6 +29,7 @@ const Orders = () => {
         if (response.data && Array.isArray(response.data.data)) {
           const filteredOrders = response.data.data.filter((order) => order.paymentStatus === "PAID");
           setOrders(filteredOrders);
+          console.log(filteredOrders)
         } else {
           console.error("Unexpected response format:", response.data);
           setError("Unexpected response format");
@@ -299,6 +300,8 @@ const Orders = () => {
               <tr>
                 <th scope="col" className="px-6 py-3">Order ID</th>
                 <th scope="col" className="px-6 py-3">Order Date</th>
+                <th scope="col" className="px-6 py-3">Address</th>
+                <th scope="col" className="px-6 py-3">Phone No.</th>
                 <th scope="col" className="px-6 py-3">Total Price</th>
                 <th scope="col" className="px-6 py-3">Status</th>
               </tr>
@@ -312,6 +315,8 @@ const Orders = () => {
                 >
                   <td className="px-6 py-4">{order.orderNumber}</td>
                   <td className="px-6 py-4">{new Date(order.orderDate).toLocaleDateString()}</td>
+                  <td className="px-6 py-4">{order.shippingAddress}</td>
+                  <td className="px-6 py-4">{order.user.mobileNumber ? order.user.mobileNumber : "N/A"}</td>
                   <td className="px-6 py-4">₹ {order.totalPrice.toFixed(2)}</td>
                   <td className="px-6 py-4">
                     <button
@@ -422,7 +427,7 @@ const Orders = () => {
                   className="bg-white border-b hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600"
                 >
                   <td className="px-6 py-4">{invoice._id || "N/A"}</td>
-                  <td className="px-6 py-4">{invoice.userId.name || "N/A"}</td>
+                  <td className="px-6 py-4">{invoice.orderId || "N/A"}</td>
                   <td className="px-6 py-4">{invoice.userId.mobileNumber || "N/A"}</td>
                   <td className="px-6 py-4">{invoice.userId.email || "N/A"}</td>
                   <td className="px-6 py-4">₹{invoice.amount ? invoice.amount.toFixed(2) : "0.00"}</td>
