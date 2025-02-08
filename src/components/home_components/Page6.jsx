@@ -24,7 +24,7 @@ const Page6 = () => {
                 <div className='page6-down-imgcontainer-left' style={{ position: "relative" }}>
                     <img src={subtract} alt="sofa and table" />
                     <div className='int-ext-sec' style={{ position: 'absolute', top: '77%', right: "10%", }}>
-                        <button style={{ padding: "3px 20px", borderRadius: "50px", backgroundColor: "white", border: "1px solid black" }}>• Interior</button>
+                        {/* <button style={{ padding: "3px 20px", borderRadius: "50px", backgroundColor: "white", border: "1px solid black" }}>• Interior</button> */}
                         <button style={{ padding: "3px 20px", borderRadius: "50px", marginLeft: "10px", backgroundColor: "white", border: "1px solid black" }}>• Exterior</button>
                     </div>
                     <div id='det-sec' style={{ position: 'absolute', top: '10%', right: "15%", backgroundColor: "#fff", display: "flex", flexDirection: "column", gap: '4px', fontSize: '15px', borderRadius: "20px", padding: "8px 15px" }}>
@@ -37,8 +37,8 @@ const Page6 = () => {
                 </div>
                 <div className='page6-down-imgcontainer-right' style={{ position: "relative" }}>
                     <img src={subtract2} alt="furniture image" />
-                    <div className='int-ext-sec' style={{ position: 'absolute', top: '77%', left: "55%", }}>
-                        <button style={{ padding: "3px 20px", borderRadius: "50px", backgroundColor: "white", border: "1px solid black" }}>• Interior</button>
+                    <div className='flex justify-end' style={{ position: 'absolute', top: '77%', right: "10%", }}>
+                        {/* <button style={{ padding: "3px 20px", borderRadius: "50px", backgroundColor: "white", border: "1px solid black" }}>• Interior</button> */}
                         <button style={{ padding: "3px 20px", borderRadius: "50px", marginLeft: "10px", backgroundColor: "white", border: "1px solid black" }}>• Exterior</button>
                     </div>
                     <p className='page6-p'>Elevate. Design. Indulge.</p>

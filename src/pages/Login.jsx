@@ -10,6 +10,8 @@ import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [termsCondition, setTermsCondition] = useState(false)
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -24,14 +26,14 @@ const Login = () => {
   };
 
   const responseMessage = async (response) => {
-    
+
 
     try {
       const { credential } = response;
       const idToken = credential;
 
       const credentials = jwtDecode(idToken);
-   
+
 
       const res = await userService.googleOAuth(idToken);
 
@@ -119,10 +121,19 @@ const Login = () => {
               value={formData.password}
             />
           </div>
+          <div className="w-full h-auto flex gap-2 items-center">
+            <input type="checkbox" id="terms" value={termsCondition} onChange={()=> setTermsCondition(!termsCondition)} className="" />
+            <label htmlFor="terms">
+              I agree to the{" "}
+              <Link to="/termscondition" className="text-[#FFD74D]">
+                Terms and Conditions
+              </Link>
+            </label>
+          </div>
           <button
             id="login-button"
             type="submit"
-            disabled={formData.loading}
+            disabled={formData.loading || !termsCondition}
             className="submit-button"
             style={{ backgroundColor: "#FFD74D", color: "#000" }}
           >

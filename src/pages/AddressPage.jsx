@@ -8,6 +8,7 @@ import { all } from "axios";
 import axios from "axios";
 
 const backend = "https://truwix-rm-rental-backend-dev.vercel.app/api"
+// const backend = "http://localhost:4000/api"
 
 const Modal = ({ title, children, onClose }) => (
   <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
@@ -86,6 +87,7 @@ export default function AddressPage({ finalPayment }) {
   }); // Store each field of the custom address separately
   const [isCustomAddress, setIsCustomAddress] = useState(false); // Toggle between fetched and custom address
   const [selectedAddress, setSelectedAddress] = useState(null); // Track whether fetched address is selected
+  const [amenities, setAmenities] = useState(false)
   const user = storageService.get("user");
   const navigate = useNavigate();
 
@@ -115,6 +117,7 @@ export default function AddressPage({ finalPayment }) {
 
     const orderDetails = {
       cartItems,
+      amenities,
       totalPrice: cartTotal.toFixed(0), // The total amount from your payment route
       shippingCost: shippingCost.toFixed(0),
       shippingAddress: addressToSend,
@@ -450,6 +453,10 @@ export default function AddressPage({ finalPayment }) {
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-indigo-500 focus:border-indigo-500"
                   required
                 />
+              </div>
+              <div className="w-full h-auto flex gap-2 items-center">
+                <input type="checkbox" id="amenities" className="" value={amenities} onChange={(e) => setAmenities(!amenities)} />
+                <label htmlFor="amenities">Is Service lift and stairs available or not ?</label>
               </div>
             </div>
             {showPopup2 && (
