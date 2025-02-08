@@ -164,7 +164,9 @@ const ProductDetails = () => {
         <div className="productdetails-left">
           <div className="productdetails-left-up">
             <div className="Product-Images-Container">
-              <div className="fourimg">
+              <div className="fourimg overflow-y-auto" style={{
+                scrollbarWidth: "none",
+              }}>
                 {productData?.img &&
                   productData.img.map((imgSrc, index) => (
                     <div
@@ -198,7 +200,7 @@ const ProductDetails = () => {
             <div className="Description-Container">
               {productData?.sub_title}
             </div>
-            <div className="Description-Container">
+            <div className="Description-Container" style={{ whiteSpace: "pre-wrap" }}>
               {productData?.details?.description}
             </div>
           </div>

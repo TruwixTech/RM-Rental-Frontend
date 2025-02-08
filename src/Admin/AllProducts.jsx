@@ -118,6 +118,7 @@ const AllProducts = () => {
     formData.append("sub_title", event.target.sub_title.value);
     formData.append("category", event.target.category.value);
     formData.append("description", event.target.description.value);
+    formData.append("quantity", event.target.quantity.value);
     formData.append("size", newSize);
     formData.append("rentalOptions", JSON.stringify(rentalOptions));
 
@@ -226,6 +227,7 @@ const AllProducts = () => {
             <tr>
               <th>Title</th>
               <th>Subtitle</th>
+              <th>Stock</th>
               <th>Size</th>
               <th>Category</th>
               <th>Image</th>
@@ -238,6 +240,7 @@ const AllProducts = () => {
               <tr key={product._id}>
                 <td>{product.title}</td>
                 <td>{product.sub_title}</td>
+                <td>{product.quantity === 0 ? "Out of Stock" : product.quantity}</td>
                 <td>{product.size}</td>
                 <td>{product.category}</td>
                 <td>
@@ -465,6 +468,10 @@ const AllProducts = () => {
                 >
                   Add Month & Rent
                 </button>
+                <div className="w-full h-auto flex flex-col mt-2">
+                  <label htmlFor="Stock">Stock</label>
+                  <input type="text" name="quantity" id="stock" defaultValue={selectedProduct?.quantity} className="form-input" />
+                </div>
                 <br />
                 <div className="">
                   {

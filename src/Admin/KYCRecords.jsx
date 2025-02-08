@@ -25,7 +25,6 @@ const KYCRecords = () => {
     try {
 
       const data = await updateKYCAPI.updateKYC(kycId, newStatus, rejectedReason); 
-  
       if (data.success) {
         toast.success("KYC Status Updated Successfully!");
         fetchKYCs(); // Refresh the KYC list after updating
@@ -84,6 +83,7 @@ const KYCRecords = () => {
                   <thead>
                     <tr>
                       <th className="px-2 py-1">User Name</th>
+                      <th className="px-2 py-1">Customer Id</th>
                       <th className="px-2 py-1">User Email</th>
                       <th className="px-2 py-1">User Mobile</th>
                       <th className="px-2 py-1">Uploaded Documents</th>
@@ -95,8 +95,9 @@ const KYCRecords = () => {
                     {kycs.map((kyc) => (
                       <tr key={kyc?._id} className="text-sm">
                         <td className="border px-2 py-1">{kyc.userId?.name}</td>
+                        <td className="border px-2 py-1">{kyc.userId?.customerId}</td>
                         <td className="border px-2 py-1">{kyc.userId?.email}</td>
-                        <td className="border px-2 py-1">{kyc.userId?.mobileNumber}</td>
+                        <td className="border px-2 py-1">{kyc.userId?.mobileNumber ? kyc.userId?.mobileNumber : "N/A"}</td>
                         <td className="border px-2 py-1">
                           <ul>
                             {kyc.documents.map((document) => (

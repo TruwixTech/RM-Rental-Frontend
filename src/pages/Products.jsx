@@ -44,7 +44,11 @@ const Products = () => {
       }
     });
 
-    setProducts(sortedProducts);
+    const productInStock = sortedProducts.filter(
+      (product) => product.quantity > 0
+    );
+
+    setProducts(productInStock);
   };
 
   const handleCategoryChange = (event) => {
@@ -128,7 +132,9 @@ const Products = () => {
                   { id: "category-studryroom", value: "studyroom" },
 
                   { id: "category-bed", value: "bedroom" },
-                  { id: "category-table", value: "table" },
+                  // { id: "category-table", value: "table" },
+                  { id: "category-table", value: "package" },
+                  { id: "category-table", value: "dinningroom" },
                 ].map((category) => (
                   <div className="checkbox flex items-center" key={category.id}>
                     <div className="checkbox-grp flex items-center">

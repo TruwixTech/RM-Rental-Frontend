@@ -7,6 +7,8 @@ import { FaShoppingBag, FaIdCard } from "react-icons/fa";
 import storageService from "../service/storage.service";
 import userService from "../service/user.service"; // Import userService for orders
 import { AXIOS_INSTANCE } from "../service";
+import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
+
 
 const backend = "https://truwix-rm-rental-backend-dev.vercel.app/api"
 
@@ -146,6 +148,7 @@ const MySubscriptions = () => {
                 name: "Payment",
                 url: "/payment",
               },
+              { icon: <LiaFileInvoiceDollarSolid />, name: "Invoices", url: "/my-invoices" },
               // { icon: <IoSettings />, name: "Setting", url: "/setting" },
             ].map((item, index) => (
               <NavLink

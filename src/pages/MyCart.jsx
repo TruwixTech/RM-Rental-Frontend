@@ -604,6 +604,10 @@ const MyCart = () => {
               <strong>Security Deposit:</strong> ₹{" "}
               {calculateSecurityDeposit().toFixed(2)}
             </p>
+            <p>
+              <strong>Total Furniture Rent:</strong> ₹{" "}
+              {calculateSubtotal().toFixed(2)}
+            </p>
             <hr />
             <p className="mt-2">
               <strong>Total:</strong> ₹ {calculateTotalPrice()?.toFixed(2)}

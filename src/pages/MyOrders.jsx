@@ -9,6 +9,7 @@ import userService from "../service/user.service"; // Import userService for ord
 import emailjs from "emailjs-com"; // Import EmailJS
 import toast from "react-hot-toast";
 import $ from "jquery";
+import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
 import "../assets/csss/MyOrders.css";
 
 const MyOrders = () => {
@@ -159,6 +160,7 @@ const MyOrders = () => {
                 name: "Payment",
                 url: "/payment",
               },
+              { icon: <LiaFileInvoiceDollarSolid />, name: "Invoices", url: "/my-invoices" },
               // { icon: <IoSettings />, name: "Setting", url: "/setting" },
             ].map((item, index) => (
               <Link

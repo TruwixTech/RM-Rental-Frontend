@@ -7,6 +7,7 @@ import { FaArrowRight } from "react-icons/fa";
 import "../../assets/csss/category.css";
 import { GiTable } from "react-icons/gi";
 import { PiPicnicTable } from "react-icons/pi";
+import { LuPackageCheck } from "react-icons/lu";
 
 const Categories = () => {
   const navigate = useNavigate(); // Initialize useNavigate
@@ -95,7 +96,7 @@ const Categories = () => {
           </div>
         </div>
 
-        <div
+        {/* <div
           className="appliance  cursor-pointer"
           onClick={() => handleCategoryClick("table")}
         >
@@ -104,6 +105,21 @@ const Categories = () => {
           </div>
           <div className="appliancegroup">
             <div className="appliancegroup-title">Table</div>
+            <div>
+              <FaArrowRight className="custom-arrow" />
+            </div>
+          </div>
+        </div> */}
+        
+        <div
+          className="appliance  cursor-pointer"
+          onClick={() => handleCategoryClick("package")}
+        >
+          <div className="ceilinglight">
+            <LuPackageCheck size={30} />
+          </div>
+          <div className="appliancegroup">
+            <div className="appliancegroup-title">Package</div>
             <div>
               <FaArrowRight className="custom-arrow" />
             </div>

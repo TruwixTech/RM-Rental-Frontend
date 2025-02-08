@@ -165,7 +165,9 @@ const AddProduct = () => {
                 <option value="storage">Storage</option>
                 <option value="studyroom">Study Room</option>
                 <option value="bedroom">Bed Room</option>
-                <option value="table">Table</option>
+                {/* <option value="table">Table</option> */}
+                <option value="package">Package</option>
+                <option value="dinningroom">Dinning Room</option>
               </select>
             </div>
             <div className="form-group">
@@ -236,12 +238,12 @@ const AddProduct = () => {
             </div>
 
             <div className="form-group">
-              <label>Quantity</label>
+              <label>Stock</label>
               <input
                 type="number"
                 name="quantity"
                 value={formData.quantity || ""}
-                placeholder="Enter Quantity"
+                placeholder="Enter Stock"
                 onChange={handleChange}
                 min="0"
                 className="form-input"
