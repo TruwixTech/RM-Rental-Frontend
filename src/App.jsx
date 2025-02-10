@@ -70,7 +70,7 @@ const App = () => {
       <Navbar active={active} userClickHandler={userClickHandler} />
       <div
         className={`${active === false ? "user-slider-off" : "user-slider-on"
-          } absolute top-16 md:top-[14.5%] z-40 rounded-b-xl shadow-md shadow-[#878787] right-0 w-[20vw] h-fit bg-[#fff] text-[#000]`}
+          } fixed top-16 md:top-[14.5%] z-50 rounded-b-xl shadow-md shadow-[#878787] right-0 w-[20vw] h-fit bg-[#fff] text-[#000]`}
       >
         <div className="w-full p-2">
           <ul className="py-1 px-2">
@@ -121,60 +121,64 @@ const App = () => {
         </div>
       </div>
       {user ? (
-        <Routes>
-          <Route path="/home" element={<Home />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/password" element={<ForgotPassword />} />
-          <Route path="/edit-profile" element={<EditProfile />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/aboutus" element={<AboutUs />} />
-          <Route path="/contactus" element={<ContactUS />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/termscondition" element={<TermsAndConditions />} />
-          <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
-          <Route path="/returns" element={<Returns />} />
-          <Route path="/shipping" element={<ShippingPolicy />} />
-          <Route path="/product/:id" element={<ProductDetails />} />
-          <Route path="/mycart" element={<MyCart />} />
-          <Route
-            path="/address/finalPayment"
-            element={<AddressPage finalPayment={true} />}
-          />
-          <Route path="/myorders" element={<MyOrders />} />
-          <Route path="/userdashboard" element={<UserDashboard />} />
-          <Route path="/orderconfirm/:transactionId" element={<OrderConfirm />} />
-          <Route path="/address" element={<AddressPage />} />
-          <Route path="/kyc" element={<KYCPage />}></Route>
-          <Route path="/my-invoices" element={<MyInvoices />}></Route>
-          <Route path="/payment/:transactionId?" element={<MySubscriptions />}></Route>
-          <Route path="/admindashboard" element={<AdminDashboard />}>
-            <Route index element={<AdminPage />} />
-            <Route path="allproduct" element={<AllProducts />} />
-            <Route path="addproduct" element={<AddProduct />} />
-            <Route path="orders" element={<Orders />} />
+        <div className="pt-[345px] sm:pt-56 xl:pt-40">
+          <Routes>
+            <Route path="/home" element={<Home />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/password" element={<ForgotPassword />} />
+            <Route path="/edit-profile" element={<EditProfile />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/aboutus" element={<AboutUs />} />
+            <Route path="/contactus" element={<ContactUS />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/termscondition" element={<TermsAndConditions />} />
+            <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+            <Route path="/returns" element={<Returns />} />
+            <Route path="/shipping" element={<ShippingPolicy />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/mycart" element={<MyCart />} />
             <Route
-              path="/admindashboard/kyc-records"
-              element={<KYCRecords />}
+              path="/address/finalPayment"
+              element={<AddressPage finalPayment={true} />}
             />
-          </Route>
-        </Routes>
+            <Route path="/myorders" element={<MyOrders />} />
+            <Route path="/userdashboard" element={<UserDashboard />} />
+            <Route path="/orderconfirm/:transactionId" element={<OrderConfirm />} />
+            <Route path="/address" element={<AddressPage />} />
+            <Route path="/kyc" element={<KYCPage />}></Route>
+            <Route path="/my-invoices" element={<MyInvoices />}></Route>
+            <Route path="/payment/:transactionId?" element={<MySubscriptions />}></Route>
+            <Route path="/admindashboard" element={<AdminDashboard />}>
+              <Route index element={<AdminPage />} />
+              <Route path="allproduct" element={<AllProducts />} />
+              <Route path="addproduct" element={<AddProduct />} />
+              <Route path="orders" element={<Orders />} />
+              <Route
+                path="/admindashboard/kyc-records"
+                element={<KYCRecords />}
+              />
+            </Route>
+          </Routes>
+        </div>
       ) : (
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/termscondition" element={<TermsAndConditions />} />
-          <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/password" element={<ForgotPassword />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/product/:id" element={<ProductDetails />} />
-          <Route path="/aboutus" element={<AboutUs />} />
-          <Route path="/contactus" element={<ContactUS />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/shipping" element={<ShippingPolicy />} />
-          <Route path="/returns" element={<Returns />} />
-        </Routes>
+        <div className="pt-[345px] sm:pt-56 xl:pt-40">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/termscondition" element={<TermsAndConditions />} />
+            <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/password" element={<ForgotPassword />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/aboutus" element={<AboutUs />} />
+            <Route path="/contactus" element={<ContactUS />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/shipping" element={<ShippingPolicy />} />
+            <Route path="/returns" element={<Returns />} />
+          </Routes>
+        </div>
       )}
       <Routes>
       </Routes>

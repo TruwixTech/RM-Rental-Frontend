@@ -69,7 +69,7 @@ const Carao = () => {
                 backgroundRepeat: "no-repeat",
               }}>
               <div className="w-[95%] absolute overflow-visible h-[280px] flex p-4 rounded-xl flex-col bg-white top-16 font-satoshi 2xl:h-[300px]">
-                <div className="w-20 h-20 rounded-full bg-white absolute flex items-center justify-center -top-7 z-50">
+                <div className="w-20 h-20 rounded-full bg-white absolute flex items-center justify-center -top-7 z-40">
                   <img src={item.image} alt="image" className="w-16 h-16 shadow-md shadow-yellow-200  rounded-full" />
                 </div>
                 <p className="text-lg mt-7">{item.name}</p>

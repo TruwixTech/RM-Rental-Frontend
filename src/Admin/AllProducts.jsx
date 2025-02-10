@@ -119,6 +119,7 @@ const AllProducts = () => {
     formData.append("category", event.target.category.value);
     formData.append("description", event.target.description.value);
     formData.append("quantity", event.target.quantity.value);
+    formData.append("discount", event.target.discount.value);
     formData.append("size", newSize);
     formData.append("rentalOptions", JSON.stringify(rentalOptions));
 
@@ -377,6 +378,8 @@ const AllProducts = () => {
                 >
                   Table
                 </option>
+                <option value="package" selected={selectedProduct?.category === "package"}>Package</option>
+                <option value="dinningroom" selected={selectedProduct?.category === "dinningroom"}>Dinning Room</option>
               </select>
               <br />
               <br />
@@ -430,9 +433,13 @@ const AllProducts = () => {
                   <option value="large">Large</option>
                 </select>
               </div>
+              <div className="flex-col w-full gap-2 flex">
+                <label>Discount</label>
+                <input type="number" name="discount" defaultValue={selectedProduct?.discount}  className="form-input"  />
+              </div>
               {/* <div className="image-preview-container">
                 {img.map((image, index) => (
-                  <img
+                  <im
                     key={index}
                     src={image}
                     alt="new product"

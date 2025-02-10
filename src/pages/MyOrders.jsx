@@ -11,12 +11,83 @@ import toast from "react-hot-toast";
 import $ from "jquery";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
 import "../assets/csss/MyOrders.css";
+import { AXIOS_INSTANCE } from "../service";
+
+const RateUsPopup = ({ isOpen, onClose, ordersIds }) => {
+  const [rating, setRating] = useState(0);
+
+  // Handle Star Rating Selection
+  const handleRating = (rate) => {
+    setRating(rate);
+  };
+
+  // Submit Feedback
+  const handleSubmit = async () => {
+    try {
+      if (rating === 0) {
+        alert("Please select a rating before submitting!");
+        return;
+      }
+      const response = await AXIOS_INSTANCE.post("/order/update-feedback", { feedback: rating, ordersIds });
+      // console.log("Feedback submitted successfully:", response);
+      toast.success("Feedback submitted successfully!");
+      setRating(0);
+      onClose(); // Close popup after submitting
+    } catch (error) {
+      console.error("Error submitting feedback:", error);
+    }
+  };
+
+  // Hide when not open
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-white rounded-lg shadow-lg p-6 w-96">
+        <h2 className="text-xl font-semibold text-center">Rate Us</h2>
+        <p className="text-gray-600 text-center mb-4">How was your experience?</p>
+
+        {/* Star Rating */}
+        <div className="flex justify-center space-x-2 mb-4">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <span
+              key={star}
+              onClick={() => handleRating(star)}
+              className={`cursor-pointer text-2xl ${star <= rating ? "text-yellow-400" : "text-gray-400"
+                }`}
+            >
+              ★
+            </span>
+          ))}
+        </div>
+
+        {/* Buttons */}
+        <div className="flex justify-between">
+          <button
+            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
+            onClick={handleSubmit}
+          >
+            Submit
+          </button>
+          <button
+            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+            onClick={onClose}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const MyOrders = () => {
   const [activeLink, setActiveLink] = useState("");
   const user = storageService.get("user");
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [rateUsPopUp, setRateUsPopUp] = useState(false)
+  const [updateOrders, setUpdateOrders] = useState([]);
   // const navigate = useNavigate();
   const [editingSubscription, setEditingSubscription] = useState(null); // State for the form
   const [formData, setFormData] = useState({
@@ -39,9 +110,10 @@ const MyOrders = () => {
       const { data } = await userService.getMyOrders(user?._id);
       const filteredOrders = data.filter((order) => order.paymentStatus === "PAID");
       setOrders(filteredOrders);
+      isUpdatedToday(filteredOrders)
       // setOrders(data);
     } catch (error) {
-      
+      console.log(error);
     }
     setLoading(false);
   };
@@ -77,10 +149,10 @@ const MyOrders = () => {
   const fetchProductsForOrder = async (orderId) => {
     try {
       const data = await userService.getOrderProducts(orderId);
-     
+
       setProducts(data.data); // Assuming the API returns a list of product names
     } catch (error) {
-    
+
       toast.error("Failed to fetch products");
     }
   };
@@ -94,7 +166,7 @@ const MyOrders = () => {
       setDeleteOrderId();
       fetchOrders();
     } catch (error) {
-      
+
       toast.error("Failed to cancel order");
     }
   };
@@ -142,9 +214,29 @@ const MyOrders = () => {
     setLoading(false);
   };
 
+  function isUpdatedToday(ordersList) {
+    const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+
+    const matchingOrders = ordersList?.filter(order => {
+      const updatedDate = new Date(order?.updatedAt).toISOString().split('T')[0]; // Convert updatedAt to YYYY-MM-DD
+      return updatedDate === today && order?.status === "delivered" && order?.feedback === undefined;
+    });
+
+    const isUpdated = matchingOrders.length > 0; // Check if there are any matching orders
+    const orderIds = matchingOrders.map(order => order._id); // Get the _id of matching orders
+
+    setRateUsPopUp(isUpdated); // Update state based on condition
+    setUpdateOrders(orderIds)
+  }
+
   return (
     <div className="user-profile w-full flex justify-between p-8 bg-[#f1f1f1]">
       <div className="user-profile-left flex flex-col py-8 px-10 w-[20%] shadow-md shadow-[#dadada] bg-white rounded-lg">
+        <RateUsPopup
+          isOpen={rateUsPopUp}
+          ordersIds={updateOrders}
+          onClose={() => { setRateUsPopUp(false); setUpdateOrders([]) }}
+        />
         <div className="w-full">
           <h1 className="text-xl font-semibold">Welcome, {user?.name}</h1>
           <p className="text-xs overflow-hidden">{user?.createdAt}</p>
@@ -167,11 +259,10 @@ const MyOrders = () => {
                 to={item.url}
                 key={index}
                 onClick={() => ClickHandler(item.name)}
-                className={`${
-                  activeLink === item.name
-                    ? "text-black font-semibold"
-                    : "text-[grey]"
-                } flex items-center gap-3 text-xl`}
+                className={`${activeLink === item.name
+                  ? "text-black font-semibold"
+                  : "text-[grey]"
+                  } flex items-center gap-3 text-xl`}
               >
                 {item.icon}
                 {item.name}
@@ -230,7 +321,8 @@ const MyOrders = () => {
                               </button>
                             )}
                             {order.status !== "delivered" &&
-                              order.status !== "cancelled" && (
+                              order.status !== "cancelled" &&
+                              order.status !== 'returned' && (
                                 <button
                                   onClick={() => openDeleteModal(order?._id)}
                                   className="rounded-lg py-2 px-2 bg-gray-400 text-white my-1"
@@ -238,6 +330,13 @@ const MyOrders = () => {
                                   Cancel
                                 </button>
                               )}
+                            {order.status === "returned" && (
+                              <button
+                                className="rounded-lg py-2 px-2 bg-green-600 text-white my-1"
+                              >
+                                Close Subscription
+                              </button>
+                            )}
                           </td>
                         </tr>
                       ))}
@@ -415,9 +514,8 @@ const MyOrders = () => {
               </div>
 
               <button
-                className={`bg-green-500 text-white rounded-md py-2 ${
-                  loading ? "cursor-not-allowed" : "cursor-pointer"
-                }`}
+                className={`bg-green-500 text-white rounded-md py-2 ${loading ? "cursor-not-allowed" : "cursor-pointer"
+                  }`}
                 disabled={loading}
               >
                 {loading ? <div>Sending...</div> : <div>Send</div>}

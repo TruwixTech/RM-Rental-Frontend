@@ -79,8 +79,6 @@ function MyInvoices() {
                     Authorization: `Bearer ${token}`,
                 },
             });
-
-            console.log(response)
             // Check if response contains data
             if (response.data && Array.isArray(response.data.invoices)) {
                 setInvoices(response.data.invoices); // Properly set invoices
@@ -175,7 +173,7 @@ function MyInvoices() {
                                         className="bg-white border-b hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600"
                                     >
                                         <td className="px-6 py-4">{invoice._id || "N/A"}</td>
-                                        <td className="px-6 py-4">{invoice.userId.name || "N/A"}</td>
+                                        <td className="px-6 py-4">{invoice.orderId || "N/A"}</td>
                                         <td className="px-6 py-4">{invoice.userId.mobileNumber || "N/A"}</td>
                                         <td className="px-6 py-4">{invoice.userId.email || "N/A"}</td>
                                         <td className="px-6 py-4">₹{invoice.amount ? invoice.amount.toFixed(2) : "0.00"}</td>

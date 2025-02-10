@@ -118,7 +118,7 @@ const Navbar = ({ active, userClickHandler }) => {
   ]
 
   return (
-    <div className="mainnavbar">
+    <div className="mainnavbar fixed z-50 w-full">
       <div className="upnavbar">
         <div className="leftnav">
           <div className="logo flex gap-10 items-center">
