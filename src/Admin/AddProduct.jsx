@@ -11,6 +11,7 @@ const AddProduct = () => {
     category: "",
     img: [],
     size: "",
+    discount: 0,
     description: "",
     month: [], // Will store months only
     rentalOptions: {}, // Store month-rent mapping here
@@ -195,6 +196,10 @@ const AddProduct = () => {
                 <option value="medium">Medium</option>
                 <option value="large">Large</option>
               </select>
+            </div>
+            <div className="flex-col w-full gap-2 flex">
+              <label>Discount</label>
+              <input type="number" name="discount" value={formData.discount} onChange={handleChange} className="form-input"  />
             </div>
           </div>
           <div>

@@ -29,7 +29,7 @@ function EditProfile() {
 
         try {
             const response = await AXIOS_INSTANCE.post("/user-update", { ...userData, userID: user._id });
-            console.log(response.data);
+            // console.log(response.data);
             if (response.data.success) {
                 alert("Profile updated successfully!");
             }
