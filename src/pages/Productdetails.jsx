@@ -262,8 +262,16 @@ const ProductDetails = () => {
               </>
             )}
           </div>
-
-
+          <div className="w-full h-auto flex flex-col gap-1">
+            <div className="w-full h-auto flex justify-between items-center">
+              <h1 className="font-semibold">Category :</h1>
+              <h1 className="font-semibold">Stock :</h1>
+            </div>
+            <div className="w-full h-auto flex justify-between items-center">
+              <p className="text-gray-600 font-semibold text-lg">{productData?.category ? productData?.category.charAt(0).toUpperCase() + productData?.category.slice(1) : ''}</p>
+              <p className="text-gray-600 font-semibold text-lg mr-6">{productData?.quantity ? productData?.quantity : 'Out of Stock'}</p>
+            </div>
+          </div>
           <div className="productdetails-right-2">
             <h5>Months</h5>
             <div className="flex flex-wrap gap-4">

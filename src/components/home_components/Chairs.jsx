@@ -8,6 +8,16 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import storageService from "../..//service/storage.service";
 
+const DiscountStar = ({ discount }) => {
+  if (!discount) return null; // Don't show if no discount
+
+  return (
+    <div className="absolute top-2 left-2 bg-yellow-400 text-white text-xs font-bold px-3 py-2 rounded-full shadow-md">
+      {discount}% OFF
+    </div>
+  );
+};
+
 const Chairs = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
@@ -19,10 +29,18 @@ const Chairs = () => {
       const response = await getAllProductsAPI(1, 8, 10);
       const { data } = response;
 
-      // Sort products by createdAt (latest first) and get top 4
+      // Sort products: Priority to discount, then by createdAt (latest first)
       const sortedProducts = data
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-        .slice(0, 4);
+        .sort((a, b) => {
+          // If one product has a discount and the other doesn't, prioritize the discounted one
+          if (a.discount && !b.discount) return -1;
+          if (!a.discount && b.discount) return 1;
+
+          // If both have or don't have a discount, sort by createdAt (latest first)
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        })
+        .slice(0, 4); // Get top 4 products
+
       setProducts(sortedProducts);
     } catch (err) {
       setError("Failed to fetch products.");
@@ -81,13 +99,17 @@ const Chairs = () => {
   return (
     <div className="chair-container">
       <div className="chairs-heading">
-        <h1 className="font-satoshi">Our New Products</h1>
+        <h1 className="font-satoshi">Our New Products </h1>
         <p className="font-satoshi">Check out what is new in the market!</p>
       </div>
-
       <div className="card-grid w-full mt-10">
         {products.map((product) => (
-          <Link to={`/product/${product?._id}`} key={product?._id} className="bg-white rounded-lg">
+          <Link to={`/product/${product?._id}`} key={product?._id} className="bg-white rounded-lg relative">
+            {
+              product?.discount && (
+                <DiscountStar discount={10} />
+              )
+            }
             <div className="bg-gray-500">
               <div>
                 <img

@@ -120,8 +120,8 @@ const Orders = () => {
         orderId: editingOrder._id,
         newStatus: newStatus.trim(),
       });
-
-      const updatedOrder = order.data.data
+      // console.log(order)
+      const updatedOrder = order?.data?.data
       if (newStatus === 'delivered') {
         await AXIOS_INSTANCE.post(`invoice/create-invoice`, updatedOrder)
       }
