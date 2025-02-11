@@ -100,7 +100,7 @@ const Navbar = ({ active, userClickHandler }) => {
       title: "BED SIDE TABLE",
     },
     {
-      _id: "67934c26ea9050f6b42114cc",
+      _id: "67934c26ea9050f6b42114b6",
       title: "Sofa",
     },
     {

@@ -262,16 +262,48 @@ const ProductDetails = () => {
               </>
             )}
           </div>
-          <div className="w-full h-auto flex flex-col gap-1">
-            <div className="w-full h-auto flex justify-between items-center">
+          <div className="w-full h-auto flex flex-wrap justify-between gap-4">
+            <div className="w-auto h-auto flex flex-col">
               <h1 className="font-semibold">Category :</h1>
-              <h1 className="font-semibold">Stock :</h1>
-            </div>
-            <div className="w-full h-auto flex justify-between items-center">
               <p className="text-gray-600 font-semibold text-lg">{productData?.category ? productData?.category.charAt(0).toUpperCase() + productData?.category.slice(1) : ''}</p>
+            </div>
+            <div className="w-auto h-auto flex flex-col">
+              <h1 className="font-semibold">Stock :</h1>
               <p className="text-gray-600 font-semibold text-lg mr-6">{productData?.quantity ? productData?.quantity : 'Out of Stock'}</p>
             </div>
+            {
+              productData?.height && (
+                <div className="w-auto h-auto flex flex-col">
+                  <h1 className="font-semibold">Height :</h1>
+                  <p className="text-gray-600 font-semibold text-lg mr-6">{productData?.height}</p>
+                </div>
+              )
+            }
+            {
+              productData?.width && (
+                <div className="w-auto h-auto flex flex-col">
+                  <h1 className="font-semibold">Width :</h1>
+                  <p className="text-gray-600 font-semibold text-lg mr-6">{productData?.width}</p>
+                </div>
+              )
+            }
+            {
+              productData?.weight && (
+                <div className="w-auto h-auto flex flex-col">
+                  <h1 className="font-semibold">Weight :</h1>
+                  <p className="text-gray-600 font-semibold text-lg mr-6">{productData?.weight}</p>
+                </div>
+              )
+            }
           </div>
+          {
+            productData?.hsncode && (
+              <div className="w-full h-auto flex gap-2">
+                <span className="font-semibold">HSN Code :</span>
+                <span>{productData?.hsncode}</span>
+              </div>
+            )
+          }
           <div className="productdetails-right-2">
             <h5>Months</h5>
             <div className="flex flex-wrap gap-4">
@@ -364,6 +396,15 @@ const ProductDetails = () => {
               </div>
             </div>
           </div>
+
+          {
+            productData?.hsnbarcode && (
+              <>
+              <h1 className="font-semibold text-lg">HSN Bar Code :</h1>
+                <img src={productData?.hsnbarcode} alt="hsnbarcode" className="w-60 h-60 object-cover mx-auto" />
+              </>
+            )
+          }
 
 
         </div>
