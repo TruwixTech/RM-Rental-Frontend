@@ -17,13 +17,14 @@ const api = {
       return error;
     }
   },
-  registerAPI: async (name, email, password, mobileNumber) => {
+  registerAPI: async (name, email, password, mobileNumber, referredCode) => {
     try {
       const { data } = await AXIOS_INSTANCE.post("/signup", {
         name,
         email,
         password,
         mobileNumber,
+        referredCode
       });
       return data;
     } catch (error) {
@@ -82,7 +83,7 @@ const api = {
   },
 
   getOrderProducts: async (id) => {
-   
+
     try {
       const data = await AXIOS_INSTANCE.get(`/order/orders/${id}`);
 

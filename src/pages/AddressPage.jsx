@@ -74,7 +74,7 @@ export default function AddressPage({ finalPayment }) {
     return pincodeMatch ? pincodeMatch[0] : null;
   };
   const location = useLocation();
-  const { cartTotal, shippingCost, cartItems, apiFetchedAddress } = location.state;
+  const { cartTotal, shippingCost, cartItems, apiFetchedAddress , referredBonusUsed} = location.state;
 
 
   const [modifyAddress, setModifyAddress] = useState({
@@ -123,6 +123,7 @@ export default function AddressPage({ finalPayment }) {
       shippingAddress: addressToSend,
       MUID: "M" + Date.now(),
       transactionId: "T" + Date.now(),
+      referredBonusUsed
     };
 
     try {

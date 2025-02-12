@@ -12,10 +12,15 @@ const AddProduct = () => {
     img: [],
     size: "",
     discount: 0,
+    height: '',
+    width: '',
+    weight: '',
+    hsncode: '',
     description: "",
     month: [], // Will store months only
     rentalOptions: {}, // Store month-rent mapping here
     quantity: null, // Include quantity in formData
+    hsnbarcode: null,
   });
   const [newMonth, setNewMonth] = useState("");
   const [newRentPrice, setNewRentPrice] = useState("");
@@ -33,13 +38,21 @@ const AddProduct = () => {
         ...formData,
         img: files,
       });
-    } else {
+    }
+    else if (name === "hsnbarcode") {
+      setFormData((prev) => ({
+        ...prev,
+        hsnbarcode: files[0], // Store single file
+      }))
+    }
+    else {
       setFormData({
         ...formData,
         [name]: value,
       });
     }
   };
+
   const addMonthAndRent = () => {
     const month = parseInt(newMonth, 10);
 
@@ -106,7 +119,13 @@ const AddProduct = () => {
         month: [],
         rentalOptions: {},
         quantity: null,
+        discount: 0,
+        height: "",
+        width: "",
+        weight: "",
+        hsncode: "",
         size: "",
+        hsnbarcode: null,
       });
 
       setNewMonth("");
@@ -197,9 +216,31 @@ const AddProduct = () => {
                 <option value="large">Large</option>
               </select>
             </div>
-            <div className="flex-col w-full gap-2 flex">
+            <div className="flex-col w-full gap-2 flex mt-2">
               <label>Discount</label>
-              <input type="number" name="discount" value={formData.discount} onChange={handleChange} className="form-input"  />
+              <input type="number" name="discount" value={formData.discount} onChange={handleChange} className="form-input" />
+            </div>
+            <div className="form-group mt-2">
+              <label>Height</label>
+              <input
+                type="text"
+                name="height"
+                value={formData.height || ""}
+                placeholder="Enter Height"
+                onChange={handleChange}
+                className="form-input"
+              />
+            </div>
+            <div className="form-group">
+              <label>Width</label>
+              <input
+                type="text"
+                name="width"
+                value={formData.width || ""}
+                placeholder="Enter Width"
+                onChange={handleChange}
+                className="form-input"
+              />
             </div>
           </div>
           <div>
@@ -241,21 +282,6 @@ const AddProduct = () => {
                 Add Month & Rent
               </button>
             </div>
-
-            <div className="form-group">
-              <label>Stock</label>
-              <input
-                type="number"
-                name="quantity"
-                value={formData.quantity || ""}
-                placeholder="Enter Stock"
-                onChange={handleChange}
-                min="0"
-                className="form-input"
-                required
-              />
-            </div>
-
             <div className="form-group">
               {formData.month.map((month, index) => (
                 <div key={index} className="flex gap-2">
@@ -284,6 +310,52 @@ const AddProduct = () => {
                   </button>
                 </div>
               ))}
+            </div>
+
+            <div className="form-group">
+              <label>Stock</label>
+              <input
+                type="number"
+                name="quantity"
+                value={formData.quantity || ""}
+                placeholder="Enter Stock"
+                onChange={handleChange}
+                min="0"
+                className="form-input"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Weight</label>
+              <input
+                type="text"
+                name="weight"
+                value={formData.weight || ""}
+                placeholder="Enter Weight"
+                onChange={handleChange}
+                className="form-input"
+              />
+            </div>
+            <div className="form-group">
+              <label>HSN Code</label>
+              <input
+                type="text"
+                name="hsncode"
+                value={formData.hsncode || ""}
+                placeholder="Enter HSN Code"
+                onChange={handleChange}
+                className="form-input"
+              />
+            </div>
+            <div className="form-group">
+              <label>HSN Bar Code</label>
+              <input
+                type="file"
+                name="hsnbarcode"
+                onChange={handleChange}
+                multiple
+                className="form-input"
+              />
             </div>
             {submitError && <div className="error-message">{submitError}</div>}
           </div>
