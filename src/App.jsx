@@ -42,6 +42,9 @@ import TermsAndConditions from "./pages/TermsAndConditions";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import MyInvoices from "./pages/MyInvoices";
 import EditProfile from "./pages/EditProfile";
+import HelpSupport from "./pages/HelpSupport";
+import Franchise from "./pages/Franchise";
+import DocumentsKYC from "./pages/DocumentsKYC";
 
 const App = () => {
   const navigate = useNavigate();
@@ -102,7 +105,7 @@ const App = () => {
               <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#FEC500] text-black text-2xl">
                 <IoIosHelpCircle />
               </div>
-              <Link href="/contact" className="block px-4 py-2">
+              <Link to="/help-support" onClick={() => setActive(false)} className="block px-4 py-2">
                 Help & Support
               </Link>
             </li>
@@ -148,6 +151,9 @@ const App = () => {
             <Route path="/address" element={<AddressPage />} />
             <Route path="/kyc" element={<KYCPage />}></Route>
             <Route path="/my-invoices" element={<MyInvoices />}></Route>
+            <Route path="/help-support" element={<HelpSupport />}></Route>
+            <Route path="/documents-kyc" element={<DocumentsKYC />} />
+            <Route path="/franchise" element={<Franchise />}></Route>
             <Route path="/payment/:transactionId?" element={<MySubscriptions />}></Route>
             <Route path="/admindashboard" element={<AdminDashboard />}>
               <Route index element={<AdminPage />} />
@@ -168,11 +174,14 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/termscondition" element={<TermsAndConditions />} />
             <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
-            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signup/:id?" element={<SignUp />} />
             <Route path="/password" element={<ForgotPassword />} />
             <Route path="/products" element={<Products />} />
             <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/help-support" element={<HelpSupport />}></Route>
+            <Route path="/franchise" element={<Franchise />}></Route>
             <Route path="/aboutus" element={<AboutUs />} />
+            <Route path="/documents-kyc" element={<DocumentsKYC />} />
             <Route path="/contactus" element={<ContactUS />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/shipping" element={<ShippingPolicy />} />

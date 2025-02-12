@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import "../assets/csss/SignUp.css";
 import userService from "../service/user.service";
 import storageService from "../service/storage.service";
@@ -10,6 +10,7 @@ import { jwtDecode } from "jwt-decode";
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const { id } = useParams()
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -72,14 +73,16 @@ const SignUp = () => {
 
     try {
       const verifyOTP = await userService.verifyOTP(mobileNumber, inputOTP);
-
+      let referredCode = ""
+      if(id) referredCode = id
 
       if (verifyOTP.success) {
         const data = await userService.registerAPI(
           formData.name,
           formData.email,
           formData.password,
-          mobileNumber
+          mobileNumber,
+          referredCode
         );
 
         if (data) {
@@ -236,8 +239,8 @@ const SignUp = () => {
                 />
                 <button
                   className={`border rounded-md max-w-24 w-24 border-gray-400 font-lg hover:bg-blue-500 hover:text-white ${mobileNumber.length === 10 && otpTimer === 0
-                      ? "cursor-pointer"
-                      : "cursor-not-allowed"
+                    ? "cursor-pointer"
+                    : "cursor-not-allowed"
                     }`}
                   disabled={mobileNumber.length !== 10 || otpTimer > 0} // Button disabled if mobileNumber is not 10 digits or timer is active
                   onClick={handleGetOTP}
@@ -263,8 +266,8 @@ const SignUp = () => {
             type="submit"
             disabled={loading || !isFormValid() || !termsCondition} // Disable button if loading or form is not valid
             className={`submit-button ${loading || !isFormValid()
-                ? "cursor-not-allowed"
-                : "cursor-pointer"
+              ? "cursor-not-allowed"
+              : "cursor-pointer"
               }`}
           >
             {loading ? "Signing up..." : "Sign Up"}

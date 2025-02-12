@@ -106,8 +106,8 @@ const Chairs = () => {
         {products.map((product) => (
           <Link to={`/product/${product?._id}`} key={product?._id} className="bg-white rounded-lg relative">
             {
-              product?.discount && (
-                <DiscountStar discount={10} />
+              product?.discount > 0 && (
+                <DiscountStar discount={product?.discount} />
               )
             }
             <div className="bg-gray-500">

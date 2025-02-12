@@ -33,6 +33,7 @@ const MyCart = () => {
   const [loading, setLoading] = useState(false)
   const [addQuantity, setAddQuantity] = useState('')
   const deliveryDate = new Date(currentDate.getTime() + 48 * 60 * 60 * 1000);
+  const [referredBonusUsed, setReferredBonusUsed] = useState(false);
   const navigate = useNavigate();
 
   const day = deliveryDate.getDate();
@@ -370,6 +371,7 @@ const MyCart = () => {
             shippingCost: calculateShippingCost(), // Sending shipping fee
             cartItems: userCartData.items, // Sending cart items
             apiFetchedAddress: address,
+            referredBonusUsed: referredBonusUsed ? true : false
           },
         });
       }
@@ -379,6 +381,12 @@ const MyCart = () => {
     }
   }
 
+  function referredBonus() {
+    setReferredBonusUsed(true)
+    setDiscountPercentage(10)
+    alert("10% discount applied")
+  }
+  
   return (
     <div className="flex flex-col w-full px-4 md:px-10">
       <div className="cart-content flex flex-col md:flex-row mt-3">
@@ -518,6 +526,17 @@ const MyCart = () => {
                 value="Apply"
               />
             </form>
+            {!userCartData?.user?.referredBonusUsed && !userCartData?.user?.referredBonusUsed && (
+              <div className="w-full h-auto flex justify-center items-center mb-3">
+                <button
+                  onClick={() => referredBonus()}
+                  className="border py-2 px-6 rounded-full bg-[#fec500] text-white font-semibold"
+                >
+                  Use Your Referral Bonus
+                </button>
+              </div>
+            )}
+
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}
             {discountPercentage > 0 && (
               <p className="text-green-500">
@@ -538,6 +557,7 @@ const MyCart = () => {
                       shippingCost: calculateShippingCost(), // Sending shipping fee
                       cartItems: userCartData.items, // Sending cart items
                       apiFetchedAddress: address,
+                      referredBonusUsed: referredBonusUsed ? true : false
                     },
                   });
                 }

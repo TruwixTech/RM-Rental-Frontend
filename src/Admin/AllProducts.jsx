@@ -21,6 +21,7 @@ const AllProducts = () => {
   const [rentalOptions, setRentalOptions] = useState({});
   const [newMonth, setNewMonth] = useState("");
   const [newRentPrice, setNewRentPrice] = useState("");
+  const [hsnbarcode, setHsnbarcode] = useState(null);
 
   const [currentImages, setCurrentImages] = useState([]); // Existing images
   const [newImages, setNewImages] = useState([]); // New images to be added
@@ -40,6 +41,7 @@ const AllProducts = () => {
 
   const openEditForm = (product, img) => {
     setRentalOptions(product?.rentalOptions || {});
+    setHsnbarcode(product?.hsnbarcode);
     setNewSize(product?.size || "");
     setCurrentImages(img || []);
     setSelectedProduct(product);
@@ -117,9 +119,17 @@ const AllProducts = () => {
     formData.append("title", event.target.title.value);
     formData.append("sub_title", event.target.sub_title.value);
     formData.append("category", event.target.category.value);
-    formData.append("description", event.target.description.value);
     formData.append("quantity", event.target.quantity.value);
     formData.append("discount", event.target.discount.value);
+    formData.append("height", event.target.height.value);
+    formData.append("width", event.target.width.value);
+    formData.append("weight", event.target.weight.value);
+    formData.append("hsncode", event.target.hsncode.value);
+    if (typeof hsnbarcode === "string") {
+      formData.append("hsnbarcode", hsnbarcode); // Send as a string
+    } else if (hsnbarcode instanceof File) {
+      formData.append("hsnbarcode", hsnbarcode); // Send as a file
+    }
     formData.append("size", newSize);
     formData.append("rentalOptions", JSON.stringify(rentalOptions));
 
@@ -418,7 +428,7 @@ const AllProducts = () => {
                 onChange={handleImageUpload}
                 multiple
               />
-              <div className="flex-col w-full gap-2 flex">
+              <div className="flex-col w-full gap-2 flex mt-2">
                 <label>Size</label>
                 <select
                   name="size"
@@ -433,10 +443,40 @@ const AllProducts = () => {
                   <option value="large">Large</option>
                 </select>
               </div>
-              <div className="flex-col w-full gap-2 flex">
+              <div className="flex-col w-full gap-2 flex mt-2">
                 <label>Discount</label>
-                <input type="number" name="discount" defaultValue={selectedProduct?.discount}  className="form-input"  />
+                <input type="number" name="discount" defaultValue={selectedProduct?.discount} className="form-input" />
               </div>
+              <div className="form-group">
+                <label>Weight</label>
+                <input
+                  type="text"
+                  name="weight"
+                  defaultValue={selectedProduct?.weight}
+                  placeholder="Enter Weight"
+                  className="form-input"
+                />
+              </div>
+              <div className="form-group">
+                <label>HSN Code</label>
+                <input
+                  type="text"
+                  name="hsncode"
+                  defaultValue={selectedProduct?.hsncode}
+                  placeholder="Enter HSN Code"
+                  className="form-input"
+                />
+              </div>
+              {/* <div className="form-group">
+                <label>HSN Bar Code</label>
+                <input
+                  type="file"
+                  name="hsnbarcode"
+                  onChange={handleChange}
+                  multiple
+                  className="form-input"
+                />
+              </div> */}
               {/* <div className="image-preview-container">
                 {img.map((image, index) => (
                   <im
@@ -475,10 +515,6 @@ const AllProducts = () => {
                 >
                   Add Month & Rent
                 </button>
-                <div className="w-full h-auto flex flex-col mt-2">
-                  <label htmlFor="Stock">Stock</label>
-                  <input type="text" name="quantity" id="stock" defaultValue={selectedProduct?.quantity} className="form-input" />
-                </div>
                 <br />
                 <div className="">
                   {
@@ -501,6 +537,64 @@ const AllProducts = () => {
                     )
                   }
                 </div>
+                <div className="w-[98%] h-auto flex flex-col mt-2">
+                  <label htmlFor="Stock">Stock</label>
+                  <input type="text" name="quantity" id="stock" defaultValue={selectedProduct?.quantity} className="form-input" />
+                </div>
+                <div className="form-group mt-2">
+                  <label>Height</label>
+                  <input
+                    type="text"
+                    name="height"
+                    defaultValue={selectedProduct?.height}
+                    placeholder="Enter Height"
+                    className="form-input"
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Width</label>
+                  <input
+                    type="text"
+                    name="width"
+                    defaultValue={selectedProduct?.width}
+                    placeholder="Enter Width"
+                    className="form-input"
+                  />
+                </div>
+                {
+                  selectedProduct?.hsnbarcode && (
+                    <>
+                      <label>Current HSN Bar Code Image</label>
+                      <div className="">
+                        <div className="image-item flex gap-2 flex-col overflow-hidden">
+                          <a
+                            href={hsnbarcode}
+                            alt="product image"
+                            className="image-preview"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {hsnbarcode}
+                          </a>
+                          <button
+                            type="button"
+                            onClick={() => setHsnbarcode('')}
+                            className="flex justify-center delete-img-btn"
+                          >
+                            <MdDelete />
+                          </button>
+                        </div>
+                      </div>
+                    </>
+                  )
+                }
+                <label>HSN Bar Code</label>
+                <input
+                  type="file"
+                  name="hsnbarcode"
+                  accept="image/*"
+                  onChange={(e) => setHsnbarcode(e.target.files[0])}
+                />
               </div>
             </div>
           </div>
