@@ -1,8 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { AXIOS_INSTANCE } from '../service';
 
 
 const HelpSupport = () => {
+    const [userInfo, setUserInfo] = useState({
+        name: "",
+        phone: 0,
+        time: "",
+        message: ""
+    });
+
+    async function submitInfo(e) {
+        e.preventDefault()
+        try {
+            const response = await AXIOS_INSTANCE.post("/submit-help-support", userInfo);
+            alert("Submitted successfully!");
+            setUserInfo({
+                name: "",
+                phone: 0,
+                time: "",
+                message: ""
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const helpSections = [
         {
             title: "1. How It Works",
@@ -102,6 +126,7 @@ const HelpSupport = () => {
             )
         }
     ];
+
     return (
         <div className="container mx-auto py-12 px-4">
             <h1 className="text-3xl font-bold mb-8 text-center text-[#ffd74d]">Help & Support - RM Furniture Rental</h1>
@@ -117,11 +142,14 @@ const HelpSupport = () => {
 
             {/* Request a Call Back Form */}
             <Section title="4. Request a Call Back" content={
-                <form className="bg-white p-6 rounded-lg shadow-md">
+                <form onSubmit={submitInfo} className="bg-white p-6 rounded-lg shadow-md">
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">Name</label>
                         <input
                             type="text"
+                            name='name'
+                            onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
+                            value={userInfo.name}
                             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ffd74d]"
                             placeholder="Enter your name"
                         />
@@ -129,7 +157,10 @@ const HelpSupport = () => {
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">Phone Number</label>
                         <input
-                            type="tel"
+                            type="number"
+                            name='phone'
+                            onChange={(e) => setUserInfo({ ...userInfo, phone: e.target.value })}
+                            value={userInfo.phone}
                             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ffd74d]"
                             placeholder="Enter your phone number"
                         />
@@ -138,6 +169,9 @@ const HelpSupport = () => {
                         <label className="block text-gray-700 text-sm font-bold mb-2">Preferred Time for Call</label>
                         <input
                             type="text"
+                            name='time'
+                            onChange={(e) => setUserInfo({ ...userInfo, time: e.target.value })}
+                            value={userInfo.time}
                             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ffd74d]"
                             placeholder="Enter preferred time"
                         />
@@ -145,6 +179,9 @@ const HelpSupport = () => {
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">Message (Optional)</label>
                         <textarea
+                            name='message'
+                            onChange={(e) => setUserInfo({ ...userInfo, message: e.target.value })}
+                            value={userInfo.message}
                             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ffd74d]"
                             placeholder="Enter your message"
                             rows="4"

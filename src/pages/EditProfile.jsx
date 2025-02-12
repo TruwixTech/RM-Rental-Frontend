@@ -40,15 +40,25 @@ function EditProfile() {
         }
     };
 
-    useEffect(() => {
-        if (user) {
+    const getUser = async () => {
+        setLoading(true);
+        try {
+            const response = await AXIOS_INSTANCE.post("/user-details", {id: user._id});
             setUserData({
-                new_name: user.name,
-                new_email: user.email,
-                new_mobileNumber: user.mobileNumber,
-                new_address: user.address,
+                new_name: response.data.user.name,
+                new_email: response.data.user.email,
+                new_mobileNumber: response.data.user.mobileNumber,
+                new_address: response.data.user.address
             })
+        } catch (error) {
+            alert("Failed to get profile. Please try again.");
+        } finally {
+            setLoading(false);
         }
+    };
+
+    useEffect(() => {
+        getUser()
     }, [])
 
     return (

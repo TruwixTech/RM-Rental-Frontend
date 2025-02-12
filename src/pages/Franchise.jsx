@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AXIOS_INSTANCE } from '../service';
 
 const FranchiseForm = () => {
     const [formData, setFormData] = useState({
@@ -18,18 +19,18 @@ const FranchiseForm = () => {
         sourceOfFunds: '',
         annualRevenue: '',
         netWorth: '',
+        preferredLocation: '',
+        locationSuitability: '',
+        motivation: '',
+        longTermGoals: '',
         priorBankruptcies: '',
         bankruptcyDetails: '',
-        preferredLocation: '',
         specificGeographicArea: '',
         identifiedSite: '',
         siteDetails: '',
         ownedOrRentedSpace: '',
         spaceSize: '',
-        locationSuitability: '',
         commitment: '',
-        motivation: '',
-        longTermGoals: '',
         industryExperience: '',
         experienceDetails: '',
     });
@@ -39,10 +40,47 @@ const FranchiseForm = () => {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // console.log('Submitted Form Data:', formData);
-        alert('Your application has been submitted successfully!');
+        try {
+            await AXIOS_INSTANCE.post('/franchise-form', formData)
+            alert("Form submitted successfully!");
+            setFormData({
+                fullName: '',
+                dob: '',
+                gender: '',
+                contactNumber: '',
+                email: '',
+                residentialAddress: '',
+                preferredCommunication: '',
+                businessName: '',
+                businessType: '',
+                businessAddress: '',
+                experience: '',
+                currentBusinessNature: '',
+                investmentCapital: '',
+                sourceOfFunds: '',
+                annualRevenue: '',
+                netWorth: '',
+                priorBankruptcies: '',
+                bankruptcyDetails: '',
+                preferredLocation: '',
+                specificGeographicArea: '',
+                identifiedSite: '',
+                siteDetails: '',
+                ownedOrRentedSpace: '',
+                spaceSize: '',
+                locationSuitability: '',
+                commitment: '',
+                motivation: '',
+                longTermGoals: '',
+                industryExperience: '',
+                experienceDetails: '',
+            })
+        } catch (error) {
+            console.log(error);
+        }
+
     };
 
     return (
@@ -93,6 +131,31 @@ const FranchiseForm = () => {
                 <h2 className="col-span-2 text-xl font-semibold">5. Franchisee Commitment</h2>
                 <textarea name="motivation" placeholder="Motivation for Franchise" value={formData.motivation} onChange={handleChange} className="input-field col-span-2 border-2 rounded-md px-3 py-2 h-40 resize-none"></textarea>
                 <textarea name="longTermGoals" placeholder="Long-Term Business Goals" value={formData.longTermGoals} onChange={handleChange} className="input-field col-span-2 border-2 rounded-md px-3 py-2 h-40 resize-none"></textarea>
+
+                {/* Additional Information */}
+                <h2 className="col-span-2 text-xl font-semibold">6. Additional Information</h2>
+                <select name="priorBankruptcies" value={formData.priorBankruptcies} onChange={handleChange} className="input-field border-2 rounded-md px-3 py-2">
+                    <option value="">Prior Bankruptcies?</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+                <textarea name="bankruptcyDetails" placeholder="If yes, provide details" value={formData.bankruptcyDetails} onChange={handleChange} className="input-field col-span-2 border-2 rounded-md px-3 py-2 h-40 resize-none"></textarea>
+                <input type="text" name="specificGeographicArea" placeholder="Specific Geographic Area" value={formData.specificGeographicArea} onChange={handleChange} className="input-field col-span-2 border-2 rounded-md px-3 py-2" />
+                <input type="text" name="identifiedSite" placeholder="Identified Site" value={formData.identifiedSite} onChange={handleChange} className="input-field col-span-2 border-2 rounded-md px-3 py-2" />
+                <textarea name="siteDetails" placeholder="Site Details" value={formData.siteDetails} onChange={handleChange} className="input-field col-span-2 border-2 rounded-md px-3 py-2 h-40 resize-none"></textarea>
+                <select name="ownedOrRentedSpace" value={formData.ownedOrRentedSpace} onChange={handleChange} className="input-field border-2 rounded-md px-3 py-2">
+                    <option value="">Owned or Rented Space?</option>
+                    <option value="Owned">Owned</option>
+                    <option value="Rented">Rented</option>
+                </select>
+                <input type="text" name="spaceSize" placeholder="Space Size (sq ft)" value={formData.spaceSize} onChange={handleChange} className="input-field border-2 rounded-md px-3 py-2" />
+                <textarea name="commitment" placeholder="Commitment to Franchise" value={formData.commitment} onChange={handleChange} className="input-field col-span-2 border-2 rounded-md px-3 py-2 h-40 resize-none"></textarea>
+                <select name="industryExperience" value={formData.industryExperience} onChange={handleChange} className="input-field border-2 rounded-md px-3 py-2">
+                    <option value="">Industry Experience?</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+                <textarea name="experienceDetails" placeholder="If yes, provide details" value={formData.experienceDetails} onChange={handleChange} className="input-field col-span-2 border-2 rounded-md px-3 py-2 h-40 resize-none"></textarea>
 
                 <button type="submit" className="bg-yellow-500 text-white px-6 py-2 rounded-lg w-full col-span-2">Submit Application</button>
             </form>

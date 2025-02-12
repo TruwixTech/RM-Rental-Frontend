@@ -218,7 +218,7 @@ const Navbar = ({ active, userClickHandler }) => {
                   className="p-2 bg-gray-100 rounded-full overflow-visible relative"
                 >
                   <HiOutlineShoppingBag className="" size={30} />
-                  <span className="absolute -top-1 -right-1 bg-[#ffd74d] text-black font-bold text-sm border border-black rounded-full w-6 h-6 flex justify-center items-center">{cartItems?.length}</span>
+                  <span className="absolute -top-1 -right-1 bg-[#ffd74d] text-black font-bold text-sm border border-black rounded-full w-6 h-6 flex justify-center items-center">{cartItems?.length || 0}</span>
                 </NavLink>
                 {/* <div
                   className="font-semibold flex gap-4"
@@ -380,7 +380,7 @@ const Navbar = ({ active, userClickHandler }) => {
           <div className="absolute -right-[1500px]">
             <AddressSelect2 />
           </div>
-          <NavLink
+          {/* <NavLink
             to="/termscondition"
             // style={{ overflow: "hidden" }}
             // className={activeLink === "shipping" ? "active" : ""}
@@ -443,7 +443,7 @@ const Navbar = ({ active, userClickHandler }) => {
           >
             <span className="renttt text-lg">FAQs</span>
 
-          </Link>
+          </Link> */}
         </div>
       </div>
     </div>

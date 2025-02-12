@@ -174,7 +174,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/termscondition" element={<TermsAndConditions />} />
             <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
-            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signup/:id?" element={<SignUp />} />
             <Route path="/password" element={<ForgotPassword />} />
             <Route path="/products" element={<Products />} />
             <Route path="/product/:id" element={<ProductDetails />} />

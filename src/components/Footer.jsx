@@ -99,12 +99,21 @@ const Footer = () => {
 
         <div className="flex flex-col md:flex-row md:justify-between mx-4 text-center md:text-start md:mx-20 justify-between items-center py-6 border-t-2 border-gray-400 mt-10">
           <span className="text-[#667085]">© 2022 RM Rental. All rights reserved</span>
-          <p className="mt-2 md:mt-0 text-[#667085]">
-            <Link to="#" onClick={() => handleOpenPdf1(pdf1Url)}>
-              Terms of Service
+          <p className="mt-2 md:mt-0 text-[#667085] flex gap-2">
+            <Link to="/termscondition">
+              Terms & Conditions
             </Link> | {/* Logical OR separator */}
-            <Link to="#" onClick={() => handleOpenPdf1(pdf2Url)}>
+            <Link to="/privacyPolicy" >
               Privacy Policy
+            </Link> | {/* Logical OR separator */}
+            <Link to="/shipping" >
+              Shipping
+            </Link> | {/* Logical OR separator */}
+            <Link to="/returns" >
+              Returns
+            </Link> | {/* Logical OR separator */}
+            <Link to="/faq" >
+              Faq
             </Link>
           </p>
         </div>
