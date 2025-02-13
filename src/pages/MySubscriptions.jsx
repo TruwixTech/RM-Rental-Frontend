@@ -10,7 +10,9 @@ import { AXIOS_INSTANCE } from "../service";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
 
 
-const backend = "https://truwix-rm-rental-backend-dev.vercel.app/api"
+// const backend = "https://truwix-rm-rental-backend-dev.vercel.app/api"
+const backend = "http://localhost:4000/api"
+
 
 // SubscriptionStatus Component
 const SubscriptionStatus = ({ startDate, endDate }) => {
@@ -69,7 +71,7 @@ const MySubscriptions = () => {
         if (transactionresponse.data.success) {
           setSelectedOrderId(null)
           alert("Payment successful and order updated.")
-        }else{
+        } else {
           setSelectedOrderId(null)
           alert("Payment failed and order not updated.")
         }
@@ -87,7 +89,7 @@ const MySubscriptions = () => {
     setActiveLink("My Orders"); // Set active link as "My Orders"
   }, []);
 
-  const handlePayNow = async (orderId, amount, shippingCost) => {
+  const handlePayNow = async (orderId, rent) => {
     setSelectedOrderId(orderId)
     if (!user) {
       alert("Please login to continue");
@@ -95,9 +97,8 @@ const MySubscriptions = () => {
     }
     try {
       // Calculate the amount to be charged
-      const newAmount = (amount - shippingCost - 1218) / 1.18;
       const orderDetails = {
-        totalPrice: newAmount.toFixed(0), // The total amount from your payment route
+        totalPrice: rent.toFixed(0), // The total amount from your payment route
         MUID: "M" + Date.now(),
         transactionId: "T" + Date.now(),
       };
@@ -184,7 +185,9 @@ const MySubscriptions = () => {
                         <th className="w-1/5 px-3">Order ID</th>
                         <th className="w-1/5 px-3">Start Date</th>
                         <th className="w-1/5 px-3">End Date</th>
-                        <th className="w-1/5 px-3">Amount</th>
+                        <th className="w-1/5 px-3">Rent Amount</th>
+                        <th className="w-1/5 px-3">Security</th>
+                        <th className="w-1/5 px-3">Shipping</th>
                         <th className="w-1/5 px-3">Status</th>
                         <th className="w-1/5 px-3">Action</th>
                       </tr>
@@ -209,7 +212,13 @@ const MySubscriptions = () => {
                               {new Date(order.endDate).toDateString()}
                             </td>
                             <td className="whitespace-nowrap px-3 py-2">
-                              Rs. {order.totalPrice}
+                              Rs. {order?.furnitureRent}
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-2">
+                              Rs. {order?.securityDeposit}
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-2">
+                              Rs. {order?.shippingCost}
                             </td>
                             <td className="whitespace-nowrap px-3 py-2">
                               <SubscriptionStatus
@@ -227,8 +236,7 @@ const MySubscriptions = () => {
                                 onClick={() =>
                                   handlePayNow(
                                     order._id,
-                                    order.totalPrice,
-                                    order.shippingCost
+                                    order.furnitureRent,
                                   )
                                 }
                               >
