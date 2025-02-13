@@ -371,7 +371,9 @@ const MyCart = () => {
             shippingCost: calculateShippingCost(), // Sending shipping fee
             cartItems: userCartData.items, // Sending cart items
             apiFetchedAddress: address,
-            referredBonusUsed: referredBonusUsed ? true : false
+            referredBonusUsed: referredBonusUsed ? true : false,
+            furnitureRent: calculateSubtotal().toFixed(2),
+            securityDeposit: calculateSecurityDeposit().toFixed(2)
           },
         });
       }
@@ -386,7 +388,7 @@ const MyCart = () => {
     setDiscountPercentage(10)
     alert("10% discount applied")
   }
-  
+
   return (
     <div className="flex flex-col w-full px-4 md:px-10">
       <div className="cart-content flex flex-col md:flex-row mt-3">
@@ -557,7 +559,9 @@ const MyCart = () => {
                       shippingCost: calculateShippingCost(), // Sending shipping fee
                       cartItems: userCartData.items, // Sending cart items
                       apiFetchedAddress: address,
-                      referredBonusUsed: referredBonusUsed ? true : false
+                      referredBonusUsed: referredBonusUsed ? true : false,
+                      furnitureRent: calculateSubtotal().toFixed(2),
+                      securityDeposit: calculateSecurityDeposit().toFixed(2)
                     },
                   });
                 }

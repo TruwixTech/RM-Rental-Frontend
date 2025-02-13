@@ -4,7 +4,8 @@ import { IoIosCheckmarkCircle } from "react-icons/io";
 import { AXIOS_INSTANCE } from "../service";
 import OrderReject from "./OrderReject";
 
-const backend = "https://truwix-rm-rental-backend-dev.vercel.app"
+// const backend = "https://truwix-rm-rental-backend-dev.vercel.app"
+const backend = "http://localhost:4000"
 
 const OrderConfirm = () => {
   const [orderData, setOrderData] = useState({});
