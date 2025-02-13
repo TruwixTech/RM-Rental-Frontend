@@ -215,10 +215,10 @@ const ProductDetails = () => {
               <span>.</span>
               <span>149 reviews</span>
             </div>
-            {productData?.details?.month && (
+            {productData?.rentalOptions && (
               <>
                 <div className="month-selector">
-                  {Object.keys(productData?.details.month)
+                  {Object.keys(productData?.rentalOptions)
                     .filter((monthKey) => !monthKey.includes('0'))
                     .map((monthKey) => {
                       const month = monthKey.replace('rent', '').replace('Months', '');
@@ -307,12 +307,10 @@ const ProductDetails = () => {
           <div className="productdetails-right-2">
             <h5>Months</h5>
             <div className="flex flex-wrap gap-4">
-              {productData?.details?.month?.map((month, index) => (
+              {Object.entries(productData?.rentalOptions || {}).map(([month, price], index) => (
                 <div
                   key={index}
-                  className={`px-3 py-2 cursor-pointer rounded-xl ${selectedMonth === month
-                    ? "bg-gray-400 text-white border-none"
-                    : "bg-light border border-gray-900 text-black"
+                  className={`px-3 py-2 cursor-pointer rounded-xl ${selectedMonth == month ? "bg-gray-400 text-white border-none" : "bg-light border border-gray-900 text-black"
                     }`}
                   onClick={() => handleMonthClick(month)}
                 >
@@ -400,7 +398,7 @@ const ProductDetails = () => {
           {
             productData?.hsnbarcode && (
               <>
-              <h1 className="font-semibold text-lg">HSN Bar Code :</h1>
+                <h1 className="font-semibold text-lg">HSN Bar Code :</h1>
                 <img src={productData?.hsnbarcode} alt="hsnbarcode" className="w-60 h-60 object-cover mx-auto" />
               </>
             )

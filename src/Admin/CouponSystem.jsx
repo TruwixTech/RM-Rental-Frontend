@@ -56,13 +56,18 @@ function CouponSystem() {
     };
 
     const getCouponStatus = (expiryDate) => {
-        const today = new Date();
-        const expiry = new Date(expiryDate);
+        const today = new Date(); // Current Date & Time
+        const expiry = new Date(expiryDate); // Convert expiryDate to Date object
+
+        // Adjust expiry date to the end of the day (23:59:59)
+        expiry.setHours(23, 59, 59, 999);
+
         return {
             status: expiry >= today ? "Active" : "Expired",
             className: expiry >= today ? "text-green-500" : "text-red-500",
         };
     };
+
 
     // Fetch coupons when component loads
     useEffect(() => {
