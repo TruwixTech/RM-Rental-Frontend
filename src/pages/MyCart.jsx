@@ -181,8 +181,8 @@ const MyCart = () => {
     return (
       userCartData?.items?.reduce((acc, curr) => {
         const rentPrice = getRentMonthsPrice(
-          curr.product.rentalOptions,
-          curr.rentOptions.rentMonthsCount,
+          curr.product?.rentalOptions,
+          curr.rentOptions?.rentMonthsCount,
         );
         return acc + (rentPrice || 0) * 2 * curr.rentOptions.quantity; // 2x rent price for security deposit
       }, 0) || 0
@@ -266,8 +266,8 @@ const MyCart = () => {
     return (
       userCartData?.items?.reduce((acc, curr) => {
         const rentPrice = getRentMonthsPrice(
-          curr.product.rentalOptions,
-          curr.rentOptions.rentMonthsCount
+          curr.product?.rentalOptions,
+          curr.rentOptions?.rentMonthsCount
         );
         return acc + (rentPrice || 0) * curr.rentOptions.quantity;
       }, 0) || 0
@@ -528,7 +528,7 @@ const MyCart = () => {
                 value="Apply"
               />
             </form>
-            {!userCartData?.user?.referredBonusUsed && !userCartData?.user?.referredBonusUsed && (
+            {!userCartData?.user?.referredBonusUsed && userCartData?.user?.referredBy && (
               <div className="w-full h-auto flex justify-center items-center mb-3">
                 <button
                   onClick={() => referredBonus()}
