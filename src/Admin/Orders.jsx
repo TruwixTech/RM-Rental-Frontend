@@ -417,7 +417,6 @@ const Orders = () => {
                 <th scope="col" className="px-6 py-3">Payment ID</th>
                 <th scope="col" className="px-6 py-3">Status</th>
                 <th scope="col" className="px-6 py-3">Item Count</th>
-                <th scope="col" className="px-6 py-3">Send To Email</th>
                 <th scope="col" className="px-6 py-3">Created At</th>
                 <th scope="col" className="px-6 py-3">Actions</th>
               </tr>
@@ -436,11 +435,6 @@ const Orders = () => {
                   <td className="px-6 py-4">{invoice.paymentId || "N/A"}</td>
                   <td className="px-6 py-4">{invoice.status || "N/A"}</td>
                   <td className="px-6 py-4">{invoice.items ? invoice.items.length : 0}</td>
-                  <th className="px-6 py-4">
-                    <button className="px-4 py-2 bg-[#fec500] font-semibold rounded-md text-white">
-                      Send
-                    </button>
-                  </th>
                   <td className="px-6 py-4">
                     {invoice.createdAt ? new Date(invoice.createdAt).toLocaleDateString() : "N/A"}
                   </td>

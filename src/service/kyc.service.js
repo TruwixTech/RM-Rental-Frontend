@@ -31,7 +31,7 @@ export const getKYCStatusAPI = {
       
       // Ensure the data includes rejectReason, kycStatus, and documents
       return {
-        success: data.success,
+        success: data?.success,
         kycStatus: data.kycStatus,
         documents: data.documents,
         rejectReason: data.rejectReason || null, // Handle the case where rejectReason might not exist

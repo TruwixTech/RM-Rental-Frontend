@@ -7,8 +7,8 @@ import { AXIOS_INSTANCE } from "../service";
 import { all } from "axios";
 import axios from "axios";
 
-const backend = "https://truwix-rm-rental-backend-dev.vercel.app/api"
-// const backend = "http://localhost:4000/api"
+// const backend = "https://truwix-rm-rental-backend-dev.vercel.app/api"
+const backend = "http://localhost:4000/api"
 
 const Modal = ({ title, children, onClose }) => (
   <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
@@ -74,7 +74,7 @@ export default function AddressPage({ finalPayment }) {
     return pincodeMatch ? pincodeMatch[0] : null;
   };
   const location = useLocation();
-  const { cartTotal, shippingCost, cartItems, apiFetchedAddress , referredBonusUsed} = location.state;
+  const { cartTotal, shippingCost, cartItems, apiFetchedAddress, securityDeposit, referredBonusUsed, furnitureRent } = location.state;
 
 
   const [modifyAddress, setModifyAddress] = useState({
@@ -123,7 +123,9 @@ export default function AddressPage({ finalPayment }) {
       shippingAddress: addressToSend,
       MUID: "M" + Date.now(),
       transactionId: "T" + Date.now(),
-      referredBonusUsed
+      referredBonusUsed,
+      furnitureRent,
+      securityDeposit
     };
 
     try {

@@ -87,8 +87,8 @@ const Modal = ({ title, children, onClose }) => {
               <th className="text-center px-4 py-3 text-gray-700 font-semibold">Start Date</th>
               <th className="text-center px-4 py-3 text-gray-700 font-semibold">End Date</th>
               <th className="text-center px-4 py-3 text-gray-700 font-semibold">Subscription Status</th>
-              <th className="text-center px-4 py-3 text-gray-700 font-semibold">Payment Status</th>
               <th className="text-center px-4 py-3 text-gray-700 font-semibold">Order Status</th>
+              <th className="text-center px-4 py-3 text-gray-700 font-semibold">Payment Status</th>
               <th className="text-center px-4 py-3 text-gray-700 font-semibold">Update</th>
             </tr>
           </thead>
