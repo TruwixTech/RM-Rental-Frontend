@@ -10,8 +10,8 @@ import { AXIOS_INSTANCE } from "../service";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
 
 
-// const backend = "https://truwix-rm-rental-backend-dev.vercel.app/api"
-const backend = "http://localhost:4000/api"
+const backend = "https://truwix-rm-rental-backend-dev.vercel.app/api"
+// const backend = "http://localhost:4000/api"
 
 
 // SubscriptionStatus Component
