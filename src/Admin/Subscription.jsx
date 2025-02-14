@@ -94,44 +94,44 @@ const Modal = ({ title, children, onClose }) => {
           </thead>
           <tbody>
             {children?.orders?.map((sub) => (
-
-              <tr
-                key={sub.customerId}
-                className="border-b border-gray-300 hover:bg-gray-100 duration-300 ease-in-out"
-              >
-                <td className="text-center px-4 py-3">{sub.orderNumber}</td>
-                <td className="text-center px-4 py-3">{children.name}</td>
-                <td className="text-center px-4 py-3 text-sm">
-                  {sub.products.map((product, index) => (
-                    <div key={product._id || index} className="text-gray-800">
-                      {product?.product?.title}
-                    </div>
-                  ))}
-                </td>
-                <td className="text-center px-4 py-3">
-                  {new Date(sub.orderDate).toDateString()}
-                </td>
-                <td className="text-center px-4 py-3">
-                  {new Date(sub.endDate).toDateString()}
-                </td>
-                <td className="text-center px-4 py-3 text-green-500 font-semibold">
-                  <SubscriptionStatus
-                    startDate={sub.orderDate}
-                    endDate={sub.endDate}
-                  />
-                </td>
-                <td className={`${getStatusColor(sub.status)} text-center px-4 py-3`} >{sub.status}</td>
-                <td className='text-center px-4 py-3' >{sub.paymentStatus}</td>
-                <td className="text-center px-4 py-3">
-                  <button
-                    className="w-[100px] rounded-full bg-gray-600 text-white py-2 hover:bg-gray-700 transition duration-200"
-                    onClick={() => handleStatusClick(sub)}
-                  >
-                    Edit
-                  </button>
-                </td>
-              </tr>
-
+              sub.paymentStatus === "PAID" && (
+                <tr
+                  key={sub.customerId}
+                  className="border-b border-gray-300 hover:bg-gray-100 duration-300 ease-in-out"
+                >
+                  <td className="text-center px-4 py-3">{sub.orderNumber}</td>
+                  <td className="text-center px-4 py-3">{children.name}</td>
+                  <td className="text-center px-4 py-3 text-sm">
+                    {sub.products.map((product, index) => (
+                      <div key={product._id || index} className="text-gray-800">
+                        {product?.product?.title}
+                      </div>
+                    ))}
+                  </td>
+                  <td className="text-center px-4 py-3">
+                    {new Date(sub.orderDate).toDateString()}
+                  </td>
+                  <td className="text-center px-4 py-3">
+                    {new Date(sub.endDate).toDateString()}
+                  </td>
+                  <td className="text-center px-4 py-3 text-green-500 font-semibold">
+                    <SubscriptionStatus
+                      startDate={sub.orderDate}
+                      endDate={sub.endDate}
+                    />
+                  </td>
+                  <td className={`${getStatusColor(sub.status)} text-center px-4 py-3`} >{sub.status}</td>
+                  <td className='text-center px-4 py-3' >{sub.paymentStatus}</td>
+                  <td className="text-center px-4 py-3">
+                    <button
+                      className="w-[100px] rounded-full bg-gray-600 text-white py-2 hover:bg-gray-700 transition duration-200"
+                      onClick={() => handleStatusClick(sub)}
+                    >
+                      Edit
+                    </button>
+                  </td>
+                </tr>
+              )
             ))}
           </tbody>
         </table>
@@ -227,7 +227,6 @@ const Subscription = () => {
     fetchSubscriptions(); // Initially fetch subscriptions
   }, []);
 
-
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
@@ -249,36 +248,27 @@ const Subscription = () => {
             </tr>
           </thead>
           <tbody className="w-full mt-2">
-            {subscriptions.length >= 0 ? (
-              subscriptions.map((sub) => {
-                return (
-                  <tr key={sub._id} onClick={() => { setOrdersPopUp(true), setSingleCustomer(sub) }} className="flex gap-6 md:hover:bg-gray-100 py-2 cursor-pointer duration-300 ease-in-out text-sm mt-1 items-center ">
-                    <td className="text-center w-full">
-                      {sub.customerId}
-                    </td>
-                    <td className=" text-center w-full">{sub.name}</td>
-                    <td className=" text-center w-full">{sub.email}</td>
-                    {/* <td className=" text-center w-full">
-                    {new Date(sub.orderDate).toDateString()}
-                  </td>
-                  <td className=" text-center w-full">
-                    {new Date(sub.endDate).toDateString()}
-                  </td> */}
-                    <td className="text-center w-full">
-                      {sub.mobileNumber}
-                    </td>
-                    {/* <td className=" text-center w-full text-red-500">
-                    <SubscriptionStatus
-                      startDate={sub.orderDate}
-                      endDate={sub.endDate}
-                    />
-                  </td> */}
-                    {/* <td className="w-full text-center ">
-                    <button className="w-[100px] rounded-full bg-gray-600 text-white py-1" onClick={() => handleStatusClick(sub)}>Edit</button>
-                  </td> */}
-                  </tr>
-                );
-              })
+            {subscriptions.length > 0 ? (
+              subscriptions
+                .filter(sub => sub.orders.some(order => order.paymentStatus === "PAID")) // Filter subscriptions with at least one paid order
+                .map((sub) => {
+                  return (
+                    <tr
+                      key={sub._id}
+                      onClick={() => { setOrdersPopUp(true), setSingleCustomer(sub) }}
+                      className="flex gap-6 md:hover:bg-gray-100 py-2 cursor-pointer duration-300 ease-in-out text-sm mt-1 items-center "
+                    >
+                      <td className="text-center w-full">
+                        {sub.customerId}
+                      </td>
+                      <td className="text-center w-full">{sub.name}</td>
+                      <td className="text-center w-full">{sub.email}</td>
+                      <td className="text-center w-full">
+                        {sub.mobileNumber}
+                      </td>
+                    </tr>
+                  );
+                })
             ) : (
               <tr>
                 <td colSpan="7">No subscriptions available.</td>
