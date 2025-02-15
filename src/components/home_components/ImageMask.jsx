@@ -36,7 +36,7 @@ const ImageMask = () => {
                                 <div className='dot1'>Rent</div>
                             </button>
                             <button><div className='dot'></div><div className='dot1'>Purchase</div></button>
-                            <button><div className='dot'></div><div className='dot1'>Interior</div></button>
+                            {/* <button><div className='dot'></div><div className='dot1'>Interior</div></button> */}
                         </div>
                         <div className="upper">
                             <h2>Elevating your home with <span>uniquely fascinating <span style={{ color: "#FFD74D" }}>furniture.</span></span></h2>                        <div className='upper-sep'></div>
