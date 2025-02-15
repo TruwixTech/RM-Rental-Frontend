@@ -7,7 +7,7 @@ import { AXIOS_INSTANCE } from "../service";
 import { all } from "axios";
 import axios from "axios";
 
-const backend = "https://truwix-rm-rental-backend-dev.vercel.app/api"
+// const backend = "https://truwix-rm-rental-backend-dev.vercel.app/api"
 // const backend = "http://localhost:4000/api"
 
 const Modal = ({ title, children, onClose }) => (
@@ -130,7 +130,7 @@ export default function AddressPage({ finalPayment }) {
 
     try {
       // Make a POST request to create the order
-      const response = await AXIOS_INSTANCE.post(`${backend}/create/order`, orderDetails);
+      const response = await AXIOS_INSTANCE.post(`/create/order`, orderDetails);
       if (response.data && response.data.data && response.data.data.instrumentResponse) {
         const redirectInfo = response.data.data.instrumentResponse.redirectInfo;
 

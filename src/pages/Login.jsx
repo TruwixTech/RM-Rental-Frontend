@@ -158,11 +158,11 @@ const Login = () => {
         </div>
         <div className="flex justify-center items-center">OR</div>
         <div className="text-center text-2xl font-bold">Login</div>
-        <div className="w-full h-auto flex gap-2 mt-3 text-sm">
-          <span onClick={() => setLoginWay('Email')} className={`${loginWay === 'Email' && 'bg-[#FFD74D] text-white'} px-3 p-2 border-2 border-[#ffd74d] rounded-full cursor-pointer`}>
+        <div className="w-full h-auto flex flex-col sm:flex-row gap-2 mt-3 text-sm">
+          <span onClick={() => setLoginWay('Email')} className={`${loginWay === 'Email' && 'bg-[#FFD74D] text-white'} px-3 p-2 border-2 border-[#ffd74d] text-center rounded-full cursor-pointer`}>
             Login with Email
           </span>
-          <span onClick={() => setLoginWay('Phone')} className={`${loginWay === 'Phone' && 'bg-[#FFD74D] text-white'} px-3 p-2 border-2 border-[#ffd74d] rounded-full cursor-pointer`}>
+          <span onClick={() => setLoginWay('Phone')} className={`${loginWay === 'Phone' && 'bg-[#FFD74D] text-white'} px-3 p-2 border-2 border-[#ffd74d] text-center rounded-full cursor-pointer`}>
             Login with Phone
           </span>
         </div>
