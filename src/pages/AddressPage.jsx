@@ -6,6 +6,7 @@ import storageService from "../service/storage.service";
 import { AXIOS_INSTANCE } from "../service";
 import { all } from "axios";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 // const backend = "https://truwix-rm-rental-backend-dev.vercel.app/api"
 // const backend = "http://localhost:4000/api"
@@ -67,6 +68,7 @@ export default function AddressPage({ finalPayment }) {
   const [showPopup2, setShowPopup2] = useState(false);
 
   const [pincode, setPincode] = useState("");
+  const destinations = "28.639472251102678, 77.35496546714297";
 
   // Function to extract pincode from address
   const extractPincode = (address) => {
@@ -87,12 +89,72 @@ export default function AddressPage({ finalPayment }) {
   }); // Store each field of the custom address separately
   const [isCustomAddress, setIsCustomAddress] = useState(false); // Toggle between fetched and custom address
   const [selectedAddress, setSelectedAddress] = useState(null); // Track whether fetched address is selected
-  const [amenities, setAmenities] = useState(false)
+  const [amenities, setAmenities] = useState('')
   const user = storageService.get("user");
   const navigate = useNavigate();
 
+  const getUser = async () => {
+    try {
+      const response = await AXIOS_INSTANCE.post("/user-details", { id: user._id });
+      if (response.data.user.mobileNumber === null || response.data.user.mobileNumber === undefined) {
+        return false
+      } else {
+        return true
+      }
+    } catch (error) {
+      alert("Failed to get profile. Please try again.");
+    }
+  };
+
+  async function getShippingCost() {
+    try {
+      const response = await AXIOS_INSTANCE.post('/get-adress', {
+        pincode: modifyAddress.pinCode,
+        destinations
+      })
+      return calculateShippingCost(response.data.distance)
+    } catch (error) {
+      console.log("error while fetching distance data", error);
+    }
+  }
+
+  const calculateShippingCost = (distanceToShop) => {
+    const sizeToSpace = { small: 15, medium: 20, large: 50 };
+    const totalSpace = cartItems.reduce((total, cartItem) => {
+      const productSize = cartItem?.product?.size;
+      const space = sizeToSpace[productSize] || 0;
+      const quantity = cartItem?.rentOptions?.quantity - 1;
+
+      return total + space + (quantity * space);
+    }, 0);
+
+
+    const vehicleCapacity = 100;
+    const vehiclesNeeded = Math.ceil(totalSpace / vehicleCapacity);
+
+    const fixedCost = 400;
+    const perKmCost = 70;
+    let distanceCost = 0;
+
+    if (distanceToShop <= 5) {
+      distanceCost = fixedCost;
+    } else {
+      distanceCost = fixedCost + (distanceToShop - 5) * perKmCost;
+    }
+    const totalShippingCost = vehiclesNeeded * distanceCost;
+    // console.log(totalShippingCost);
+
+    return totalShippingCost;
+  };
 
   const handlePayment = async () => {
+    // Check mobile number before proceeding
+    const hasMobileNumber = await getUser();
+    if (!hasMobileNumber) {
+      alert("Please add a mobile number to continue.");
+      navigate('/edit-profile')
+      return;
+    }
     if (!selectedAddress && !isCustomAddress && !modifyAddress) {
       alert("Please select or enter an address");
       return;
@@ -115,11 +177,26 @@ export default function AddressPage({ finalPayment }) {
     // Determine the address to send
     const addressToSend = isCustomAddress ? customAddressString : selectedAddress;
 
+    let shippingCostForCustomAddress;
+    let totalPriceForCustomAddress
+    if (shippingCost === 0) {
+      shippingCostForCustomAddress = 0
+      totalPriceForCustomAddress = cartTotal
+    } else {
+      if (modifyAddress.pinCode !== '') {
+        shippingCostForCustomAddress = await getShippingCost()
+        totalPriceForCustomAddress = (cartTotal - shippingCost) + shippingCostForCustomAddress
+      } else {
+        shippingCostForCustomAddress = shippingCost
+        totalPriceForCustomAddress = cartTotal
+      }
+    }
+
     const orderDetails = {
       cartItems,
       amenities,
-      totalPrice: cartTotal.toFixed(0), // The total amount from your payment route
-      shippingCost: shippingCost.toFixed(0),
+      totalPrice: totalPriceForCustomAddress.toFixed(0), // The total amount from your payment route
+      shippingCost: shippingCostForCustomAddress.toFixed(0),
       shippingAddress: addressToSend,
       MUID: "M" + Date.now(),
       transactionId: "T" + Date.now(),
@@ -228,7 +305,6 @@ export default function AddressPage({ finalPayment }) {
       { "area": "Shalimar Garden Extension 2", "pincode": "201005", "state": "Uttar Pradesh" },
       { "area": "Shalimar Garden Extension 1", "pincode": "201005", "state": "Uttar Pradesh" },
       { "area": "Koyal Enclave", "pincode": "201005", "state": "Uttar Pradesh" },
-
       { "area": "Sector 26", "pincode": "122002", "state": "Haryana" },
       { "area": "Sushant Lok I", "pincode": "122002", "state": "Haryana" },
       { "area": "DLF Phase 2", "pincode": "122002", "state": "Haryana" },
@@ -279,7 +355,6 @@ export default function AddressPage({ finalPayment }) {
       { "area": "Sector-103A", "pincode": "122006", "state": "Haryana" },
       { "area": "Sector-90", "pincode": "122505", "state": "Haryana" },
       { "area": "Sector-70A", "pincode": "122018", "state": "Haryana" },
-
       { "area": "Sector-12", "pincode": "201301", "state": "Uttar Pradesh" },
       { "area": "Sector-11", "pincode": "201301", "state": "Uttar Pradesh" },
       { "area": "Sector-1", "pincode": "201301", "state": "Uttar Pradesh" },
@@ -457,10 +532,49 @@ export default function AddressPage({ finalPayment }) {
                   required
                 />
               </div>
-              <div className="w-full h-auto flex gap-2 items-center">
-                <input type="checkbox" id="amenities" className="" value={amenities} onChange={(e) => setAmenities(!amenities)} />
-                <label htmlFor="amenities">Is Service lift and stairs available or not ?</label>
+              <div className="mb-4 px-1 pb-1">
+                <div className="flex flex-col gap-2">
+                  {/* Service Lift */}
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name="amenities"
+                      value="service_lift"
+                      checked={amenities === "service_lift"}
+                      onChange={(e) => setAmenities(e.target.value)}
+                      className="accent-blue-500"
+                    />
+                    Service Lift
+                  </label>
+
+                  {/* Stairs Available */}
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name="amenities"
+                      value="stairs_available"
+                      checked={amenities === "stairs_available"}
+                      onChange={(e) => setAmenities(e.target.value)}
+                      className="accent-blue-500"
+                    />
+                    Stairs Available
+                  </label>
+
+                  {/* Not Available */}
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name="amenities"
+                      value="not_available"
+                      checked={amenities === "not_available"}
+                      onChange={(e) => setAmenities(e.target.value)}
+                      className="accent-blue-500"
+                    />
+                    Not Available
+                  </label>
+                </div>
               </div>
+
             </div>
             {showPopup2 && (
               <Modal2

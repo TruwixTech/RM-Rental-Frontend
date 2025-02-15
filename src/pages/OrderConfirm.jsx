@@ -4,9 +4,6 @@ import { IoIosCheckmarkCircle } from "react-icons/io";
 import { AXIOS_INSTANCE } from "../service";
 import OrderReject from "./OrderReject";
 
-// const backend = "https://truwix-rm-rental-backend-dev.vercel.app"
-// const backend = "http://localhost:4000"
-
 const OrderConfirm = () => {
   const [orderData, setOrderData] = useState({});
   const [loading, setLoading] = useState(true);
@@ -17,7 +14,7 @@ const OrderConfirm = () => {
     try {
       if (transactionId) {
         // Fetch the payment status from the backend
-        const transactionresponse = await AXIOS_INSTANCE.get(`/api/order/status`, {
+        const transactionresponse = await AXIOS_INSTANCE.get(`/order/status`, {
           params: { id: transactionId },
         });
         if (transactionresponse.data.success) {

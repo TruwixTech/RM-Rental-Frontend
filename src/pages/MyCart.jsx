@@ -123,36 +123,39 @@ const MyCart = () => {
   };
 
   const calculateShippingCost = () => {
-    if (!userCartData?.items?.length) {
-      console.error("Cart data is missing or empty.");
-      return 0;
+    if (selectedOption === "free") return 0
+    else {
+      if (!userCartData?.items?.length) {
+        console.error("Cart data is missing or empty.");
+        return 0;
+      }
+      const sizeToSpace = { small: 15, medium: 20, large: 50 };
+      const totalSpace = userCartData.items.reduce((total, cartItem) => {
+        const productSize = cartItem?.product?.size;
+        const space = sizeToSpace[productSize] || 0;
+        const quantity = cartItem?.rentOptions?.quantity - 1;
+
+        return total + space + (quantity * space);
+      }, 0);
+
+
+      const vehicleCapacity = 100;
+      const vehiclesNeeded = Math.ceil(totalSpace / vehicleCapacity);
+
+      const fixedCost = 400;
+      const perKmCost = 70;
+      let distanceCost = 0;
+
+      if (distanceToShop <= 5) {
+        distanceCost = fixedCost;
+      } else {
+        distanceCost = fixedCost + (distanceToShop - 5) * perKmCost;
+      }
+      const totalShippingCost = vehiclesNeeded * distanceCost;
+      // console.log(totalShippingCost);
+
+      return totalShippingCost;
     }
-    const sizeToSpace = { small: 15, medium: 20, large: 50 };
-    const totalSpace = userCartData.items.reduce((total, cartItem) => {
-      const productSize = cartItem?.product?.size;
-      const space = sizeToSpace[productSize] || 0;
-      const quantity = cartItem?.rentOptions?.quantity - 1;
-
-      return total + space + (quantity * space);
-    }, 0);
-
-
-    const vehicleCapacity = 100;
-    const vehiclesNeeded = Math.ceil(totalSpace / vehicleCapacity);
-
-    const fixedCost = 400;
-    const perKmCost = 70;
-    let distanceCost = 0;
-
-    if (distanceToShop <= 5) {
-      distanceCost = fixedCost;
-    } else {
-      distanceCost = fixedCost + (distanceToShop - 5) * perKmCost;
-    }
-    const totalShippingCost = vehiclesNeeded * distanceCost;
-    // console.log(totalShippingCost);
-
-    return totalShippingCost;
   };
 
 
