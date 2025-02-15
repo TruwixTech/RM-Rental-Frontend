@@ -303,6 +303,7 @@ const Orders = () => {
                 <th scope="col" className="px-6 py-3">Order Date</th>
                 <th scope="col" className="px-6 py-3">Address</th>
                 <th scope="col" className="px-6 py-3">Phone No.</th>
+                <th scope="col" className="px-6 py-3">Amenities</th>
                 <th scope="col" className="px-6 py-3">Total Price</th>
                 <th scope="col" className="px-6 py-3">Status</th>
               </tr>
@@ -318,6 +319,7 @@ const Orders = () => {
                   <td className="px-6 py-4">{new Date(order.orderDate).toLocaleDateString()}</td>
                   <td className="px-6 py-4">{order.shippingAddress}</td>
                   <td className="px-6 py-4">{order.user.mobileNumber ? order.user.mobileNumber : "N/A"}</td>
+                  <td className="px-6 py-4">{order.amenities ? order.amenities : "N/A"}</td>
                   <td className="px-6 py-4">₹ {order.totalPrice.toFixed(2)}</td>
                   <td className="px-6 py-4">
                     <button
