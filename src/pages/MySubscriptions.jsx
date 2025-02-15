@@ -10,7 +10,7 @@ import { AXIOS_INSTANCE } from "../service";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
 
 
-const backend = "https://truwix-rm-rental-backend-dev.vercel.app/api"
+// const backend = "https://truwix-rm-rental-backend-dev.vercel.app/api"
 // const backend = "http://localhost:4000/api"
 
 
@@ -63,7 +63,7 @@ const MySubscriptions = () => {
         // console.log(selectedOrderId);
 
         // Fetch the payment status from the backend
-        const transactionresponse = await AXIOS_INSTANCE.get(`${backend}/order/update-status`, {
+        const transactionresponse = await AXIOS_INSTANCE.get(`/order/update-status`, {
           params: { id: transactionId }, // Send transactionId as query parameter
         }, {
           data: { orderId: selectedOrderId }, // Send orderId in the request body
